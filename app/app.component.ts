@@ -4,9 +4,16 @@ import { Router } from '@angular/router';
 @Component({
     moduleId: module.id,
     selector: 'my-app',
-    template: `<h1>Testing</h1>`
-    //templateUrl: '',
-    //styleUrls: ['']
+    templateUrl: 'app.component.html'
 })
 export class AppComponent{
+
+    constructor(
+        private router: Router
+    ){}
+
+    myProfile(){
+        //get from localStorage the username
+        this.router.navigate(['/user',"minmiguelm"]);
+    }
 }

@@ -7,18 +7,25 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 // Components
 import { AppComponent } from './app.component';
+import { UserComponent } from './user/user.component';
+import { HomeComponent } from './newsfeed/home.component';
 
 @NgModule({
     imports: [
         BrowserModule,
         HttpModule,
-        //AppRoutingModule,
+        AppRoutingModule,
         FormsModule
     ],
     declarations: [
+        UserComponent,
+        HomeComponent,
         AppComponent
     ],
-    providers: [],
+    providers: [{
+        provide: LocationStrategy,
+        useClass: HashLocationStrategy
+    }],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
