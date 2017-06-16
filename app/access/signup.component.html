@@ -1,0 +1,259 @@
+<br>
+<div class="container">
+    <div class="stepwizard col-md-offset-3 center">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step">
+                <div [ngClass]="currentStep == 1 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">1</div>
+                <p>Paso 1</p>
+            </div>
+            <div (click)="verifyStep1()" class="stepwizard-step">
+                <div [ngClass]="currentStep == 2 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">2</div>
+                <p>Paso 2</p>
+            </div>
+            <div (click)="verifyStep2()" class="stepwizard-step">
+                <div [ngClass]="currentStep == 3 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">3</div>
+                <p>Paso 3</p>
+            </div>
+            <div (click)="verifyStep3()" class="stepwizard-step">
+                <div [ngClass]="currentStep == 4 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">4</div>
+                <p>Paso 4</p>
+            </div>
+        </div>
+    </div>
+</div><br>
+
+<!-- form -->
+
+<div *ngIf="currentStep == 1" class="well well-lg">
+    <h2>Información Básica</h2>
+    <form novalidate class="form-horizontal" (ngSubmit)="verifyStep1()" [formGroup]="signup">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Nombre</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" formControlName="name">
+                <div class="alert alert-danger" *ngIf="signup.get('name').touched && signup.get('name').hasError('required')">
+                    Nombre es requerido.
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Apellido</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" placeholder="Click to focus" formControlName="lastName">
+                <div class="alert alert-danger" *ngIf="signup.get('lastName').touched && signup.get('lastName').hasError('required')">
+                    Apellido es requerido.
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Correo Electrónico</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" placeholder="Click to focus" formControlName="email">
+                <div class="alert alert-danger" *ngIf="signup.get('email').touched && signup.get('email').hasError('required')">
+                    Correo Electrónico es requerido.
+                </div>
+                <div class="alert alert-danger" *ngIf="signup.get('email').touched && signup.get('email').hasError('pattern')">
+                    Ingrese un correo electrónico válido.
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Nombre de usuario</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" placeholder="Click to focus" formControlName="username">
+                <div class="alert alert-danger" *ngIf="signup.get('username').touched && signup.get('username').hasError('required')">
+                    Nombre de usuario es requerido.
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Contraseña</label>
+            <div class="col-sm-10">
+                <input [(ngModel)]="password" class="form-control" formControlName="password" type="password">
+                <div class="alert alert-danger" *ngIf="signup.get('password').touched && signup.get('password').hasError('required')">
+                    Contraseña es requerida.
+                </div>
+                <div class="alert alert-danger" *ngIf="signup.get('password').touched && signup.get('password').hasError('pattern')">
+                    La contraseña debe ser mínimo de 8 caracteres y contener mayúsculas, minúsculas, números y caracteres especiales.
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Repita Contraseña</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="password" formControlName="confirmPassword">
+                <div class="alert alert-danger" *ngIf="signup.get('confirmPassword').touched && signup.controls.confirmPassword.errors?.MatchPassword">
+                    Las contraseñas no coinciden.
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="signup.invalid">Continuar</button>
+    </form>
+</div>
+
+<!-- step 2 -->
+
+<div *ngIf="currentStep == 2" class="well well-lg">
+    <h2>Información Académica</h2>
+    <form novalidate class="form-horizontal" (ngSubmit)="verifyStep2()" [formGroup]="signup2">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Soy</label>
+            <div class="col-sm-10">
+                <!--
+                    <select class="browser-default" materialize="material_select" [(ngModel)]="institution" name="institucion">
+                        <option *ngFor="let insti of institutions" [ngValue]="insti" >{{insti.nombre}}</option>
+                    </select>
+                -->
+                <select class="form-control">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Carrera</label>
+            <div class="col-sm-10">
+                <select class="form-control">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Doble programa</label>
+            <div class="col-sm-10">
+                <select class="form-control">
+                    <option>Ninguna</option>
+                    <option>Option 2</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Semestre está cursando</label>
+            <div class="col-sm-10">
+                <select class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>10+</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Cursa actualmente la asignatura de seminario</label>
+            <div class="col-sm-10">
+                <select class="form-control">
+                    <option>Si</option>
+                    <option>No</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Tiene ya definido su tema de Trabajo de Grado</label>
+            <div class="col-sm-10">
+                <select class="form-control">
+                    <option>Si</option>
+                    <option>No</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="signup2.invalid">Continuar</button>
+    </form>
+</div>
+
+<!-- step 3 -->
+<div *ngIf="currentStep == 3" class="well well-lg">
+    <h2>Personalidad</h2>
+    <p>Eliga su personalidad (Puede tomar el test aquí: <a target="_blank" href="https://www.16personalities.com/es/test-de-personalidad">Test de Personalidad</a>)
+        <div class="row">
+            <div class="col-xs-3">
+                <a class="link thumbnail"><img src="../../static/images/personalidades/INTJ.png" class="img-responsive"></a>
+            </div>
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/INTP.png" class="img-responsive" /></a>
+            </div>
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/ENTJ.png" class="img-responsive" /></a>
+            </div>
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/ENTP.png" class="img-responsive" /></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/ISTJ.png" class="img-responsive"></a>
+            </div>
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/ISFJ.png" class="img-responsive" /></a>
+            </div>
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/ESTJ.png" class="img-responsive" /></a>
+            </div>
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/ESFJ.png" class="img-responsive" /></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/INFJ.png" class="img-responsive"></a>
+            </div>
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/INFP.png" class="img-responsive" /></a>
+            </div>
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/ENFJ.png" class="img-responsive" /></a>
+            </div>
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/ENFP.png" class="img-responsive" /></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/ISTP.png" class="img-responsive"></a>
+            </div>
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/ISFP.png" class="img-responsive" /></a>
+            </div>
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/ESTP.png" class="img-responsive" /></a>
+            </div>
+            <div class="col-xs-3">
+                <a class="thumbnail"><img src="../../static/images/personalidades/ESFP.png" class="img-responsive" /></a>
+            </div>
+        </div>
+</div>
+
+<div *ngIf="currentStep == 4" class="well well-lg">
+    <h2>Mi Perfil</h2>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Generales</a></li>
+        <li><a data-toggle="tab" href="#menu1">Deportes</a></li>
+        <li><a data-toggle="tab" href="#menu2">Artes</a></li>
+        <li><a data-toggle="tab" href="#menu2">Énfasis</a></li>
+        <li><a data-toggle="tab" href="#menu2">Áreas de conocimiento</a></li>
+        <li><a data-toggle="tab" href="#menu2">Habilidades personales</a></li>
+        <li><a data-toggle="tab" href="#menu2">Habilidades profesionales</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <h3>Gustos</h3>
+            <p>Some content.</p>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <h3>Gustos</h3>
+            <p>Some content in menu 1.</p>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <h3>Gustos</h3>
+            <p>Some content in menu 2.</p>
+        </div>
+    </div>
+</div>
