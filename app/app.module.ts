@@ -11,6 +11,10 @@ import { UserComponent } from './user/user.component';
 import { HomeComponent } from './newsfeed/home.component';
 import { SignUpComponent } from './access/signup.component';
 
+//Services
+import { PersonalidadService } from './services/personalidad.service';
+import { CarreraService } from './services/carrera.service';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -28,7 +32,10 @@ import { SignUpComponent } from './access/signup.component';
     providers: [{
         provide: LocationStrategy,
         useClass: HashLocationStrategy
-    }],
+    },
+        PersonalidadService,
+        CarreraService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

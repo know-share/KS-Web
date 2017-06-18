@@ -26,12 +26,12 @@
 
 <div *ngIf="currentStep == 1" class="well well-lg">
     <h2>Información Básica</h2>
-    <form novalidate class="form-horizontal" (ngSubmit)="verifyStep1()" [formGroup]="signup">
+    <form novalidate class="form-horizontal" (ngSubmit)="verifyStep1()" [formGroup]="stepOneForm">
         <div class="form-group">
             <label class="col-sm-2 control-label">Nombre</label>
             <div class="col-sm-10">
                 <input class="form-control" type="text" formControlName="name">
-                <div class="alert alert-danger" *ngIf="signup.get('name').touched && signup.get('name').hasError('required')">
+                <div class="alert alert-danger" *ngIf="stepOneForm.get('name').touched && stepOneForm.get('name').hasError('required')">
                     Nombre es requerido.
                 </div>
             </div>
@@ -40,7 +40,7 @@
             <label class="col-sm-2 control-label">Apellido</label>
             <div class="col-sm-10">
                 <input class="form-control" type="text" placeholder="Click to focus" formControlName="lastName">
-                <div class="alert alert-danger" *ngIf="signup.get('lastName').touched && signup.get('lastName').hasError('required')">
+                <div class="alert alert-danger" *ngIf="stepOneForm.get('lastName').touched && stepOneForm.get('lastName').hasError('required')">
                     Apellido es requerido.
                 </div>
             </div>
@@ -49,10 +49,10 @@
             <label class="col-sm-2 control-label">Correo Electrónico</label>
             <div class="col-sm-10">
                 <input class="form-control" type="text" placeholder="Click to focus" formControlName="email">
-                <div class="alert alert-danger" *ngIf="signup.get('email').touched && signup.get('email').hasError('required')">
+                <div class="alert alert-danger" *ngIf="stepOneForm.get('email').touched && stepOneForm.get('email').hasError('required')">
                     Correo Electrónico es requerido.
                 </div>
-                <div class="alert alert-danger" *ngIf="signup.get('email').touched && signup.get('email').hasError('pattern')">
+                <div class="alert alert-danger" *ngIf="stepOneForm.get('email').touched && stepOneForm.get('email').hasError('pattern')">
                     Ingrese un correo electrónico válido.
                 </div>
             </div>
@@ -61,7 +61,7 @@
             <label class="col-sm-2 control-label">Nombre de usuario</label>
             <div class="col-sm-10">
                 <input class="form-control" type="text" placeholder="Click to focus" formControlName="username">
-                <div class="alert alert-danger" *ngIf="signup.get('username').touched && signup.get('username').hasError('required')">
+                <div class="alert alert-danger" *ngIf="stepOneForm.get('username').touched && stepOneForm.get('username').hasError('required')">
                     Nombre de usuario es requerido.
                 </div>
             </div>
@@ -70,10 +70,10 @@
             <label class="col-sm-2 control-label">Contraseña</label>
             <div class="col-sm-10">
                 <input [(ngModel)]="password" class="form-control" formControlName="password" type="password">
-                <div class="alert alert-danger" *ngIf="signup.get('password').touched && signup.get('password').hasError('required')">
+                <div class="alert alert-danger" *ngIf="stepOneForm.get('password').touched && stepOneForm.get('password').hasError('required')">
                     Contraseña es requerida.
                 </div>
-                <div class="alert alert-danger" *ngIf="signup.get('password').touched && signup.get('password').hasError('pattern')">
+                <div class="alert alert-danger" *ngIf="stepOneForm.get('password').touched && stepOneForm.get('password').hasError('pattern')">
                     La contraseña debe ser mínimo de 8 caracteres y contener mayúsculas, minúsculas, números y caracteres especiales.
                 </div>
             </div>
@@ -82,12 +82,12 @@
             <label class="col-sm-2 control-label">Repita Contraseña</label>
             <div class="col-sm-10">
                 <input class="form-control" type="password" formControlName="confirmPassword">
-                <div class="alert alert-danger" *ngIf="signup.get('confirmPassword').touched && signup.controls.confirmPassword.errors?.MatchPassword">
+                <div class="alert alert-danger" *ngIf="stepOneForm.get('confirmPassword').touched && stepOneForm.controls.confirmPassword.errors?.MatchPassword">
                     Las contraseñas no coinciden.
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block" [disabled]="signup.invalid">Continuar</button>
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="stepOneForm.invalid">Continuar</button>
     </form>
 </div>
 
@@ -95,76 +95,71 @@
 
 <div *ngIf="currentStep == 2" class="well well-lg">
     <h2>Información Académica</h2>
-    <form novalidate class="form-horizontal" (ngSubmit)="verifyStep2()" [formGroup]="signup2">
+    <form novalidate class="form-horizontal" (ngSubmit)="verifyStep2()">
         <div class="form-group">
             <label class="col-sm-2 control-label">Soy</label>
             <div class="col-sm-10">
-                <!--
-                    <select class="browser-default" materialize="material_select" [(ngModel)]="institution" name="institucion">
-                        <option *ngFor="let insti of institutions" [ngValue]="insti" >{{insti.nombre}}</option>
-                    </select>
-                -->
-                <select class="form-control">
-                    <option>Option 1</option>
-                    <option>Option 2</option>
+                <select class="form-control" name="tipoUsuario" [(ngModel)]="tipoUsuario">
+                    <option [ngValue]="ESTUDIANTE">Estudiante</option>
+                    <option [ngValue]="PROFESOR">Profesor</option>
+                    <option [ngValue]="EGRESADO">Egresado</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Carrera</label>
             <div class="col-sm-10">
-                <select class="form-control">
-                    <option>Option 1</option>
-                    <option>Option 2</option>
+                <select class="form-control" name="carrera" [(ngModel)]="carrera">
+                    <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Doble programa</label>
             <div class="col-sm-10">
-                <select class="form-control">
-                    <option>Ninguna</option>
-                    <option>Option 2</option>
+                <select class="form-control" name="segundaCarrera" [(ngModel)]="segundaCarrera">
+                    <option [ngValue]="none">Ninguna</option>
+                    <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Semestre está cursando</label>
             <div class="col-sm-10">
-                <select class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                    <option>10+</option>
+                <select class="form-control" name="semestre" [(ngModel)]="semestre">
+                    <option [ngValue]=1 selected>1</option>
+                    <option [ngValue]=2>2</option>
+                    <option [ngValue]=3>3</option>
+                    <option [ngValue]=4>4</option>
+                    <option [ngValue]=5>5</option>
+                    <option [ngValue]=6>6</option>
+                    <option [ngValue]=7>7</option>
+                    <option [ngValue]=8>8</option>
+                    <option [ngValue]=9>9</option>
+                    <option [ngValue]=10>10</option>
+                    <option [ngValue]=11>10+</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Cursa actualmente la asignatura de seminario</label>
             <div class="col-sm-10">
-                <select class="form-control">
-                    <option>Si</option>
-                    <option>No</option>
+                <select class="form-control" name="seminario" [(ngModel)]="seminario">
+                    <option [ngValue]="true">Si</option>
+                    <option [ngValue]="false">No</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Tiene ya definido su tema de Trabajo de Grado</label>
             <div class="col-sm-10">
-                <select class="form-control">
-                    <option>Si</option>
-                    <option>No</option>
+                <select class="form-control" name="temaTG" [(ngModel)]="temaTG">
+                    <option [ngValue]="true">Si</option>
+                    <option [ngValue]="false">No</option>
                 </select>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block" [disabled]="signup2.invalid">Continuar</button>
+        <button type="submit" class="btn btn-primary btn-block">Continuar</button>
     </form>
 </div>
 
@@ -173,59 +168,8 @@
     <h2>Personalidad</h2>
     <p>Eliga su personalidad (Puede tomar el test aquí: <a target="_blank" href="https://www.16personalities.com/es/test-de-personalidad">Test de Personalidad</a>)
         <div class="row">
-            <div class="col-xs-3">
-                <a class="link thumbnail"><img src="../../static/images/personalidades/INTJ.png" class="img-responsive"></a>
-            </div>
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/INTP.png" class="img-responsive" /></a>
-            </div>
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/ENTJ.png" class="img-responsive" /></a>
-            </div>
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/ENTP.png" class="img-responsive" /></a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/ISTJ.png" class="img-responsive"></a>
-            </div>
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/ISFJ.png" class="img-responsive" /></a>
-            </div>
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/ESTJ.png" class="img-responsive" /></a>
-            </div>
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/ESFJ.png" class="img-responsive" /></a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/INFJ.png" class="img-responsive"></a>
-            </div>
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/INFP.png" class="img-responsive" /></a>
-            </div>
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/ENFJ.png" class="img-responsive" /></a>
-            </div>
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/ENFP.png" class="img-responsive" /></a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/ISTP.png" class="img-responsive"></a>
-            </div>
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/ISFP.png" class="img-responsive" /></a>
-            </div>
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/ESTP.png" class="img-responsive" /></a>
-            </div>
-            <div class="col-xs-3">
-                <a class="thumbnail"><img src="../../static/images/personalidades/ESFP.png" class="img-responsive" /></a>
+            <div class="col-xs-3" *ngFor="let p of personalidades">
+                <a class="link thumbnail"><img src="../../static/images/personalidades/{{p.nombre}}.png" class="img-responsive"></a>
             </div>
         </div>
 </div>
