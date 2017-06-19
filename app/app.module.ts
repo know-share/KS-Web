@@ -14,6 +14,9 @@ import { SignUpComponent } from './access/signup.component';
 //Services
 import { PersonalidadService } from './services/personalidad.service';
 import { CarreraService } from './services/carrera.service';
+import { UsuarioService } from './services/usuario.service';
+import { GustoService } from './services/gusto.service';
+import { HabilidadService } from './services/habilidad.service';
 
 @NgModule({
     imports: [
@@ -34,7 +37,10 @@ import { CarreraService } from './services/carrera.service';
         useClass: HashLocationStrategy
     },
         PersonalidadService,
-        CarreraService
+        CarreraService,
+        UsuarioService,
+        GustoService,
+        HabilidadService
     ],
     bootstrap: [AppComponent]
 })

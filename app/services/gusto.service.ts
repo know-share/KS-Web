@@ -5,24 +5,16 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class CarreraService{
+export class GustoService{
     
-    baseUrl = "http://localhost:8081/carrera/";
+    baseUrl = "http://localhost:8081/gusto/";
 
     constructor(
         private http:Http
     ){}
 
-    getAllCarreras(){
+    getAllGustos(){
         let url = this.baseUrl + "findAll";
-        return this.http.get(url)
-            .map((res: Response) => {
-                return res.json();
-            });
-    }
-
-    getEnfasisAreaConocimiento(carrera: string){
-        let url = this.baseUrl + `getEnfasisAreaConocimiento?carrera=${carrera}`;
         return this.http.get(url)
             .map((res: Response) => {
                 return res.json();
