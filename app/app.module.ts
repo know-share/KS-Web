@@ -17,6 +17,7 @@ import { CarreraService } from './services/carrera.service';
 import { UsuarioService } from './services/usuario.service';
 import { GustoService } from './services/gusto.service';
 import { HabilidadService } from './services/habilidad.service';
+import { CualidadService } from './services/cualidad.service';
 
 @NgModule({
     imports: [
@@ -40,7 +41,8 @@ import { HabilidadService } from './services/habilidad.service';
         CarreraService,
         UsuarioService,
         GustoService,
-        HabilidadService
+        HabilidadService,
+        CualidadService
     ],
     bootstrap: [AppComponent]
 })

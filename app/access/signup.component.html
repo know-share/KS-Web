@@ -32,7 +32,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">Nombre</label>
             <div class="col-sm-10">
-                <input class="form-control" type="text" formControlName="name">
+                <input [(ngModel)]="nombre" class="form-control" type="text" formControlName="name">
                 <div class="alert alert-danger" *ngIf="stepOneForm.get('name').touched && stepOneForm.get('name').hasError('required')">
                     Nombre es requerido.
                 </div>
@@ -41,7 +41,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">Apellido</label>
             <div class="col-sm-10">
-                <input class="form-control" type="text" placeholder="Click to focus" formControlName="lastName">
+                <input [(ngModel)]="apellido" class="form-control" type="text" placeholder="Click to focus" formControlName="lastName">
                 <div class="alert alert-danger" *ngIf="stepOneForm.get('lastName').touched && stepOneForm.get('lastName').hasError('required')">
                     Apellido es requerido.
                 </div>
@@ -50,7 +50,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">Correo Electrónico</label>
             <div class="col-sm-10">
-                <input class="form-control" type="text" placeholder="Click to focus" formControlName="email">
+                <input [(ngModel)]="email" class="form-control" type="text" placeholder="Click to focus" formControlName="email">
                 <div class="alert alert-danger" *ngIf="stepOneForm.get('email').touched && stepOneForm.get('email').hasError('required')">
                     Correo Electrónico es requerido.
                 </div>
@@ -62,7 +62,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">Nombre de usuario</label>
             <div class="col-sm-10">
-                <input class="form-control" [(ngModel)]="username" type="text" placeholder="Click to focus" formControlName="username">
+                <input [(ngModel)]="username" class="form-control" type="text" placeholder="Click to focus" formControlName="username">
                 <div class="alert alert-danger" *ngIf="stepOneForm.get('username').touched && stepOneForm.get('username').hasError('required')">
                     Nombre de usuario es requerido.
                 </div>
@@ -104,7 +104,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">Soy</label>
             <div class="col-sm-10">
-                <select class="form-control" name="tipoUsuario" [(ngModel)]="tipoUsuario">
+                <select [(ngModel)]="tipoUsuario" class="form-control" name="tipoUsuario">
                     <option value="ESTUDIANTE">Estudiante</option>
                     <option value="PROFESOR">Profesor</option>
                     <option value="EGRESADO">Egresado</option>
@@ -114,7 +114,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">Carrera</label>
             <div class="col-sm-10">
-                <select class="form-control" name="carrera" [(ngModel)]="carrera">
+                <select [(ngModel)]="carrera" class="form-control" name="carrera">
                     <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
                 </select>
             </div>
@@ -122,7 +122,7 @@
         <div *ngIf="tipoUsuario=='ESTUDIANTE' || tipoUsuario=='EGRESADO'" class="form-group">
             <label class="col-sm-2 control-label">Doble programa</label>
             <div class="col-sm-10">
-                <select class="form-control" name="segundaCarrera" [(ngModel)]="segundaCarrera">
+                <select [(ngModel)]="segundaCarrera" class="form-control" name="segundaCarrera">
                     <option value="null">Ninguna</option>
                     <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
                 </select>
@@ -131,7 +131,7 @@
         <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="form-group">
             <label class="col-sm-2 control-label">Semestre está cursando</label>
             <div class="col-sm-10">
-                <select class="form-control" name="semestre" [(ngModel)]="semestre">
+                <select [(ngModel)]="semestre" class="form-control" name="semestre">
                     <option value=1>1</option>
                     <option value=2>2</option>
                     <option value=3>3</option>
@@ -149,7 +149,7 @@
         <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="form-group">
             <label class="col-sm-2 control-label">Cursa actualmente la asignatura de seminario</label>
             <div class="col-sm-10">
-                <select class="form-control" name="seminario" [(ngModel)]="seminario">
+                <select [(ngModel)]="seminario" class="form-control" name="seminario">
                     <option [ngValue]="true">Si</option>
                     <option [ngValue]="false">No</option>
                 </select>
@@ -158,7 +158,7 @@
         <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="form-group">
             <label class="col-sm-2 control-label">Tiene ya definido su tema de Trabajo de Grado</label>
             <div class="col-sm-10">
-                <select class="form-control" name="temaTG" [(ngModel)]="temaTG">
+                <select [(ngModel)]="temaTG" class="form-control" name="temaTG">
                     <option [ngValue]="true">Si</option>
                     <option [ngValue]="false">No</option>
                 </select>
@@ -195,7 +195,7 @@
             <br>
             <div class="row">
                 <div class="col-xs-3" *ngFor="let g of gustosGenerales">
-                    <a [ngClass]="isCheck(g) ? 'thumbnail check':'thumbnail'" (click)="check(g)"><img src="../../static/images/gustos/{{g.imagePath}}" class="img-responsive"></a>
+                    <a [ngClass]="isCheck(g) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="../../static/images/gustos/{{g.imagePath}}" class="img-responsive"></a>
                 </div>
             </div>
         </div>
@@ -203,7 +203,7 @@
             <br>
             <div class="row">
                 <div class="col-xs-3" *ngFor="let g of gustosDeportes">
-                    <a [ngClass]="isCheck(g) ? 'thumbnail check':'thumbnail'" (click)="check(g)"><img src="../../static/images/gustos/{{g.imagePath}}" class="img-responsive"></a>
+                    <a [ngClass]="isCheck(g) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="../../static/images/gustos/{{g.imagePath}}" class="img-responsive"></a>
                 </div>
             </div>
         </div>
@@ -211,17 +211,17 @@
             <br>
             <div class="row">
                 <div class="col-xs-3" *ngFor="let g of gustosArtes">
-                    <a [ngClass]="isCheck(g) ? 'thumbnail check':'thumbnail'" (click)="check(g)"><img src="../../static/images/gustos/{{g.imagePath}}" class="img-responsive"></a>
+                    <a [ngClass]="isCheck(g) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="../../static/images/gustos/{{g.imagePath}}" class="img-responsive"></a>
                 </div>
             </div>
         </div>
     </div>
-    <button (click)="checkGustos()" class="btn btn-primary btn-block">Continuar</button>
+    <button (click)="next()" class="btn btn-primary btn-block">Continuar</button>
 </div>
 
 <div *ngIf="(currentStep == 5 && tipoUsuario=='ESTUDIANTE')
             || (currentStep == 4 && tipoUsuario=='EGRESADO')" class="well well-lg">
-    <form novalidate class="form-horizontal" (ngSubmit)="verifyStep5()">
+    <form novalidate class="form-horizontal" (ngSubmit)="next()">
         <h2>Perfil de usuario</h2>
         <p>En cada una de las siguientes pestañas seleccione sus énfasis y las áreas de conocimiento que le interesan.</p>
         <ul class="nav nav-tabs">
@@ -236,7 +236,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Énfasis principal</label>
                     <div class="col-sm-10">
-                        <select class="form-control" [(ngModel)]="enfasisPrincipal" name="enfasisPrincipal">
+                        <select [(ngModel)]="enfasisPrincipal" class="form-control" name="enfasisPrincipal">
                             <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e}}</option>
                         </select>
                     </div>
@@ -244,7 +244,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Énfasis Secundario</label>
                     <div class="col-sm-10">
-                        <select class="form-control" [(ngModel)]="enfasisSecundario" name="enfasisSecundario">
+                        <select [(ngModel)]="enfasisSecundario" class="form-control" name="enfasisSecundario">
                             <option value="null">Ninguna</option>
                             <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e}}</option>
                         </select>
@@ -255,7 +255,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Énfasis principal</label>
                         <div class="col-sm-10">
-                            <select class="form-control" [(ngModel)]="enfasisPrincipalSegundaCarrera" name="enfasisPrincipalSegundaCarrera">
+                            <select [(ngModel)]="enfasisPrincipalSegundaCarrera" class="form-control" name="enfasisPrincipalSegundaCarrera">
                                 <option *ngFor="let e of enfasisSegundaCarrera" [ngValue]="e" >{{e}}</option>
                             </select>
                         </div>
@@ -263,7 +263,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Énfasis secundario</label>
                         <div class="col-sm-10">
-                            <select class="form-control" [(ngModel)]="enfasisSecundarioSegundaCarrera" name="enfasisSecundarioSegundaCarrera">
+                            <select [(ngModel)]="enfasisSecundarioSegundaCarrera" class="form-control" name="enfasisSecundarioSegundaCarrera">
                                 <option value="null">Ninguna</option>
                                 <option *ngFor="let e of enfasisSegundaCarrera" [ngValue]="e" >{{e}}</option>
                             </select>
@@ -290,7 +290,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-primary btn-block">Continuar</button>
+        <button type="submit" class="btn btn-primary btn-block">Continuar</button>
     </form>
 </div>
 
@@ -309,7 +309,7 @@
                 <h2>Habilidades personales</h2>
                 <div class="form-group">
                     <div class="col-sm-4" *ngFor="let h of habilidadesPersonales; let i of index">
-                        <label><input name="hp_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                        <label><input (click)="checkHabilidadesPerSelected(h)" name="hp_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
                     </div>
                 </div>
             </div>
@@ -318,14 +318,14 @@
                 <h2>Habilidades profesionales de {{carrera.nombre}}</h2>
                 <div class="form-group">
                     <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
-                        <label><input name="h_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                        <label><input (click)="checkHabilidadesProSelected(h)" name="h_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
                     </div>
                 </div>
                 <div *ngIf="segundaCarrera">
                     <h2>Habilidades profesionales de {{segundaCarrera.nombre}}</h2>
                     <div class="form-group">
                         <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesSegunda; let i of index">
-                            <label><input name="h2_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                            <label><input (click)="checkHabilidadesProSegSelected(h)" name="h2_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
                         </div>
                     </div>
                 </div>
@@ -336,7 +336,7 @@
 </div>
 
 <div *ngIf="(currentStep == 4 && tipoUsuario=='PROFESOR')" class="well well-lg">
-    <form novalidate class="form-horizontal" (ngSubmit)="verifyStep4Profesor()">
+    <form novalidate class="form-horizontal" (ngSubmit)="next()">
         <h2>Perfil de usuario</h2>
         <p>En cada una de las siguientes pestañas seleccione sus énfasis y las áreas de conocimiento en las que tiene experiencia.</p>
         <ul class="nav nav-tabs">
@@ -351,7 +351,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Énfasis principal</label>
                     <div class="col-sm-10">
-                        <select class="form-control" [(ngModel)]="enfasisPrincipal" name="enfasisPrincipal">
+                        <select [(ngModel)]="enfasisPrincipal" class="form-control" name="enfasisPrincipal">
                             <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e}}</option>
                         </select>
                     </div>
@@ -359,7 +359,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Énfasis Secundario</label>
                     <div class="col-sm-10">
-                        <select class="form-control" [(ngModel)]="enfasisSecundario" name="enfasisSecundario">
+                        <select [(ngModel)]="enfasisSecundario" class="form-control" name="enfasisSecundario">
                             <option value="null">Ninguna</option>
                             <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e}}</option>
                         </select>
@@ -396,10 +396,22 @@
 
         <div class="tab-content">
             <div id="profesor" class="tab-pane fade in active">
+                <br>
+                <h2>Cualidades como profesor</h2>
+                <div class="form-group">
+                    <div class="col-sm-4" *ngFor="let c of cualidades; let i of index">
+                        <label><input (click)="checkCualidadesProfesor(c)" name="cp_$i" type="checkbox" value="c"/>{{c.nombre}}</label>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="tab-content">
             <div id="profesional" class="tab-pane fade">
+                <br>
+                <h2>Cualidades profesionales</h2>
+                <div class="form-group">
+                    <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
+                        <label><input (click)="checkHabilidadesProSelected(h)" name="hpp_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                    </div>
+                </div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Finalizar</button>

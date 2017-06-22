@@ -8,6 +8,7 @@ import { Personalidad } from '../entities/personalidad';
 import { Carrera } from '../entities/carrera';
 import { Gusto } from '../entities/gusto';
 import { Habilidad } from '../entities/habilidad';
+import { Cualidad } from '../entities/cualidad';
 
 //Services
 import { PersonalidadService } from '../services/personalidad.service';
@@ -15,6 +16,7 @@ import { CarreraService } from '../services/carrera.service';
 import { GustoService } from '../services/gusto.service';
 import { HabilidadService } from '../services/habilidad.service';
 import { UsuarioService } from '../services/usuario.service';
+import { CualidadService } from '../services/cualidad.service';
 
 @Component({
     moduleId: module.id,
@@ -26,16 +28,12 @@ export class SignUpComponent implements OnInit {
 
     currentStep: number;
 
-    //Step 1
-    password: string;
-    username: string;
-
     //Formgroups
     stepOneForm: FormGroup;
 
     //Info retrieve of server
-    personalidades: Personalidad[];
-    carreras: Carrera[];
+    personalidades: Personalidad[] = [];
+    carreras: Carrera[] = [];
     gustosGenerales: Gusto[] = [];
     gustosDeportes: Gusto[] = [];
     gustosArtes: Gusto[] = [];
@@ -44,13 +42,21 @@ export class SignUpComponent implements OnInit {
     ACCarrera: string[] = [];
     ACSegundaCarrera: string[] = [];
     habilidadesPersonales: Habilidad[] = [];
-    habilidadProfesionalesPrimera: Habilidad[] = []
-    habilidadProfesionalesSegunda: Habilidad[] = []
+    habilidadProfesionalesPrimera: Habilidad[] = [];
+    habilidadProfesionalesSegunda: Habilidad[] = [];
+    cualidades: Cualidad[] = [];
+
+    //Step 1
+    nombre: string;
+    apellido: string;
+    email: string;
+    password: string;
+    username: string;
 
     //Step 2 attributes
+    tipoUsuario: string;
     carrera: Carrera;
     segundaCarrera: Carrera;
-    tipoUsuario: string;
     semestre: number;
     seminario: boolean;
     temaTG: boolean;
@@ -59,15 +65,23 @@ export class SignUpComponent implements OnInit {
     personalidad: Personalidad;
 
     //Step 4 attributes
-    gustos: Gusto[] = []; // student
+    gustos: Gusto[] = []; // Just for student
 
-    //Step 5 attributes
+    //Step 5 attributes.
+    //Step 4 attributes For profesor and egresado
     enfasisPrincipal: string;
     enfasisSecundario: string;
     enfasisPrincipalSegundaCarrera: string;
     enfasisSecundarioSegundaCarrera: string;
-    ACSelected: string[] = [];
+    ACSelected: string[] = []; // profesor with percentage
     ACSelectedSegunda: string[] = [];
+
+    //Step 6 attributes
+    //Step 5 attributes for profesor and egresado
+    habilidadesPerSelected : Habilidad[] = [];
+    habilidadesProSelected : Habilidad[] = [];
+    habilidadesProSegSelected : Habilidad[] = [];
+    cualidadesProfesor: Cualidad[] = []; // Just for profesor
 
     constructor(
         private router: Router,
@@ -76,7 +90,8 @@ export class SignUpComponent implements OnInit {
         private carreraService: CarreraService,
         private gustoService: GustoService,
         private habilidadService: HabilidadService,
-        private usuarioService: UsuarioService
+        private usuarioService: UsuarioService,
+        private cualidadService: CualidadService
     ) {
         this.enfasisSecundario = null;
         this.enfasisSecundarioSegundaCarrera = null;
@@ -125,7 +140,7 @@ export class SignUpComponent implements OnInit {
                 if (taken)
                     this.stepOneForm.get("username").setErrors({ UsernameTaken: true });
             }, error => null);
-        //this.currentStep = 2;
+        this.currentStep = 2;
     }
 
     verifyStep2() {
@@ -150,10 +165,7 @@ export class SignUpComponent implements OnInit {
             .subscribe(
             enfasisAC => {
                 this.enfasisCarrera = enfasisAC.enfasis;
-                if (enfasisAC.areaConocimiento == null)
-                    this.ACCarrera = enfasisAC.enfasis;
-                else
-                    this.ACCarrera = enfasisAC.areaConocimiento;
+                this.ACCarrera = enfasisAC.areaConocimiento;
                 this.enfasisPrincipal = this.enfasisCarrera[0];
             }, error => console.log('error: ' + error)
             );
@@ -174,26 +186,33 @@ export class SignUpComponent implements OnInit {
     }
 
     verifyStep3(p: Personalidad) {
-        this.habilidadService.getHabilidades(this.carrera.nombre)
-            .subscribe(
-            habilidades => {
-                for (let habilidad of habilidades) {
-                    if (habilidad.tipo == 'PERSONALES')
-                        this.habilidadesPersonales.push(habilidad);
-                    if (habilidad.tipo == 'PROFESIONALES')
-                        this.habilidadProfesionalesPrimera.push(habilidad);
-                }
-            }, error => console.log('error: ' + error)
-            );
-        if (this.segundaCarrera) {
-            this.habilidadService.getHabilidades(this.segundaCarrera.nombre)
+        if(this.habilidadesPersonales.length == 0 && this.habilidadProfesionalesPrimera.length == 0){
+            this.habilidadService.getHabilidades(this.carrera.nombre)
                 .subscribe(
                 habilidades => {
                     for (let habilidad of habilidades) {
+                        if (habilidad.tipo == 'PERSONALES')
+                            this.habilidadesPersonales.push(habilidad);
                         if (habilidad.tipo == 'PROFESIONALES')
-                            this.habilidadProfesionalesSegunda.push(habilidad);
+                            this.habilidadProfesionalesPrimera.push(habilidad);
                     }
                 }, error => console.log('error: ' + error)
+                );
+        }
+        if (this.segundaCarrera && this.habilidadProfesionalesSegunda.length == 0) {
+            this.habilidadService.getHabilidadesProfesionales(this.segundaCarrera.nombre)
+                .subscribe(
+                habilidades => {
+                    this.habilidadProfesionalesSegunda = habilidades;
+                }, error => console.log('error: ' + error)
+                );
+        }
+
+        if(this.tipoUsuario == "PROFESOR" && this.cualidades.length == 0){
+            this.cualidadService.getAllCualidades()
+                .subscribe(
+                    cualidades => this.cualidades = cualidades,
+                    error => console.log('error: '+ error)
                 );
         }
 
@@ -201,23 +220,19 @@ export class SignUpComponent implements OnInit {
         this.currentStep = 4;
     }
 
-    verifyStep5() {
+    next() {
         this.currentStep += 1;
-    }
-
-    check(gusto) {
-        if (this.gustos.find(obj => obj.id == gusto.id) == null)
-            this.gustos.push(gusto);
-        else
-            this.gustos = this.gustos.filter(obj => obj.id != gusto.id);
     }
 
     isCheck(gusto: Gusto) {
         return this.gustos.find(obj => obj.id == gusto.id) == null ? false : true;
     }
 
-    checkGustos() {
-        this.currentStep = 5;
+    checkGusto(object){
+        if (this.gustos.find(obj => obj.id == object.id) == null)
+            this.gustos.push(object);
+        else
+            this.gustos = this.gustos.filter(obj => obj.id != object.id);
     }
 
     checkACPrincipal(ac){
@@ -234,11 +249,69 @@ export class SignUpComponent implements OnInit {
             this.ACSelectedSegunda = this.ACSelectedSegunda.filter(obj => obj != ac);
     }
 
-    verifyStep4Profesor(){
-        this.currentStep += 1;
+    checkHabilidadesPerSelected(h){
+        if (this.habilidadesPerSelected.find(obj => obj == h) == null)
+            this.habilidadesPerSelected.push(h);
+        else
+            this.habilidadesPerSelected = this.habilidadesPerSelected.filter(obj => obj != h);
+    }
+
+    checkHabilidadesProSelected(h){
+        if (this.habilidadesProSelected.find(obj => obj == h) == null)
+            this.habilidadesProSelected.push(h);
+        else
+            this.habilidadesProSelected = this.habilidadesProSelected.filter(obj => obj != h);
+    }
+
+    checkHabilidadesProSegSelected(h){
+        if (this.habilidadesProSegSelected.find(obj => obj == h) == null)
+            this.habilidadesProSegSelected.push(h);
+        else
+            this.habilidadesProSegSelected = this.habilidadesProSegSelected.filter(obj => obj != h);
+    }
+
+    checkCualidadesProfesor(c){
+        if (this.cualidadesProfesor.find(obj => obj == c) == null)
+            this.cualidadesProfesor.push(c);
+        else
+            this.cualidadesProfesor = this.cualidadesProfesor.filter(obj => obj != c);        
     }
 
     sendRequestSignUp(){
+        console.log(this.nombre);
+        console.log(this.apellido);
+        console.log(this.email);
+        console.log(this.password);
+        console.log(this.username);
 
+        //Step 2 attributes
+        console.log(this.tipoUsuario);
+        console.log(this.carrera);
+        console.log(this.segundaCarrera);
+        console.log(this.semestre);
+        console.log(this.seminario);
+        console.log(this.temaTG);
+
+        //Step 3 attributes 
+        console.log(this.personalidad);
+
+        //Step 4 attributes
+        console.log(this.gustos);
+
+        //Step 5 attributes.
+        //Step 4 attributes For profesor and egresado
+        console.log(this.enfasisPrincipal);
+        console.log(this.enfasisSecundario);
+        console.log(this.enfasisPrincipalSegundaCarrera);
+        console.log(this.enfasisSecundarioSegundaCarrera);
+        console.log(this.ACSelected);
+        console.log(this.ACSelectedSegunda);
+
+        //Step 6 attributes
+        //Step 5 attributes for profesor and egresado
+        console.log(this.habilidadesPerSelected);
+        console.log(this.habilidadesProSelected);
+        console.log(this.habilidadesProSegSelected);
+        console.log(this.cualidadesProfesor);
     }
 }

@@ -20,4 +20,12 @@ export class HabilidadService{
                 return res.json();
             });
     }
+
+    getHabilidadesProfesionales(carrera:string){
+        let url = this.baseUrl + `getHabilidadesProfesionales?carrera=${carrera}`;
+        return this.http.get(url)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
 }
