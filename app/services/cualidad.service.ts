@@ -4,10 +4,12 @@ import {Observable, Subject} from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { URL_API } from '../entities/constants';
+
 @Injectable()
 export class CualidadService{
     
-    baseUrl = "http://localhost:8081/cualidad/";
+    baseUrl = URL_API + "/cualidad/";
 
     constructor(
         private http:Http

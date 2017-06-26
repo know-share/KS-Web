@@ -4,10 +4,12 @@ import {Observable, Subject} from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { URL_API } from '../entities/constants';
+
 @Injectable()
 export class HabilidadService{
     
-    baseUrl = "http://localhost:8081/habilidad/";
+    baseUrl = URL_API + "/habilidad/";
 
     constructor(
         private http:Http

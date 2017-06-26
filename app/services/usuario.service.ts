@@ -4,10 +4,12 @@ import { Observable, Subject } from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { URL_API } from '../entities/constants';
+
 @Injectable()
 export class UsuarioService {
 
-    baseUrl = "http://localhost:8081/usuario/";
+    baseUrl = URL_API + "/usuario/";
 
     constructor(
         private http: Http
