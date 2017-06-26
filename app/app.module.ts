@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { UserComponent } from './user/user.component';
 import { HomeComponent } from './newsfeed/home.component';
 import { SignUpComponent } from './access/signup.component';
+import { LoginComponent } from './access/login.component';
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -31,7 +32,8 @@ import { CualidadService } from './services/cualidad.service';
         UserComponent,
         HomeComponent,
         SignUpComponent,
-        AppComponent
+        AppComponent,
+        LoginComponent
     ],
     providers: [{
         provide: LocationStrategy,
