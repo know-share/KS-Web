@@ -19,6 +19,7 @@ import { UsuarioService } from './services/usuario.service';
 import { GustoService } from './services/gusto.service';
 import { HabilidadService } from './services/habilidad.service';
 import { CualidadService } from './services/cualidad.service';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
     imports: [
@@ -44,7 +45,8 @@ import { CualidadService } from './services/cualidad.service';
         UsuarioService,
         GustoService,
         HabilidadService,
-        CualidadService
+        CualidadService,
+        AuthService
     ],
     bootstrap: [AppComponent]
 })

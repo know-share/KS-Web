@@ -31,4 +31,11 @@ export class Usuario {
 
     habilidades: Habilidad[];
     cualidades: Cualidad[];
+
+    cantidadAmigos: number;
+    amigos: string[];
+    cantidadSeguidores: number;
+    seguidores: string[];
+
+    insignias: string[];
 }

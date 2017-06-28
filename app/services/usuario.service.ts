@@ -32,4 +32,8 @@ export class UsuarioService {
                 throw new Error('Error creando al usuario. Intente más tarde.');
             });
     }
+
+    getUsuario(username){
+        
+    }
 }

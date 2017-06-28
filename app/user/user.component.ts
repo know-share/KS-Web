@@ -1,22 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
+//Services
+import { UsuarioService } from '../services/usuario.service';
+
 @Component({
     moduleId: module.id,
     selector: 'user',
     templateUrl: 'user.component.html',
     //styleUrls: ['']
 })
-export class UserComponent{
+export class UserComponent implements OnInit{
 
     username: string;
     activeTab: string;
 
     constructor(
         private activatedRoute: ActivatedRoute,
+        private usuarioService: UsuarioService,
     ){
         this.username = this.activatedRoute.url.value[1].path;
         this.activeTab = 'ideas';
+    }
+
+    ngOnInit(){
+
     }
 
     ideas(){

@@ -9,23 +9,23 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
-    <!-- For application -->
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/style.css">
-    <script src="static/jquery/jquery.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-
     <!-- Polyfills for older browsers -->
+    <script src="node_modules/systemjs/dist/system.js"></script>
+    <script src="static/js/systemjs.config.js"></script>
     <script src="node_modules/core-js/client/shim.min.js"></script>
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/reflect-metadata/Reflect.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <script src="static/js/systemjs.config.js"></script>
     <script>
         System.import('app').catch(function (err) {
             console.error(err);
         });
     </script>
+
+    <!-- For application -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="static/jquery/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
 
     <base href="/">
 </head>
