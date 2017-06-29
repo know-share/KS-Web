@@ -9,9 +9,8 @@ import { AuthService } from '../services/auth.service';
 import { Auth } from '../entities/auth'
 
 @Component({
-    moduleId: module.id,
     selector: 'login',
-    templateUrl: 'login.component.html',
+    templateUrl: './login.component.html',
     //styleUrls: ['']
 })
 export class LoginComponent implements OnInit{

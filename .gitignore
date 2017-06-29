@@ -1,4 +1,6 @@
 *.js
-!static/**/*.js
+!webpack.config.js
 *.map
 node_modules/
+dist/
+typings/

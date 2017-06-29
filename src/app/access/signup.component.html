@@ -174,7 +174,7 @@
     <p>Eliga su personalidad (Puede tomar el test aquí: <a target="_blank" href="https://www.16personalities.com/es/test-de-personalidad">Test de Personalidad</a>)
         <div class="row">
             <div class="col-xs-3" *ngFor="let p of personalidades">
-                <a (click)="verifyStep3(p)" class="thumbnail"><img src="../../static/images/personalidades/{{p.nombre}}.png" class="img-responsive"></a>
+                <a (click)="verifyStep3(p)" class="thumbnail"><img src="images/personalidades/{{p.nombre}}.png" class="img-responsive"></a>
             </div>
         </div>
 </div>
@@ -185,33 +185,33 @@
     <h2>Mis gustos</h2>
     <p>Seleccione cada uno de sus gustos.</p>
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#generales">Generales</a></li>
-        <li><a data-toggle="tab" href="#deportes">Deportes</a></li>
-        <li><a data-toggle="tab" href="#artes">Artes</a></li>
+        <li [ngClass]="{'active': activeTabGustos == 'generales'}" ><a data-toggle="tab" (click)="goTo('generales','gustos')">Generales</a></li>
+        <li [ngClass]="{'active': activeTabGustos == 'deportes'}" ><a data-toggle="tab" (click)="goTo('deportes','gustos')">Deportes</a></li>
+        <li [ngClass]="{'active': activeTabGustos == 'artes'}"><a data-toggle="tab" (click)="goTo('artes','gustos')">Artes</a></li>
     </ul>
-
+    
     <div class="tab-content">
-        <div id="generales" class="tab-pane fade in active">
+        <div id="generales" [ngClass]="activeTabGustos == 'generales' ? 'tab-pane fade in active' : 'tab-pane fade'">
             <br>
-            <div class="row">
+            <div *ngIf="activeTabGustos == 'generales'" class="row">
                 <div class="col-xs-3" *ngFor="let g of gustosGenerales">
-                    <a [ngClass]="isCheck(g) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="../../static/images/gustos/{{g.imagePath}}" class="img-responsive"></a>
+                    <a [ngClass]="isCheckWithId(g,gustos) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
                 </div>
             </div>
         </div>
-        <div id="deportes" class="tab-pane fade">
+        <div id="deportes" [ngClass]="activeTabGustos == 'deportes' ? 'tab-pane fade in active' : 'tab-pane fade'">
             <br>
-            <div class="row">
+            <div *ngIf="activeTabGustos == 'deportes'" class="row">
                 <div class="col-xs-3" *ngFor="let g of gustosDeportes">
-                    <a [ngClass]="isCheck(g) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="../../static/images/gustos/{{g.imagePath}}" class="img-responsive"></a>
+                    <a [ngClass]="isCheckWithId(g,gustos) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
                 </div>
             </div>
         </div>
-        <div id="artes" class="tab-pane fade">
+        <div id="artes" [ngClass]="activeTabGustos == 'artes' ? 'tab-pane fade in active' : 'tab-pane fade'">
             <br>
-            <div class="row">
+            <div *ngIf="activeTabGustos == 'artes'" class="row">
                 <div class="col-xs-3" *ngFor="let g of gustosArtes">
-                    <a [ngClass]="isCheck(g) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="../../static/images/gustos/{{g.imagePath}}" class="img-responsive"></a>
+                    <a [ngClass]="isCheckWithId(g,gustos) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
                 </div>
             </div>
         </div>
@@ -225,12 +225,13 @@
         <h2>Perfil de usuario</h2>
         <p>En cada una de las siguientes pestañas seleccione sus énfasis y las áreas de conocimiento que le interesan.</p>
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#enfasis">Mis énfasis</a></li>
-            <li><a data-toggle="tab" href="#ac">Mis áreas de conocimiento</a></li>
+            <li [ngClass]="{'active' : activeTabEnfasis == 'enfasis'}"><a data-toggle="tab" (click)="goTo('enfasis','enfasis')">Mis énfasis</a></li>
+            <li [ngClass]="{'active' : activeTabEnfasis == 'ac'}"><a data-toggle="tab" (click)="goTo('ac','enfasis')">Mis áreas de conocimiento</a></li>
         </ul>
 
         <div class="tab-content">
-            <div id="enfasis" class="tab-pane fade in active">
+            <div *ngIf="activeTabEnfasis == 'enfasis'" id="enfasis" 
+                [ngClass]="activeTabEnfasis == 'enfasis' ? 'tab-pane fade in active':'tab-pane fade'">
                 <br>
                 <h2>Énfasis de {{carrera.nombre}}</h2>
                 <div class="form-group">
@@ -272,19 +273,20 @@
                 </div>
             </div>
 
-            <div id="ac" class="tab-pane fade">
+            <div *ngIf="activeTabEnfasis == 'ac'" id="ac" 
+                [ngClass]="activeTabEnfasis == 'ac' ? 'tab-pane fade in active':'tab-pane fade'">
                 <br>
                 <h2>Áreas de conocimiento de {{carrera.nombre}}</h2>
                 <div class="form-group">
                     <div class="col-sm-4" *ngFor="let ac of ACCarrera; let i of index">
-                        <label><input name="ac_$i" type="checkbox" (click)="checkACPrincipal(ac)"/>{{ac.nombre}}</label>
+                        <label><input name="ac_$i" [checked]="isCheckWithName(ac,ACSelected)" type="checkbox" (click)="checkACPrincipal(ac)"/>{{ac.nombre}}</label>
                     </div>
                 </div>
                 <div *ngIf="segundaCarrera">
                     <h2>Áreas de conocimiento de {{segundaCarrera.nombre}}</h2>
                     <div class="form-group">
                         <div class="col-sm-4" *ngFor="let ac of ACSegundaCarrera; let i of index">
-                            <label><input name="ac2_$i" type="checkbox" (click)="checkACSecundario(ac)"/>{{ac.nombre}}</label>
+                            <label><input name="ac2_$i" [checked]="isCheckWithName(ac,ACSelectedSegunda)" type="checkbox" (click)="checkACSecundario(ac)"/>{{ac.nombre}}</label>
                         </div>
                     </div>
                 </div>
@@ -300,32 +302,34 @@
         <h2>Perfil de usuario</h2>
         <p>En cada una de las siguientes pestañas seleccione sus habilidades personales y profesionales.</p>
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#personales">Habilidades Personales</a></li>
-            <li><a data-toggle="tab" href="#profesionales">Habilidades Profesionales</a></li>
+            <li [ngClass]="{'active':activeTabHabilidades == 'personales'}" ><a data-toggle="tab" (click)="goTo('personales','habilidades')">Habilidades Personales</a></li>
+            <li [ngClass]="{'active':activeTabHabilidades == 'profesionales'}" ><a data-toggle="tab" (click)="goTo('profesionales','habilidades')">Habilidades Profesionales</a></li>
         </ul>
 
         <div class="tab-content">
-            <div id="personales" class="tab-pane fade in active">
+            <div *ngIf="activeTabHabilidades == 'personales'" id="personales" 
+                [ngClass]="activeTabHabilidades == 'personales'?'tab-pane fade in active':'tab-pane fade'">
                 <h2>Habilidades personales</h2>
                 <div class="form-group">
                     <div class="col-sm-4" *ngFor="let h of habilidadesPersonales; let i of index">
-                        <label><input (click)="checkHabilidadesPerSelected(h)" name="hp_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                        <label><input [checked]="isCheckWithId(h,habilidadesPerSelected)" (click)="checkHabilidadesPerSelected(h)" name="hp_$i" type="checkbox" value="h" checked/>{{h.nombre}}</label>
                     </div>
                 </div>
             </div>
-            <div id="profesionales" class="tab-pane fade">
+            <div *ngIf="activeTabHabilidades == 'profesionales'" id="profesionales" 
+                [ngClass]="activeTabHabilidades == 'profesionales'?'tab-pane fade in active':'tab-pane fade'">
                 <br>
                 <h2>Habilidades profesionales de {{carrera.nombre}}</h2>
                 <div class="form-group">
                     <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
-                        <label><input (click)="checkHabilidadesProSelected(h)" name="h_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                        <label><input [checked]="isCheckWithId(h,habilidadesProSelected)" (click)="checkHabilidadesProSelected(h)" name="h_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
                     </div>
                 </div>
                 <div *ngIf="segundaCarrera">
                     <h2>Habilidades profesionales de {{segundaCarrera.nombre}}</h2>
                     <div class="form-group">
                         <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesSegunda; let i of index">
-                            <label><input (click)="checkHabilidadesProSegSelected(h)" name="h2_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                            <label><input [checked]="isCheckWithId(h,habilidadesProSegSelected)" (click)="checkHabilidadesProSegSelected(h)" name="h2_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
                         </div>
                     </div>
                 </div>
@@ -340,12 +344,13 @@
         <h2>Perfil de usuario</h2>
         <p>En cada una de las siguientes pestañas seleccione sus énfasis y las áreas de conocimiento en las que tiene experiencia.</p>
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#enfasis">Mis énfasis</a></li>
-            <li><a data-toggle="tab" href="#ac">Mis áreas de conocimiento</a></li>
+            <li [ngClass]="{'active' : activeTabEnfasis == 'enfasis'}"><a data-toggle="tab" (click)="goTo('enfasis','enfasis')" >Mis énfasis</a></li>
+            <li [ngClass]="{'active' : activeTabEnfasis == 'ac'}"><a data-toggle="tab" (click)="goTo('ac','enfasis')" >Mis áreas de conocimiento</a></li>
         </ul>
 
         <div class="tab-content">
-            <div id="enfasis" class="tab-pane fade in active">
+            <div *ngIf="activeTabEnfasis == 'enfasis'" id="enfasis" 
+                [ngClass]="activeTabEnfasis == 'enfasis' ? 'tab-pane fade in active':'tab-pane fade'">
                 <br>
                 <h2>Énfasis de {{carrera.nombre}}</h2>
                 <div class="form-group">
@@ -366,12 +371,13 @@
                     </div>
                 </div>
             </div>
-            <div id="ac" class="tab-pane fade">
+            <div *ngIf="activeTabEnfasis == 'ac'" id="ac" 
+                [ngClass]="activeTabEnfasis == 'ac' ? 'tab-pane fade in active':'tab-pane fade'">
                 <br>
                 <h2>Mi experiencia en Áreas de Conocimiento de {{carrera.nombre}}</h2>
                 <div class="form-group" *ngFor="let ac of ACCarrera; let i of index">
                     <div class="col-sm-6 aconocimiento">
-                        <label><input name="ac_$i" type="checkbox" (click)="checkACPrincipal(ac)"/>{{ac.nombre}}</label>
+                        <label><input name="ac_$i" [checked]="isCheckWithName(ac,ACSelected)" type="checkbox" (click)="checkACPrincipal(ac)"/>{{ac.nombre}}</label>
                     </div>
                     <div class="col-sm-6">
                         <select [(ngModel)]="ac.porcentaje" class="form-control" name="percentageAC">
@@ -400,26 +406,28 @@
         <h2>Perfil de usuario</h2>
         <p>En cada una de las siguientes pestañas seleccione sus cualidades como profesor y como profesional.</p>
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#profesor">Cualidades como Profesor</a></li>
-            <li><a data-toggle="tab" href="#profesional">Cualidades como Profesional</a></li>
+            <li [ngClass]="{'active':activeTabCualidades == 'profesor'}"><a data-toggle="tab" (click)="goTo('profesor','cualidades')">Cualidades como Profesor</a></li>
+            <li [ngClass]="{'active':activeTabCualidades == 'profesional'}"><a data-toggle="tab" (click)="goTo('profesional','cualidades')">Cualidades como Profesional</a></li>
         </ul>
 
         <div class="tab-content">
-            <div id="profesor" class="tab-pane fade in active">
+            <div *ngIf="activeTabCualidades == 'profesor'" id="profesor" 
+                [ngClass]="activeTabCualidades == 'profesor' ? 'tab-pane fade in active':'tab-pane fade'">
                 <br>
                 <h2>Cualidades como profesor</h2>
                 <div class="form-group">
                     <div class="col-sm-4" *ngFor="let c of cualidades; let i of index">
-                        <label><input (click)="checkCualidadesProfesor(c)" name="cp_$i" type="checkbox" value="c"/>{{c.nombre}}</label>
+                        <label><input [checked]="isCheckWithId(c,cualidadesProfesor)" (click)="checkCualidadesProfesor(c)" name="cp_$i" type="checkbox" value="c"/>{{c.nombre}}</label>
                     </div>
                 </div>
             </div>
-            <div id="profesional" class="tab-pane fade">
+            <div *ngIf="activeTabCualidades == 'profesional'" id="profesional"
+                [ngClass]="activeTabCualidades == 'profesional' ? 'tab-pane fade in active':'tab-pane fade'">
                 <br>
                 <h2>Cualidades profesionales</h2>
                 <div class="form-group">
                     <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
-                        <label><input (click)="checkHabilidadesProSelected(h)" name="hpp_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                        <label><input [checked]="isCheckWithId(h,habilidadesProSelected)" (click)="checkHabilidadesProSelected(h)" name="hpp_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
                     </div>
                 </div>
             </div>

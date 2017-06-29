@@ -5,9 +5,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { UsuarioService } from '../services/usuario.service';
 
 @Component({
-    moduleId: module.id,
     selector: 'user',
-    templateUrl: 'user.component.html',
+    templateUrl: './user.component.html',
     //styleUrls: ['']
 })
 export class UserComponent implements OnInit{
@@ -19,12 +18,14 @@ export class UserComponent implements OnInit{
         private activatedRoute: ActivatedRoute,
         private usuarioService: UsuarioService,
     ){
-        this.username = this.activatedRoute.url.value[1].path;
         this.activeTab = 'ideas';
     }
 
     ngOnInit(){
-
+        this.activatedRoute.params.subscribe((params: Params) => {
+            this.username = params['username'];
+            console.log(this.username);
+        })
     }
 
     ideas(){

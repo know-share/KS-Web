@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SignUpValidation } from '../utils/signup.validation';
 
+import {Subscription} from 'rxjs';
+
 //Entities
 import { Personalidad } from '../entities/personalidad';
 import { Carrera } from '../entities/carrera';
@@ -22,14 +24,17 @@ import { UsuarioService } from '../services/usuario.service';
 import { CualidadService } from '../services/cualidad.service';
 
 @Component({
-    moduleId: module.id,
     selector: 'signup',
-    templateUrl: 'signup.component.html',
-    styleUrls: ['signup.component.css']
+    templateUrl: './signup.component.html',
+    styleUrls: ['./signup.component.css']
 })
 export class SignUpComponent implements OnInit {
 
     currentStep: number;
+    activeTabGustos: string;
+    activeTabEnfasis: string;
+    activeTabHabilidades: string;
+    activeTabCualidades: string;
 
     //Formgroups
     stepOneForm: FormGroup;
@@ -96,6 +101,11 @@ export class SignUpComponent implements OnInit {
         private usuarioService: UsuarioService,
         private cualidadService: CualidadService
     ) {
+        this.activeTabGustos = 'generales';
+        this.activeTabEnfasis = 'enfasis';
+        this.activeTabHabilidades = 'personales';
+        this.activeTabCualidades = 'profesor';
+
         this.enfasisSecundario = null;
         this.enfasisSecundarioSegundaCarrera = null;
         this.tipoUsuario = "ESTUDIANTE";
@@ -251,8 +261,12 @@ export class SignUpComponent implements OnInit {
         this.currentStep += 1;
     }
 
-    isCheck(gusto: Gusto) {
-        return this.gustos.find(obj => obj.id == gusto.id) == null ? false : true;
+    isCheckWithId(item, list) {
+        return list.find(obj => obj.id == item.id) == null ? false : true;
+    }
+
+    isCheckWithName(item, list) {
+        return list.find(obj => obj.nombre == item.nombre) == null ? false : true;
     }
 
     checkGusto(object) {
@@ -355,5 +369,18 @@ export class SignUpComponent implements OnInit {
                 res => res // send to next screen
                 ,error => console.log('error: '+error)
             );
+    }
+
+    goTo(location, where){
+        if(where == 'enfasis')
+            this.activeTabEnfasis = location;
+        if(where == 'gustos')
+            this.activeTabGustos = location;
+        if(where == 'habilidades'){
+            this.activeTabHabilidades = location;
+        }
+        if(where == 'cualidades'){
+            this.activeTabCualidades = location;
+        }
     }
 }
