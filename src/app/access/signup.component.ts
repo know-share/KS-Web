@@ -363,7 +363,6 @@ export class SignUpComponent implements OnInit {
         usuario.habilidades = this.habilidadesPerSelected;
         usuario.cualidades = this.cualidades;
 
-        console.log(usuario);
         this.usuarioService.crearUsuario(usuario)
             .subscribe(
                 res => res // send to next screen

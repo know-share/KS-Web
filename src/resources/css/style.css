@@ -9,3 +9,9 @@ a:hover{
     text-align: center ;
     top: 50% ;
 }
+.router-outlet{
+    margin-top: 5%;
+}
+.center{
+    text-align: center;
+}

@@ -11,6 +11,7 @@ import { UserComponent } from './user/user.component';
 import { HomeComponent } from './newsfeed/home.component';
 import { SignUpComponent } from './access/signup.component';
 import { LoginComponent } from './access/login.component';
+import { ErrorComponent } from './error/error.component';
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -20,6 +21,7 @@ import { GustoService } from './services/gusto.service';
 import { HabilidadService } from './services/habilidad.service';
 import { CualidadService } from './services/cualidad.service';
 import { AuthService } from './services/auth.service';
+import { ErrorService } from './error/error.service';
 
 @NgModule({
     imports: [
@@ -34,7 +36,8 @@ import { AuthService } from './services/auth.service';
         HomeComponent,
         SignUpComponent,
         AppComponent,
-        LoginComponent
+        LoginComponent,
+        ErrorComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -46,7 +49,8 @@ import { AuthService } from './services/auth.service';
         GustoService,
         HabilidadService,
         CualidadService,
-        AuthService
+        AuthService,
+        ErrorService
     ],
     bootstrap: [AppComponent]
 })

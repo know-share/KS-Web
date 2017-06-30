@@ -38,4 +38,9 @@ export class Usuario {
     seguidores: string[];
 
     insignias: string[];
+
+    constructor(){
+        this.personalidad = new Personalidad();
+        this.carrera = new Carrera();
+    }
 }

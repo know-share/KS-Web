@@ -6,6 +6,7 @@ import { UserComponent } from './user/user.component';
 import { HomeComponent } from './newsfeed/home.component';
 import { SignUpComponent } from './access/signup.component';
 import { LoginComponent } from './access/login.component';
+import { ErrorComponent } from './error/error.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
     { path: 'user/:username', component: UserComponent },
     { path: 'signup', component: SignUpComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'error', component: ErrorComponent },
 ];
 
 @NgModule({

@@ -34,6 +34,12 @@ export class UsuarioService {
     }
 
     getUsuario(username){
-        
+        let url = this.baseUrl + `get/${username}`;
+        return this.http.get(url)
+            .map((res: Response) => {
+                if(res.status == 204)
+                    throw Error('Usuario no encontrado.');
+                return res.json();
+            });
     }
 }

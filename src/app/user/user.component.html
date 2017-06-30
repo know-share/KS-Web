@@ -1,113 +1,129 @@
-<div class="row">
-    <div class="col-xs-4">
-        <img src="images/minmiguelm.png" />
-        <h3>{{username}}</h3>
-    </div>
-    <div class="col-xs-4">
-        <p>Amigos: 0</p>
-        <p>Seguidores: 0</p>
-    </div>
-    <div class="col-xs-4">
-        <!-- image of personality -->
-    </div>
-</div>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            <li [ngClass]="{ 'active': activeTab == 'ideas' }"><a (click)="ideas()" class="links">Ideas</a></li>
-            <li [ngClass]="{ 'active': activeTab == 'info' }"><a (click)="info()" class="links">Información básica</a></li>
-            <li [ngClass]="{ 'active': activeTab == 'friends' }"><a (click)="friends()" class="links">Amigos</a></li>
-            <li [ngClass]="{ 'active': activeTab == 'followers' }"><a (click)="followers()" class="links">Seguidores</a></li>
-            <li [ngClass]="{ 'active': activeTab == 'badges' }"><a (click)="badges()" class="links">Insignias</a></li>
-            <li [ngClass]="{ 'active': activeTab == 'skills' }"><a (click)="skills()" class="links">Habilidades</a></li>
-        </ul>
-    </div>
-</nav>
-<div *ngIf="activeTab == 'ideas'" class="row">
-    <div class="col-xs-2"></div>
-    <div class="col-xs-8">
-        <div class="panel panel-danger">
-            <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
-            <div class="panel-body">Description</div>
-            <div class="row">
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+<div *ngIf="usuario">
+    <div class="row">
+        <div class="center">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">
+                <h2>{{usuario.nombre}} {{usuario.apellido}}</h2>
+                <p>Amigos: {{usuario.cantidadAmigos}} | Seguidores: {{usuario.cantidadSeguidores}}</p>
+            </div>
+            <div class="col-xs-4">
+                <img src="images/personalidades/{{usuario.personalidad.nombre}}.png" />
             </div>
         </div>
+    </div>
+    <br>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li [ngClass]="{ 'active': activeTab == 'ideas' }"><a (click)="moveTab('ideas')" class="links">Ideas</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'info' }"><a (click)="moveTab('info')" class="links">Información básica</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'friends' }"><a (click)="moveTab('friends')" class="links">Amigos</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'followers' }"><a (click)="moveTab('followers')" class="links">Seguidores</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'badges' }"><a (click)="moveTab('badges')" class="links">Insignias</a></li>
+                <!--<li [ngClass]="{ 'active': activeTab == 'skills' }"><a (click)="moveTab('skills')" class="links">Habilidades</a></li>-->
+            </ul>
+        </div>
+    </nav>
+    <div *ngIf="activeTab == 'ideas'" class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <div class="panel panel-danger">
+                <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
+                <div class="panel-body">Description</div>
+                <div class="row">
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+                </div>
+            </div>
 
-        <div class="panel panel-danger">
-            <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
-            <div class="panel-body">Description</div>
-            <div class="row">
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+            <div class="panel panel-danger">
+                <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
+                <div class="panel-body">Description</div>
+                <div class="row">
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+                </div>
             </div>
-        </div>
 
-        <div class="panel panel-danger">
-            <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
-            <div class="panel-body">Description</div>
+            <div class="panel panel-danger">
+                <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
+                <div class="panel-body">Description</div>
+                <div class="row">
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="activeTab == 'info' && usuario.tipoUsuario != 'PROFESOR'" class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Carrera {{usuario.carrera.nombre}}</h2>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3>Enfasis:</h3>
+                            <p><strong>Principal: </strong>{{usuario.enfasis[0].nombre}}</p>
+                            <p *ngIf="usuario.enfasis[1]"><strong>Secundario: </strong>{{usuario.enfasis[1].nombre}}</p>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3>Áreas de conocimiento:</h3>
+                            <p *ngIf="!usuario.areasConocimiento" >No tiene áreas de conocimiento asociadas</p>
+                            <p *ngFor="let ac of usuario.areasConocimiento">{{ac.nombre}}</p>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3>Habilidades personales:</h3>
+                            <p *ngIf="habilidadesPersonales?.length == 0" >No tiene habilidades personales registradas</p>
+                            <p *ngFor="let h of habilidadesPersonales">{{h.nombre}} <span class="label label-default">{{h.avales}}</span></p>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3>Habilidades profesionales:</h3>
+                            <p *ngIf="habilidadesProfesionales?.length == 0" >No tiene habilidades profesionales registradas</p>
+                            <p *ngFor="let h of habilidadesProfesionales">{{h.nombre}} <span class="label label-default">{{h.avales}}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="activeTab == 'friends' || activeTab == 'followers'" class="row">
+        <div class="col-xs-2"></div>
+        <div *ngIf="activeTab == 'friends'" class="col-xs-8">
+            <h3 *ngIf="!usuario.amigos || usuario.amigos?.length == 0" >Aún no tiene amigos en su red.</h3>
             <div class="row">
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div *ngIf="activeTab == 'friends' || activeTab == 'followers'" class="row">
-    <div class="col-xs-2"></div>
-    <div class="col-xs-8">
-        <div class="row">
-            <div class="col-xs-6">
-                <div class="media">
-                    <div class="media-left">
-                        <img src="images/minmiguelm.png" class="media-object" style="width:60px">
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">John Doe</h4>
-                        <p>Lorem ipsum...</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-6">
-                <div class="media">
-                    <div class="media-left">
-                        <img src="images/minmiguelm.png" class="media-object" style="width:60px">
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">John Doe</h4>
-                        <p>Lorem ipsum...</p>
-                    </div>
+                <div *ngFor="let a of usuario.amigos" class="col-xs-6">
+                    {{a}}
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-6">
-                <div class="media">
-                    <div class="media-left">
-                        <img src="images/minmiguelm.png" class="media-object" style="width:60px">
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">John Doe</h4>
-                        <p>Lorem ipsum...</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-6">
-                <div class="media">
-                    <div class="media-left">
-                        <img src="images/minmiguelm.png" class="media-object" style="width:60px">
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">John Doe</h4>
-                        <p>Lorem ipsum...</p>
-                    </div>
+        <div *ngIf="activeTab == 'followers'" class="col-xs-8">
+            <h3 *ngIf="!usuario.seguidores || usuario.seguidores?.length == 0" >Aún no tiene seguidores en su red.</h3>
+            <div class="row">
+                <div *ngFor="let s of usuario.seguidores" class="col-xs-6">
+                    {{s}}
                 </div>
             </div>
         </div>
     </div>
-    
+    <div *ngIf="activeTab == 'badges'" class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <h3 *ngIf="!usuario.insignias || usuario.insignias?.length == 0" >Aún no ha conseguido insignias para mostrar.</h3>
+            <div class="row">
+                <div *ngFor="let a of usuario.insignias" class="col-xs-6">
+                    {{a}}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
