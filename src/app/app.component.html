@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav id="navbarred" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
@@ -9,7 +9,7 @@
             <span class="icon-bar"></span>
           </button>
             <img class="navbar-brand" src="images/iconknowandsharegrande50x50-115.png" />
-            <a class="navbar-brand" href="#">Know&Share</a>
+            <a id="navbarred" class="navbar-brand" href="#">Know&Share</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -30,9 +30,9 @@
             <!-- if is logged on -->
             <div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/">Inicio <span class="sr-only"></span></a></li>
-                    <li><a class="links" (click)="myProfile()">Mi perfil <span class="sr-only"></span></a></li>
-                    <li><a href="/logout">Cerrar sesión <span class="sr-only"></span></a></li>
+                    <li><a id="navbarred" href="/">Inicio <span class="sr-only"></span></a></li>
+                    <li><a id="navbarred" class="links" (click)="myProfile()">Mi perfil <span class="sr-only"></span></a></li>
+                    <li><a id="navbarred" href="/logout">Cerrar sesión <span class="sr-only"></span></a></li>
                 </ul>
             </div>
             <div hidden>
@@ -45,8 +45,6 @@
     </div>
 </nav>
 <br>
-<div class="container">
-    <div class="router-outlet">
-        <router-outlet></router-outlet>
-    </div>
+<div class="router-outlet">
+    <router-outlet></router-outlet>
 </div>

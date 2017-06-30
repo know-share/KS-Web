@@ -9,11 +9,12 @@ import { ErrorService } from '../error/error.service';
 //Entities
 import { Usuario } from '../entities/usuario';
 import { Habilidad } from '../entities/habilidad';
+import { AreaConocimiento } from '../entities/areaConocimiento';
 
 @Component({
     selector: 'user',
     templateUrl: './user.component.html',
-    //styleUrls: ['']
+    styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit{
 
@@ -21,7 +22,12 @@ export class UserComponent implements OnInit{
     activeTab: string;
 
     habilidadesPersonales: Habilidad[] = [];
+    
     habilidadesProfesionales: Habilidad[] = [];
+    habilidadesProfesionalesSeg: Habilidad[] = [];
+
+    areasConocimiento: AreaConocimiento[] = [];
+    areasConocimientoSeg: AreaConocimiento[] = [];
 
     usuario: Usuario;
 
@@ -38,18 +44,23 @@ export class UserComponent implements OnInit{
         this.usuario = null;
         this.habilidadesPersonales = [];
         this.habilidadesProfesionales = [];
+        this.habilidadesProfesionalesSeg = [];
         this.activatedRoute.params.subscribe((params: Params) => {
             this.username = params['username'];
             this.usuarioService.getUsuario(this.username)
                 .subscribe(
                     usuario => {
                         this.usuario = usuario;
+                        this.mapAreasConocimiento(usuario.areasConocimiento);
                         for(let h of usuario.habilidades){
                             if(h.tipo == 'PERSONALES'){
                                 this.habilidadesPersonales.push(h);
                             }
-                            if(h.tipo == 'PROFESIONALES'){
+                            if(h.tipo == 'PROFESIONALES' && h.carrera == this.usuario.carrera.nombre){
                                 this.habilidadesProfesionales.push(h);
+                            }
+                            if(this.usuario.segundaCarrera && h.tipo == 'PROFESIONALES' && h.carrera == this.usuario.segundaCarrera.nombre){
+                                this.habilidadesProfesionalesSeg.push(h);
                             }
                         }
                     },error => {
@@ -58,6 +69,18 @@ export class UserComponent implements OnInit{
                     }
                 );
         });
+    }
+
+    mapAreasConocimiento(areasConocimiento: AreaConocimiento[]){
+        this.areasConocimiento = [];this.areasConocimientoSeg = [];
+        for(let ac of areasConocimiento){
+            if(ac.carrera == this.usuario.carrera.nombre){
+                this.areasConocimiento.push(ac);
+            }
+            if(this.usuario.segundaCarrera && ac.carrera == this.usuario.segundaCarrera.nombre){
+                this.areasConocimientoSeg.push(ac);
+            }
+        }
     }
 
     moveTab(tab){

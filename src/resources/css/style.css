@@ -15,3 +15,11 @@ a:hover{
 .center{
     text-align: center;
 }
+#navbarred{
+    background: #d62513;
+    border-color: #c0392b;
+    color:white;
+}
+#navbarred:hover{
+    color:lightgray;
+}

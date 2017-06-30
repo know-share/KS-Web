@@ -1,137 +1,138 @@
-<br>
 <div class="container">
-    <div class="stepwizard col-md-offset-3 center">
-        <div class="stepwizard-row setup-panel">
-            <div class="stepwizard-step">
-                <div [ngClass]="currentStep == 1 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">1</div>
-            </div>
-            <div class="stepwizard-step">
-                <div (click)="verifyStep1()" [ngClass]="currentStep == 2 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">2</div>
-            </div>
-            <div class="stepwizard-step">
-                <div (click)="verifyStep2()" [ngClass]="currentStep == 3 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">3</div>
-            </div>
-            <div class="stepwizard-step">
-                <div (click)="verifyStep3()" [ngClass]="currentStep == 4 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">4</div>
-            </div>
-            <div class="stepwizard-step">
-                <div (click)="next()" [ngClass]="currentStep == 5 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">5</div>
-            </div>
-            <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="stepwizard-step">
-                <div [ngClass]="currentStep == 6 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">6</div>
+    <br>
+    <div class="container">
+        <div class="stepwizard col-md-offset-3 center">
+            <div class="stepwizard-row setup-panel">
+                <div class="stepwizard-step">
+                    <div [ngClass]="currentStep == 1 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">1</div>
+                </div>
+                <div class="stepwizard-step">
+                    <div (click)="verifyStep1()" [ngClass]="currentStep == 2 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">2</div>
+                </div>
+                <div class="stepwizard-step">
+                    <div (click)="verifyStep2()" [ngClass]="currentStep == 3 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">3</div>
+                </div>
+                <div class="stepwizard-step">
+                    <div (click)="verifyStep3()" [ngClass]="currentStep == 4 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">4</div>
+                </div>
+                <div class="stepwizard-step">
+                    <div (click)="next()" [ngClass]="currentStep == 5 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">5</div>
+                </div>
+                <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="stepwizard-step">
+                    <div [ngClass]="currentStep == 6 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">6</div>
+                </div>
             </div>
         </div>
+    </div><br>
+
+    <!-- form -->
+
+    <div *ngIf="currentStep == 1" class="well well-lg">
+        <h2>Información Básica</h2>
+        <form novalidate class="form-horizontal" (ngSubmit)="verifyStep1()" [formGroup]="stepOneForm">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Nombre</label>
+                <div class="col-sm-10">
+                    <input [(ngModel)]="nombre" class="form-control" type="text" formControlName="name">
+                    <div class="alert alert-danger" *ngIf="stepOneForm.get('name').touched && stepOneForm.get('name').hasError('required')">
+                        Nombre es requerido.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Apellido</label>
+                <div class="col-sm-10">
+                    <input [(ngModel)]="apellido" class="form-control" type="text" placeholder="Click to focus" formControlName="lastName">
+                    <div class="alert alert-danger" *ngIf="stepOneForm.get('lastName').touched && stepOneForm.get('lastName').hasError('required')">
+                        Apellido es requerido.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Correo Electrónico</label>
+                <div class="col-sm-10">
+                    <input [(ngModel)]="email" class="form-control" type="text" placeholder="Click to focus" formControlName="email">
+                    <div class="alert alert-danger" *ngIf="stepOneForm.get('email').touched && stepOneForm.get('email').hasError('required')">
+                        Correo Electrónico es requerido.
+                    </div>
+                    <div class="alert alert-danger" *ngIf="stepOneForm.get('email').touched && stepOneForm.get('email').hasError('pattern')">
+                        Ingrese un correo electrónico válido.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Nombre de usuario</label>
+                <div class="col-sm-10">
+                    <input [(ngModel)]="username" class="form-control" type="text" placeholder="Click to focus" formControlName="username">
+                    <div class="alert alert-danger" *ngIf="stepOneForm.get('username').touched && stepOneForm.get('username').hasError('required')">
+                        Nombre de usuario es requerido.
+                    </div>
+                    <div class="alert alert-danger" *ngIf="stepOneForm.get('username').touched && stepOneForm.controls.username.errors?.UsernameTaken">
+                        Nombre de usuario no disponible.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Contraseña</label>
+                <div class="col-sm-10">
+                    <input [(ngModel)]="password" class="form-control" formControlName="password" type="password">
+                    <div class="alert alert-danger" *ngIf="stepOneForm.get('password').touched && stepOneForm.get('password').hasError('required')">
+                        Contraseña es requerida.
+                    </div>
+                    <div class="alert alert-danger" *ngIf="stepOneForm.get('password').touched && stepOneForm.get('password').hasError('pattern')">
+                        La contraseña debe ser mínimo de 8 caracteres y contener mayúsculas, minúsculas, números y caracteres especiales.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Repita Contraseña</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="password" formControlName="confirmPassword">
+                    <div class="alert alert-danger" *ngIf="stepOneForm.get('confirmPassword').touched && stepOneForm.controls.confirmPassword.errors?.MatchPassword">
+                        Las contraseñas no coinciden.
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" [disabled]="stepOneForm.invalid">Continuar</button>
+        </form>
     </div>
-</div><br>
 
-<!-- form -->
+    <!-- step 2 -->
 
-<div *ngIf="currentStep == 1" class="well well-lg">
-    <h2>Información Básica</h2>
-    <form novalidate class="form-horizontal" (ngSubmit)="verifyStep1()" [formGroup]="stepOneForm">
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Nombre</label>
-            <div class="col-sm-10">
-                <input [(ngModel)]="nombre" class="form-control" type="text" formControlName="name">
-                <div class="alert alert-danger" *ngIf="stepOneForm.get('name').touched && stepOneForm.get('name').hasError('required')">
-                    Nombre es requerido.
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Apellido</label>
-            <div class="col-sm-10">
-                <input [(ngModel)]="apellido" class="form-control" type="text" placeholder="Click to focus" formControlName="lastName">
-                <div class="alert alert-danger" *ngIf="stepOneForm.get('lastName').touched && stepOneForm.get('lastName').hasError('required')">
-                    Apellido es requerido.
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Correo Electrónico</label>
-            <div class="col-sm-10">
-                <input [(ngModel)]="email" class="form-control" type="text" placeholder="Click to focus" formControlName="email">
-                <div class="alert alert-danger" *ngIf="stepOneForm.get('email').touched && stepOneForm.get('email').hasError('required')">
-                    Correo Electrónico es requerido.
-                </div>
-                <div class="alert alert-danger" *ngIf="stepOneForm.get('email').touched && stepOneForm.get('email').hasError('pattern')">
-                    Ingrese un correo electrónico válido.
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Nombre de usuario</label>
-            <div class="col-sm-10">
-                <input [(ngModel)]="username" class="form-control" type="text" placeholder="Click to focus" formControlName="username">
-                <div class="alert alert-danger" *ngIf="stepOneForm.get('username').touched && stepOneForm.get('username').hasError('required')">
-                    Nombre de usuario es requerido.
-                </div>
-                <div class="alert alert-danger" *ngIf="stepOneForm.get('username').touched && stepOneForm.controls.username.errors?.UsernameTaken">
-                    Nombre de usuario no disponible.
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Contraseña</label>
-            <div class="col-sm-10">
-                <input [(ngModel)]="password" class="form-control" formControlName="password" type="password">
-                <div class="alert alert-danger" *ngIf="stepOneForm.get('password').touched && stepOneForm.get('password').hasError('required')">
-                    Contraseña es requerida.
-                </div>
-                <div class="alert alert-danger" *ngIf="stepOneForm.get('password').touched && stepOneForm.get('password').hasError('pattern')">
-                    La contraseña debe ser mínimo de 8 caracteres y contener mayúsculas, minúsculas, números y caracteres especiales.
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Repita Contraseña</label>
-            <div class="col-sm-10">
-                <input class="form-control" type="password" formControlName="confirmPassword">
-                <div class="alert alert-danger" *ngIf="stepOneForm.get('confirmPassword').touched && stepOneForm.controls.confirmPassword.errors?.MatchPassword">
-                    Las contraseñas no coinciden.
-                </div>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block" [disabled]="stepOneForm.invalid">Continuar</button>
-    </form>
-</div>
-
-<!-- step 2 -->
-
-<div *ngIf="currentStep == 2" class="well well-lg">
-    <h2>Información Académica</h2>
-    <form novalidate class="form-horizontal" (ngSubmit)="verifyStep2()">
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Soy</label>
-            <div class="col-sm-10">
-                <select [(ngModel)]="tipoUsuario" class="form-control" name="tipoUsuario">
+    <div *ngIf="currentStep == 2" class="well well-lg">
+        <h2>Información Académica</h2>
+        <form novalidate class="form-horizontal" (ngSubmit)="verifyStep2()">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Soy</label>
+                <div class="col-sm-10">
+                    <select [(ngModel)]="tipoUsuario" class="form-control" name="tipoUsuario">
                     <option value="ESTUDIANTE">Estudiante</option>
                     <option value="PROFESOR">Profesor</option>
                     <option value="EGRESADO">Egresado</option>
                 </select>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Carrera</label>
-            <div class="col-sm-10">
-                <select [(ngModel)]="carrera" class="form-control" name="carrera">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Carrera</label>
+                <div class="col-sm-10">
+                    <select [(ngModel)]="carrera" class="form-control" name="carrera">
                     <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
                 </select>
+                </div>
             </div>
-        </div>
-        <div *ngIf="tipoUsuario=='ESTUDIANTE' || tipoUsuario=='EGRESADO'" class="form-group">
-            <label class="col-sm-2 control-label">Doble programa</label>
-            <div class="col-sm-10">
-                <select [(ngModel)]="segundaCarrera" class="form-control" name="segundaCarrera">
+            <div *ngIf="tipoUsuario=='ESTUDIANTE' || tipoUsuario=='EGRESADO'" class="form-group">
+                <label class="col-sm-2 control-label">Doble programa</label>
+                <div class="col-sm-10">
+                    <select [(ngModel)]="segundaCarrera" class="form-control" name="segundaCarrera">
                     <option value="null">Ninguna</option>
                     <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
                 </select>
+                </div>
             </div>
-        </div>
-        <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="form-group">
-            <label class="col-sm-2 control-label">Semestre está cursando</label>
-            <div class="col-sm-10">
-                <select [(ngModel)]="semestre" class="form-control" name="semestre">
+            <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="form-group">
+                <label class="col-sm-2 control-label">Semestre está cursando</label>
+                <div class="col-sm-10">
+                    <select [(ngModel)]="semestre" class="form-control" name="semestre">
                     <option value=1>1</option>
                     <option value=2>2</option>
                     <option value=3>3</option>
@@ -144,243 +145,237 @@
                     <option value=10>10</option>
                     <option value=11>10+</option>
                 </select>
+                </div>
             </div>
-        </div>
-        <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="form-group">
-            <label class="col-sm-2 control-label">Cursa actualmente la asignatura de seminario</label>
-            <div class="col-sm-10">
-                <select [(ngModel)]="seminario" class="form-control" name="seminario">
+            <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="form-group">
+                <label class="col-sm-2 control-label">Cursa actualmente la asignatura de seminario</label>
+                <div class="col-sm-10">
+                    <select [(ngModel)]="seminario" class="form-control" name="seminario">
                     <option [ngValue]="true">Si</option>
                     <option [ngValue]="false">No</option>
                 </select>
+                </div>
             </div>
-        </div>
-        <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="form-group">
-            <label class="col-sm-2 control-label">Tiene ya definido su tema de Trabajo de Grado</label>
-            <div class="col-sm-10">
-                <select [(ngModel)]="temaTG" class="form-control" name="temaTG">
+            <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="form-group">
+                <label class="col-sm-2 control-label">Tiene ya definido su tema de Trabajo de Grado</label>
+                <div class="col-sm-10">
+                    <select [(ngModel)]="temaTG" class="form-control" name="temaTG">
                     <option [ngValue]="true">Si</option>
                     <option [ngValue]="false">No</option>
                 </select>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Continuar</button>
-    </form>
-</div>
-
-<!-- step 3 -->
-<div *ngIf="currentStep == 3" class="well well-lg">
-    <h2>Personalidad</h2>
-    <p>Eliga su personalidad (Puede tomar el test aquí: <a target="_blank" href="https://www.16personalities.com/es/test-de-personalidad">Test de Personalidad</a>)
-        <div class="row">
-            <div class="col-xs-3" *ngFor="let p of personalidades">
-                <a (click)="verifyStep3(p)" class="thumbnail"><img src="images/personalidades/{{p.nombre}}.png" class="img-responsive"></a>
-            </div>
-        </div>
-</div>
-
-<!-- step 4 -->
-
-<div *ngIf="currentStep == 4 && tipoUsuario=='ESTUDIANTE'" class="well well-lg">
-    <h2>Mis gustos</h2>
-    <p>Seleccione cada uno de sus gustos.</p>
-    <ul class="nav nav-tabs">
-        <li [ngClass]="{'active': activeTabGustos == 'generales'}" ><a data-toggle="tab" (click)="goTo('generales','gustos')">Generales</a></li>
-        <li [ngClass]="{'active': activeTabGustos == 'deportes'}" ><a data-toggle="tab" (click)="goTo('deportes','gustos')">Deportes</a></li>
-        <li [ngClass]="{'active': activeTabGustos == 'artes'}"><a data-toggle="tab" (click)="goTo('artes','gustos')">Artes</a></li>
-    </ul>
-    
-    <div class="tab-content">
-        <div id="generales" [ngClass]="activeTabGustos == 'generales' ? 'tab-pane fade in active' : 'tab-pane fade'">
-            <br>
-            <div *ngIf="activeTabGustos == 'generales'" class="row">
-                <div class="col-xs-3" *ngFor="let g of gustosGenerales">
-                    <a [ngClass]="isCheckWithId(g,gustos) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
                 </div>
             </div>
-        </div>
-        <div id="deportes" [ngClass]="activeTabGustos == 'deportes' ? 'tab-pane fade in active' : 'tab-pane fade'">
-            <br>
-            <div *ngIf="activeTabGustos == 'deportes'" class="row">
-                <div class="col-xs-3" *ngFor="let g of gustosDeportes">
-                    <a [ngClass]="isCheckWithId(g,gustos) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
-                </div>
-            </div>
-        </div>
-        <div id="artes" [ngClass]="activeTabGustos == 'artes' ? 'tab-pane fade in active' : 'tab-pane fade'">
-            <br>
-            <div *ngIf="activeTabGustos == 'artes'" class="row">
-                <div class="col-xs-3" *ngFor="let g of gustosArtes">
-                    <a [ngClass]="isCheckWithId(g,gustos) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
-                </div>
-            </div>
-        </div>
+            <button type="submit" class="btn btn-primary btn-block">Continuar</button>
+        </form>
     </div>
-    <button (click)="next()" class="btn btn-primary btn-block">Continuar</button>
-</div>
 
-<div *ngIf="(currentStep == 5 && tipoUsuario=='ESTUDIANTE')
-            || (currentStep == 4 && tipoUsuario=='EGRESADO')" class="well well-lg">
-    <form novalidate class="form-horizontal" (ngSubmit)="next()">
-        <h2>Perfil de usuario</h2>
-        <p>En cada una de las siguientes pestañas seleccione sus énfasis y las áreas de conocimiento que le interesan.</p>
+    <!-- step 3 -->
+    <div *ngIf="currentStep == 3" class="well well-lg">
+        <h2>Personalidad</h2>
+        <p>Eliga su personalidad (Puede tomar el test aquí: <a target="_blank" href="https://www.16personalities.com/es/test-de-personalidad">Test de Personalidad</a>)
+            <div class="row">
+                <div class="col-xs-3" *ngFor="let p of personalidades">
+                    <a (click)="verifyStep3(p)" class="thumbnail"><img src="images/personalidades/{{p.nombre}}.png" class="img-responsive"></a>
+                </div>
+            </div>
+    </div>
+
+    <!-- step 4 -->
+
+    <div *ngIf="currentStep == 4 && tipoUsuario=='ESTUDIANTE'" class="well well-lg">
+        <h2>Mis gustos</h2>
+        <p>Seleccione cada uno de sus gustos.</p>
         <ul class="nav nav-tabs">
-            <li [ngClass]="{'active' : activeTabEnfasis == 'enfasis'}"><a data-toggle="tab" (click)="goTo('enfasis','enfasis')">Mis énfasis</a></li>
-            <li [ngClass]="{'active' : activeTabEnfasis == 'ac'}"><a data-toggle="tab" (click)="goTo('ac','enfasis')">Mis áreas de conocimiento</a></li>
+            <li [ngClass]="{'active': activeTabGustos == 'generales'}"><a data-toggle="tab" (click)="goTo('generales','gustos')">Generales</a></li>
+            <li [ngClass]="{'active': activeTabGustos == 'deportes'}"><a data-toggle="tab" (click)="goTo('deportes','gustos')">Deportes</a></li>
+            <li [ngClass]="{'active': activeTabGustos == 'artes'}"><a data-toggle="tab" (click)="goTo('artes','gustos')">Artes</a></li>
         </ul>
 
         <div class="tab-content">
-            <div *ngIf="activeTabEnfasis == 'enfasis'" id="enfasis" 
-                [ngClass]="activeTabEnfasis == 'enfasis' ? 'tab-pane fade in active':'tab-pane fade'">
+            <div id="generales" [ngClass]="activeTabGustos == 'generales' ? 'tab-pane fade in active' : 'tab-pane fade'">
                 <br>
-                <h2>Énfasis de {{carrera.nombre}}</h2>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Énfasis principal</label>
-                    <div class="col-sm-10">
-                        <select [(ngModel)]="enfasisPrincipal" class="form-control" name="enfasisPrincipal">
-                            <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
-                        </select>
+                <div *ngIf="activeTabGustos == 'generales'" class="row">
+                    <div class="col-xs-3" *ngFor="let g of gustosGenerales">
+                        <a [ngClass]="isCheckWithId(g,gustos) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Énfasis Secundario</label>
-                    <div class="col-sm-10">
-                        <select [(ngModel)]="enfasisSecundario" class="form-control" name="enfasisSecundario">
-                            <option value="null">Ninguna</option>
-                            <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
-                        </select>
+            </div>
+            <div id="deportes" [ngClass]="activeTabGustos == 'deportes' ? 'tab-pane fade in active' : 'tab-pane fade'">
+                <br>
+                <div *ngIf="activeTabGustos == 'deportes'" class="row">
+                    <div class="col-xs-3" *ngFor="let g of gustosDeportes">
+                        <a [ngClass]="isCheckWithId(g,gustos) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
                     </div>
                 </div>
-                <div *ngIf="segundaCarrera">
-                    <h2>Énfasis de {{segundaCarrera.nombre}}</h2>
+            </div>
+            <div id="artes" [ngClass]="activeTabGustos == 'artes' ? 'tab-pane fade in active' : 'tab-pane fade'">
+                <br>
+                <div *ngIf="activeTabGustos == 'artes'" class="row">
+                    <div class="col-xs-3" *ngFor="let g of gustosArtes">
+                        <a [ngClass]="isCheckWithId(g,gustos) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button (click)="next()" class="btn btn-primary btn-block">Continuar</button>
+    </div>
+
+    <div *ngIf="(currentStep == 5 && tipoUsuario=='ESTUDIANTE')
+            || (currentStep == 4 && tipoUsuario=='EGRESADO')" class="well well-lg">
+        <form novalidate class="form-horizontal" (ngSubmit)="next()">
+            <h2>Perfil de usuario</h2>
+            <p>En cada una de las siguientes pestañas seleccione sus énfasis y las áreas de conocimiento que le interesan.</p>
+            <ul class="nav nav-tabs">
+                <li [ngClass]="{'active' : activeTabEnfasis == 'enfasis'}"><a data-toggle="tab" (click)="goTo('enfasis','enfasis')">Mis énfasis</a></li>
+                <li [ngClass]="{'active' : activeTabEnfasis == 'ac'}"><a data-toggle="tab" (click)="goTo('ac','enfasis')">Mis áreas de conocimiento</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div *ngIf="activeTabEnfasis == 'enfasis'" id="enfasis" [ngClass]="activeTabEnfasis == 'enfasis' ? 'tab-pane fade in active':'tab-pane fade'">
+                    <br>
+                    <h2>Énfasis de {{carrera.nombre}}</h2>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Énfasis principal</label>
                         <div class="col-sm-10">
-                            <select [(ngModel)]="enfasisPrincipalSegundaCarrera" class="form-control" name="enfasisPrincipalSegundaCarrera">
-                                <option *ngFor="let e of enfasisSegundaCarrera" [ngValue]="e" >{{e.nombre}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Énfasis secundario</label>
-                        <div class="col-sm-10">
-                            <select [(ngModel)]="enfasisSecundarioSegundaCarrera" class="form-control" name="enfasisSecundarioSegundaCarrera">
-                                <option value="null">Ninguna</option>
-                                <option *ngFor="let e of enfasisSegundaCarrera" [ngValue]="e" >{{e.nombre}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div *ngIf="activeTabEnfasis == 'ac'" id="ac" 
-                [ngClass]="activeTabEnfasis == 'ac' ? 'tab-pane fade in active':'tab-pane fade'">
-                <br>
-                <h2>Áreas de conocimiento de {{carrera.nombre}}</h2>
-                <div class="form-group">
-                    <div class="col-sm-4" *ngFor="let ac of ACCarrera; let i of index">
-                        <label><input name="ac_$i" [checked]="isCheckWithName(ac,ACSelected)" type="checkbox" (click)="checkACPrincipal(ac)"/>{{ac.nombre}}</label>
-                    </div>
-                </div>
-                <div *ngIf="segundaCarrera">
-                    <h2>Áreas de conocimiento de {{segundaCarrera.nombre}}</h2>
-                    <div class="form-group">
-                        <div class="col-sm-4" *ngFor="let ac of ACSegundaCarrera; let i of index">
-                            <label><input name="ac2_$i" [checked]="isCheckWithName(ac,ACSelectedSegunda)" type="checkbox" (click)="checkACSecundario(ac)"/>{{ac.nombre}}</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Continuar</button>
-    </form>
-</div>
-
-<div *ngIf="(currentStep == 6 && tipoUsuario=='ESTUDIANTE')
-            || (currentStep == 5 && tipoUsuario=='EGRESADO')" class="well well-lg">
-    <form novalidate class="form-horizontal" (ngSubmit)="sendRequestSignUp()">
-        <h2>Perfil de usuario</h2>
-        <p>En cada una de las siguientes pestañas seleccione sus habilidades personales y profesionales.</p>
-        <ul class="nav nav-tabs">
-            <li [ngClass]="{'active':activeTabHabilidades == 'personales'}" ><a data-toggle="tab" (click)="goTo('personales','habilidades')">Habilidades Personales</a></li>
-            <li [ngClass]="{'active':activeTabHabilidades == 'profesionales'}" ><a data-toggle="tab" (click)="goTo('profesionales','habilidades')">Habilidades Profesionales</a></li>
-        </ul>
-
-        <div class="tab-content">
-            <div *ngIf="activeTabHabilidades == 'personales'" id="personales" 
-                [ngClass]="activeTabHabilidades == 'personales'?'tab-pane fade in active':'tab-pane fade'">
-                <h2>Habilidades personales</h2>
-                <div class="form-group">
-                    <div class="col-sm-4" *ngFor="let h of habilidadesPersonales; let i of index">
-                        <label><input [checked]="isCheckWithId(h,habilidadesPerSelected)" (click)="checkHabilidadesPerSelected(h)" name="hp_$i" type="checkbox" value="h" checked/>{{h.nombre}}</label>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="activeTabHabilidades == 'profesionales'" id="profesionales" 
-                [ngClass]="activeTabHabilidades == 'profesionales'?'tab-pane fade in active':'tab-pane fade'">
-                <br>
-                <h2>Habilidades profesionales de {{carrera.nombre}}</h2>
-                <div class="form-group">
-                    <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
-                        <label><input [checked]="isCheckWithId(h,habilidadesProSelected)" (click)="checkHabilidadesProSelected(h)" name="h_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
-                    </div>
-                </div>
-                <div *ngIf="segundaCarrera">
-                    <h2>Habilidades profesionales de {{segundaCarrera.nombre}}</h2>
-                    <div class="form-group">
-                        <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesSegunda; let i of index">
-                            <label><input [checked]="isCheckWithId(h,habilidadesProSegSelected)" (click)="checkHabilidadesProSegSelected(h)" name="h2_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Finalizar</button>
-    </form>
-</div>
-
-<div *ngIf="(currentStep == 4 && tipoUsuario=='PROFESOR')" class="well well-lg">
-    <form novalidate class="form-horizontal" (ngSubmit)="next()">
-        <h2>Perfil de usuario</h2>
-        <p>En cada una de las siguientes pestañas seleccione sus énfasis y las áreas de conocimiento en las que tiene experiencia.</p>
-        <ul class="nav nav-tabs">
-            <li [ngClass]="{'active' : activeTabEnfasis == 'enfasis'}"><a data-toggle="tab" (click)="goTo('enfasis','enfasis')" >Mis énfasis</a></li>
-            <li [ngClass]="{'active' : activeTabEnfasis == 'ac'}"><a data-toggle="tab" (click)="goTo('ac','enfasis')" >Mis áreas de conocimiento</a></li>
-        </ul>
-
-        <div class="tab-content">
-            <div *ngIf="activeTabEnfasis == 'enfasis'" id="enfasis" 
-                [ngClass]="activeTabEnfasis == 'enfasis' ? 'tab-pane fade in active':'tab-pane fade'">
-                <br>
-                <h2>Énfasis de {{carrera.nombre}}</h2>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Énfasis principal</label>
-                    <div class="col-sm-10">
-                        <select [(ngModel)]="enfasisPrincipal" class="form-control" name="enfasisPrincipal">
+                            <select [(ngModel)]="enfasisPrincipal" class="form-control" name="enfasisPrincipal">
                             <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
                         </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Énfasis Secundario</label>
+                        <div class="col-sm-10">
+                            <select [(ngModel)]="enfasisSecundario" class="form-control" name="enfasisSecundario">
+                            <option value=null>Ninguna</option>
+                            <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div *ngIf="segundaCarrera">
+                        <h2>Énfasis de {{segundaCarrera.nombre}}</h2>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Énfasis principal</label>
+                            <div class="col-sm-10">
+                                <select [(ngModel)]="enfasisPrincipalSegundaCarrera" class="form-control" name="enfasisPrincipalSegundaCarrera">
+                                <option *ngFor="let e of enfasisSegundaCarrera" [ngValue]="e" >{{e.nombre}}</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Énfasis secundario</label>
+                            <div class="col-sm-10">
+                                <select [(ngModel)]="enfasisSecundarioSegundaCarrera" class="form-control" name="enfasisSecundarioSegundaCarrera">
+                                <option value=null>Ninguna</option>
+                                <option *ngFor="let e of enfasisSegundaCarrera" [ngValue]="e" >{{e.nombre}}</option>
+                            </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Énfasis Secundario</label>
-                    <div class="col-sm-10">
-                        <select [(ngModel)]="enfasisSecundario" class="form-control" name="enfasisSecundario">
+
+                <div *ngIf="activeTabEnfasis == 'ac'" id="ac" [ngClass]="activeTabEnfasis == 'ac' ? 'tab-pane fade in active':'tab-pane fade'">
+                    <br>
+                    <h2>Áreas de conocimiento de {{carrera.nombre}}</h2>
+                    <div class="form-group">
+                        <div class="col-sm-4" *ngFor="let ac of ACCarrera; let i of index">
+                            <label><input name="ac_$i" [checked]="isCheckWithName(ac,ACSelected)" type="checkbox" (click)="checkACPrincipal(ac)"/>{{ac.nombre}}</label>
+                        </div>
+                    </div>
+                    <div *ngIf="segundaCarrera">
+                        <h2>Áreas de conocimiento de {{segundaCarrera.nombre}}</h2>
+                        <div class="form-group">
+                            <div class="col-sm-4" *ngFor="let ac of ACSegundaCarrera; let i of index">
+                                <label><input name="ac2_$i" [checked]="isCheckWithName(ac,ACSelectedSegunda)" type="checkbox" (click)="checkACSecundario(ac)"/>{{ac.nombre}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Continuar</button>
+        </form>
+    </div>
+
+    <div *ngIf="(currentStep == 6 && tipoUsuario=='ESTUDIANTE')
+            || (currentStep == 5 && tipoUsuario=='EGRESADO')" class="well well-lg">
+        <form novalidate class="form-horizontal" (ngSubmit)="sendRequestSignUp()">
+            <h2>Perfil de usuario</h2>
+            <p>En cada una de las siguientes pestañas seleccione sus habilidades personales y profesionales.</p>
+            <ul class="nav nav-tabs">
+                <li [ngClass]="{'active':activeTabHabilidades == 'personales'}"><a data-toggle="tab" (click)="goTo('personales','habilidades')">Habilidades Personales</a></li>
+                <li [ngClass]="{'active':activeTabHabilidades == 'profesionales'}"><a data-toggle="tab" (click)="goTo('profesionales','habilidades')">Habilidades Profesionales</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div *ngIf="activeTabHabilidades == 'personales'" id="personales" [ngClass]="activeTabHabilidades == 'personales'?'tab-pane fade in active':'tab-pane fade'">
+                    <h2>Habilidades personales</h2>
+                    <div class="form-group">
+                        <div class="col-sm-4" *ngFor="let h of habilidadesPersonales; let i of index">
+                            <label><input [checked]="isCheckWithId(h,habilidadesPerSelected)" (click)="checkHabilidadesPerSelected(h)" name="hp_$i" type="checkbox" value="h" checked/>{{h.nombre}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="activeTabHabilidades == 'profesionales'" id="profesionales" [ngClass]="activeTabHabilidades == 'profesionales'?'tab-pane fade in active':'tab-pane fade'">
+                    <br>
+                    <h2>Habilidades profesionales de {{carrera.nombre}}</h2>
+                    <div class="form-group">
+                        <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
+                            <label><input [checked]="isCheckWithId(h,habilidadesProSelected)" (click)="checkHabilidadesProSelected(h)" name="h_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                        </div>
+                    </div>
+                    <div *ngIf="segundaCarrera">
+                        <h2>Habilidades profesionales de {{segundaCarrera.nombre}}</h2>
+                        <div class="form-group">
+                            <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesSegunda; let i of index">
+                                <label><input [checked]="isCheckWithId(h,habilidadesProSegSelected)" (click)="checkHabilidadesProSegSelected(h)" name="h2_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Finalizar</button>
+        </form>
+    </div>
+
+    <div *ngIf="(currentStep == 4 && tipoUsuario=='PROFESOR')" class="well well-lg">
+        <form novalidate class="form-horizontal" (ngSubmit)="next()">
+            <h2>Perfil de usuario</h2>
+            <p>En cada una de las siguientes pestañas seleccione sus énfasis y las áreas de conocimiento en las que tiene experiencia.</p>
+            <ul class="nav nav-tabs">
+                <li [ngClass]="{'active' : activeTabEnfasis == 'enfasis'}"><a data-toggle="tab" (click)="goTo('enfasis','enfasis')">Mis énfasis</a></li>
+                <li [ngClass]="{'active' : activeTabEnfasis == 'ac'}"><a data-toggle="tab" (click)="goTo('ac','enfasis')">Mis áreas de conocimiento</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div *ngIf="activeTabEnfasis == 'enfasis'" id="enfasis" [ngClass]="activeTabEnfasis == 'enfasis' ? 'tab-pane fade in active':'tab-pane fade'">
+                    <br>
+                    <h2>Énfasis de {{carrera.nombre}}</h2>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Énfasis principal</label>
+                        <div class="col-sm-10">
+                            <select [(ngModel)]="enfasisPrincipal" class="form-control" name="enfasisPrincipal">
+                            <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Énfasis Secundario</label>
+                        <div class="col-sm-10">
+                            <select [(ngModel)]="enfasisSecundario" class="form-control" name="enfasisSecundario">
                             <option value="null">Ninguna</option>
                             <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
                         </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div *ngIf="activeTabEnfasis == 'ac'" id="ac" 
-                [ngClass]="activeTabEnfasis == 'ac' ? 'tab-pane fade in active':'tab-pane fade'">
-                <br>
-                <h2>Mi experiencia en Áreas de Conocimiento de {{carrera.nombre}}</h2>
-                <div class="form-group" *ngFor="let ac of ACCarrera; let i of index">
-                    <div class="col-sm-6 aconocimiento">
-                        <label><input name="ac_$i" [checked]="isCheckWithName(ac,ACSelected)" type="checkbox" (click)="checkACPrincipal(ac)"/>{{ac.nombre}}</label>
-                    </div>
-                    <div class="col-sm-6">
-                        <select [(ngModel)]="ac.porcentaje" class="form-control" name="percentageAC">
+                <div *ngIf="activeTabEnfasis == 'ac'" id="ac" [ngClass]="activeTabEnfasis == 'ac' ? 'tab-pane fade in active':'tab-pane fade'">
+                    <br>
+                    <h2>Mi experiencia en Áreas de Conocimiento de {{carrera.nombre}}</h2>
+                    <div class="form-group" *ngFor="let ac of ACCarrera; let i of index">
+                        <div class="col-sm-6 aconocimiento">
+                            <label><input name="ac_$i" [checked]="isCheckWithName(ac,ACSelected)" type="checkbox" (click)="checkACPrincipal(ac)"/>{{ac.nombre}}</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <select [(ngModel)]="ac.porcentaje" class="form-control" name="percentageAC">
                             <option value=0>0%</option>
                             <option value=10>10%</option>
                             <option value=20>20%</option>
@@ -393,45 +388,44 @@
                             <option value=90>90%</option>
                             <option value=100>100%</option>
                         </select>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Continuar</button>
-    </form>
-</div>
+            <button type="submit" class="btn btn-primary btn-block">Continuar</button>
+        </form>
+    </div>
 
-<div *ngIf="(currentStep == 5 && tipoUsuario=='PROFESOR')" class="well well-lg">
-    <form novalidate class="form-horizontal" (ngSubmit)="sendRequestSignUp()">
-        <h2>Perfil de usuario</h2>
-        <p>En cada una de las siguientes pestañas seleccione sus cualidades como profesor y como profesional.</p>
-        <ul class="nav nav-tabs">
-            <li [ngClass]="{'active':activeTabCualidades == 'profesor'}"><a data-toggle="tab" (click)="goTo('profesor','cualidades')">Cualidades como Profesor</a></li>
-            <li [ngClass]="{'active':activeTabCualidades == 'profesional'}"><a data-toggle="tab" (click)="goTo('profesional','cualidades')">Cualidades como Profesional</a></li>
-        </ul>
+    <div *ngIf="(currentStep == 5 && tipoUsuario=='PROFESOR')" class="well well-lg">
+        <form novalidate class="form-horizontal" (ngSubmit)="sendRequestSignUp()">
+            <h2>Perfil de usuario</h2>
+            <p>En cada una de las siguientes pestañas seleccione sus cualidades como profesor y como profesional.</p>
+            <ul class="nav nav-tabs">
+                <li [ngClass]="{'active':activeTabCualidades == 'profesor'}"><a data-toggle="tab" (click)="goTo('profesor','cualidades')">Cualidades como Profesor</a></li>
+                <li [ngClass]="{'active':activeTabCualidades == 'profesional'}"><a data-toggle="tab" (click)="goTo('profesional','cualidades')">Cualidades como Profesional</a></li>
+            </ul>
 
-        <div class="tab-content">
-            <div *ngIf="activeTabCualidades == 'profesor'" id="profesor" 
-                [ngClass]="activeTabCualidades == 'profesor' ? 'tab-pane fade in active':'tab-pane fade'">
-                <br>
-                <h2>Cualidades como profesor</h2>
-                <div class="form-group">
-                    <div class="col-sm-4" *ngFor="let c of cualidades; let i of index">
-                        <label><input [checked]="isCheckWithId(c,cualidadesProfesor)" (click)="checkCualidadesProfesor(c)" name="cp_$i" type="checkbox" value="c"/>{{c.nombre}}</label>
+            <div class="tab-content">
+                <div *ngIf="activeTabCualidades == 'profesor'" id="profesor" [ngClass]="activeTabCualidades == 'profesor' ? 'tab-pane fade in active':'tab-pane fade'">
+                    <br>
+                    <h2>Cualidades como profesor</h2>
+                    <div class="form-group">
+                        <div class="col-sm-4" *ngFor="let c of cualidades; let i of index">
+                            <label><input [checked]="isCheckWithId(c,cualidadesProfesor)" (click)="checkCualidadesProfesor(c)" name="cp_$i" type="checkbox" value="c"/>{{c.nombre}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="activeTabCualidades == 'profesional'" id="profesional" [ngClass]="activeTabCualidades == 'profesional' ? 'tab-pane fade in active':'tab-pane fade'">
+                    <br>
+                    <h2>Cualidades profesionales</h2>
+                    <div class="form-group">
+                        <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
+                            <label><input [checked]="isCheckWithId(h,habilidadesProSelected)" (click)="checkHabilidadesProSelected(h)" name="hpp_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div *ngIf="activeTabCualidades == 'profesional'" id="profesional"
-                [ngClass]="activeTabCualidades == 'profesional' ? 'tab-pane fade in active':'tab-pane fade'">
-                <br>
-                <h2>Cualidades profesionales</h2>
-                <div class="form-group">
-                    <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
-                        <label><input [checked]="isCheckWithId(h,habilidadesProSelected)" (click)="checkHabilidadesProSelected(h)" name="hpp_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Finalizar</button>
-    </form>
+            <button type="submit" class="btn btn-primary btn-block">Finalizar</button>
+        </form>
+    </div>
 </div>

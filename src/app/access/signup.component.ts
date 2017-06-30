@@ -352,15 +352,14 @@ export class SignUpComponent implements OnInit {
         usuario.enfasis = enfasisList;
 
         if(this.segundaCarrera)
-            this.ACSelected.concat(this.ACSelectedSegunda);
-        
-        usuario.areasConocimiento = this.ACSelected;
+            usuario.areasConocimiento = this.ACSelected.concat(this.ACSelectedSegunda);
+        else
+            usuario.areasConocimiento = this.ACSelected;
 
         //Step 6 attributes
         //Step 5 attributes for profesor and egresado
-        this.habilidadesPerSelected.concat(this.habilidadesProSelected,
+        usuario.habilidades = this.habilidadesPerSelected.concat(this.habilidadesProSelected,
                         this.habilidadesProSegSelected);
-        usuario.habilidades = this.habilidadesPerSelected;
         usuario.cualidades = this.cualidades;
 
         this.usuarioService.crearUsuario(usuario)
