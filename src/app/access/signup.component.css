@@ -50,7 +50,8 @@ img{
 }
 .check{
     opacity:0.5;
-	background:lightgreen;
+	background:gray;
+    color:white;
 }
 .aconocimiento{
     text-align: right;

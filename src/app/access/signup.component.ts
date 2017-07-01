@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SignUpValidation } from '../utils/signup.validation';
 
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 //Entities
 import { Personalidad } from '../entities/personalidad';
@@ -66,7 +66,7 @@ export class SignUpComponent implements OnInit {
     carrera: Carrera;
     segundaCarrera: Carrera;
     semestre: number;
-    seminario: boolean;
+    seminario: any;
     temaTG: boolean;
 
     //Step 3 attributes
@@ -133,10 +133,21 @@ export class SignUpComponent implements OnInit {
     }
 
     ngOnInit() {
+        //reset all
+        this.ACSelected = [];
+        this.ACSelectedSegunda = [];
+
+        //Step 6 attributes
+        //Step 5 attributes for profesor and egresado
+        this.habilidadesPerSelected = [];
+        this.habilidadesProSelected = [];
+        this.habilidadesProSegSelected = [];
+        this.cualidadesProfesor = [];
+
         this.stepOneForm = this.fb.group({
             password: ['', Validators.compose([Validators.required,
-            Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')])],
-            email: ['', [Validators.required, Validators.pattern(/^[0-9]*[a-zA-Z]+([a-zA-Z]*[0-9]*)*@[0-9]*[a-zA-Z]+([a-zA-Z]*[0-9]*)*(\.[a-zA-Z]+)+$/i)]],
+            Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[ "/\(\)+=¿¡{|}[+\',.:;<=>`°¬@_~#?!@$%^&*-]).{8,}$')])],
+            email: ['', [Validators.required, Validators.pattern(/^[0-9a-zA-Z]+([.\-_][0-9a-zA-Z]+)*@[0-9a-zA-Z]+(\.[a-zA-Z]+)+$/i)]],
             name: ['', Validators.required],
             lastName: ['', Validators.required],
             confirmPassword: ['', Validators.required],
@@ -211,7 +222,7 @@ export class SignUpComponent implements OnInit {
                         let acono: AreaConocimiento = new AreaConocimiento();
                         acono.carrera = this.segundaCarrera.nombre;
                         acono.nombre = ac;
-                        acono.porcentaje=0;
+                        acono.porcentaje = 0;
                         this.ACSegundaCarrera.push(acono);
                     }
 
@@ -258,6 +269,36 @@ export class SignUpComponent implements OnInit {
     }
 
     next() {
+        //this.currentStep += 1;
+        if (this.tipoUsuario == "ESTUDIANTE") {
+            if (this.currentStep == 4) {
+                if (this.activeTabGustos == "generales")
+                    this.activeTabGustos = "deportes";
+                else
+                    if (this.activeTabGustos == "deportes")
+                        this.activeTabGustos = "artes";
+                    else
+                        if (this.activeTabGustos == "artes")
+                            this.currentStep += 1;
+                return;
+            }
+            if (this.currentStep == 5) {
+                if (this.activeTabEnfasis == "enfasis")
+                    this.activeTabEnfasis = "ac";
+                else
+                    this.currentStep += 1;
+                return;
+            }
+        }
+        if (this.tipoUsuario != "ESTUDIANTE") {
+            if (this.currentStep == 4) {
+                if (this.activeTabEnfasis == "enfasis")
+                    this.activeTabEnfasis = "ac";
+                else
+                    this.currentStep += 1;
+                return;
+            }
+        }
         this.currentStep += 1;
     }
 
@@ -319,6 +360,16 @@ export class SignUpComponent implements OnInit {
     }
 
     sendRequestSignUp() {
+        if ((this.currentStep == 6 || (this.tipoUsuario == "EGRESADO" && this.currentStep == 5)) 
+            && this.activeTabHabilidades == "personales") {
+            this.activeTabHabilidades = "profesionales";
+            return;
+        }else{
+            if(this.tipoUsuario == "PROFESOR" && this.activeTabCualidades == "profesor"){
+                this.activeTabCualidades = "profesional";
+                return;
+            }
+        }
         let usuario = new Usuario();
         usuario.nombre = this.nombre;
         usuario.apellido = this.apellido;
@@ -345,13 +396,13 @@ export class SignUpComponent implements OnInit {
         let enfasisList: Enfasis[] = [];
         enfasisList.push(this.enfasisPrincipal);
         enfasisList.push(this.enfasisSecundario);
-        if(this.segundaCarrera){
+        if (this.segundaCarrera) {
             enfasisList.push(this.enfasisPrincipalSegundaCarrera);
             enfasisList.push(this.enfasisSecundarioSegundaCarrera);
         }
         usuario.enfasis = enfasisList;
 
-        if(this.segundaCarrera)
+        if (this.segundaCarrera)
             usuario.areasConocimiento = this.ACSelected.concat(this.ACSelectedSegunda);
         else
             usuario.areasConocimiento = this.ACSelected;
@@ -359,25 +410,25 @@ export class SignUpComponent implements OnInit {
         //Step 6 attributes
         //Step 5 attributes for profesor and egresado
         usuario.habilidades = this.habilidadesPerSelected.concat(this.habilidadesProSelected,
-                        this.habilidadesProSegSelected);
-        usuario.cualidades = this.cualidades;
+            this.habilidadesProSegSelected);
+        usuario.cualidades = this.cualidadesProfesor;
 
         this.usuarioService.crearUsuario(usuario)
             .subscribe(
-                res => res // send to next screen
-                ,error => console.log('error: '+error)
+            res => res // send to next screen
+            , error => console.log('error: ' + error)
             );
     }
 
-    goTo(location, where){
-        if(where == 'enfasis')
+    goTo(location, where) {
+        if (where == 'enfasis')
             this.activeTabEnfasis = location;
-        if(where == 'gustos')
+        if (where == 'gustos')
             this.activeTabGustos = location;
-        if(where == 'habilidades'){
+        if (where == 'habilidades') {
             this.activeTabHabilidades = location;
         }
-        if(where == 'cualidades'){
+        if (where == 'cualidades') {
             this.activeTabCualidades = location;
         }
     }

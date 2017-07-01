@@ -42,7 +42,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Apellido</label>
                 <div class="col-sm-10">
-                    <input [(ngModel)]="apellido" class="form-control" type="text" placeholder="Click to focus" formControlName="lastName">
+                    <input [(ngModel)]="apellido" class="form-control" type="text" formControlName="lastName">
                     <div class="alert alert-danger" *ngIf="stepOneForm.get('lastName').touched && stepOneForm.get('lastName').hasError('required')">
                         Apellido es requerido.
                     </div>
@@ -51,7 +51,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Correo Electrónico</label>
                 <div class="col-sm-10">
-                    <input [(ngModel)]="email" class="form-control" type="text" placeholder="Click to focus" formControlName="email">
+                    <input [(ngModel)]="email" class="form-control" type="text" formControlName="email">
                     <div class="alert alert-danger" *ngIf="stepOneForm.get('email').touched && stepOneForm.get('email').hasError('required')">
                         Correo Electrónico es requerido.
                     </div>
@@ -63,7 +63,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Nombre de usuario</label>
                 <div class="col-sm-10">
-                    <input [(ngModel)]="username" class="form-control" type="text" placeholder="Click to focus" formControlName="username">
+                    <input [(ngModel)]="username" class="form-control" type="text" formControlName="username">
                     <div class="alert alert-danger" *ngIf="stepOneForm.get('username').touched && stepOneForm.get('username').hasError('required')">
                         Nombre de usuario es requerido.
                     </div>
@@ -153,6 +153,7 @@
                     <select [(ngModel)]="seminario" class="form-control" name="seminario">
                     <option [ngValue]="true">Si</option>
                     <option [ngValue]="false">No</option>
+                    <option [ngValue]=null>No Aplica</option>
                 </select>
                 </div>
             </div>
@@ -278,14 +279,16 @@
                     <h2>Áreas de conocimiento de {{carrera.nombre}}</h2>
                     <div class="form-group">
                         <div class="col-sm-4" *ngFor="let ac of ACCarrera; let i of index">
-                            <label><input name="ac_$i" [checked]="isCheckWithName(ac,ACSelected)" type="checkbox" (click)="checkACPrincipal(ac)"/>{{ac.nombre}}</label>
+                            <!--<label><input name="ac_$i" [checked]="isCheckWithName(ac,ACSelected)" type="checkbox" (click)="checkACPrincipal(ac)"/>{{ac.nombre}}</label>-->
+                            <a [ngClass]="isCheckWithName(ac,ACSelected) ? 'thumbnail check':'thumbnail'" (click)="checkACPrincipal(ac)">{{ac.nombre}}</a>
                         </div>
                     </div>
                     <div *ngIf="segundaCarrera">
                         <h2>Áreas de conocimiento de {{segundaCarrera.nombre}}</h2>
                         <div class="form-group">
                             <div class="col-sm-4" *ngFor="let ac of ACSegundaCarrera; let i of index">
-                                <label><input name="ac2_$i" [checked]="isCheckWithName(ac,ACSelectedSegunda)" type="checkbox" (click)="checkACSecundario(ac)"/>{{ac.nombre}}</label>
+                                <!--<label><input name="ac2_$i" [checked]="isCheckWithName(ac,ACSelectedSegunda)" type="checkbox" (click)="checkACSecundario(ac)"/>{{ac.nombre}}</label>-->
+                                <a [ngClass]="isCheckWithName(ac,ACSelectedSegunda) ? 'thumbnail check':'thumbnail'" (click)="checkACSecundario(ac)">{{ac.nombre}}</a>
                             </div>
                         </div>
                     </div>
@@ -310,7 +313,8 @@
                     <h2>Habilidades personales</h2>
                     <div class="form-group">
                         <div class="col-sm-4" *ngFor="let h of habilidadesPersonales; let i of index">
-                            <label><input [checked]="isCheckWithId(h,habilidadesPerSelected)" (click)="checkHabilidadesPerSelected(h)" name="hp_$i" type="checkbox" value="h" checked/>{{h.nombre}}</label>
+                            <!--<label><input [checked]="isCheckWithId(h,habilidadesPerSelected)" (click)="checkHabilidadesPerSelected(h)" name="hp_$i" type="checkbox" value="h" checked/>{{h.nombre}}</label>-->
+                            <a [ngClass]="isCheckWithId(h,habilidadesPerSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidadesPerSelected(h)">{{h.nombre}}</a>
                         </div>
                     </div>
                 </div>
@@ -319,14 +323,16 @@
                     <h2>Habilidades profesionales de {{carrera.nombre}}</h2>
                     <div class="form-group">
                         <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
-                            <label><input [checked]="isCheckWithId(h,habilidadesProSelected)" (click)="checkHabilidadesProSelected(h)" name="h_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                            <!--<label><input [checked]="isCheckWithId(h,habilidadesProSelected)" (click)="checkHabilidadesProSelected(h)" name="h_$i" type="checkbox" value="h"/>{{h.nombre}}</label>-->
+                            <a [ngClass]="isCheckWithId(h,habilidadesProSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidadesProSelected(h)">{{h.nombre}}</a>
                         </div>
                     </div>
                     <div *ngIf="segundaCarrera">
                         <h2>Habilidades profesionales de {{segundaCarrera.nombre}}</h2>
                         <div class="form-group">
                             <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesSegunda; let i of index">
-                                <label><input [checked]="isCheckWithId(h,habilidadesProSegSelected)" (click)="checkHabilidadesProSegSelected(h)" name="h2_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                                <!--<label><input [checked]="isCheckWithId(h,habilidadesProSegSelected)" (click)="checkHabilidadesProSegSelected(h)" name="h2_$i" type="checkbox" value="h"/>{{h.nombre}}</label>-->
+                                <a [ngClass]="isCheckWithId(h,habilidadesProSegSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidadesProSegSelected(h)">{{h.nombre}}</a>
                             </div>
                         </div>
                     </div>
@@ -353,17 +359,17 @@
                         <label class="col-sm-2 control-label">Énfasis principal</label>
                         <div class="col-sm-10">
                             <select [(ngModel)]="enfasisPrincipal" class="form-control" name="enfasisPrincipal">
-                            <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
-                        </select>
+                                <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Énfasis Secundario</label>
                         <div class="col-sm-10">
                             <select [(ngModel)]="enfasisSecundario" class="form-control" name="enfasisSecundario">
-                            <option value="null">Ninguna</option>
-                            <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
-                        </select>
+                                <option value="null">Ninguna</option>
+                                <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -372,7 +378,8 @@
                     <h2>Mi experiencia en Áreas de Conocimiento de {{carrera.nombre}}</h2>
                     <div class="form-group" *ngFor="let ac of ACCarrera; let i of index">
                         <div class="col-sm-6 aconocimiento">
-                            <label><input name="ac_$i" [checked]="isCheckWithName(ac,ACSelected)" type="checkbox" (click)="checkACPrincipal(ac)"/>{{ac.nombre}}</label>
+                            <label><input name="ac_$i" [checked]="isCheckWithName(ac,ACSelected)" type="checkbox" (click)="checkACPrincipal(ac)"/>  {{ac.nombre}}</label>
+                            <!--<a [ngClass]="isCheckWithName(ac,ACSelected) ? 'thumbnail check':'thumbnail'" (click)="checkACPrincipal(ac)">{{ac.nombre}}</a>-->
                         </div>
                         <div class="col-sm-6">
                             <select [(ngModel)]="ac.porcentaje" class="form-control" name="percentageAC">
@@ -411,7 +418,8 @@
                     <h2>Cualidades como profesor</h2>
                     <div class="form-group">
                         <div class="col-sm-4" *ngFor="let c of cualidades; let i of index">
-                            <label><input [checked]="isCheckWithId(c,cualidadesProfesor)" (click)="checkCualidadesProfesor(c)" name="cp_$i" type="checkbox" value="c"/>{{c.nombre}}</label>
+                            <!--<label><input [checked]="isCheckWithId(c,cualidadesProfesor)" (click)="checkCualidadesProfesor(c)" name="cp_$i" type="checkbox" value="c"/>{{c.nombre}}</label>-->
+                            <a [ngClass]="isCheckWithId(c,cualidadesProfesor) ? 'thumbnail check':'thumbnail'" (click)="checkCualidadesProfesor(c)">{{c.nombre}}</a>
                         </div>
                     </div>
                 </div>
@@ -420,7 +428,8 @@
                     <h2>Cualidades profesionales</h2>
                     <div class="form-group">
                         <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
-                            <label><input [checked]="isCheckWithId(h,habilidadesProSelected)" (click)="checkHabilidadesProSelected(h)" name="hpp_$i" type="checkbox" value="h"/>{{h.nombre}}</label>
+                            <!--<label><input [checked]="isCheckWithId(h,habilidadesProSelected)" (click)="checkHabilidadesProSelected(h)" name="hpp_$i" type="checkbox" value="h"/>{{h.nombre}}</label>-->
+                            <a [ngClass]="isCheckWithId(h,habilidadesProSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidadesProSelected(h)">{{h.nombre}}</a>
                         </div>
                     </div>
                 </div>

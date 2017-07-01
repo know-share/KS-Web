@@ -62,9 +62,9 @@
             </div>
         </div>
     </div>
-    <div *ngIf="activeTab == 'info' && usuario.tipoUsuario != 'PROFESOR'">
+    <div *ngIf="activeTab == 'info'">
         <div class="row">
-            <div class="col-xs-12">
+            <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="col-xs-12">
                 <div class="panel panel-default">
                         <div class="panel-body">
                             <h3>Habilidades personales:</h3>
@@ -94,14 +94,28 @@
                             <div class="panel-body">
                                 <h3>Áreas de conocimiento:</h3>
                                 <p *ngIf="areasConocimiento?.length == 0">No tiene áreas de conocimiento asociadas</p>
-                                <p *ngFor="let ac of areasConocimiento">{{ac.nombre}}</p>
+                                <p *ngFor="let ac of areasConocimiento">
+                                    {{ac.nombre}} <span *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="badge">{{ac.porcentaje}} %</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="panel panel-default">
+                            <div class="panel-body">
+                                <h3>Cualidades como profesor:</h3>
+                                <p *ngIf="usuario.cualidades?.length == 0">No tiene cualidades como profesor registradas</p>
+                                <button *ngFor="let c of usuario.cualidades" type="button" class="btn btn-default">{{c.nombre}} <span class="badge">{{c.avales}}</span></button>
                             </div>
                         </div>
                         <div class="panel panel-default">
-                            <div class="panel-body">
+                            <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="panel-body">
                                 <h3>Habilidades profesionales:</h3>
                                 <p *ngIf="habilidadesProfesionales?.length == 0">No tiene habilidades profesionales registradas</p>
                                 <button *ngFor="let h of habilidadesProfesionales" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                            </div>
+                            <div *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="panel-body">
+                                <h3>Cualidades profesionales:</h3>
+                                <p *ngIf="habilidadesProfesionales?.length == 0">No tiene cualidades profesionales registradas</p>
+                                <button *ngFor="let h of usuario.habilidades" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                             </div>
                         </div>
                     </div>

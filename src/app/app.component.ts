@@ -13,6 +13,6 @@ export class AppComponent{
 
     myProfile(){
         //get from localStorage the username
-        this.router.navigate(['/user',"minmiguelm"]);
+        this.router.navigate(['/user',"luisa.barrera"]);
     }
 }
