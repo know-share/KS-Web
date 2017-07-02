@@ -1,37 +1,41 @@
 <div class="container">
-    <h1>Home</h1>
     <div class="row">
         <div class="col-xs-6">
             <div class="form-group">
+                
+                <label for="sel1">Seleccione el tipo de idea:</label>
+                    <select class="form-control" id="sel1" [(ngModel)] = "selectedValueTipo">
+                        <option>Nueva</option>
+                        <option>Para continuar</option>
+                        <option>Para empezar</option>
+                        <option>Proyecto</option>
+                    </select>
+            </div>
+        
+            <div class="form-group">
                 <h4>Contenido</h4>
                 <textarea class="form-control" rows="5" id="contenido"></textarea>
+            </div >
+
+            <div class="form-group" *ngIf = "selectedValueTipo == 'Para continuar' || selectedValueTipo == 'Para empezar'">
+                <label for="numero">Numero de estudiantes: </label>
+                <input class="form-control" type="number" id="numeroest" name="numeroest" [(ngModel)] = "numeroEstudiantes">        
             </div>
-            <div class="radio">
-                <h4>Estado</h4>
-                <label class="radio-inline"><input type="radio" name="optradio">Trabajo de grado</label>
-                <label class="radio-inline"><input type="radio" name="optradio">No trabajo de grado</label>
+
+            <div class="form-group" *ngIf = "selectedValueTipo == 'Para empezar'">
+                <label for="alcance">Alcance: </label>
+                <input class="form-control" type="text" id="alcance" name="alcance" [(ngModel)] = "alcance">
+
+                <label for="problematica">Problematica: </label>
+                <input class="form-control" type="text" id="problematica"name="problematica" [(ngModel)] = "problematica"> 
+
             </div>
-            <div class="radio">
-                <h4>Tipo de idea:</h4>
-                <label class="radio-inline"><input type="radio" name="optradio">Nueva</label>
-                <label class="radio-inline"><input type="radio" name="optradio">Para iniciar</label>
-                <label class="radio-inline"><input type="radio" name="optradio">Para continuar</label>
-                <label class="radio-inline"><input type="radio" name="optradio">Proyecto</label>
+            <div class="form-group" *ngIf = "selectedValueTipo == 'Proyecto'">
+                <button type="button" class="btn">Agregar ideas</button>
             </div>
-            <h4>Tags:</h4>
-            <div class="container">
-                <form>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="">Option 1</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="">Option 2</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="" >Option 3</label>
-                    </div>
-                </form>
-            </div>
+            <button type="button" class="btn btn-primary">Publicar</button>    
         </div>
+            
     </div>
+    
 </div>
