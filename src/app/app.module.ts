@@ -23,6 +23,9 @@ import { CualidadService } from './services/cualidad.service';
 import { AuthService } from './services/auth.service';
 import { ErrorService } from './error/error.service';
 
+import { AuthGuard } from './security/auth.guard';
+import { AuthReverseGuard } from './security/auth-reverse.guard';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -50,7 +53,9 @@ import { ErrorService } from './error/error.service';
         HabilidadService,
         CualidadService,
         AuthService,
-        ErrorService
+        ErrorService,
+        AuthGuard,
+        AuthReverseGuard
     ],
     bootstrap: [AppComponent]
 })

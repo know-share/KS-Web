@@ -14,6 +14,7 @@ import { Cualidad } from '../entities/cualidad';
 import { Enfasis } from '../entities/enfasis';
 import { AreaConocimiento } from '../entities/areaConocimiento';
 import { Usuario } from '../entities/usuario';
+import { Auth } from '../entities/auth';
 
 //Services
 import { PersonalidadService } from '../services/personalidad.service';
@@ -22,6 +23,7 @@ import { GustoService } from '../services/gusto.service';
 import { HabilidadService } from '../services/habilidad.service';
 import { UsuarioService } from '../services/usuario.service';
 import { CualidadService } from '../services/cualidad.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'signup',
@@ -99,7 +101,8 @@ export class SignUpComponent implements OnInit {
         private gustoService: GustoService,
         private habilidadService: HabilidadService,
         private usuarioService: UsuarioService,
-        private cualidadService: CualidadService
+        private cualidadService: CualidadService,
+        private authService: AuthService,
     ) {
         this.activeTabGustos = 'generales';
         this.activeTabEnfasis = 'enfasis';
@@ -360,12 +363,12 @@ export class SignUpComponent implements OnInit {
     }
 
     sendRequestSignUp() {
-        if ((this.currentStep == 6 || (this.tipoUsuario == "EGRESADO" && this.currentStep == 5)) 
+        if ((this.currentStep == 6 || (this.tipoUsuario == "EGRESADO" && this.currentStep == 5))
             && this.activeTabHabilidades == "personales") {
             this.activeTabHabilidades = "profesionales";
             return;
-        }else{
-            if(this.tipoUsuario == "PROFESOR" && this.activeTabCualidades == "profesor"){
+        } else {
+            if (this.tipoUsuario == "PROFESOR" && this.activeTabCualidades == "profesor") {
                 this.activeTabCualidades = "profesional";
                 return;
             }
@@ -415,8 +418,19 @@ export class SignUpComponent implements OnInit {
 
         this.usuarioService.crearUsuario(usuario)
             .subscribe(
-            res => res // send to next screen
-            , error => console.log('error: ' + error)
+            res => {
+                let auth: Auth = new Auth();
+                auth.password = usuario.password;
+                auth.username = usuario.username;
+                this.authService.login(auth)
+                    .subscribe(res => {
+                        localStorage.setItem('user', auth.username);
+                        localStorage.setItem('token', res.token);
+                        this.router.navigate(['/home']);
+                    }, error => {
+                        console.log('Error: ' + error);
+                    });
+            }, error => console.log('error: ' + error)
             );
     }
 

@@ -28,7 +28,7 @@ export class UsuarioService {
         return this.http.post(this.baseUrl,
             usuario).map((res: Response) =>{
                 if(res.status == 201)
-                    return res.json();
+                    return true;
                 throw new Error('Error creando al usuario. Intente más tarde.');
             });
     }

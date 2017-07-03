@@ -1,6 +1,6 @@
 export class Auth{
 
     username: string;
-    passord: string;
+    password: string;
     token: number;
 }

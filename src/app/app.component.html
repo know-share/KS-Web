@@ -16,7 +16,7 @@
                 <!-- <li><a href="#">Inicio</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li> -->
-                <form class="navbar-form navbar-left">
+                <form *ngIf="loggeado" class="navbar-form navbar-left">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search">
                         <div class="input-group-btn">
@@ -28,16 +28,16 @@
                 </form>
             </ul>
             <!-- if is logged on -->
-            <div>
+            <div *ngIf="loggeado">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a id="navbarred" href="/">Inicio <span class="sr-only"></span></a></li>
                     <li><a id="navbarred" class="links" (click)="myProfile()">Mi perfil <span class="sr-only"></span></a></li>
-                    <li><a id="navbarred" href="/logout">Cerrar sesión <span class="sr-only"></span></a></li>
+                    <li><a id="navbarred" (click)="logout()">Cerrar sesión <span class="sr-only"></span></a></li>
                 </ul>
             </div>
-            <div hidden>
+            <div *ngIf="!loggeado">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/">Iniciar sesión <span class="sr-only"></span></a></li>
+                    <li><a id="navbarred" routerLink="signup">Regístrate <span class="sr-only"></span></a></li>
                 </ul>
             </div>
         </div>

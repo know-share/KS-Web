@@ -8,12 +8,15 @@ import { SignUpComponent } from './access/signup.component';
 import { LoginComponent } from './access/login.component';
 import { ErrorComponent } from './error/error.component';
 
+import { AuthGuard } from './security/auth.guard';
+import { AuthReverseGuard } from './security/auth-reverse.guard';
+
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent },
-    { path: 'user/:username', component: UserComponent },
-    { path: 'signup', component: SignUpComponent },
-    { path: 'login', component: LoginComponent },
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'user/:username', component: UserComponent, canActivate: [AuthGuard]},
+    { path: 'signup', component: SignUpComponent, canActivate:[AuthReverseGuard] },
+    { path: 'login', component: LoginComponent, canActivate:[AuthReverseGuard] },
     { path: 'error', component: ErrorComponent },
 ];
 
