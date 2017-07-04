@@ -22,6 +22,7 @@ import { HabilidadService } from './services/habilidad.service';
 import { CualidadService } from './services/cualidad.service';
 import { AuthService } from './services/auth.service';
 import { ErrorService } from './error/error.service';
+import { IdeaService } from './services/idea.service';
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
@@ -55,7 +56,8 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         AuthService,
         ErrorService,
         AuthGuard,
-        AuthReverseGuard
+        AuthReverseGuard,
+        IdeaService
     ],
     bootstrap: [AppComponent]
 })
