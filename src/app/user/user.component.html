@@ -1,0 +1,184 @@
+<div class="container" *ngIf="usuario">
+    <div class="row">
+        <div class="center">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-4">
+                <h2>{{usuario.nombre}} {{usuario.apellido}}</h2>
+                <p>Amigos: {{usuario.cantidadAmigos}} | Seguidores: {{usuario.cantidadSeguidores}}</p>
+                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-user"></span> Agregar como amigo</button>
+                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-eye-open"></span> Seguir</button>
+            </div>
+            <div class="col-xs-4">
+                <img src="images/personalidades/{{usuario.personalidad.nombre}}.png" />
+            </div>
+        </div>
+    </div>
+    <br>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li [ngClass]="{ 'active': activeTab == 'ideas' }"><a (click)="moveTab('ideas')" class="links">Ideas</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'info' }"><a (click)="moveTab('info')" class="links">Información básica</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'friends' }"><a (click)="moveTab('friends')" class="links">Amigos</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'followers' }"><a (click)="moveTab('followers')" class="links">Seguidores</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'badges' }"><a (click)="moveTab('badges')" class="links">Insignias</a></li>
+                <li *ngIf="usuario.tipoUsuario == 'PROFESOR'" [ngClass]="{ 'active': activeTab == 'tg' }"><a (click)="moveTab('tg')" class="links">TG Dirigidos</a></li>
+                <li *ngIf="usuario.tipoUsuario != 'ESTUDIANTE'" [ngClass]="{ 'active': activeTab == 'career' }"><a (click)="moveTab('career')" class="links">Formación académica</a></li>
+                <!--<li [ngClass]="{ 'active': activeTab == 'skills' }"><a (click)="moveTab('skills')" class="links">Habilidades</a></li>-->
+            </ul>
+        </div>
+    </nav>
+    <div *ngIf="activeTab == 'ideas'" class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <div class="panel panel-danger">
+                <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
+                <div class="panel-body">Description</div>
+                <div class="row">
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+                </div>
+            </div>
+
+            <div class="panel panel-danger">
+                <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
+                <div class="panel-body">Description</div>
+                <div class="row">
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+                </div>
+            </div>
+
+            <div class="panel panel-danger">
+                <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
+                <div class="panel-body">Description</div>
+                <div class="row">
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="activeTab == 'info'">
+        <div class="row">
+            <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="col-xs-12">
+                <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h3>Habilidades personales:</h3>
+                            <p *ngIf="habilidadesPersonales?.length == 0" >No tiene habilidades personales registradas</p>
+                            <button *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                            <!--<p *ngFor="let h of habilidadesPersonales">{{h.nombre}} <span class="label label-default">{{h.avales}}</span></p>-->
+                        </div>
+                    </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div *ngIf="!usuario.segundaCarrera" class="col-xs-2">
+            </div>
+            <div [ngClass]="usuario.segundaCarrera ? 'col-xs-6':'col-xs-8'">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2>Carrera {{usuario.carrera.nombre}}</h2>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <h3>Enfasis:</h3>
+                                <p><strong>Principal: </strong>{{usuario.enfasis[0].nombre}}</p>
+                                <p *ngIf="usuario.enfasis[1]"><strong>Secundario: </strong>{{usuario.enfasis[1].nombre}}</p>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <h3>Áreas de conocimiento:</h3>
+                                <p *ngIf="areasConocimiento?.length == 0">No tiene áreas de conocimiento asociadas</p>
+                                <p *ngFor="let ac of areasConocimiento">
+                                    {{ac.nombre}} <span *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="badge">{{ac.porcentaje}} %</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="panel panel-default">
+                            <div class="panel-body">
+                                <h3>Cualidades como profesor:</h3>
+                                <p *ngIf="usuario.cualidades?.length == 0">No tiene cualidades como profesor registradas</p>
+                                <button *ngFor="let c of usuario.cualidades" type="button" class="btn btn-default">{{c.nombre}} <span class="badge">{{c.avales}}</span></button>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="panel-body">
+                                <h3>Habilidades profesionales:</h3>
+                                <p *ngIf="habilidadesProfesionales?.length == 0">No tiene habilidades profesionales registradas</p>
+                                <button *ngFor="let h of habilidadesProfesionales" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                            </div>
+                            <div *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="panel-body">
+                                <h3>Cualidades profesionales:</h3>
+                                <p *ngIf="habilidadesProfesionales?.length == 0">No tiene cualidades profesionales registradas</p>
+                                <button *ngFor="let h of usuario.habilidades" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="usuario.segundaCarrera" class="col-xs-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2>Carrera {{usuario.segundaCarrera.nombre}}</h2>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <h3>Enfasis:</h3>
+                                <p><strong>Principal: </strong>{{usuario.enfasis[2].nombre}}</p>
+                                <p *ngIf="usuario.enfasis[3]"><strong>Secundario: </strong>{{usuario.enfasis[3].nombre}}</p>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <h3>Áreas de conocimiento:</h3>
+                                <p *ngIf="areasConocimientoSeg?.length == 0">No tiene áreas de conocimiento asociadas</p>
+                                <p *ngFor="let ac of areasConocimientoSeg">{{ac.nombre}}</p>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <h3>Habilidades profesionales:</h3>
+                                <p *ngIf="habilidadesProfesionalesSeg?.length == 0">No tiene habilidades profesionales registradas</p>
+                                <button *ngFor="let h of habilidadesProfesionalesSeg" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="activeTab == 'friends' || activeTab == 'followers'" class="row">
+        <div class="col-xs-2"></div>
+        <div *ngIf="activeTab == 'friends'" class="col-xs-8">
+            <h3 *ngIf="!usuario.amigos || usuario.amigos?.length == 0">Aún no tiene amigos en su red.</h3>
+            <div class="row">
+                <div *ngFor="let a of usuario.amigos" class="col-xs-6">
+                    {{a}}
+                </div>
+            </div>
+        </div>
+        <div *ngIf="activeTab == 'followers'" class="col-xs-8">
+            <h3 *ngIf="!usuario.seguidores || usuario.seguidores?.length == 0">Aún no tiene seguidores en su red.</h3>
+            <div class="row">
+                <div *ngFor="let s of usuario.seguidores" class="col-xs-6">
+                    {{s}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="activeTab == 'badges'" class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <h3 *ngIf="!usuario.insignias || usuario.insignias?.length == 0">Aún no ha conseguido insignias para mostrar.</h3>
+            <div class="row">
+                <div *ngFor="let a of usuario.insignias" class="col-xs-6">
+                    {{a}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

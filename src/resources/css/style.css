@@ -1,0 +1,25 @@
+a:hover{
+    cursor: pointer;
+}
+#loading{
+    left: 0px ;
+    margin-top: -100px ;
+    position: absolute ;
+    right: 0px ;
+    text-align: center ;
+    top: 50% ;
+}
+.router-outlet{
+    margin-top: 5%;
+}
+.center{
+    text-align: center;
+}
+#navbarred{
+    background: #d62513;
+    border-color: #c0392b;
+    color:white;
+}
+#navbarred:hover{
+    color:lightgray;
+}

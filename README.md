@@ -14,4 +14,6 @@ Front-end
 ## 1.2. Running
 Run CMD or Terminal and go to where is the project
  * npm install (Just first time.)
- * npm start
+ * npm run serve -> to start a local development web server. You can now access the application at localhost:8080.
+ * npm run build -> to bundle everything into the dist folder for deployment.
+ * npm run build:prod -> to do the same as above but enabling optimisations for production.
