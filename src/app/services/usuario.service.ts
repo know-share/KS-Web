@@ -1,4 +1,4 @@
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
@@ -34,8 +34,12 @@ export class UsuarioService {
     }
 
     getUsuario(username){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
         let url = this.baseUrl + `get/${username}`;
-        return this.http.get(url)
+        return this.http.get(url,{
+            headers : header
+        })
             .map((res: Response) => {
                 if(res.status == 204)
                     throw Error('Usuario no encontrado.');
