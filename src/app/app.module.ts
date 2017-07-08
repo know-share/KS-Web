@@ -12,6 +12,7 @@ import { HomeComponent } from './newsfeed/home.component';
 import { SignUpComponent } from './access/signup.component';
 import { LoginComponent } from './access/login.component';
 import { ErrorComponent } from './error/error.component';
+import { ProfileComponent } from './user/myprofile.component';
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -41,7 +42,8 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         SignUpComponent,
         AppComponent,
         LoginComponent,
-        ErrorComponent
+        ErrorComponent,
+        ProfileComponent
     ],
     providers: [{
         provide: LocationStrategy,

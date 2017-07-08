@@ -30,6 +30,7 @@ export class UserComponent implements OnInit {
     areasConocimientoSeg: AreaConocimiento[] = [];
 
     usuario: Usuario;
+    isMyProfile: boolean = false;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -44,6 +45,8 @@ export class UserComponent implements OnInit {
         this.usuario = null;
         this.activatedRoute.params.subscribe((params: Params) => {
             this.username = params['username'];
+            if(this.username.toLowerCase == localStorage.getItem('user').toLowerCase)
+                this.isMyProfile = true;
             this.usuarioService.getUsuario(this.username)
                 .subscribe(
                 usuario => {
