@@ -43,7 +43,85 @@ export class UsuarioService {
             .map((res: Response) => {
                 if(res.status == 204)
                     throw Error('Usuario no encontrado.');
-                return res.json();
+                if(res.status == 200)
+                    return res.json();
+            })
+            .catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    agregar(usernameObj){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        let url = this.baseUrl + `solicitud/${usernameObj}`;
+        return this.http.put(url,null,{
+            headers: header
+        })
+            .map((res: Response) =>{
+                if(res.status == 200)
+                    return 'ok';
+                throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    accionSobreSolicitud(username,accion){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        let url = this.baseUrl + `solicitud/${username}?action=${accion}`;
+        return this.http.put(url,null,{
+            headers: header
+        })
+            .map((res: Response) =>{
+                if(res.status == 200)
+                    return 'ok';
+                throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    seguir(usernameObj){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        let url = this.baseUrl + `seguir/${usernameObj}`;
+        return this.http.put(url,null,{
+            headers: header
+        })
+            .map((res: Response) =>{
+                if(res.status == 200)
+                    return 'ok';
+                throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    dejarSeguir(usernameObj){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        let url = this.baseUrl + `dejarseguir/${usernameObj}`;
+        return this.http.put(url,null,{
+            headers: header
+        })
+            .map((res: Response) =>{
+                if(res.status == 200)
+                    return 'ok';
+                throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
             });
     }
 }

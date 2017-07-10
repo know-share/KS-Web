@@ -14,7 +14,7 @@ import { AreaConocimiento } from '../entities/areaConocimiento';
 @Component({
     selector: 'myprofile',
     templateUrl: './myprofile.component.html',
-    styleUrls: ['./myprofile.component.css','./user.component.css']
+    styleUrls: ['./user.component.css']
 })
 export class ProfileComponent implements OnInit {
 

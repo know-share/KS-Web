@@ -1,46 +1,54 @@
 <div class="container">
     <div class="row">
+        <div class="col-xs-2">
+        </div>
         <div class="col-xs-6">
             <!--<form novalidate (ngSubmit) = "crearIdea()" [formGroup] = "ideaForm">-->
-                <div class="form-group">
-                    
-                    <label for="sel1">Seleccione el tipo de idea:</label>
-                    <select class="form-control" id="sel1" [(ngModel)] = "selectedValueTipo" [ngModelOptions]="{standalone: true}">
+            <div class="form-group">
+
+                <label for="sel1">Seleccione el tipo de idea:</label>
+                <select class="form-control" id="sel1" [(ngModel)]="selectedValueTipo" [ngModelOptions]="{standalone: true}">
                         <option value="NU">Nueva</option>
                         <option value="PC">Para continuar</option>
                         <option value="PE">Para empezar</option>
                         <option value="PR">Proyecto</option>
                     </select>
-                </div>
-            
-                <div class="form-group">
-                    <h4>Contenido</h4>
-                    <textarea class="form-control" rows="5" id="contenido"  
-                        [(ngModel)]="contenido"></textarea>
-                </div >
+            </div>
 
-                <div class="form-group" *ngIf = "selectedValueTipo == 'Para continuar' || selectedValueTipo == 'Para empezar'">
-                    <label for="numeroest">Numero de estudiantes: </label>
-                    <input class="form-control" type="number" id="numeroest"  
-                        [(ngModel)] = "numeroEstudiantes">        
-                </div>
+            <div class="form-group">
+                <h4>Contenido</h4>
+                <textarea class="form-control" rows="5" id="contenido" [(ngModel)]="contenido"></textarea>
+            </div>
 
-                <div class="form-group" *ngIf = "selectedValueTipo == 'Para empezar'">
-                    <label for="alcance">Alcance: </label>
-                    <input class="form-control" type="text" id="alcance" [(ngModel)] = "alcance">
+            <div class="form-group" *ngIf="selectedValueTipo == 'Para continuar' || selectedValueTipo == 'Para empezar'">
+                <label for="numeroest">Numero de estudiantes: </label>
+                <input class="form-control" type="number" id="numeroest" [(ngModel)]="numeroEstudiantes">
+            </div>
 
-                    <label for="problematica">Problematica: </label>
-                    <input class="form-control" type="text" id="problematica" 
-                        [(ngModel)] = "problematica"> 
+            <div class="form-group" *ngIf="selectedValueTipo == 'Para empezar'">
+                <label for="alcance">Alcance: </label>
+                <input class="form-control" type="text" id="alcance" [(ngModel)]="alcance">
 
-                </div>
-                <div class="form-group" *ngIf = "selectedValueTipo == 'Proyecto'">
-                    <button type="button" class="btn">Agregar ideas</button>
-                </div>
-                <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
-            <!--</form>-->  
+                <label for="problematica">Problematica: </label>
+                <input class="form-control" type="text" id="problematica" [(ngModel)]="problematica">
+
+            </div>
+            <div class="form-group" *ngIf="selectedValueTipo == 'Proyecto'">
+                <button type="button" class="btn">Agregar ideas</button>
+            </div>
+            <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
+            <!--</form>-->
         </div>
-            
+        <div class="col-xs-1">
+        </div>
+        <div class="col-xs-3">
+            <div class="panel panel-default center">
+                <div class="panel-heading">Solicitudes de amistad</div>
+                <div class="panel-body center">
+                    <button (click)="showRequests()" type="button" class="btn btn-primary">Pendientes <span class="badge">{{cantidadSolicitudes}}</span></button>
+                </div>
+            </div>
+        </div>
     </div>
-    
+
 </div>

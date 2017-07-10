@@ -37,6 +37,8 @@ export class Usuario {
     cantidadSeguidores: number;
     seguidores: string[];
 
+    solicitudesAmistad: string[];
+
     insignias: string[];
 
     constructor(){

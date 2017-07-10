@@ -23,3 +23,25 @@ a:hover{
 #navbarred:hover{
     color:lightgray;
 }
+.right{
+    float:right;
+}
+.modal{
+  background: rgba(1, 1, 1, 0.5);
+}
+.modal.fade .modal-dialog, .modal.in .modal-dialog{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+.modal-content {
+  position: absolute;
+  top:50%;
+  -ms-transform: translate(0,-50%);
+  -moz-transform: translate(0,-50%);
+  -webkit-transform: translate(0,-50%);
+  transform: translate(0,-50%);
+  width:100%;
+}

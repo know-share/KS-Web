@@ -5,8 +5,11 @@
             <div class="col-xs-4">
                 <h2>{{usuario.nombre}} {{usuario.apellido}}</h2>
                 <p>Amigos: {{usuario.cantidadAmigos}} | Seguidores: {{usuario.cantidadSeguidores}}</p>
-                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-user"></span> Agregar como amigo</button>
-                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-eye-open"></span> Seguir</button>
+                <button *ngIf="!isFriend" [disabled]="!isEnableRequest" (click)="agregar()" type="button" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-user"></span> {{textRequest}}</button>
+                <button *ngIf="isEnableFollow" (click)="seguir()" type="button" class="btn btn-danger">
+                    <span *ngIf="!isFollowing" class="glyphicon glyphicon-eye-open"></span>
+                    <span *ngIf="isFollowing" class="glyphicon glyphicon-ok"></span> {{textFollow}}</button>
             </div>
             <div class="col-xs-4">
                 <img src="images/personalidades/{{usuario.personalidad.nombre}}.png" />

@@ -28,15 +28,13 @@ export class IdeaService{
                 if(res.status == 200){
                     return true;
                 }
-                if(res.status == 401){
-                    throw new Error('No esta autorizado.');
-                }
-                if(res.status == 400){
-                    throw new Error('Null');
-                }
                 if(res.status == 500){
                     throw new Error('No se pude crear la idea.');
                 }
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
             });
     }
 

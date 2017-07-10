@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
 // Components
 import { AppComponent } from './app.component';
@@ -13,6 +14,8 @@ import { SignUpComponent } from './access/signup.component';
 import { LoginComponent } from './access/login.component';
 import { ErrorComponent } from './error/error.component';
 import { ProfileComponent } from './user/myprofile.component';
+import { RequestModalComponent } from './modals/request.component';
+import { ExpirationModalComponent } from './modals/expiration.component';
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -34,7 +37,8 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         HttpModule,
         AppRoutingModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        BootstrapModalModule
     ],
     declarations: [
         UserComponent,
@@ -43,7 +47,9 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         AppComponent,
         LoginComponent,
         ErrorComponent,
-        ProfileComponent
+        ProfileComponent,
+        RequestModalComponent,
+        ExpirationModalComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -60,6 +66,10 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         AuthGuard,
         AuthReverseGuard,
         IdeaService
+    ],
+    entryComponents:[
+        RequestModalComponent,
+        ExpirationModalComponent
     ],
     bootstrap: [AppComponent]
 })
