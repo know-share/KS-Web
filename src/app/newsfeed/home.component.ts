@@ -19,7 +19,7 @@ import { Idea } from '../entities/idea';
 export class HomeComponent implements OnInit {
 
     ideaForm: FormGroup;
-
+    newIdeas : Array<Idea> = new Array;
     selectedValueTipo: string;
     contenido: string;
     numeroEstudiantes: number;
@@ -39,16 +39,10 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.ideaForm = this.fb.group({
-            /*contenidoControl : ['', Validators.required],
-            numeroEstudiantesControl : ['',Validators.required],
-            alcanceControl : ['',Validators.required],
-            problematicaControl : ['',Validators.required]*/
-        });
 
         this.listSolicitudes = [];
         this.cantidadSolicitudes = 0;
-
+        
         this.refreshSolicitudes();
     }
 
@@ -79,6 +73,7 @@ export class HomeComponent implements OnInit {
         console.log(idea);
         this.ideaService.crearIdea(idea)
             .subscribe(res => {
+                this.newIdeas.push(idea);
                 //punlicarla y decilre exito
             }, error => {
                 let disposable;

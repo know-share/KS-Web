@@ -18,7 +18,7 @@ export class IdeaService{
     ){}
 
     crearIdea(idea){
-        let url = this.baseUrl +'crear/'+ localStorage.getItem('user');
+        let url = this.baseUrl +'crear';
         let header = new Headers();
         header.append('Authorization',localStorage.getItem('token'));
         return this.http.post(url,idea,{
