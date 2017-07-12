@@ -5,6 +5,8 @@ import { Enfasis } from './enfasis';
 import { AreaConocimiento } from './areaConocimiento';
 import { Habilidad } from './habilidad';
 import { Cualidad } from './cualidad';
+import { TrabajoGrado } from './trabajoGrado';
+import { FormacionAcademica } from './formacionAcademica';
 
 export class Usuario {
 
@@ -40,6 +42,9 @@ export class Usuario {
     solicitudesAmistad: string[];
 
     insignias: string[];
+
+    tgDirigidos:TrabajoGrado[];
+	formacionAcademia:FormacionAcademica[];
 
     constructor(){
         this.personalidad = new Personalidad();

@@ -63,8 +63,6 @@ export class UserComponent implements OnInit {
             this.textRequest = "Agregar como amigo";
             this.textFollow = "Seguir";
             this.username = params['username'];
-            if(this.username.toLowerCase() == localStorage.getItem('user').toLowerCase())
-                this.isMyProfile = true;
             this.usuarioService.getUsuario(this.username)
                 .subscribe(
                 usuario => {
@@ -91,6 +89,8 @@ export class UserComponent implements OnInit {
                         this.isFriend = true;
                         this.isEnableFollow = false;
                     }
+                    if(this.username.toLowerCase() == localStorage.getItem('user').toLowerCase())
+                        this.isMyProfile = true;
                     this.botonSeguir();
                     this.botonSolicitud();
                 }, error => {

@@ -45,3 +45,6 @@ a:hover{
   transform: translate(0,-50%);
   width:100%;
 }
+textarea{
+    resize: none;
+}

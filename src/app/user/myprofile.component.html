@@ -64,12 +64,12 @@
         <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <button type="button" (click)="onClick()" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-plus"></i></button>
+                    <button type="button" (click)="editHabilidades()" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-pencil"></i></button>
                     <h3>Habilidades personales:</h3>
                     <p *ngIf="habilidadesPersonales?.length == 0">No tiene habilidades personales registradas</p>
                     <button *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                     <!--<p *ngFor="let h of habilidadesPersonales">{{h.nombre}} <span class="label label-default">{{h.avales}}</span></p>-->
-                    
+
                 </div>
             </div>
         </div>
@@ -81,10 +81,10 @@
         <div [ngClass]="usuario.segundaCarrera ? 'col-xs-6':'col-xs-8'">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <button type="button" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-pencil"></i></button>
                     <h2>Carrera {{usuario.carrera.nombre}}</h2>
                     <div class="panel panel-default">
                         <div class="panel-body">
+                            <button type="button" (click)="editCarrera(usuario.carrera)" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-pencil"></i></button>
                             <h3>Enfasis:</h3>
                             <p><strong>Principal: </strong>{{usuario.enfasis[0].nombre}}</p>
                             <p *ngIf="usuario.enfasis[1]"><strong>Secundario: </strong>{{usuario.enfasis[1].nombre}}</p>
@@ -180,4 +180,25 @@
             </div>
         </div>
     </div>
+</div>
+<div *ngIf="activeTab == 'tg'" class="row">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <button type="button" (click)="addTG()" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-plus"></i></button>
+                <h2 class="center">Trabajos de grado dirigidos</h2>
+                <div class="panel panel-default">
+                    <p *ngIf="usuario.tgDirigidos?.length == 0">No tiene trabajos de grado dirigidos asociados</p>
+                    <div class="panel-body" *ngFor="let tg of usuario.tgDirigidos">
+                        {{tg.nombre}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="activeTab == 'career'" class="row">
+    <div class="col-xs-2"></div>
+    hola
 </div>

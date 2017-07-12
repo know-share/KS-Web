@@ -90,11 +90,6 @@ export class HomeComponent implements OnInit {
                 if (confirmed) {
                     this.refreshSolicitudes();
                 }
-            },error=>{
-                let disposable;
-                if(error == 'Error: 401')
-                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
-            }
-            );
+            });
     }
 }

@@ -116,8 +116,8 @@
                 <label class="col-sm-2 control-label">Carrera</label>
                 <div class="col-sm-10">
                     <select [(ngModel)]="carrera" class="form-control" name="carrera">
-                    <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
-                </select>
+                        <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
+                    </select>
                 </div>
             </div>
             <div *ngIf="tipoUsuario=='ESTUDIANTE' || tipoUsuario=='EGRESADO'" class="form-group">

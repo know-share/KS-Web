@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Router } from '@angular/router';
+import { DialogService } from "ng2-bootstrap-modal";
 
 //Services
 import { UsuarioService } from '../services/usuario.service';
@@ -10,6 +11,9 @@ import { ErrorService } from '../error/error.service';
 import { Usuario } from '../entities/usuario';
 import { Habilidad } from '../entities/habilidad';
 import { AreaConocimiento } from '../entities/areaConocimiento';
+
+import { EditCarreraModalComponent } from '../modals/edit-carrera.component';
+import { AddTGModalComponent } from '../modals/add-tg.component';
 
 @Component({
     selector: 'myprofile',
@@ -28,6 +32,10 @@ export class ProfileComponent implements OnInit {
 
     areasConocimiento: AreaConocimiento[] = [];
     areasConocimientoSeg: AreaConocimiento[] = [];
+
+    constructor(
+        private dialogService: DialogService,
+    ){ }
 
     ngOnInit() {
         this.activeTab = 'ideas';
@@ -64,5 +72,27 @@ export class ProfileComponent implements OnInit {
 
     moveTab(tab) {
         this.activeTab = tab;
+    }
+
+    addTG(){
+        let disposable = this.dialogService.addDialog(AddTGModalComponent).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    //this.refreshSolicitudes();
+                    console.log('');
+                }
+            });
+    }
+
+    editCarrera(carrera){
+        let disposable = this.dialogService.addDialog(EditCarreraModalComponent, {
+            usuario: this.usuario
+        }).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    //this.refreshSolicitudes();
+                    console.log('');
+                }
+            });
     }
 }
