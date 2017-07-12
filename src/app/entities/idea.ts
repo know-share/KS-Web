@@ -1,4 +1,5 @@
 import {Usuario} from './usuario'
+import { Tag } from './tag'
 
 export class Idea{
 
@@ -14,4 +15,5 @@ export class Idea{
     usuario: Usuario;
     lights: number;
     comentarios: number;
+    tags:Array<Tag>;
 }

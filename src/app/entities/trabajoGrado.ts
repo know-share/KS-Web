@@ -1,3 +1,5 @@
+import { Tag } from './tag'
+
 export class TrabajoGrado{
     
     id: Object;
@@ -5,6 +7,6 @@ export class TrabajoGrado{
 	periodoFin:string;
 	resumen:string;
 	numEstudiantes:number;
-	//Tags
+	tags:Array<Tag>;
 	descripción:string[];
 }
