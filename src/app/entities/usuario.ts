@@ -8,6 +8,11 @@ import { Cualidad } from './cualidad';
 import { TrabajoGrado } from './trabajoGrado';
 import { FormacionAcademica } from './formacionAcademica';
 
+class InfoUsuario{
+    username:string;
+    nombre:string;
+}
+
 export class Usuario {
 
     nombre: string;
@@ -35,16 +40,16 @@ export class Usuario {
     cualidades: Cualidad[];
 
     cantidadAmigos: number;
-    amigos: string[];
+    amigos: InfoUsuario[];
     cantidadSeguidores: number;
-    seguidores: string[];
+    seguidores: InfoUsuario[];
 
     solicitudesAmistad: string[];
 
     insignias: string[];
 
     tgDirigidos:TrabajoGrado[];
-	formacionAcademia:FormacionAcademica[];
+	formacionAcademica:FormacionAcademica[];
 
     constructor(){
         this.personalidad = new Personalidad();

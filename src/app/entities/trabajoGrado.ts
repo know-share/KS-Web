@@ -7,6 +7,5 @@ export class TrabajoGrado{
 	periodoFin:string;
 	resumen:string;
 	numEstudiantes:number;
-	tags:Array<Tag>;
-	descripción:string[];
+	descripcion:Tag[];
 }

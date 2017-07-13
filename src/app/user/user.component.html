@@ -69,16 +69,16 @@
         <div class="row">
             <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="col-xs-12">
                 <div class="panel panel-default">
-                        <div class="panel-body">
-                            <h3>Habilidades personales:</h3>
-                            <p *ngIf="habilidadesPersonales?.length == 0" >No tiene habilidades personales registradas</p>
-                            <button *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
-                            <!--<p *ngFor="let h of habilidadesPersonales">{{h.nombre}} <span class="label label-default">{{h.avales}}</span></p>-->
-                        </div>
+                    <div class="panel-body">
+                        <h3>Habilidades personales:</h3>
+                        <p *ngIf="habilidadesPersonales?.length == 0">No tiene habilidades personales registradas</p>
+                        <button *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                        <!--<p *ngFor="let h of habilidadesPersonales">{{h.nombre}} <span class="label label-default">{{h.avales}}</span></p>-->
                     </div>
+                </div>
             </div>
         </div>
-        
+
         <div class="row">
             <div *ngIf="!usuario.segundaCarrera" class="col-xs-2">
             </div>
@@ -159,8 +159,16 @@
         <div *ngIf="activeTab == 'friends'" class="col-xs-8">
             <h3 *ngIf="!usuario.amigos || usuario.amigos?.length == 0">Aún no tiene amigos en su red.</h3>
             <div class="row">
-                <div *ngFor="let a of usuario.amigos" class="col-xs-6">
-                    {{a}}
+                <div *ngFor="let a of usuario.amigos" class="col-xs-4">
+                    <a (click)="goProfile(a.username)">
+                        <div class="card">
+                            <img src="images/image-profile.png">
+                            <div class="container-card">
+                                <h3>{{a.nombre}}</h3>
+                                <br>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -168,7 +176,15 @@
             <h3 *ngIf="!usuario.seguidores || usuario.seguidores?.length == 0">Aún no tiene seguidores en su red.</h3>
             <div class="row">
                 <div *ngFor="let s of usuario.seguidores" class="col-xs-6">
-                    {{s}}
+                    <a (click)="goProfile(s.username)">
+                        <div class="card">
+                            <img src="images/image-profile.png">
+                            <div class="container-card">
+                                <h3>{{s.nombre}}</h3>
+                                <br>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -180,6 +196,45 @@
             <div class="row">
                 <div *ngFor="let a of usuario.insignias" class="col-xs-6">
                     {{a}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="activeTab == 'tg'" class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="center">Trabajos de grado dirigidos</h2>
+                    <p *ngIf="!usuario.tgDirigidos || usuario.tgDirigidos?.length == 0">No tiene trabajos de grado dirigidos asociados</p>
+                    <div class="panel panel-default" *ngFor="let tg of usuario.tgDirigidos">
+                        <div class="panel-body">
+                            <p><strong>Título: </strong>{{tg.nombre}}</p>
+                            <p><strong>Periodo fin: </strong>{{tg.periodoFin}}</p>
+                            <p><strong>Descripción: </strong>{{tg.descripcion}}</p>
+                            <p><strong>Número de estudiantes: </strong>{{tg.numEstudiantes}}</p>
+                            <p><strong>Resumen: </strong>{{tg.resumen}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="activeTab == 'career'" class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="center">Formación académica</h2>
+                    <p *ngIf="!usuario.formacionAcademica || usuario.formacionAcademica?.length == 0">No tiene formacion académica asociada</p>
+                    <div class="panel panel-default" *ngFor="let fa of usuario.formacionAcademica">
+                        <div class="panel-body">
+                            <p><strong>Título: </strong>{{fa.titulo}}</p>
+                            <p><strong>Año: </strong>{{fa.anio}}</p>
+                            <p><strong>Univerisidad: </strong>{{fa.universidad}}</p>
+                            <p><strong>Título del trabajo de grado: </strong>{{fa.tituloTG}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

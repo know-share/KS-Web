@@ -124,4 +124,58 @@ export class UsuarioService {
                 throw Error(err.toString());
             });
     }
+
+    addTG(tg){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        let url = this.baseUrl + `addTG`;
+        return this.http.post(url,tg,{
+            headers: header
+        })
+            .map((res: Response) =>{
+                if(res.status == 201)
+                    return 'ok';
+                throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    addFormacionAcademica(fa){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        let url = this.baseUrl + `addFormacionAcademica`;
+        return this.http.post(url,fa,{
+            headers: header
+        })
+            .map((res: Response) =>{
+                if(res.status == 201)
+                    return 'ok';
+                throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    eliminarAmigo(username){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        let url = this.baseUrl + `eliminarAmigo/${username}`;
+        return this.http.put(url,null,{
+            headers: header
+        })
+            .map((res: Response) =>{
+                if(res.status == 200)
+                    return 'ok';
+                throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
 }

@@ -85,7 +85,7 @@ export class UserComponent implements OnInit {
                         }
                     }
                     if(this.usuario.amigos
-                        .find(amigo => amigo.toLowerCase() == localStorage.getItem("user").toLowerCase())){
+                        .find(amigo => amigo.username.toLowerCase() == localStorage.getItem("user").toLowerCase())){
                         this.isFriend = true;
                         this.isEnableFollow = false;
                     }
@@ -167,6 +167,8 @@ export class UserComponent implements OnInit {
                         let disposable;
                         if(error == 'Error: 401')
                             disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                        else
+                            console.log('error: '+error);
                     }
                 );
         }
@@ -174,7 +176,7 @@ export class UserComponent implements OnInit {
 
     botonSeguir(){
         let seguidores = this.usuario.seguidores;
-        if(seguidores.find(seg => seg.toLowerCase() == localStorage.getItem("user").toLowerCase())){
+        if(seguidores.find(seg => seg.username.toLowerCase() == localStorage.getItem("user").toLowerCase())){
             this.textFollow = "Siguiendo";
             this.isFollowing = true;
             this.isFriend = true;
@@ -198,5 +200,9 @@ export class UserComponent implements OnInit {
                 this.isEnableFollow = false;
             }
         }
+    }
+
+    goProfile(username){
+        this.router.navigate(['/user',username]);
     }
 }
