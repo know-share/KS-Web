@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
+
+//primeng
+import {GrowlModule} from 'primeng/primeng';
 
 // Components
 import { AppComponent } from './app.component';
@@ -37,11 +41,13 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
 @NgModule({
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         HttpModule,
         AppRoutingModule,
         ReactiveFormsModule,
         FormsModule,
-        BootstrapModalModule
+        BootstrapModalModule,
+        GrowlModule
     ],
     declarations: [
         UserComponent,

@@ -3,6 +3,9 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Router } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
 
+//primeng
+import {Message} from 'primeng/primeng';
+
 //Services
 import { UsuarioService } from '../services/usuario.service';
 import { ErrorService } from '../error/error.service';
@@ -34,6 +37,8 @@ export class ProfileComponent implements OnInit {
 
     areasConocimiento: AreaConocimiento[] = [];
     areasConocimientoSeg: AreaConocimiento[] = [];
+
+    msgs: Message[] = [];
 
     constructor(
         private dialogService: DialogService,
@@ -83,7 +88,8 @@ export class ProfileComponent implements OnInit {
             confirmed => {
                 if (confirmed) {
                     this.refreshUsuario();
-                    console.log('');
+                    this.msgs = [];
+                    this.msgs.push({severity:'success', summary:'Operación exitosa', detail:'Trabajo de grado agregado.'});
                 }
             });
     }
@@ -93,7 +99,8 @@ export class ProfileComponent implements OnInit {
             confirmed => {
                 if (confirmed) {
                     this.refreshUsuario();
-                    console.log('');
+                    this.msgs = [];
+                    this.msgs.push({severity:'success', summary:'Operación exitosa', detail:'Formación académica agregada.'});
                 }
             });
     }

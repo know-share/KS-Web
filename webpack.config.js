@@ -47,9 +47,11 @@ module.exports = {
         new CopyWebpackPlugin([{
             from: './src/resources/images',
             to: './images'
-        }]),
-        new CopyWebpackPlugin([{
+        },{
             from: './src/resources/css',
+            to: './css'
+        },{
+            from: './node_modules/primeng/resources',
             to: './css'
         }])
     ]

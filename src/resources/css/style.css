@@ -48,3 +48,6 @@ a:hover{
 textarea{
     resize: none;
 }
+>>> .ui-growl{
+    top: 50px;
+}
