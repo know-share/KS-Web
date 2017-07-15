@@ -65,7 +65,7 @@
         <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <button type="button" (click)="editHabilidades()" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-pencil"></i></button>
+                    <button type="button" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-pencil"></i></button>
                     <h3>Habilidades personales:</h3>
                     <p *ngIf="habilidadesPersonales?.length == 0">No tiene habilidades personales registradas</p>
                     <button *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
@@ -175,7 +175,7 @@
         <h3 *ngIf="!usuario.seguidores || usuario.seguidores?.length == 0">Aún no tiene seguidores en su red.</h3>
         <div class="row">
             <div *ngFor="let s of usuario.seguidores" class="col-xs-4">
-                <a (click)="goProfile(s)">
+                <a (click)="goProfile(s.username)">
                     <div class="card">
                         <img src="images/image-profile.png">
                         <div class="container-card">

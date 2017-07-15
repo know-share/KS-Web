@@ -58,6 +58,7 @@ export class UserComponent implements OnInit {
         this.activatedRoute.params.subscribe((params: Params) => {
             this.isMyProfile = false;
             this.isFollowing = false;
+            this.isFriend = false;
             this.isEnableRequest = true;
             this.isEnableFollow = true;
             this.textRequest = "Agregar como amigo";
