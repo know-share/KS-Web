@@ -9,6 +9,7 @@ import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
 //primeng
 import {GrowlModule} from 'primeng/primeng';
+import {AutoCompleteModule} from 'primeng/primeng';
 
 // Components
 import { AppComponent } from './app.component';
@@ -23,7 +24,6 @@ import { ExpirationModalComponent } from './modals/expiration.component';
 import { EditCarreraModalComponent } from './modals/edit-carrera.component';
 import { AddTGModalComponent } from './modals/add-tg.component';
 import { AddFAModalComponent } from './modals/add-fa.component';
-import {AutoCompleteModule} from 'primeng/primeng';
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';

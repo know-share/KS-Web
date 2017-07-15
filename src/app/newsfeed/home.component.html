@@ -41,8 +41,8 @@
                 <div class="form-group" *ngIf = "selectedValueTipo == 'PR'">
                     <button type="button" class="btn">Agregar ideas</button>
                 </div>
-                <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)" styleClass="wid100"
-                    [minLength]="1" placeholder="tags" field="name" [multiple]="true" [ngModelOptions]="{standalone: true}">
+                <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
+                    [minLength]="1" placeholder="tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
                 </p-autoComplete>
                 
                 <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
