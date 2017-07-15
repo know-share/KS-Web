@@ -23,6 +23,7 @@ import { ExpirationModalComponent } from './modals/expiration.component';
 import { EditCarreraModalComponent } from './modals/edit-carrera.component';
 import { AddTGModalComponent } from './modals/add-tg.component';
 import { AddFAModalComponent } from './modals/add-fa.component';
+import {AutoCompleteModule} from 'primeng/primeng';
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -34,6 +35,7 @@ import { CualidadService } from './services/cualidad.service';
 import { AuthService } from './services/auth.service';
 import { ErrorService } from './error/error.service';
 import { IdeaService } from './services/idea.service';
+import { TagService } from './services/tag.service';
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
@@ -47,7 +49,8 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         ReactiveFormsModule,
         FormsModule,
         BootstrapModalModule,
-        GrowlModule
+        GrowlModule,
+        AutoCompleteModule
     ],
     declarations: [
         UserComponent,
@@ -77,7 +80,8 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         ErrorService,
         AuthGuard,
         AuthReverseGuard,
-        IdeaService
+        IdeaService,
+        TagService
     ],
     entryComponents:[
         RequestModalComponent,

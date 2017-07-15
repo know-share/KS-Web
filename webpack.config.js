@@ -51,8 +51,11 @@ module.exports = {
             from: './src/resources/css',
             to: './css'
         },{
-            from: './node_modules/primeng/resources',
+            from: './node_modules/primeng',
             to: './css'
+        },{
+            from:'./node_modules/font-awesome',
+            to: './fonts'
         }])
     ]
 

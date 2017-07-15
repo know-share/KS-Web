@@ -2,14 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from "ng2-bootstrap-modal";
+import {AutoCompleteModule} from 'primeng/primeng';
 
 import { RequestModalComponent } from '../modals/request.component';
 import { ExpirationModalComponent } from '../modals/expiration.component';
 
 import { IdeaService } from '../services/idea.service';
 import { UsuarioService } from '../services/usuario.service';
+import { TagService } from '../services/tag.service';
 
 import { Idea } from '../entities/idea';
+import { Tag } from '../entities/tag';
 
 @Component({
     selector: 'home',
@@ -29,11 +32,16 @@ export class HomeComponent implements OnInit {
     listSolicitudes: string[] = [];
     cantidadSolicitudes: number = 0;
 
+    tags : Array<Tag> = new Array;
+    selectedTags : any[]
+    filteredTagsMultiple: any[];
+
     constructor(
         private fb: FormBuilder,
         private ideaService: IdeaService,
         private usuarioService: UsuarioService,
         private dialogService: DialogService,
+        private tagService : TagService
     ) {
         this.selectedValueTipo = 'NU';
     }
@@ -44,6 +52,7 @@ export class HomeComponent implements OnInit {
         this.cantidadSolicitudes = 0;
         
         this.refreshSolicitudes();
+        this.showTags();
     }
 
     refreshSolicitudes() {
@@ -63,6 +72,10 @@ export class HomeComponent implements OnInit {
         );
     }
 
+    operacion(ide:Idea){
+        console.log(ide.contenido);
+    }
+
     crearIdea() {
         let idea: Idea = new Idea();
         idea.alcance = this.alcance;
@@ -70,6 +83,8 @@ export class HomeComponent implements OnInit {
         idea.contenido = this.contenido;
         idea.numeroEstudiantes = this.numeroEstudiantes;
         idea.problematica = this.problematica;
+        idea.tags = this.selectedTags;
+        console.log(this.selectedTags);
         console.log(idea);
         this.ideaService.crearIdea(idea)
             .subscribe(res => {
@@ -91,5 +106,33 @@ export class HomeComponent implements OnInit {
                     this.refreshSolicitudes();
                 }
             });
+    }
+
+    showTags(){
+        this.tagService.getAllTags()
+            .subscribe((res : Array<Tag>)=>{
+                this.tags = res;
+            },error => {
+                console.log("Error" + error)
+            });
+    }
+
+    filterTagMultiple(event) {
+        let query = event.query;
+        this.tagService.getAllTags().subscribe(tags => {
+            this.filteredTagsMultiple = this.filterTag(query, tags);
+        });
+    }
+
+    filterTag(query, tags: any[]):any[] {
+        //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
+        let filtered : any[] = [];
+        for(let i = 0; i < tags.length; i++) {
+            let tag = tags[i];
+            if(tag.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+                filtered.push(tag);
+            }
+        }
+        return filtered;
     }
 }

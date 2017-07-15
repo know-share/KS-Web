@@ -41,13 +41,20 @@
                 <div class="form-group" *ngIf = "selectedValueTipo == 'PR'">
                     <button type="button" class="btn">Agregar ideas</button>
                 </div>
+                <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)" styleClass="wid100"
+                    [minLength]="1" placeholder="tags" field="name" [multiple]="true" [ngModelOptions]="{standalone: true}">
+                </p-autoComplete>
+                
                 <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
                 <div class="panel panel-default center" *ngFor = "let i of newIdeas" >
-                    <div class="panel-heading" >{{i.contenido}}</div>
-                    <div class="panel-body center">
-                        <button (click)="showRequests()" type="button" class="btn btn-primary">Ligth</button>
-                        <button (click)="showRequests()" type="button" class="btn btn-primary">Comentar</button>
-
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">{{i.tags}}</div>
+                        <div class="panel-body">{{i.contenido}}</div>
+                        <div class="row">
+                            <div class="col-xs-4"><button type="button" (click)="operacion(i)" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
+                            <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
+                            <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+                        </div>
                     </div>
                 </div>
             </form>
