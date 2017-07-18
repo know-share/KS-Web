@@ -26,7 +26,7 @@ export class IdeaService{
         })
             .map((res:Response) =>{
                 if(res.status == 200){
-                    return true;
+                    return res.json();
                 }
                 if(res.status == 500){
                     throw new Error('No se pude crear la idea.');

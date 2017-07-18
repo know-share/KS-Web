@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
     listSolicitudes: string[] = [];
     cantidadSolicitudes: number = 0;
 
+    
     tags : Array<Tag> = new Array;
     selectedTags : any[]
     filteredTagsMultiple: any[];
@@ -87,14 +88,20 @@ export class HomeComponent implements OnInit {
         console.log(this.selectedTags);
         console.log(idea);
         this.ideaService.crearIdea(idea)
-            .subscribe(res => {
-                this.newIdeas.push(idea);
-                //punlicarla y decilre exito
+            .subscribe((res:Idea) => {
+                this.newIdeas.push(res);
+                console.log(res.usuario);
             }, error => {
                 let disposable;
                 if(error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
             });
+
+        this.selectedTags = new Array;
+        this.contenido = '';
+        this.alcance = '';
+        this.problematica = '';
+        this.numeroEstudiantes = 0;
     }
 
     showRequests() {
@@ -119,7 +126,7 @@ export class HomeComponent implements OnInit {
 
     filterTagMultiple(event) {
         let query = event.query;
-        this.tagService.getAllTags().subscribe(tags => {
+        this.tagService.getAllTags().subscribe((tags:Array<Tag>) => {
             this.filteredTagsMultiple = this.filterTag(query, tags);
         });
     }

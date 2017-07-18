@@ -12,7 +12,7 @@ export class Idea{
     alcance: string;
     problematica: string;
     ideasProyecto: Array<Idea>;
-    usuario: Usuario;
+    usuario: string;
     lights: number;
     comentarios: number;
     tags:Array<Tag>;
