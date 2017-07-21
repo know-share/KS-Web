@@ -29,33 +29,15 @@
 <div *ngIf="activeTab == 'ideas'" class="row">
     <div class="col-xs-2"></div>
     <div class="col-xs-8">
-        <div class="panel panel-danger">
-            <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
-            <div class="panel-body">Description</div>
-            <div class="row">
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
-            </div>
-        </div>
-
-        <div class="panel panel-danger">
-            <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
-            <div class="panel-body">Description</div>
-            <div class="row">
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
-            </div>
-        </div>
-
-        <div class="panel panel-danger">
-            <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
-            <div class="panel-body">Description</div>
-            <div class="row">
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
-                <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+        <div class="panel panel-default center" *ngFor = "let i of ideas" >
+            <div class="panel panel-danger">
+                <div class="panel-heading">{{i.usuario}}</div>
+                <div class="panel-body">{{i.contenido}}</div>
+                <div class="row">
+                    <div class="col-xs-4"><button type="button" (click)="operacion(i)" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
+                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+                </div>
             </div>
         </div>
     </div>

@@ -9,11 +9,13 @@ import {Message} from 'primeng/primeng';
 //Services
 import { UsuarioService } from '../services/usuario.service';
 import { ErrorService } from '../error/error.service';
+import { IdeaService } from '../services/idea.service';
 
 //Entities
 import { Usuario } from '../entities/usuario';
 import { Habilidad } from '../entities/habilidad';
 import { AreaConocimiento } from '../entities/areaConocimiento';
+import { Idea } from '../entities/idea';
 
 import { EditCarreraModalComponent } from '../modals/edit-carrera.component';
 import { AddTGModalComponent } from '../modals/add-tg.component';
@@ -38,9 +40,11 @@ export class ProfileComponent implements OnInit {
     areasConocimiento: AreaConocimiento[] = [];
     areasConocimientoSeg: AreaConocimiento[] = [];
 
+    ideas: Array<Idea> = new Array;
     msgs: Message[] = [];
 
     constructor(
+        private ideaService: IdeaService,
         private dialogService: DialogService,
         private usuarioService: UsuarioService,
         private router:Router,
@@ -65,6 +69,15 @@ export class ProfileComponent implements OnInit {
                 this.habilidadesProfesionalesSeg.push(h);
             }
         }
+        this.ideaService.findByUsuario(localStorage.getItem('username'))
+            .subscribe((res : any[])=>{
+                this.ideas = res;
+                console.log(res.length);
+            }, error =>{
+                console.log('Error' + error);
+            });
+
+            console.log(this.ideas.length);
     }
 
     mapAreasConocimiento(areasConocimiento: AreaConocimiento[]) {

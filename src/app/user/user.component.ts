@@ -8,11 +8,13 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
 //Services
 import { UsuarioService } from '../services/usuario.service';
 import { ErrorService } from '../error/error.service';
+import { IdeaService } from '../services/idea.service';
 
 //Entities
 import { Usuario } from '../entities/usuario';
 import { Habilidad } from '../entities/habilidad';
 import { AreaConocimiento } from '../entities/areaConocimiento';
+import { Idea } from '../entities/idea';
 
 @Component({
     selector: 'user',
@@ -31,6 +33,7 @@ export class UserComponent implements OnInit {
 
     areasConocimiento: AreaConocimiento[] = [];
     areasConocimientoSeg: AreaConocimiento[] = [];
+    ideas: Idea[] = [];
 
     usuario: Usuario;
     isMyProfile: boolean = false;
@@ -44,6 +47,7 @@ export class UserComponent implements OnInit {
     isFriend:boolean = false;
 
     constructor(
+        private ideaService: IdeaService,
         private activatedRoute: ActivatedRoute,
         private usuarioService: UsuarioService,
         private errorService: ErrorService,
@@ -105,6 +109,12 @@ export class UserComponent implements OnInit {
                 }
                 );
         });
+        this.ideaService.findByUsuario(this.username)
+            .subscribe((res : any[])=>{
+                this.ideas = res;
+            }, error =>{
+                console.log('Error' + error);
+            });
     }
 
     mapAreasConocimiento(areasConocimiento: AreaConocimiento[]) {
