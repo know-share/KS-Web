@@ -82,10 +82,10 @@
         <div [ngClass]="usuario.segundaCarrera ? 'col-xs-6':'col-xs-8'">
             <div class="panel panel-default">
                 <div class="panel-heading">
+                    <button type="button" (click)="editCarrera(usuario.carrera)" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-pencil"></i></button>
                     <h2>Carrera {{usuario.carrera.nombre}}</h2>
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <button type="button" (click)="editCarrera(usuario.carrera)" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-pencil"></i></button>
                             <h3>Enfasis:</h3>
                             <p><strong>Principal: </strong>{{usuario.enfasis[0].nombre}}</p>
                             <p *ngIf="usuario.enfasis[1]"><strong>Secundario: </strong>{{usuario.enfasis[1].nombre}}</p>
