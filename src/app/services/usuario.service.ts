@@ -178,4 +178,22 @@ export class UsuarioService {
                 throw Error(err.toString());
             });
     }
+
+    actualizarInfoAcademica(usuario){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        let url = this.baseUrl + `actualizarInfoAcademica`;
+        return this.http.patch(url,usuario,{
+            headers: header
+        })
+            .map((res: Response) =>{
+                if(res.status == 200)
+                    return 'ok';
+                throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
 }

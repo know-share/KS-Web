@@ -43,6 +43,12 @@ export class ProfileComponent implements OnInit {
     ideas: Array<Idea> = new Array;
     msgs: Message[] = [];
 
+    display: boolean = false;
+
+    showDialog() {
+        this.display = true;
+    }
+
     constructor(
         private ideaService: IdeaService,
         private dialogService: DialogService,
@@ -124,8 +130,9 @@ export class ProfileComponent implements OnInit {
         }).subscribe(
             confirmed => {
                 if (confirmed) {
-                    //this.refreshSolicitudes();
-                    console.log('');
+                    this.refreshUsuario();
+                    this.msgs = [];
+                    this.msgs.push({severity:'success', summary:'Operación exitosa', detail:'Información académica fue actualizada.'});
                 }
             });
     }

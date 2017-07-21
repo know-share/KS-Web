@@ -15,6 +15,8 @@ class InfoUsuario{
 
 export class Usuario {
 
+    id: Object;
+
     nombre: string;
     apellido: string;
     email: string;
