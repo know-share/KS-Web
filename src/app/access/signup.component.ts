@@ -237,6 +237,9 @@ export class SignUpComponent implements OnInit {
     }
 
     verifyStep3(p: Personalidad) {
+        this.habilidadProfesionalesPrimera = [];
+        this.habilidadProfesionalesSegunda = [];
+        this.habilidadesPersonales = [];
         if (this.habilidadesPersonales.length == 0 && this.habilidadProfesionalesPrimera.length == 0) {
             this.habilidadService.getHabilidades(this.carrera.nombre)
                 .subscribe(

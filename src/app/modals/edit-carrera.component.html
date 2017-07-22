@@ -23,11 +23,11 @@
             </select>
             <label>Áreas de conocimiento</label>
             <div  *ngFor="let ac of areasConocimiento">
-                <a [ngClass]="isCheck(ac,acSelected) ? 'thumbnail check':'thumbnail'" (click)="checkAC(ac)">{{ac.nombre}}</a>
+                <div [ngClass]="isCheck(ac,acSelected) ? 'thumbnail check':'thumbnail'" (click)="checkAC(ac)">{{ac.nombre}}</div>
             </div>
             <label>Habilidades profesionales</label>
             <div  *ngFor="let h of habilidadesProfesionales; let i of index">
-                <a [ngClass]="isCheckWithId(h,habilidadesSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidades(h)">{{h.nombre}}</a>
+                <div [ngClass]="isCheckWithId(h,habilidadesSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidades(h)">{{h.nombre}}</div>
             </div>
         </div>
         <div class="modal-footer">

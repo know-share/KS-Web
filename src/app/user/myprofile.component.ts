@@ -124,9 +124,10 @@ export class ProfileComponent implements OnInit {
             });
     }
 
-    editCarrera(carrera) {
+    editCarrera(principal) {
         let disposable = this.dialogService.addDialog(EditCarreraModalComponent, {
-            usuario: this.usuario
+            usuario: this.usuario,
+            isMain: principal
         }).subscribe(
             confirmed => {
                 if (confirmed) {

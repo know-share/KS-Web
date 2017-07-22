@@ -21,8 +21,10 @@
         <div class="container-fluid">
             <ul class="nav navbar-nav">
                 <li [ngClass]="{ 'active': activeTab == 'ideas' }"><a (click)="moveTab('ideas')" class="links">Ideas</a></li>
-                <li [ngClass]="{ 'active': activeTab == 'info' }"><a (click)="moveTab('info')" class="links">Información básica</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'basis' }"><a (click)="moveTab('basis')" class="links">Información básica</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'info' }"><a (click)="moveTab('info')" class="links">Información académica</a></li>
                 <li [ngClass]="{ 'active': activeTab == 'friends' }"><a (click)="moveTab('friends')" class="links">Amigos</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'following' }"><a (click)="moveTab('following')" class="links">Siguiendo</a></li>
                 <li [ngClass]="{ 'active': activeTab == 'followers' }"><a (click)="moveTab('followers')" class="links">Seguidores</a></li>
                 <li [ngClass]="{ 'active': activeTab == 'badges' }"><a (click)="moveTab('badges')" class="links">Insignias</a></li>
                 <li *ngIf="usuario.tipoUsuario == 'PROFESOR'" [ngClass]="{ 'active': activeTab == 'tg' }"><a (click)="moveTab('tg')" class="links">TG Dirigidos</a></li>
@@ -88,7 +90,7 @@
                         <h2>Carrera {{usuario.carrera.nombre}}</h2>
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <h3>Enfasis:</h3>
+                                <h3>Énfasis:</h3>
                                 <p><strong>Principal: </strong>{{usuario.enfasis[0].nombre}}</p>
                                 <p *ngIf="usuario.enfasis[1]"><strong>Secundario: </strong>{{usuario.enfasis[1].nombre}}</p>
                             </div>
@@ -130,7 +132,7 @@
                         <h2>Carrera {{usuario.segundaCarrera.nombre}}</h2>
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <h3>Enfasis:</h3>
+                                <h3>Énfasis:</h3>
                                 <p><strong>Principal: </strong>{{usuario.enfasis[2].nombre}}</p>
                                 <p *ngIf="usuario.enfasis[3]"><strong>Secundario: </strong>{{usuario.enfasis[3].nombre}}</p>
                             </div>

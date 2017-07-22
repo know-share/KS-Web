@@ -280,7 +280,7 @@
                     <div class="form-group">
                         <div class="col-sm-4" *ngFor="let ac of ACCarrera; let i of index">
                             <!--<label><input name="ac_$i" [checked]="isCheckWithName(ac,ACSelected)" type="checkbox" (click)="checkACPrincipal(ac)"/>{{ac.nombre}}</label>-->
-                            <a [ngClass]="isCheckWithName(ac,ACSelected) ? 'thumbnail check':'thumbnail'" (click)="checkACPrincipal(ac)">{{ac.nombre}}</a>
+                            <div [ngClass]="isCheckWithName(ac,ACSelected) ? 'thumbnail check':'thumbnail'" (click)="checkACPrincipal(ac)">{{ac.nombre}}</div>
                         </div>
                     </div>
                     <div *ngIf="segundaCarrera">
@@ -288,7 +288,7 @@
                         <div class="form-group">
                             <div class="col-sm-4" *ngFor="let ac of ACSegundaCarrera; let i of index">
                                 <!--<label><input name="ac2_$i" [checked]="isCheckWithName(ac,ACSelectedSegunda)" type="checkbox" (click)="checkACSecundario(ac)"/>{{ac.nombre}}</label>-->
-                                <a [ngClass]="isCheckWithName(ac,ACSelectedSegunda) ? 'thumbnail check':'thumbnail'" (click)="checkACSecundario(ac)">{{ac.nombre}}</a>
+                                <div [ngClass]="isCheckWithName(ac,ACSelectedSegunda) ? 'thumbnail check':'thumbnail'" (click)="checkACSecundario(ac)">{{ac.nombre}}</div>
                             </div>
                         </div>
                     </div>
@@ -312,9 +312,8 @@
                 <div *ngIf="activeTabHabilidades == 'personales'" id="personales" [ngClass]="activeTabHabilidades == 'personales'?'tab-pane fade in active':'tab-pane fade'">
                     <h2>Habilidades personales</h2>
                     <div class="form-group">
-                        <div class="col-sm-4" *ngFor="let h of habilidadesPersonales; let i of index">
-                            <!--<label><input [checked]="isCheckWithId(h,habilidadesPerSelected)" (click)="checkHabilidadesPerSelected(h)" name="hp_$i" type="checkbox" value="h" checked/>{{h.nombre}}</label>-->
-                            <a [ngClass]="isCheckWithId(h,habilidadesPerSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidadesPerSelected(h)">{{h.nombre}}</a>
+                        <div class="col-sm-2" *ngFor="let h of habilidadesPersonales; let i of index">
+                            <div [ngClass]="isCheckWithId(h,habilidadesPerSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidadesPerSelected(h)">{{h.nombre}}</div>
                         </div>
                     </div>
                 </div>
@@ -322,17 +321,17 @@
                     <br>
                     <h2>Habilidades profesionales de {{carrera.nombre}}</h2>
                     <div class="form-group">
-                        <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
+                        <div class="col-sm-6" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
                             <!--<label><input [checked]="isCheckWithId(h,habilidadesProSelected)" (click)="checkHabilidadesProSelected(h)" name="h_$i" type="checkbox" value="h"/>{{h.nombre}}</label>-->
-                            <a [ngClass]="isCheckWithId(h,habilidadesProSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidadesProSelected(h)">{{h.nombre}}</a>
+                            <div [ngClass]="isCheckWithId(h,habilidadesProSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidadesProSelected(h)">{{h.nombre}}</div>
                         </div>
                     </div>
                     <div *ngIf="segundaCarrera">
                         <h2>Habilidades profesionales de {{segundaCarrera.nombre}}</h2>
                         <div class="form-group">
-                            <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesSegunda; let i of index">
+                            <div class="col-sm-6" *ngFor="let h of habilidadProfesionalesSegunda; let i of index">
                                 <!--<label><input [checked]="isCheckWithId(h,habilidadesProSegSelected)" (click)="checkHabilidadesProSegSelected(h)" name="h2_$i" type="checkbox" value="h"/>{{h.nombre}}</label>-->
-                                <a [ngClass]="isCheckWithId(h,habilidadesProSegSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidadesProSegSelected(h)">{{h.nombre}}</a>
+                                <div [ngClass]="isCheckWithId(h,habilidadesProSegSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidadesProSegSelected(h)">{{h.nombre}}</div>
                             </div>
                         </div>
                     </div>
@@ -419,7 +418,7 @@
                     <div class="form-group">
                         <div class="col-sm-4" *ngFor="let c of cualidades; let i of index">
                             <!--<label><input [checked]="isCheckWithId(c,cualidadesProfesor)" (click)="checkCualidadesProfesor(c)" name="cp_$i" type="checkbox" value="c"/>{{c.nombre}}</label>-->
-                            <a [ngClass]="isCheckWithId(c,cualidadesProfesor) ? 'thumbnail check':'thumbnail'" (click)="checkCualidadesProfesor(c)">{{c.nombre}}</a>
+                            <div [ngClass]="isCheckWithId(c,cualidadesProfesor) ? 'thumbnail check':'thumbnail'" (click)="checkCualidadesProfesor(c)">{{c.nombre}}</div>
                         </div>
                     </div>
                 </div>
@@ -429,7 +428,7 @@
                     <div class="form-group">
                         <div class="col-sm-4" *ngFor="let h of habilidadProfesionalesPrimera; let i of index">
                             <!--<label><input [checked]="isCheckWithId(h,habilidadesProSelected)" (click)="checkHabilidadesProSelected(h)" name="hpp_$i" type="checkbox" value="h"/>{{h.nombre}}</label>-->
-                            <a [ngClass]="isCheckWithId(h,habilidadesProSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidadesProSelected(h)">{{h.nombre}}</a>
+                            <div [ngClass]="isCheckWithId(h,habilidadesProSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidadesProSelected(h)">{{h.nombre}}</div>
                         </div>
                     </div>
                 </div>

@@ -17,6 +17,7 @@ import { AreaConocimiento } from '../entities/areaConocimiento';
 
 export interface RequestModalDisplay {
     usuario: Usuario;
+    isMain: boolean;
 }
 
 @Component({
@@ -28,6 +29,7 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
     implements RequestModalDisplay, OnInit {
 
     usuario: Usuario;
+    isMain: boolean;
 
     loading: boolean = false;
 
@@ -64,7 +66,10 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
             .subscribe(
             carreras => {
                 this.carreras = carreras;
-                this.carrera = this.carreras.find(c => c.nombre == this.usuario.carrera.nombre);
+                if(this.isMain)
+                    this.carrera = this.carreras.find(c => c.nombre == this.usuario.carrera.nombre);
+                else
+                    this.carrera = this.carreras.find(c => c.nombre == this.usuario.segundaCarrera.nombre);
                 this.loading = false;
                 this.getEnfasis();
                 this.getHabilidades();
@@ -75,7 +80,11 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
     loadPersistentInfo(){
         this.habilidadesOriginales = [];
         this.areasConocimientoOtraCarrera= [];
-        let carreraActual = this.usuario.carrera.nombre;
+        let carreraActual;
+        if(this.isMain)
+            carreraActual = this.usuario.carrera.nombre;
+        else
+            carreraActual = this.usuario.segundaCarrera.nombre;
         for(let h of this.usuario.habilidades){
             if(h.tipo == 'PERSONALES' || h.carrera != carreraActual)
                 this.habilidadesOriginales.push(h);
@@ -127,20 +136,32 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
                     enf.nombre = e;
                     this.enfasisCarrera.push(enf);
                 }
-                this.enfasisPrincipal = this.enfasisCarrera.find(e => e.nombre == this.usuario.enfasis[0].nombre);
-                if (this.usuario.enfasis[1])
-                    this.enfasisSecundario = this.enfasisCarrera.find(e => e.nombre == this.usuario.enfasis[1].nombre);
-                else
-                    this.enfasisSecundario = null;
-                if (!this.enfasisPrincipal)
-                    this.enfasisPrincipal = this.enfasisCarrera[0];
-                if (!this.enfasisSecundario)
-                    this.enfasisSecundario = null;
+                if(this.isMain){
+                    this.enfasisPrincipal = this.enfasisCarrera.find(e => e.nombre == this.usuario.enfasis[0].nombre);
+                    if (this.usuario.enfasis[1])
+                        this.enfasisSecundario = this.enfasisCarrera.find(e => e.nombre == this.usuario.enfasis[1].nombre);
+                    else
+                        this.enfasisSecundario = null;
+                    if (!this.enfasisPrincipal)
+                        this.enfasisPrincipal = this.enfasisCarrera[0];
+                    if (!this.enfasisSecundario)
+                        this.enfasisSecundario = null;
+                }else{
+                    this.enfasisPrincipal = this.enfasisCarrera.find(e => e.nombre == this.usuario.enfasis[2].nombre);
+                    if (this.usuario.enfasis[3])
+                        this.enfasisSecundario = this.enfasisCarrera.find(e => e.nombre == this.usuario.enfasis[3].nombre);
+                    else
+                        this.enfasisSecundario = null;
+                    if (!this.enfasisPrincipal)
+                        this.enfasisPrincipal = this.enfasisCarrera[0];
+                    if (!this.enfasisSecundario)
+                        this.enfasisSecundario = null;
+                }
 
                 //--------------------------------------------------------
                 for (let ac of enfasisAC.areaConocimiento) {
                     let acNew: AreaConocimiento = new AreaConocimiento();
-                    acNew.carrera = this.usuario.carrera.nombre;
+                    acNew.carrera = this.carrera.nombre;
                     acNew.nombre = ac;
                     this.areasConocimiento.push(acNew);
 
@@ -176,10 +197,22 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
         let dto: Usuario = new Usuario();
         dto.id = this.usuario.id;
         dto.tipoUsuario = this.usuario.tipoUsuario;
-        dto.carrera = this.carrera;
+        if(this.isMain){
+            dto.carrera = this.carrera;
+            dto.segundaCarrera = this.usuario.segundaCarrera;
+        }else{
+            dto.carrera = this.usuario.carrera;
+            dto.segundaCarrera = this.carrera;
+        }
+            
         dto.enfasis = this.usuario.enfasis;
-        dto.enfasis[0] = this.enfasisPrincipal;
-        dto.enfasis[1] = this.enfasisSecundario;
+        if(this.isMain){
+            dto.enfasis[0] = this.enfasisPrincipal;
+            dto.enfasis[1] = this.enfasisSecundario;
+        }else{
+            dto.enfasis[2] = this.enfasisPrincipal;
+            dto.enfasis[3] = this.enfasisSecundario;
+        }
         dto.areasConocimiento = this.areasConocimientoOtraCarrera.concat(this.acSelected);
         dto.habilidades = this.habilidadesOriginales.concat(this.habilidadesSelected);
         this.usuarioService.actualizarInfoAcademica(dto)
