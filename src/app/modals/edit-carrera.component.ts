@@ -163,12 +163,15 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
                     let acNew: AreaConocimiento = new AreaConocimiento();
                     acNew.carrera = this.carrera.nombre;
                     acNew.nombre = ac;
-                    this.areasConocimiento.push(acNew);
+                    acNew.porcentaje = 0;
 
                     let acUsuario = this.usuario.areasConocimiento.find(a => a.nombre == ac);
                     if (acUsuario) {
+                        acNew.porcentaje = acUsuario.porcentaje;
                         this.acSelected.push(acUsuario);
                     }
+
+                    this.areasConocimiento.push(acNew);
                 }
                 this.loading = false;
             },

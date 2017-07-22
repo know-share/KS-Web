@@ -24,6 +24,15 @@ export class UsuarioService {
             });
     }
 
+    isCorreoTaken(correo: string) {
+        let url = this.baseUrl +
+            `isCorreoTaken?correo=${correo}`;
+        return this.http.get(url)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
     crearUsuario(usuario) {
         return this.http.post(this.baseUrl,
             usuario).map((res: Response) =>{
@@ -183,6 +192,42 @@ export class UsuarioService {
         let header = new Headers();
         header.append('Authorization',localStorage.getItem('token'));
         let url = this.baseUrl + `actualizarInfoAcademica`;
+        return this.http.patch(url,usuario,{
+            headers: header
+        })
+            .map((res: Response) =>{
+                if(res.status == 200)
+                    return 'ok';
+                throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    actualizarHabilidadCualidad(usuario){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        let url = this.baseUrl + `actualizarHabilidadCualidad`;
+        return this.http.patch(url,usuario,{
+            headers: header
+        })
+            .map((res: Response) =>{
+                if(res.status == 200)
+                    return 'ok';
+                throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    actualizarBasis(usuario){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        let url = this.baseUrl + `actualizarBasis`;
         return this.http.patch(url,usuario,{
             headers: header
         })

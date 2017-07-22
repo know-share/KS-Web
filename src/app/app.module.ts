@@ -24,6 +24,8 @@ import { ExpirationModalComponent } from './modals/expiration.component';
 import { EditCarreraModalComponent } from './modals/edit-carrera.component';
 import { AddTGModalComponent } from './modals/add-tg.component';
 import { AddFAModalComponent } from './modals/add-fa.component';
+import { EditHabilidadModalComponent } from './modals/edit-habilidad.component';
+import { EditBasisModalComponent } from './modals/edit-basis.component';
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -64,7 +66,9 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         ExpirationModalComponent,
         EditCarreraModalComponent,
         AddTGModalComponent,
-        AddFAModalComponent
+        AddFAModalComponent,
+        EditHabilidadModalComponent,
+        EditBasisModalComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -88,7 +92,9 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         ExpirationModalComponent,
         EditCarreraModalComponent,
         AddTGModalComponent,
-        AddFAModalComponent
+        AddFAModalComponent,
+        EditHabilidadModalComponent,
+        EditBasisModalComponent
     ],
     bootstrap: [AppComponent]
 })

@@ -149,6 +149,36 @@ export class UserComponent implements OnInit {
             );
     }
 
+    refreshUsuario() {
+        this.usuarioService.getUsuario(this.usuario.username)
+            .subscribe(
+            usuario => {
+                this.habilidadesPersonales = [];
+                this.habilidadesProfesionales = [];
+                this.habilidadesProfesionalesSeg = [];
+                this.areasConocimiento = [];
+                this.areasConocimientoSeg = [];
+                this.usuario = usuario;
+                this.mapAreasConocimiento(usuario.areasConocimiento);
+                for (let h of usuario.habilidades) {
+                    if (h.tipo == 'PERSONALES') {
+                        this.habilidadesPersonales.push(h);
+                    }
+                    if (h.tipo == 'PROFESIONALES' && h.carrera == this.usuario.carrera.nombre) {
+                        this.habilidadesProfesionales.push(h);
+                    }
+                    if (this.usuario.segundaCarrera && h.tipo == 'PROFESIONALES' && h.carrera == this.usuario.segundaCarrera.nombre) {
+                        this.habilidadesProfesionalesSeg.push(h);
+                    }
+                }
+            }, error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            }
+            );
+    }
+
     seguir(){
         if(!this.isFollowing){
             this.usuarioService.seguir(this.username)
@@ -157,7 +187,7 @@ export class UserComponent implements OnInit {
                         this.textFollow = "Siguiendo";
                         this.isFollowing = true;
                         this.isFriend = true;
-                        this.usuario.cantidadSeguidores += 1;
+                        this.refreshUsuario();
                     },
                     error => {
                         let disposable;
@@ -172,7 +202,7 @@ export class UserComponent implements OnInit {
                         this.textFollow = "Seguir";
                         this.isFollowing = false;
                         this.isFriend = false;
-                        this.usuario.cantidadSeguidores -= 1;
+                        this.refreshUsuario();
                     },
                     error => {
                         let disposable;

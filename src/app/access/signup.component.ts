@@ -154,21 +154,30 @@ export class SignUpComponent implements OnInit {
             name: ['', Validators.required],
             lastName: ['', Validators.required],
             confirmPassword: ['', Validators.required],
-            username: ['', Validators.required]
+            username: ['', Validators.compose([Validators.required,Validators.minLength(4),Validators.pattern(/^\S*$/)])]
         }, {
                 validator: SignUpValidation.Validate // UsernameValidation.UsernameTaken
             });
     }
 
     verifyStep1() {
-        this.usuarioService.isUsernameTaken(this.username)
+        this.usuarioService.isCorreoTaken(this.email)
             .subscribe(
             taken => {
                 if (taken)
-                    this.stepOneForm.get("username").setErrors({ UsernameTaken: true });
-                else
-                    this.currentStep = 2;
-            }, error => null);
+                    this.stepOneForm.get("email").setErrors({ CorreoTaken: true });
+                else {
+                    this.usuarioService.isUsernameTaken(this.username)
+                        .subscribe(
+                        taken => {
+                            if (taken)
+                                this.stepOneForm.get("username").setErrors({ UsernameTaken: true });
+                            else 
+                                this.currentStep = 2;
+                        });
+                }
+            });
+
     }
 
     verifyStep2() {
