@@ -75,7 +75,7 @@ export class ProfileComponent implements OnInit {
                 this.habilidadesProfesionalesSeg.push(h);
             }
         }
-        this.ideaService.findByUsuario(localStorage.getItem('username'))
+        this.ideaService.findByUsuario(localStorage.getItem('user'))
             .subscribe((res : any[])=>{
                 this.ideas = res;
                 console.log(res.length);
@@ -84,6 +84,7 @@ export class ProfileComponent implements OnInit {
             });
 
             console.log(this.ideas.length);
+            
     }
 
     mapAreasConocimiento(areasConocimiento: AreaConocimiento[]) {

@@ -54,9 +54,11 @@ export class HomeComponent implements OnInit {
         
         this.refreshSolicitudes();
         this.showTags();
+        this.find10();
     }
 
     refreshSolicitudes() {
+        console.log(localStorage.getItem('user'));
         this.usuarioService.getUsuario(localStorage.getItem('user'))
             .subscribe(
             res => {
@@ -141,5 +143,15 @@ export class HomeComponent implements OnInit {
             }
         }
         return filtered;
+    }
+
+    find10(){
+        this.ideaService.find10().
+            subscribe((res:Array<Idea>)=>{
+                this.newIdeas = res;
+            },error =>{
+                console.log('error' + error);
+            });
+
     }
 }
