@@ -14,6 +14,8 @@ import { TagService } from '../services/tag.service';
 import { Idea } from '../entities/idea';
 import { Tag } from '../entities/tag';
 
+import { ComentarModalComponent } from '../modals/comentar.component';
+
 @Component({
     selector: 'home',
     templateUrl: './home.component.html',
@@ -153,5 +155,30 @@ export class HomeComponent implements OnInit {
                 console.log('error' + error);
             });
 
+    }
+
+    comentar(idea: Idea){
+        let disposable = this.dialogService.addDialog(ComentarModalComponent, {
+            idea : idea
+        }).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    this.find10();
+                }else{
+                    console.log("paila");
+                }
+            });
+    }
+
+    light(idea: Idea){
+        this.ideaService.light(idea)
+            .subscribe(res =>{
+                if(res){
+                    this.find10();
+                    console.log("exito")
+                }
+            },error =>{
+                console.log("error" + error);
+            });
     }
 }

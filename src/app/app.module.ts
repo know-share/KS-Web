@@ -26,6 +26,7 @@ import { AddTGModalComponent } from './modals/add-tg.component';
 import { AddFAModalComponent } from './modals/add-fa.component';
 import { EditHabilidadModalComponent } from './modals/edit-habilidad.component';
 import { EditBasisModalComponent } from './modals/edit-basis.component';
+import { ComentarModalComponent } from './modals/comentar.component';
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -68,7 +69,8 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         AddTGModalComponent,
         AddFAModalComponent,
         EditHabilidadModalComponent,
-        EditBasisModalComponent
+        EditBasisModalComponent,
+        ComentarModalComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -94,7 +96,8 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         AddTGModalComponent,
         AddFAModalComponent,
         EditHabilidadModalComponent,
-        EditBasisModalComponent
+        EditBasisModalComponent,
+        ComentarModalComponent
     ],
     bootstrap: [AppComponent]
 })

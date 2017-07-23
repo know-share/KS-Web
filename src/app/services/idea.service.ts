@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import { URL_API } from '../entities/constants';
 
 import {Idea} from '../entities/idea';
+import {Comentario} from '../entities/comentario';
 
 @Injectable()
 export class IdeaService{
@@ -84,6 +85,46 @@ export class IdeaService{
                     throw new Error(err.status.toString());
                 throw Error(err.toString());
             });
+    }
+
+    comentar(params : Comentario){
+        let url = this.baseUrl + "comentar";
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        return this.http.post(url,params,{
+            headers:header
+        }).map((res : Response)=>{
+            if(res.status == 200){
+                return res.json();
+            }
+            if(res.status == 500){
+                throw new Error('No se pudo realizar el comentario.');
+            }
+        }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+        });
+    }
+
+    light(idea : Idea){
+        let url = this.baseUrl + "light";
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        return this.http.post(url,idea,{
+            headers:header
+        }).map((res : Response)=>{
+            if(res.status == 200){
+                return res.json();
+            }
+            if(res.status == 500){
+                throw new Error('No se pudo realizar el light .');
+            }
+        }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+        });
     }
 
     

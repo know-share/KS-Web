@@ -10,12 +10,14 @@ import {Message} from 'primeng/primeng';
 import { UsuarioService } from '../services/usuario.service';
 import { ErrorService } from '../error/error.service';
 import { IdeaService } from '../services/idea.service';
+import { TagService } from '../services/tag.service';
 
 //Entities
 import { Usuario } from '../entities/usuario';
 import { Habilidad } from '../entities/habilidad';
 import { AreaConocimiento } from '../entities/areaConocimiento';
 import { Idea } from '../entities/idea';
+import { Tag } from '../entities/tag';
 
 import { EditCarreraModalComponent } from '../modals/edit-carrera.component';
 import { AddTGModalComponent } from '../modals/add-tg.component';
@@ -47,6 +49,16 @@ export class ProfileComponent implements OnInit {
 
     display: boolean = false;
 
+    tags : Array<Tag> = new Array;
+    selectedTags : any[]
+    filteredTagsMultiple: any[];
+
+    selectedValueTipo: string;
+    contenido: string;
+    numeroEstudiantes: number;
+    alcance: string;
+    problematica: string;
+
     showDialog() {
         this.display = true;
     }
@@ -56,7 +68,10 @@ export class ProfileComponent implements OnInit {
         private dialogService: DialogService,
         private usuarioService: UsuarioService,
         private router:Router,
-    ) { }
+        private tagService : TagService
+    ) { 
+        this.selectedValueTipo = 'NU';
+    }
 
     ngOnInit() {
         this.activeTab = 'ideas';
@@ -213,5 +228,51 @@ export class ProfileComponent implements OnInit {
                         console.log('error: '+error);
                 }
             )
+    }
+
+    crearIdea() {
+        let idea: Idea = new Idea();
+        idea.alcance = this.alcance;
+        idea.tipo = this.selectedValueTipo;
+        idea.contenido = this.contenido;
+        idea.numeroEstudiantes = this.numeroEstudiantes;
+        idea.problematica = this.problematica;
+        idea.tags = this.selectedTags;
+        console.log(this.selectedTags);
+        console.log(idea);
+        this.ideaService.crearIdea(idea)
+            .subscribe((res:Idea) => {
+                this.ideas.push(res);
+                console.log(res.usuario);
+            }, error => {
+                let disposable;
+                if(error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
+
+        this.selectedTags = new Array;
+        this.contenido = '';
+        this.alcance = '';
+        this.problematica = '';
+        this.numeroEstudiantes = 0;
+    }
+
+    filterTagMultiple(event) {
+        let query = event.query;
+        this.tagService.getAllTags().subscribe((tags:Array<Tag>) => {
+            this.filteredTagsMultiple = this.filterTag(query, tags);
+        });
+    }
+
+    filterTag(query, tags: any[]):any[] {
+        //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
+        let filtered : any[] = [];
+        for(let i = 0; i < tags.length; i++) {
+            let tag = tags[i];
+            if(tag.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+                filtered.push(tag);
+            }
+        }
+        return filtered;
     }
 }
