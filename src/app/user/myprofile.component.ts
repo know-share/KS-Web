@@ -80,12 +80,9 @@ export class ProfileComponent implements OnInit {
         this.ideaService.findByUsuario(localStorage.getItem('username'))
             .subscribe((res : any[])=>{
                 this.ideas = res;
-                console.log(res.length);
             }, error =>{
                 console.log('Error' + error);
             });
-
-            console.log(this.ideas.length);
     }
 
     mapAreasConocimiento(areasConocimiento: AreaConocimiento[]) {
