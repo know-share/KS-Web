@@ -21,6 +21,8 @@ import { EditCarreraModalComponent } from '../modals/edit-carrera.component';
 import { AddTGModalComponent } from '../modals/add-tg.component';
 import { AddFAModalComponent } from '../modals/add-fa.component';
 import { ExpirationModalComponent } from '../modals/expiration.component';
+import { EditHabilidadModalComponent } from '../modals/edit-habilidad.component';
+import { EditBasisModalComponent } from '../modals/edit-basis.component';
 
 @Component({
     selector: 'myprofile',
@@ -125,15 +127,42 @@ export class ProfileComponent implements OnInit {
             });
     }
 
-    editCarrera(carrera) {
+    editCarrera(principal) {
         let disposable = this.dialogService.addDialog(EditCarreraModalComponent, {
-            usuario: this.usuario
+            usuario: this.usuario,
+            isMain: principal
         }).subscribe(
             confirmed => {
                 if (confirmed) {
                     this.refreshUsuario();
                     this.msgs = [];
                     this.msgs.push({severity:'success', summary:'Operación exitosa', detail:'Información académica fue actualizada.'});
+                }
+            });
+    }
+
+    editBasis(){
+        let disposable = this.dialogService.addDialog(EditBasisModalComponent, {
+            usuario: this.usuario
+        }).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    this.refreshUsuario();
+                    this.msgs = [];
+                    this.msgs.push({severity:'success', summary:'Operación exitosa', detail:'Información personal fue actualizada.'});
+                }
+            });
+    }
+
+    editHabilidadCualidad(){
+        let disposable = this.dialogService.addDialog(EditHabilidadModalComponent, {
+            usuario: this.usuario
+        }).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    this.refreshUsuario();
+                    this.msgs = [];
+                    this.msgs.push({severity:'success', summary:'Operación exitosa', detail:'Información fue actualizada.'});
                 }
             });
     }

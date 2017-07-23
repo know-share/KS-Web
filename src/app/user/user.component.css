@@ -12,3 +12,8 @@
 .container-card{
     padding: 0 16px;
 }
+.fixed {
+    position: fixed; 
+    top: 0;
+}
+.sidebar {  margin-top: 20px; }

@@ -1,4 +1,4 @@
-<div class="modal-dialog">
+<div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" (click)="close()">&times;</button>
@@ -22,12 +22,69 @@
                 <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
             </select>
             <label>Áreas de conocimiento</label>
-            <div  *ngFor="let ac of areasConocimiento">
-                <a [ngClass]="isCheck(ac,acSelected) ? 'thumbnail check':'thumbnail'" (click)="checkAC(ac)">{{ac.nombre}}</a>
+            <div *ngFor="let ac of areasConocimiento">
+                <div [ngClass]="isCheck(ac,acSelected) ? 'thumbnail check':'thumbnail'" (click)="checkAC(ac)">{{ac.nombre}}</div>
             </div>
             <label>Habilidades profesionales</label>
-            <div  *ngFor="let h of habilidadesProfesionales; let i of index">
-                <a [ngClass]="isCheckWithId(h,habilidadesSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidades(h)">{{h.nombre}}</a>
+            <div *ngFor="let h of habilidadesProfesionales; let i of index">
+                <div [ngClass]="isCheckWithId(h,habilidadesSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidades(h)">{{h.nombre}}</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="confirm()">Guardar</button>
+            <button type="button" class="btn btn-default" (click)="close()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" (click)="close()">&times;</button>
+            <h4 class="modal-title">Editar Carrera</h4>
+        </div>
+        <div class="modal-body">
+            <div id="loading" *ngIf="loading">
+                <img src="images/loading.gif" />
+            </div>
+            <label>Carrera</label>
+            <select [(ngModel)]="carrera" (ngModelChange)="onChangeCarrera()" class="form-control" name="carrera">
+                <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
+            </select>
+            <label>Enfasis principal</label>
+            <select [(ngModel)]="enfasisPrincipal" class="form-control" name="carrera">
+                <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
+            </select>
+            <label>Enfasis secundario</label>
+            <select [(ngModel)]="enfasisSecundario" class="form-control" name="carrera">
+                <option [ngValue]=null>Ninguna</option>
+                <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
+            </select>
+            <label>Áreas de conocimiento</label>
+            <div class="form-group" *ngFor="let ac of areasConocimiento">
+                <!--<div [ngClass]="isCheck(ac,acSelected) ? 'thumbnail check':'thumbnail'" (click)="checkAC(ac)">{{ac.nombre}}</div>-->
+                <div class="col-sm-9 aconocimiento">
+                    <label><input [checked]="isCheck(ac,acSelected)" type="checkbox" (click)="checkAC(ac)"/>  {{ac.nombre}}</label>
+                </div>
+                <div class="col-sm-3">
+                    <select [(ngModel)]="ac.porcentaje" class="form-control">
+                        <option [ngValue]=0>0%</option>
+                        <option [ngValue]=10>10%</option>
+                        <option [ngValue]=20>20%</option>
+                        <option [ngValue]=30>30%</option>
+                        <option [ngValue]=40>40%</option>
+                        <option [ngValue]=50>50%</option>
+                        <option [ngValue]=60>60%</option>
+                        <option [ngValue]=70>70%</option>
+                        <option [ngValue]=80>80%</option>
+                        <option [ngValue]=90>90%</option>
+                        <option [ngValue]=100>100%</option>
+                    </select>
+                </div>
+            </div>
+            <label>Cualidades profesionales</label>
+            <div *ngFor="let h of habilidadesProfesionales; let i of index">
+                <div [ngClass]="isCheckWithId(h,habilidadesSelected) ? 'thumbnail check':'thumbnail'" (click)="checkHabilidades(h)">{{h.nombre}}</div>
             </div>
         </div>
         <div class="modal-footer">

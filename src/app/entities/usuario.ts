@@ -45,6 +45,7 @@ export class Usuario {
     amigos: InfoUsuario[];
     cantidadSeguidores: number;
     seguidores: InfoUsuario[];
+    siguiendo: InfoUsuario[];
 
     solicitudesAmistad: string[];
 
