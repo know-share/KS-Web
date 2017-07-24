@@ -45,6 +45,9 @@ img{
     width: 100px;
     height: 100px;
 }
+.thumbnail{
+    color: #0066ff;
+}
 .thumbnail:hover{
     cursor: pointer;
 }

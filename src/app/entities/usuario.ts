@@ -5,8 +5,17 @@ import { Enfasis } from './enfasis';
 import { AreaConocimiento } from './areaConocimiento';
 import { Habilidad } from './habilidad';
 import { Cualidad } from './cualidad';
+import { TrabajoGrado } from './trabajoGrado';
+import { FormacionAcademica } from './formacionAcademica';
+
+class InfoUsuario{
+    username:string;
+    nombre:string;
+}
 
 export class Usuario {
+
+    id: Object;
 
     nombre: string;
     apellido: string;
@@ -33,11 +42,17 @@ export class Usuario {
     cualidades: Cualidad[];
 
     cantidadAmigos: number;
-    amigos: string[];
+    amigos: InfoUsuario[];
     cantidadSeguidores: number;
-    seguidores: string[];
+    seguidores: InfoUsuario[];
+    siguiendo: InfoUsuario[];
+
+    solicitudesAmistad: string[];
 
     insignias: string[];
+
+    tgDirigidos:TrabajoGrado[];
+	formacionAcademica:FormacionAcademica[];
 
     constructor(){
         this.personalidad = new Personalidad();

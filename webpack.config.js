@@ -47,10 +47,15 @@ module.exports = {
         new CopyWebpackPlugin([{
             from: './src/resources/images',
             to: './images'
-        }]),
-        new CopyWebpackPlugin([{
+        },{
             from: './src/resources/css',
             to: './css'
+        },{
+            from: './node_modules/primeng',
+            to: './css'
+        },{
+            from:'./node_modules/font-awesome',
+            to: './fonts'
         }])
     ]
 

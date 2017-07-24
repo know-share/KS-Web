@@ -1,46 +1,77 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-6">
-            <!--<form novalidate (ngSubmit) = "crearIdea()" [formGroup] = "ideaForm">-->
+            <div class="container">
+    <div class="row">
+        <div class="col-xs-2">
+        </div>
+        <div class="col-xs-6">
+            <form>
                 <div class="form-group">
-                    
                     <label for="sel1">Seleccione el tipo de idea:</label>
-                    <select class="form-control" id="sel1" [(ngModel)] = "selectedValueTipo" [ngModelOptions]="{standalone: true}">
+                    <select class="form-control" id="sel1" [(ngModel)] = "selectedValueTipo" name = "tipoIdea" [ngModelOptions]="{standalone: true}">
                         <option value="NU">Nueva</option>
                         <option value="PC">Para continuar</option>
                         <option value="PE">Para empezar</option>
-                        <option value="PR">Proyecto</option>
                     </select>
                 </div>
             
                 <div class="form-group">
                     <h4>Contenido</h4>
-                    <textarea class="form-control" rows="5" id="contenido"  
-                        [(ngModel)]="contenido"></textarea>
+                    <textarea class="form-control" rows="5" 
+                        [(ngModel)]="contenido" name = "content"></textarea>
                 </div >
 
-                <div class="form-group" *ngIf = "selectedValueTipo == 'Para continuar' || selectedValueTipo == 'Para empezar'">
+                <div class="form-group" *ngIf = "selectedValueTipo == 'PC' || selectedValueTipo == 'PE'">
                     <label for="numeroest">Numero de estudiantes: </label>
-                    <input class="form-control" type="number" id="numeroest"  
-                        [(ngModel)] = "numeroEstudiantes">        
+                    <input class="form-control" type="number"  
+                        [(ngModel)] = "numeroEstudiantes" name = "numero">        
                 </div>
 
-                <div class="form-group" *ngIf = "selectedValueTipo == 'Para empezar'">
+                <div class="form-group" *ngIf = "selectedValueTipo == 'PE'">
                     <label for="alcance">Alcance: </label>
-                    <input class="form-control" type="text" id="alcance" [(ngModel)] = "alcance">
+                    <input class="form-control" type="text" [(ngModel)] = "alcance" name = "alc">
 
                     <label for="problematica">Problematica: </label>
-                    <input class="form-control" type="text" id="problematica" 
-                        [(ngModel)] = "problematica"> 
+                    <input class="form-control" type="text"
+                        [(ngModel)] = "problematica" name ="problem"> 
 
                 </div>
-                <div class="form-group" *ngIf = "selectedValueTipo == 'Proyecto'">
+                <div class="form-group" *ngIf = "selectedValueTipo == 'PR'">
                     <button type="button" class="btn">Agregar ideas</button>
                 </div>
+                
+                <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
+                    [minLength]="1" placeholder="tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
+                </p-autoComplete>
+                <br>
                 <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
-            <!--</form>-->  
-        </div>
+                <div class="panel panel-default center" *ngFor = "let i of newIdeas" >
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">{{i.usuario}}</div>
+                        <div class="panel-body">{{i.contenido}}</div>
+                        <div class="panel-body">{{i.comentarios}}</div>
+                        <div class="row">
+                            <div class="col-xs-4"><button type="button" (click)="light(i)" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
+                            <div class="col-xs-4"><button type="button" (click)="comentar(i)" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment" ></i> Comentar</button></div>
+                            
+                            <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
             
+        </div>
+        <div class="col-xs-1">
+        </div>
+        <div class="col-xs-3">
+            <div class="panel panel-default center">
+                <div class="panel-heading">Solicitudes de amistad</div>
+                <div class="panel-body center">
+                    <button (click)="showRequests()" type="button" class="btn btn-primary">Pendientes <span class="badge">{{cantidadSolicitudes}}</span></button>
+                </div>
+            </div>
+        </div>
     </div>
-    
+
 </div>
