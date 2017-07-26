@@ -8,8 +8,12 @@ import { SignUpComponent } from './access/signup.component';
 import { LoginComponent } from './access/login.component';
 import { ErrorComponent } from './error/error.component';
 
+//Components - Admin
+import { PanelAdminComponent } from './admin/panel-admin.component';
+
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
+import { AuthAdminGuard } from './security/auth-admin.guard';
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -18,6 +22,7 @@ const routes: Routes = [
     { path: 'signup', component: SignUpComponent, canActivate:[AuthReverseGuard] },
     { path: 'login', component: LoginComponent, canActivate:[AuthReverseGuard] },
     { path: 'error', component: ErrorComponent },
+    { path: 'admin', component: PanelAdminComponent, canActivate:[AuthAdminGuard] },
 ];
 
 @NgModule({

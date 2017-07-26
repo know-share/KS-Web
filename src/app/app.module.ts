@@ -28,6 +28,9 @@ import { EditHabilidadModalComponent } from './modals/edit-habilidad.component';
 import { EditBasisModalComponent } from './modals/edit-basis.component';
 import { ComentarModalComponent } from './modals/comentar.component';
 
+// Components - Admin
+import { PanelAdminComponent } from './admin/panel-admin.component';
+
 //Services
 import { PersonalidadService } from './services/personalidad.service';
 import { CarreraService } from './services/carrera.service';
@@ -43,6 +46,7 @@ import { RuleService } from './services/rules.service';
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
+import { AuthAdminGuard } from './security/auth-admin.guard';
 
 @NgModule({
     imports: [
@@ -71,7 +75,8 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         AddFAModalComponent,
         EditHabilidadModalComponent,
         EditBasisModalComponent,
-        ComentarModalComponent
+        ComentarModalComponent,
+        PanelAdminComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -87,6 +92,7 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         ErrorService,
         AuthGuard,
         AuthReverseGuard,
+        AuthAdminGuard,
         IdeaService,
         TagService,
         RuleService
