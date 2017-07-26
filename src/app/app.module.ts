@@ -39,6 +39,7 @@ import { AuthService } from './services/auth.service';
 import { ErrorService } from './error/error.service';
 import { IdeaService } from './services/idea.service';
 import { TagService } from './services/tag.service';
+import { RuleService } from './services/rules.service';
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
@@ -87,7 +88,8 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         AuthGuard,
         AuthReverseGuard,
         IdeaService,
-        TagService
+        TagService,
+        RuleService
     ],
     entryComponents:[
         RequestModalComponent,

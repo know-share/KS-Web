@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from "ng2-bootstrap-modal";
-import {AutoCompleteModule} from 'primeng/primeng';
+import { AutoCompleteModule } from 'primeng/primeng';
 
 import { RequestModalComponent } from '../modals/request.component';
 import { ExpirationModalComponent } from '../modals/expiration.component';
@@ -10,9 +10,11 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
 import { IdeaService } from '../services/idea.service';
 import { UsuarioService } from '../services/usuario.service';
 import { TagService } from '../services/tag.service';
+import { RuleService } from '../services/rules.service';
 
 import { Idea } from '../entities/idea';
 import { Tag } from '../entities/tag';
+import { Recomendacion } from '../entities/recomendacion';
 
 import { ComentarModalComponent } from '../modals/comentar.component';
 
@@ -23,8 +25,11 @@ import { ComentarModalComponent } from '../modals/comentar.component';
 })
 export class HomeComponent implements OnInit {
 
+    @ViewChild('friendButton') friendButton: ElementRef;
+    @ViewChild('followButton') followButton: ElementRef;
+
     ideaForm: FormGroup;
-    newIdeas : Array<Idea> = new Array;
+    newIdeas: Array<Idea> = new Array;
     selectedValueTipo: string;
     contenido: string;
     numeroEstudiantes: number;
@@ -34,50 +39,105 @@ export class HomeComponent implements OnInit {
     listSolicitudes: string[] = [];
     cantidadSolicitudes: number = 0;
 
-    
-    tags : Array<Tag> = new Array;
-    selectedTags : any[]
+    recomendaciones: Recomendacion[] = [];
+
+    tags: Array<Tag> = new Array;
+    selectedTags: any[]
     filteredTagsMultiple: any[];
 
     constructor(
         private fb: FormBuilder,
         private ideaService: IdeaService,
+        private router: Router,
         private usuarioService: UsuarioService,
         private dialogService: DialogService,
-        private tagService : TagService
+        private tagService: TagService,
+        private ruleService: RuleService,
     ) {
         this.selectedValueTipo = 'NU';
     }
 
     ngOnInit() {
-
         this.listSolicitudes = [];
         this.cantidadSolicitudes = 0;
-        
+
         this.refreshSolicitudes();
         this.showTags();
         this.find10();
+        this.getRecomendaciones();
     }
 
     refreshSolicitudes() {
-        console.log(localStorage.getItem('user'));
         this.usuarioService.getUsuario(localStorage.getItem('user'))
             .subscribe(
             res => {
                 localStorage.setItem("dto", JSON.stringify(res));
                 this.listSolicitudes = res.solicitudesAmistad;
                 this.cantidadSolicitudes = this.listSolicitudes.length;
-            },error =>{
+            }, error => {
                 let disposable;
-                if(error == 'Error: 401')
+                if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
                 else
-                    console.log('Error '+error);
+                    console.log('Error ' + error);
             }
-        );
+            );
     }
 
-    operacion(ide:Idea){
+    getRecomendaciones() {
+        this.recomendaciones = [];
+        this.ruleService.recomendacionConexiones()
+            .subscribe(rec => this.recomendaciones = rec,
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                else
+                    console.log('Error ' + error);
+            })
+    }
+
+    goProfile(username) {
+        this.router.navigate(['/user', username]);
+    }
+
+    removeRecomendacion(username) {
+        this.recomendaciones = this.recomendaciones.filter(rec => rec.username != username);
+    }
+
+    agregarAmigo(username) {
+        this.usuarioService.agregar(username)
+            .subscribe(
+            res => {
+                this.friendButton.nativeElement.innerHTML = 'Petición enviada';
+                this.friendButton.nativeElement.disabled = true;
+                setTimeout(() => this.removeRecomendacion(username), 2000);
+            },
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            }
+            );
+    }
+
+    seguirUsuario(username) {
+        this.usuarioService.seguir(username)
+            .subscribe(
+            res => {
+                this.followButton.nativeElement.innerHTML = 'Siguiendo';
+                this.followButton.nativeElement.disabled = true;
+                setTimeout(() => this.removeRecomendacion(username), 2000);
+            },
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            }
+            );
+    }
+
+    operacion(ide: Idea) {
         console.log(ide.contenido);
     }
 
@@ -92,12 +152,12 @@ export class HomeComponent implements OnInit {
         console.log(this.selectedTags);
         console.log(idea);
         this.ideaService.crearIdea(idea)
-            .subscribe((res:Idea) => {
+            .subscribe((res: Idea) => {
                 this.newIdeas.push(res);
                 console.log(res.usuario);
             }, error => {
                 let disposable;
-                if(error == 'Error: 401')
+                if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
             });
 
@@ -119,65 +179,65 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    showTags(){
+    showTags() {
         this.tagService.getAllTags()
-            .subscribe((res : Array<Tag>)=>{
+            .subscribe((res: Array<Tag>) => {
                 this.tags = res;
-            },error => {
+            }, error => {
                 console.log("Error" + error)
             });
     }
 
     filterTagMultiple(event) {
         let query = event.query;
-        this.tagService.getAllTags().subscribe((tags:Array<Tag>) => {
+        this.tagService.getAllTags().subscribe((tags: Array<Tag>) => {
             this.filteredTagsMultiple = this.filterTag(query, tags);
         });
     }
 
-    filterTag(query, tags: any[]):any[] {
+    filterTag(query, tags: any[]): any[] {
         //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-        let filtered : any[] = [];
-        for(let i = 0; i < tags.length; i++) {
+        let filtered: any[] = [];
+        for (let i = 0; i < tags.length; i++) {
             let tag = tags[i];
-            if(tag.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            if (tag.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
                 filtered.push(tag);
             }
         }
         return filtered;
     }
 
-    find10(){
+    find10() {
         this.ideaService.find10().
-            subscribe((res:Array<Idea>)=>{
+            subscribe((res: Array<Idea>) => {
                 this.newIdeas = res;
-            },error =>{
+            }, error => {
                 console.log('error' + error);
             });
 
     }
 
-    comentar(idea: Idea){
+    comentar(idea: Idea) {
         let disposable = this.dialogService.addDialog(ComentarModalComponent, {
-            idea : idea
+            idea: idea
         }).subscribe(
             confirmed => {
                 if (confirmed) {
                     this.find10();
-                }else{
+                } else {
                     console.log("paila");
                 }
             });
     }
 
-    light(idea: Idea){
+    light(idea: Idea) {
         this.ideaService.light(idea)
-            .subscribe(res =>{
-                if(res){
+            .subscribe(res => {
+                if (res) {
                     this.find10();
                     console.log("exito")
                 }
-            },error =>{
+            }, error => {
                 console.log("error" + error);
             });
     }
