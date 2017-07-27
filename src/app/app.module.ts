@@ -7,6 +7,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
+import {ScrollPointDirective} from './test/test.component';
+
 //primeng
 import {GrowlModule} from 'primeng/primeng';
 import {AutoCompleteModule} from 'primeng/primeng';
@@ -76,7 +78,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         EditHabilidadModalComponent,
         EditBasisModalComponent,
         ComentarModalComponent,
-        PanelAdminComponent
+        PanelAdminComponent,
+        ScrollPointDirective
     ],
     providers: [{
         provide: LocationStrategy,
