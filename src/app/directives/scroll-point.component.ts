@@ -22,7 +22,7 @@ export class ScrollPointDirective {
         const windowScroll = this.document.body.scrollTop;
         let topLimit = this.el.nativeElement.getBoundingClientRect().top;
         // if (windowScroll > this.scrollPoint) {
-        if(topLimit <= 60 && !this.active){
+        if(topLimit <= (60+this.scrollPoint) && !this.active){
             //add class to the native element
             this.settingSticky(true);
             if(this.scrollMin == -1){
@@ -41,7 +41,7 @@ export class ScrollPointDirective {
         this.renderer.setElementClass(this.el.nativeElement, 'sticky-nav', value);
         if(value){
             this.el.nativeElement.style.width = this.originalWidth+'px';
-            this.el.nativeElement.style.top = '60px';
+            this.el.nativeElement.style.top = (60+this.scrollPoint)+'px';
         }else{
             if(this.active)
                 this.el.nativeElement.style.width = '100%';

@@ -70,8 +70,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div *ngFor="let r of recomendaciones" class="col-xs-12">
-                                <div [ngClass]="r.conexion != 'NO_RECOMENDAR'?'panel panel-info center':'panel panel-danger center'">
+                            <div *ngFor="let r of recomendaciones;let i = index" class="col-xs-12">
+                                <div [scrollPoint]="127*(i+1)" [ngClass]="r.conexion != 'NO_RECOMENDAR'?'panel panel-info center':'panel panel-danger center'">
                                     <div class="panel-heading">
                                         <a (click)="goProfile(r.username)">{{r.nombre}}</a>
                                         <button type="button" class="close" (click)="removeRecomendacion(r.username)">&times;</button>

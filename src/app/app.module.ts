@@ -7,7 +7,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
-import {ScrollPointDirective} from './test/test.component';
+import {ScrollPointDirective} from './directives/scroll-point.component';
 
 //primeng
 import {GrowlModule} from 'primeng/primeng';
