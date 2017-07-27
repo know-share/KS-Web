@@ -55,8 +55,6 @@ textarea{
 >>> .ui-growl{
     top: 50px;
 }
-.sticky-nav-basis {
+.sticky-nav {
   position:fixed;
-  width:auto;
-  top:60px;
  }

@@ -10,10 +10,10 @@
                             <div class="form-group">
                                 <label for="sel1">Seleccione el tipo de idea:</label>
                                 <select class="form-control" id="sel1" [(ngModel)]="selectedValueTipo" name="tipoIdea" [ngModelOptions]="{standalone: true}">
-                        <option value="NU">Nueva</option>
-                        <option value="PC">Para continuar</option>
-                        <option value="PE">Para empezar</option>
-                    </select>
+                                    <option value="NU">Nueva</option>
+                                    <option value="PC">Para continuar</option>
+                                    <option value="PE">Para empezar</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
@@ -57,14 +57,13 @@
                                 </div>
                             </div>
                         </form>
-
                     </div>
                     <div class="col-xs-1">
                     </div>
                     <div class="col-xs-3">
                         <div class="row">
                             <div class="col-xs-12">
-                                <div class="panel panel-default center">
+                                <div [scrollPoint]="0" class="panel panel-default center">
                                     <div class="panel-heading">Solicitudes de amistad</div>
                                     <div class="panel-body center">
                                         <button (click)="showRequests()" type="button" class="btn btn-primary">Pendientes <span class="badge">{{cantidadSolicitudes}}</span></button>
