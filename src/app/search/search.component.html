@@ -1,0 +1,88 @@
+<div class="container">
+    <div *ngIf="search != ''" class="row">
+        <div class="col-xs-12">
+            <h2>Resultados para: {{search}}</h2>
+        </div>
+    </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li [ngClass]="{ 'active': activeTab == 'users' }"><a (click)="moveTab('users')" class="links">Usuarios</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'ideas' }"><a (click)="moveTab('ideas')" class="links">Ideas</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="center">Parámetros de búsqueda</h2>
+                    <input [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
+                    <br><label>Buscar por:</label>
+                    <select *ngIf="activeTab == 'users'" [(ngModel)]="option" class="form-control" name="enfasisSecundarioSegundaCarrera">
+                        <option value=1>Por nombre</option>
+                        <option value=2>Por Área conocimiento</option>
+                        <option value=3>Por Habilidad</option>
+                    </select>
+                    <select *ngIf="activeTab != 'users'" [(ngModel)]="option" class="form-control" name="enfasisSecundarioSegundaCarrera">
+                        <option value=1>Idea Nueva</option>
+                        <option value=2>Para Continuar</option>
+                        <option value=4>Para Empezar</option>
+                        <option value=5>Proyectos</option>
+                        <option value=6>Por Tag</option>
+                    </select>
+                    <br><button class="btn btn-primary btn-block">Buscar</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-8">
+            <p-dataList *ngIf="activeTab == 'users'" [value]="listUsers" [paginator]="true" [rows]="10" emptyMessage="No se encontraron resultados">
+                <p-header>
+                    Usuarios
+                </p-header>
+                <ng-template let-per pTemplate="item">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-3" style="text-align:center">
+                            imagen
+                        </div>
+                        <div class="ui-g-12 ui-md-9">
+                            <div class="ui-g">
+                                <div class="ui-g-2 ui-sm-6">Nombre: </div>
+                                <div class="ui-g-10 ui-sm-6">{{per.nombre}}</div>
+
+                                <!-- <div class="ui-g-2 ui-sm-6">Year: </div>
+                                <div class="ui-g-10 ui-sm-6">{{car.year}}</div>
+
+                                <div class="ui-g-2 ui-sm-6">Brand: </div>
+                                <div class="ui-g-10 ui-sm-6">{{car.brand}}</div>
+
+                                <div class="ui-g-2 ui-sm-6">Color: </div>
+                                <div class="ui-g-10 ui-sm-6">{{car.color}}</div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="height: 2px; border: none; background: lightgray;" />
+                </ng-template>
+            </p-dataList>
+            <p-dataList *ngIf="activeTab != 'users'" [value]="listUsers" [paginator]="true" [rows]="10" emptyMessage="No se encontraron resultados">
+                <p-header>
+                    Ideas
+                </p-header>
+                <ng-template let-per pTemplate="item">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-3" style="text-align:center">
+                            imagen
+                        </div>
+                        <div class="ui-g-12 ui-md-9">
+                            <div class="ui-g">
+                                <div class="ui-g-2 ui-sm-6">Nombre: </div>
+                                <div class="ui-g-10 ui-sm-6">{{per.nombre}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="height: 2px; border: none; background: lightgray;" />
+                </ng-template>
+            </p-dataList>
+        </div>
+    </div>
+</div>

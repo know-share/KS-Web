@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
 
     loggeado: boolean = false;
     isAdmin: boolean = false;
+    search: string = "";
 
     constructor(
         private router: Router,
@@ -45,5 +46,13 @@ export class AppComponent implements OnInit {
                 }
             }, error => console.log('Error: '+error)
         );
+    }
+
+    goToSearch(){
+        if(this.search != ""){
+            this.router.navigate(['/search',this.search]);
+        }else{
+            this.router.navigate(['/search']);
+        }
     }
 }

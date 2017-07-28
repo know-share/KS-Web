@@ -7,6 +7,7 @@ import { HomeComponent } from './newsfeed/home.component';
 import { SignUpComponent } from './access/signup.component';
 import { LoginComponent } from './access/login.component';
 import { ErrorComponent } from './error/error.component';
+import { SearchComponent } from './search/search.component';
 
 //Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
@@ -23,6 +24,8 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent, canActivate:[AuthReverseGuard] },
     { path: 'error', component: ErrorComponent },
     { path: 'admin', component: PanelAdminComponent, canActivate:[AuthAdminGuard] },
+    { path: 'search/:query', component: SearchComponent, canActivate:[AuthGuard]},
+    { path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
 ];
 
 @NgModule({

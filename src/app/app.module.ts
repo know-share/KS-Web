@@ -10,6 +10,7 @@ import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 //primeng
 import {GrowlModule} from 'primeng/primeng';
 import {AutoCompleteModule} from 'primeng/primeng';
+import {DataListModule} from 'primeng/primeng';
 
 // Components
 import { AppComponent } from './app.component';
@@ -27,6 +28,7 @@ import { AddFAModalComponent } from './modals/add-fa.component';
 import { EditHabilidadModalComponent } from './modals/edit-habilidad.component';
 import { EditBasisModalComponent } from './modals/edit-basis.component';
 import { ComentarModalComponent } from './modals/comentar.component';
+import { SearchComponent } from './search/search.component';
 
 // Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
@@ -58,6 +60,7 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         FormsModule,
         BootstrapModalModule,
         GrowlModule,
+        DataListModule,
         AutoCompleteModule
     ],
     declarations: [
@@ -76,7 +79,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         EditHabilidadModalComponent,
         EditBasisModalComponent,
         ComentarModalComponent,
-        PanelAdminComponent
+        PanelAdminComponent,
+        SearchComponent
     ],
     providers: [{
         provide: LocationStrategy,

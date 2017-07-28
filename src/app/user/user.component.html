@@ -38,18 +38,16 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2 class="center">Información básica</h2>
-                    <div class="panel-body">
-                        <p><strong>Nombre: </strong>{{usuario.nombre}}</p>
-                        <p><strong>Apellido: </strong>{{usuario.apellido}}</p>
-                        <p *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'">
-                            <strong>Semestre: </strong>
-                            <span *ngIf="usuario.semestre < 11">{{usuario.semestre}}</span>
-                            <span *ngIf="usuario.semestre > 10">10+</span>
-                        </p>
-                        <p><strong>Correo: </strong>{{usuario.email}}</p>
-                        <p *ngIf="usuario.tipoUsuario == 'PROFESOR'"><strong>Grupo investigación: </strong>no disponible</p>
-                        <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
-                    </div>
+                    <p><strong>Nombre: </strong>{{usuario.nombre}}</p>
+                    <p><strong>Apellido: </strong>{{usuario.apellido}}</p>
+                    <p *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'">
+                        <strong>Semestre: </strong>
+                        <span *ngIf="usuario.semestre < 11">{{usuario.semestre}}</span>
+                        <span *ngIf="usuario.semestre > 10">10+</span>
+                    </p>
+                    <p><strong>Correo: </strong>{{usuario.email}}</p>
+                    <p *ngIf="usuario.tipoUsuario == 'PROFESOR'"><strong>Grupo investigación: </strong>no disponible</p>
+                    <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
                 </div>
             </div>
         </div>

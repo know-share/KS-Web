@@ -6,58 +6,61 @@
                     <div class="col-xs-2">
                     </div>
                     <div class="col-xs-6">
-                        <form>
-                            <div class="form-group">
-                                <label for="sel1">Seleccione el tipo de idea:</label>
-                                <select class="form-control" id="sel1" [(ngModel)]="selectedValueTipo" name="tipoIdea" [ngModelOptions]="{standalone: true}">
-                        <option value="NU">Nueva</option>
-                        <option value="PC">Para continuar</option>
-                        <option value="PE">Para empezar</option>
-                    </select>
-                            </div>
-
-                            <div class="form-group">
-                                <h4>Contenido</h4>
-                                <textarea class="form-control" rows="5" [(ngModel)]="contenido" name="content"></textarea>
-                            </div>
-
-                            <div class="form-group" *ngIf="selectedValueTipo == 'PC' || selectedValueTipo == 'PE'">
-                                <label for="numeroest">Numero de estudiantes: </label>
-                                <input class="form-control" type="number" [(ngModel)]="numeroEstudiantes" name="numero">
-                            </div>
-
-                            <div class="form-group" *ngIf="selectedValueTipo == 'PE'">
-                                <label for="alcance">Alcance: </label>
-                                <input class="form-control" type="text" [(ngModel)]="alcance" name="alc">
-
-                                <label for="problematica">Problematica: </label>
-                                <input class="form-control" type="text" [(ngModel)]="problematica" name="problem">
-
-                            </div>
-                            <div class="form-group" *ngIf="selectedValueTipo == 'PR'">
-                                <button type="button" class="btn">Agregar ideas</button>
-                            </div>
-
-                            <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
-                                [minLength]="1" placeholder="tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
-                            </p-autoComplete>
-                            <br>
-                            <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
-                            <div class="panel panel-default center" *ngFor="let i of newIdeas">
-                                <div class="panel panel-danger">
-                                    <div class="panel-heading">{{i.usuario}}</div>
-                                    <div class="panel-body">{{i.contenido}}</div>
-                                    <div class="panel-body">{{i.comentarios}}</div>
-                                    <div class="row">
-                                        <div class="col-xs-4"><button type="button" (click)="light(i)" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                                        <div class="col-xs-4"><button type="button" (click)="comentar(i)" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment" ></i> Comentar</button></div>
-
-                                        <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="sel1">Seleccione el tipo de idea:</label>
+                                        <select class="form-control" id="sel1" [(ngModel)]="selectedValueTipo" name="tipoIdea" [ngModelOptions]="{standalone: true}">
+                                            <option value="NU">Nueva</option>
+                                            <option value="PC">Para continuar</option>
+                                            <option value="PE">Para empezar</option>
+                                        </select>
                                     </div>
+
+                                    <div class="form-group">
+                                        <h4>Contenido</h4>
+                                        <textarea class="form-control" rows="5" [(ngModel)]="contenido" name="content"></textarea>
+                                    </div>
+
+                                    <div class="form-group" *ngIf="selectedValueTipo == 'PC' || selectedValueTipo == 'PE'">
+                                        <label for="numeroest">Numero de estudiantes: </label>
+                                        <input class="form-control" type="number" [(ngModel)]="numeroEstudiantes" name="numero">
+                                    </div>
+
+                                    <div class="form-group" *ngIf="selectedValueTipo == 'PE'">
+                                        <label for="alcance">Alcance: </label>
+                                        <input class="form-control" type="text" [(ngModel)]="alcance" name="alc">
+
+                                        <label for="problematica">Problematica: </label>
+                                        <input class="form-control" type="text" [(ngModel)]="problematica" name="problem">
+
+                                    </div>
+                                    <div class="form-group" *ngIf="selectedValueTipo == 'PR'">
+                                        <button type="button" class="btn">Agregar ideas</button>
+                                    </div>
+
+                                    <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
+                                        [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
+                                    </p-autoComplete>
+                                    <br>
+                                    <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="panel panel-default center" *ngFor="let i of newIdeas">
+                            <div class="panel panel-danger">
+                                <div class="panel-heading">{{i.usuario}}</div>
+                                <div class="panel-body">{{i.contenido}}</div>
+                                <div class="panel-body">{{i.comentarios}}</div>
+                                <div class="row">
+                                    <div class="col-xs-4"><button type="button" (click)="light(i)" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
+                                    <div class="col-xs-4"><button type="button" (click)="comentar(i)" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment" ></i> Comentar</button></div>
+
+                                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
                                 </div>
                             </div>
-                        </form>
-
+                        </div>
                     </div>
                     <div class="col-xs-1">
                     </div>
@@ -78,11 +81,9 @@
                                         <button type="button" class="close" (click)="removeRecomendacion(r.username)">&times;</button>
                                     </div>
                                     <div class="panel-body center">
-                                        <button #friendButton *ngIf="r.conexion == 'CONFIANZA'" (click)="agregarAmigo(r.username)" 
-                                            type="button" class="btn btn-danger">
+                                        <button #friendButton *ngIf="r.conexion == 'CONFIANZA'" (click)="agregarAmigo(r.username)" type="button" class="btn btn-danger">
                                             <span class="glyphicon glyphicon-user"></span> Agregar como amigo</button>
-                                        <button #followButton *ngIf="r.conexion != 'CONFIANZA'" (click)="seguirUsuario(r.username)" 
-                                            type="button" class="btn btn-danger">
+                                        <button #followButton *ngIf="r.conexion != 'CONFIANZA'" (click)="seguirUsuario(r.username)" type="button" class="btn btn-danger">
                                             <span class="glyphicon glyphicon-eye-open"></span> Seguir</button>
                                     </div>
                                 </div>
