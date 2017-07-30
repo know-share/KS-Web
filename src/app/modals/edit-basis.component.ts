@@ -116,40 +116,48 @@ export class EditBasisModalComponent extends DialogComponent<RequestModalDisplay
     }
 
     confirm() {
-        this.usuarioService.isCorreoTaken(this.correo)
+        if (this.correo.toLowerCase() != this.usuario.email.toLowerCase()) {
+            this.usuarioService.isCorreoTaken(this.correo)
+                .subscribe(
+                taken => {
+                    if (taken)
+                        this.update.get("email").setErrors({ CorreoTaken: true });
+                    else {
+                        this.updateUser();
+                    }
+                });
+        }else{
+            this.updateUser();
+        }
+    }
+
+    updateUser() {
+        let usu: Usuario = new Usuario();
+        usu.id = this.usuario.id;
+        usu.tipoUsuario = this.usuario.tipoUsuario;
+        usu.email = this.correo;
+        usu.semestre = this.semestre;
+        usu.nombre = this.nombre;
+        usu.apellido = this.apellido;
+        this.usuarioService.actualizarBasis(usu)
             .subscribe(
-            taken => {
-                if (taken)
-                    this.update.get("email").setErrors({ CorreoTaken: true });
-                else {
-                    let usu: Usuario = new Usuario();
-                    usu.id = this.usuario.id;
-                    usu.tipoUsuario = this.usuario.tipoUsuario;
-                    usu.email = this.correo;
-                    usu.semestre = this.semestre;
-                    usu.nombre = this.nombre;
-                    usu.apellido = this.apellido;
-                    this.usuarioService.actualizarBasis(usu)
-                        .subscribe(
-                        ok => {
-                            if (ok == 'ok') {
-                                this.result = true;
-                                super.close();
-                            } else {
-                                this.result = false;
-                                super.close();
-                            }
-                        }
-                        , error => {
-                            let disposable;
-                            if (error == 'Error: 401')
-                                disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                            else
-                                console.log('error: ' + error);
-                        }
-                    );
+            ok => {
+                if (ok == 'ok') {
+                    this.result = true;
+                    super.close();
+                } else {
+                    this.result = false;
+                    super.close();
                 }
-            });
+            }
+            , error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                else
+                    console.log('error: ' + error);
+            }
+            );
     }
 
     close() {

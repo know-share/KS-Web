@@ -54,5 +54,6 @@ export class AppComponent implements OnInit {
         }else{
             this.router.navigate(['/search']);
         }
+        this.search = "";
     }
 }

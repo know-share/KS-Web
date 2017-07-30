@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit {
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
                 else
                     console.log('Error ' + error);
-            })
+            });
     }
 
     goProfile(username) {
