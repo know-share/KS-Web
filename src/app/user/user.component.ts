@@ -245,4 +245,8 @@ export class UserComponent implements OnInit {
     goProfile(username){
         this.router.navigate(['/user',username]);
     }
+
+    search(){
+        this.router.navigate(['/search']);
+    }
 }
