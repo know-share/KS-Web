@@ -29,6 +29,7 @@ import { EditHabilidadModalComponent } from './modals/edit-habilidad.component';
 import { EditBasisModalComponent } from './modals/edit-basis.component';
 import { ComentarModalComponent } from './modals/comentar.component';
 import { SearchComponent } from './search/search.component';
+import { IdeaComponent } from './idea/idea.component';
 
 // Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
@@ -80,7 +81,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         EditBasisModalComponent,
         ComentarModalComponent,
         PanelAdminComponent,
-        SearchComponent
+        SearchComponent,
+        IdeaComponent
     ],
     providers: [{
         provide: LocationStrategy,

@@ -200,9 +200,14 @@
     </div>
 </div>
 <div *ngIf="activeTab == 'following' || activeTab == 'friends' || activeTab == 'followers'" class="row">
-    <div class="col-xs-2"></div>
-    <div *ngIf="activeTab == 'friends'" class="col-xs-8">
-        <h3 *ngIf="!usuario.amigos || usuario.amigos?.length == 0">Aún no tiene amigos en su red.</h3>
+    <div *ngIf="activeTab == 'friends'" class="col-xs-12">
+        <div class="panel panel-default" *ngIf="!usuario.amigos || usuario.amigos?.length == 0">
+            <div class="panel-heading center">
+                <img class="find_user" src="images/find-user.png"/>
+                <h3>Aún no tiene amigos en su red.</h3>
+                <button (click)="search()" type="button" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Buscar</button>
+            </div>
+        </div>
         <div class="row">
             <div *ngFor="let a of usuario.amigos" class="col-xs-4">
                 <button type="button" data-toggle="tooltip" title="Eliminar" (click)="eliminarAmigo(a.username)" class="btn btn-danger btn-circle right"><i class="glyphicon glyphicon-remove"></i></button>
@@ -218,8 +223,13 @@
             </div>
         </div>
     </div>
-    <div *ngIf="activeTab == 'followers'" class="col-xs-8">
-        <h3 *ngIf="!usuario.seguidores || usuario.seguidores?.length == 0">Aún no tiene seguidores en su red.</h3>
+    <div *ngIf="activeTab == 'followers'" class="col-xs-12">
+        <div class="panel panel-default" *ngIf="!usuario.seguidores || usuario.seguidores?.length == 0">
+            <div class="panel-heading center">
+                <img class="find_user" src="images/find-user.png"/>
+                <h3>Aún no tiene seguidores en su red.</h3>
+            </div>
+        </div>
         <div class="row">
             <div *ngFor="let s of usuario.seguidores" class="col-xs-4">
                 <a (click)="goProfile(s.username)">
@@ -234,8 +244,14 @@
             </div>
         </div>
     </div>
-    <div *ngIf="activeTab == 'following'" class="col-xs-8">
-        <h3 *ngIf="!usuario.siguiendo || usuario.siguiendo?.length == 0">Aún no está siguiendo a alguien.</h3>
+    <div *ngIf="activeTab == 'following'" class="col-xs-12">
+        <div class="panel panel-default" *ngIf="!usuario.siguiendo || usuario.siguiendo?.length == 0">
+            <div class="panel-heading center">
+                <img class="find_user" src="images/find-user.png"/>
+                <h3>Aún no está siguiendo a alguien.</h3>
+                <button (click)="search()" type="button" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Buscar</button>
+            </div>
+        </div>
         <div class="row">
             <div *ngFor="let s of usuario.siguiendo" class="col-xs-4">
                 <a (click)="goProfile(s.username)">
