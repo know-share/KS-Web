@@ -48,18 +48,18 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="panel panel-default center" *ngFor="let i of newIdeas">
-                            <div class="panel panel-danger">
-                                <div class="panel-heading">{{i.usuario}}</div>
-                                <div class="panel-body">{{i.contenido}}</div>
-                                <div class="panel-body">{{i.comentarios}}</div>
-                                <div class="row">
-                                    <div class="col-xs-4"><button type="button" (click)="light(i)" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                                    <div class="col-xs-4"><button type="button" (click)="comentar(i)" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment" ></i> Comentar</button></div>
-
-                                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
-                                </div>
+                        <div class="row">
+                            <div class="col-xs-8"></div>
+                            <div class="col-xs-4">
+                                <select name="orden" id="orden" class="form-control btn btn-primary">
+                                    <option value="CR">Cronologicamente</option>
+                                    <option value="RL">Relevancia</option>
+                                </select> 
                             </div>
+                        </div>
+                        <br>
+                        <div class="panel panel-default center" *ngFor="let idea of newIdeas; index as indice">
+                            <idea [idea]="idea" (change)="cambio($event)"></idea>
                         </div>
                     </div>
                     <div class="col-xs-1">

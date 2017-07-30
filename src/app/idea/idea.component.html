@@ -1,0 +1,16 @@
+
+    <div class="panel panel-danger">
+        <div class="panel-heading">{{idea.usuario}}</div>
+        <div class="panel-body">{{idea.contenido}}</div>
+        <div class="panel-body">{{idea.comentarios}}</div>
+        <div class="row">
+            <div class="col-xs-4"><button type="button" (click)="light()" 
+                class="btn btn-default btn-block" [style.backgroundColor] = "(idea.isLight)? '#DBA901':'grey'"><i class="glyphicon glyphicon-asterisk">
+                </i> Light</button></div>
+            <div class="col-xs-4"><button type="button" (click)="comentar()" 
+                class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment" >
+                </i> Comentar</button></div>
+            <div class="col-xs-4"><button type="button" class="btn btn-default btn-block">
+                <i class="glyphicon glyphicon-share"></i> Share</button></div>
+        </div>
+    </div>

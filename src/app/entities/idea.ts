@@ -3,7 +3,7 @@ import { Tag } from './tag'
 
 export class Idea{
 
-    id: Object;
+    id: string;
 	contenido: string;
     estado : string;
     lugarEscritura: string;
@@ -16,4 +16,5 @@ export class Idea{
     lights: number;
     comentarios: number;
     tags:Array<Tag>;
+    isLight : boolean;
 }

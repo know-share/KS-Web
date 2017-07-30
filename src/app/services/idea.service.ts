@@ -127,5 +127,26 @@ export class IdeaService{
         });
     }
 
+    findById(id : string){
+        let url = this.baseUrl + "findById/" + id;
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        return this.http.get(url,{
+            headers:header
+        }).map((res : Response) =>{
+            if(res.status == 200){
+                return res.json();
+            }
+            if(res.status == 500){
+                throw new Error('no se pudo traer la idea.');
+            }
+        }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+        });
+
+    }
+
     
 }
