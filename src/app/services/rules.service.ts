@@ -32,4 +32,22 @@ export class RuleService {
                 throw Error(err.toString());
             });
     }
+
+    buscarUsuario(filtro,param){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        let url = this.baseUrl + `buscarUsuario?filtro=${filtro}&param=${param}`;
+        return this.http.get(url,{
+            headers: header
+        })
+            .map((res: Response) =>{
+                if(res.status == 200 || res.status == 204)
+                    return res.json();
+                throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
 }

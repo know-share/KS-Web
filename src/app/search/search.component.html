@@ -18,6 +18,9 @@
                 <div class="panel-heading">
                     <h2 class="center">Parámetros de búsqueda</h2>
                     <input [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
+                    <div class="alert alert-danger" *ngIf="error">
+                        Debe llenar el campo de búsqueda.
+                    </div>
                     <br><label>Buscar por:</label>
                     <select *ngIf="activeTab == 'users'" [(ngModel)]="option" class="form-control" name="enfasisSecundarioSegundaCarrera">
                         <option value=1>Por nombre</option>
@@ -31,40 +34,38 @@
                         <option value=5>Proyectos</option>
                         <option value=6>Por Tag</option>
                     </select>
-                    <br><button class="btn btn-primary btn-block">Buscar</button>
+                    <br><button (click)="onSearchAdv()" class="btn btn-primary btn-block">Buscar</button>
                 </div>
             </div>
         </div>
         <div class="col-xs-8">
-            <p-dataList *ngIf="activeTab == 'users'" [value]="listUsers" [paginator]="true" [rows]="10" emptyMessage="No se encontraron resultados">
+            <p-dataList *ngIf="activeTab == 'users'" [value]="listUsers" [paginator]="true" [rows]="5" emptyMessage="No se encontraron resultados">
                 <p-header>
                     Usuarios
                 </p-header>
-                <ng-template let-per pTemplate="item">
+                <ng-template let-usr pTemplate="item">
                     <div class="ui-g ui-fluid">
                         <div class="ui-g-12 ui-md-3" style="text-align:center">
-                            imagen
+                            <img src="images/image-profile.png" />
                         </div>
                         <div class="ui-g-12 ui-md-9">
                             <div class="ui-g">
                                 <div class="ui-g-2 ui-sm-6">Nombre: </div>
-                                <div class="ui-g-10 ui-sm-6">{{per.nombre}}</div>
+                                <div class="ui-g-10 ui-sm-6">{{usr.nombre}}</div>
 
-                                <!-- <div class="ui-g-2 ui-sm-6">Year: </div>
-                                <div class="ui-g-10 ui-sm-6">{{car.year}}</div>
+                                <div class="ui-g-2 ui-sm-6">Carrera: </div>
+                                <div class="ui-g-10 ui-sm-6">{{usr.carrera}}</div>
 
-                                <div class="ui-g-2 ui-sm-6">Brand: </div>
-                                <div class="ui-g-10 ui-sm-6">{{car.brand}}</div>
-
-                                <div class="ui-g-2 ui-sm-6">Color: </div>
-                                <div class="ui-g-10 ui-sm-6">{{car.color}}</div> -->
+                                <div class="ui-g-2 ui-sm-12">
+                                    <button class="btn btn-link" (click)="goToProfile(usr.username)" >Ver perfil</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <hr style="height: 2px; border: none; background: lightgray;" />
                 </ng-template>
             </p-dataList>
-            <p-dataList *ngIf="activeTab != 'users'" [value]="listUsers" [paginator]="true" [rows]="10" emptyMessage="No se encontraron resultados">
+            <p-dataList *ngIf="activeTab != 'users'" [value]="listUsers" [paginator]="true" [rows]="5" emptyMessage="No se encontraron resultados">
                 <p-header>
                     Ideas
                 </p-header>

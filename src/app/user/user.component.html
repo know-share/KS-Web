@@ -46,7 +46,11 @@
                         <span *ngIf="usuario.semestre > 10">10+</span>
                     </p>
                     <p><strong>Correo: </strong>{{usuario.email}}</p>
-                    <p *ngIf="usuario.tipoUsuario == 'PROFESOR'"><strong>Grupo investigación: </strong>no disponible</p>
+                    <p *ngIf="usuario.tipoUsuario == 'PROFESOR'">
+                        <strong>Grupo investigación: </strong>
+                        <span *ngIf="usuario.grupoInvestigacion">{{usuario.grupoInvestigacion}}</span>
+                        <span *ngIf="!usuario.grupoInvestigacion">-</span>
+                    </p>
                     <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
                 </div>
             </div>
@@ -184,15 +188,15 @@
             </div>
             <div class="row">
                 <div *ngFor="let a of usuario.amigos" class="col-xs-4">
-                    <a (click)="goProfile(a.username)">
-                        <div class="card">
-                            <img src="images/image-profile.png">
-                            <div class="container-card">
-                                <h3>{{a.nombre}}</h3>
-                                <br>
-                            </div>
+                    <div class="card">
+                        <img src="images/image-profile.png" class="find-user">
+                        <div class="container-card">
+                            <h2 class="name-card">{{a.nombre}}</h2>
+                            <p class="title-card">{{a.carrera}}</p>
+                            <p>@{{a.username}}</p>
+                            <p><button (click)="goProfile(a.username)" class="button-card">Ver perfil</button></p>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -205,15 +209,15 @@
             </div>
             <div class="row">
                 <div *ngFor="let s of usuario.seguidores" class="col-xs-4">
-                    <a (click)="goProfile(s.username)">
-                        <div class="card">
-                            <img src="images/image-profile.png">
-                            <div class="container-card">
-                                <h3>{{s.nombre}}</h3>
-                                <br>
-                            </div>
+                    <div class="card">
+                        <img src="images/image-profile.png" class="find-user">
+                        <div class="container-card">
+                            <h2 class="name-card">{{s.nombre}}</h2>
+                            <p class="title-card">{{s.carrera}}</p>
+                            <p>@{{s.username}}</p>
+                            <p><button (click)="goProfile(s.username)" class="button-card">Ver perfil</button></p>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -226,15 +230,15 @@
             </div>
             <div class="row">
                 <div *ngFor="let s of usuario.siguiendo" class="col-xs-4">
-                    <a (click)="goProfile(s.username)">
-                        <div class="card">
-                            <img src="images/image-profile.png">
-                            <div class="container-card">
-                                <h3>{{s.nombre}}</h3>
-                                <br>
-                            </div>
+                    <div class="card">
+                        <img src="images/image-profile.png" class="find-user">
+                        <div class="container-card">
+                            <h2 class="name-card">{{s.nombre}}</h2>
+                            <p class="title-card">{{s.carrera}}</p>
+                            <p>@{{s.username}}</p>
+                            <p><button (click)="goProfile(s.username)" class="button-card">Ver perfil</button></p>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
