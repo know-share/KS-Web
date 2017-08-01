@@ -22,6 +22,8 @@ export class Usuario {
     email: string;
     password: string;
     username: string;
+    genero: string;
+    grupoInvestigacion: string;
 
     tipoUsuario: string;
     carrera: Carrera;

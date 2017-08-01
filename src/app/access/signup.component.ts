@@ -62,6 +62,7 @@ export class SignUpComponent implements OnInit {
     email: string;
     password: string;
     username: string;
+    gender: string;
 
     //Step 2 attributes
     tipoUsuario: string;
@@ -70,6 +71,7 @@ export class SignUpComponent implements OnInit {
     semestre: number;
     seminario: any;
     temaTG: boolean;
+    grupoInvestigacion: string = "";
 
     //Step 3 attributes
     personalidad: Personalidad;
@@ -104,6 +106,7 @@ export class SignUpComponent implements OnInit {
         private cualidadService: CualidadService,
         private authService: AuthService,
     ) {
+        this.gender="Femenino";
         this.activeTabGustos = 'generales';
         this.activeTabEnfasis = 'enfasis';
         this.activeTabHabilidades = 'personales';
@@ -391,6 +394,7 @@ export class SignUpComponent implements OnInit {
         usuario.email = this.email;
         usuario.password = this.password;
         usuario.username = this.username;
+        usuario.genero = this.gender;
 
         //Step 2 attributes
         usuario.tipoUsuario = this.tipoUsuario;
@@ -399,6 +403,8 @@ export class SignUpComponent implements OnInit {
         usuario.semestre = this.semestre;
         usuario.seminario = this.seminario;
         usuario.temaTG = this.temaTG;
+        if(this.tipoUsuario == 'PROFESOR')
+            usuario.grupoInvestigacion = this.grupoInvestigacion;
 
         //Step 3 attributes 
         usuario.personalidad = this.personalidad;

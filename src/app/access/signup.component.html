@@ -49,6 +49,15 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-2 control-label">Género</label>
+                <div class="col-sm-10">
+                    <select class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="gender">
+                        <option value="Femenino">Femenino</option>
+                        <option value="Masculino">Masculino</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-2 control-label">Correo Electrónico</label>
                 <div class="col-sm-10">
                     <input [(ngModel)]="email" class="form-control" type="text" formControlName="email">
@@ -129,13 +138,19 @@
                     </select>
                 </div>
             </div>
+            <div class="form-group" *ngIf="tipoUsuario=='PROFESOR'">
+                <label class="col-sm-2 control-label">Grupo de investigación</label>
+                <div class="col-sm-10">
+                    <input [(ngModel)]="grupoInvestigacion" class="form-control" type="text" name="grupoInves" placeholder="Opcional">
+                </div>
+            </div>
             <div *ngIf="tipoUsuario=='ESTUDIANTE' || tipoUsuario=='EGRESADO'" class="form-group">
                 <label class="col-sm-2 control-label">Doble programa</label>
                 <div class="col-sm-10">
                     <select [(ngModel)]="segundaCarrera" class="form-control" name="segundaCarrera">
-                    <option value="null">Ninguna</option>
-                    <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
-                </select>
+                        <option value="null">Ninguna</option>
+                        <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
+                    </select>
                 </div>
             </div>
             <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="form-group">
@@ -160,19 +175,19 @@
                 <label class="col-sm-2 control-label">Cursa actualmente la asignatura de seminario</label>
                 <div class="col-sm-10">
                     <select [(ngModel)]="seminario" class="form-control" name="seminario">
-                    <option [ngValue]="true">Si</option>
-                    <option [ngValue]="false">No</option>
-                    <option [ngValue]=null>No Aplica</option>
-                </select>
+                        <option [ngValue]="true">Si</option>
+                        <option [ngValue]="false">No</option>
+                        <option [ngValue]=null>No Aplica</option>
+                    </select>
                 </div>
             </div>
             <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="form-group">
                 <label class="col-sm-2 control-label">Tiene ya definido su tema de Trabajo de Grado</label>
                 <div class="col-sm-10">
                     <select [(ngModel)]="temaTG" class="form-control" name="temaTG">
-                    <option [ngValue]="true">Si</option>
-                    <option [ngValue]="false">No</option>
-                </select>
+                        <option [ngValue]="true">Si</option>
+                        <option [ngValue]="false">No</option>
+                    </select>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Continuar</button>
