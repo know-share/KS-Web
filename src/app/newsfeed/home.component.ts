@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
 
     ideaForm: FormGroup;
     newIdeas: Array<Idea> = new Array;
+    idea : Idea = new Idea;
     selectedValueTipo: string;
     contenido: string;
     numeroEstudiantes: number;
@@ -94,7 +95,7 @@ export class HomeComponent implements OnInit {
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
                 else
                     console.log('Error ' + error);
-            })
+            });
     }
 
     goProfile(username) {
@@ -142,19 +143,19 @@ export class HomeComponent implements OnInit {
     }
 
     crearIdea() {
-        let idea: Idea = new Idea();
-        idea.alcance = this.alcance;
-        idea.tipo = this.selectedValueTipo;
-        idea.contenido = this.contenido;
-        idea.numeroEstudiantes = this.numeroEstudiantes;
-        idea.problematica = this.problematica;
-        idea.tags = this.selectedTags;
+        this.idea.alcance = this.alcance;
+        this.idea.tipo = this.selectedValueTipo;
+        this.idea.contenido = this.contenido;
+        this.idea.numeroEstudiantes = this.numeroEstudiantes;
+        this.idea.problematica = this.problematica;
+        this.idea.tags = this.selectedTags;
         console.log(this.selectedTags);
-        console.log(idea);
-        this.ideaService.crearIdea(idea)
+        console.log(this.idea);
+        this.ideaService.crearIdea(this.idea)
             .subscribe((res: Idea) => {
                 this.newIdeas.push(res);
                 console.log(res.usuario);
+                console.log(this.newIdeas.length);
             }, error => {
                 let disposable;
                 if (error == 'Error: 401')
@@ -217,28 +218,14 @@ export class HomeComponent implements OnInit {
 
     }
 
-    comentar(idea: Idea) {
-        let disposable = this.dialogService.addDialog(ComentarModalComponent, {
-            idea: idea
-        }).subscribe(
-            confirmed => {
-                if (confirmed) {
-                    this.find10();
-                } else {
-                    console.log("paila");
-                }
-            });
-    }
-
-    light(idea: Idea) {
-        this.ideaService.light(idea)
-            .subscribe(res => {
-                if (res) {
-                    this.find10();
-                    console.log("exito")
-                }
-            }, error => {
-                console.log("error" + error);
-            });
+    cambio(confirm : Idea){
+        if(confirm != null){
+            let i = this.newIdeas.indexOf(confirm);
+            this.ideaService.findById(confirm.id)
+                .subscribe((res : Idea)=>{
+                    this.newIdeas.splice(i,1,res);
+                })
+        }else
+            console.log("error")
     }
 }

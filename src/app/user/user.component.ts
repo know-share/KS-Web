@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
 
 import { ExpirationModalComponent } from '../modals/expiration.component';
@@ -245,5 +244,9 @@ export class UserComponent implements OnInit {
 
     goProfile(username){
         this.router.navigate(['/user',username]);
+    }
+
+    search(){
+        this.router.navigate(['/search']);
     }
 }

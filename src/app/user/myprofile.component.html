@@ -35,64 +35,66 @@
             <div class="panel-heading">
                 <button type="button" (click)="editBasis()" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-pencil"></i></button>
                 <h2 class="center">Información básica</h2>
-                <div class="panel-body">
-                    <p><strong>Nombre: </strong>{{usuario.nombre}}</p>
-                    <p><strong>Apellido: </strong>{{usuario.apellido}}</p>
-                    <p *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'">
-                        <strong>Semestre: </strong>
-                        <span *ngIf="usuario.semestre < 11">{{usuario.semestre}}</span>
-                        <span *ngIf="usuario.semestre > 10">10+</span>
-                    </p>
-                    <p><strong>Correo: </strong>{{usuario.email}}</p>
-                    <p *ngIf="usuario.tipoUsuario == 'PROFESOR'"><strong>Grupo investigación: </strong>no disponible</p>
-                    <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
-                </div>
+                <p><strong>Nombre: </strong>{{usuario.nombre}}</p>
+                <p><strong>Apellido: </strong>{{usuario.apellido}}</p>
+                <p *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'">
+                    <strong>Semestre: </strong>
+                    <span *ngIf="usuario.semestre < 11">{{usuario.semestre}}</span>
+                    <span *ngIf="usuario.semestre > 10">10+</span>
+                </p>
+                <p><strong>Correo: </strong>{{usuario.email}}</p>
+                <p *ngIf="usuario.tipoUsuario == 'PROFESOR'">
+                    <strong>Grupo investigación: </strong>
+                    <span *ngIf="usuario.grupoInvestigacion">{{usuario.grupoInvestigacion}}</span>
+                    <span *ngIf="!usuario.grupoInvestigacion">-</span>
+                </p>
+                <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
             </div>
         </div>
     </div>
     <div class="col-xs-7">
-        <div class="form-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="form-group">
                     <label for="sel1">Seleccione el tipo de idea:</label>
-                    <select class="form-control" id="sel1" [(ngModel)] = "selectedValueTipo" name = "tipoIdea" [ngModelOptions]="{standalone: true}">
-                        <option value="NU">Nueva</option>
-                        <option value="PC">Para continuar</option>
-                        <option value="PE">Para empezar</option>
-                        <option value="PE">Para empezar</option>
-                    </select>
+                    <select class="form-control" id="sel1" [(ngModel)]="selectedValueTipo" name="tipoIdea" [ngModelOptions]="{standalone: true}">
+                <option value="NU">Nueva</option>
+                <option value="PC">Para continuar</option>
+                <option value="PE">Para empezar</option>
+                <option value="PE">Para empezar</option>
+            </select>
                 </div>
-            
+
                 <div class="form-group">
                     <h4>Contenido</h4>
-                    <textarea class="form-control" rows="5" 
-                        [(ngModel)]="contenido" name = "content"></textarea>
-                </div >
-
-                <div class="form-group" *ngIf = "selectedValueTipo == 'PC' || selectedValueTipo == 'PE'">
-                    <label for="numeroest">Numero de estudiantes: </label>
-                    <input class="form-control" type="number"  
-                        [(ngModel)] = "numeroEstudiantes" name = "numero">  
+                    <textarea class="form-control" rows="5" [(ngModel)]="contenido" name="content"></textarea>
                 </div>
 
-                <div class="form-group" *ngIf = "selectedValueTipo == 'PE'">
+                <div class="form-group" *ngIf="selectedValueTipo == 'PC' || selectedValueTipo == 'PE'">
+                    <label for="numeroest">Numero de estudiantes: </label>
+                    <input class="form-control" type="number" [(ngModel)]="numeroEstudiantes" name="numero">
+                </div>
+
+                <div class="form-group" *ngIf="selectedValueTipo == 'PE'">
                     <label for="alcance">Alcance: </label>
-                    <input class="form-control" type="text" [(ngModel)] = "alcance" name = "alc">
+                    <input class="form-control" type="text" [(ngModel)]="alcance" name="alc">
 
                     <label for="problematica">Problematica: </label>
-                    <input class="form-control" type="text"
-                        [(ngModel)] = "problematica" name ="problem"> 
-
+                    <input class="form-control" type="text" [(ngModel)]="problematica" name="problem">
                 </div>
-                <div class="form-group" *ngIf = "selectedValueTipo == 'PR'">
+                <div class="form-group" *ngIf="selectedValueTipo == 'PR'">
                     <button type="button" class="btn">Agregar ideas</button>
                 </div>
-                <div class="form-group" *ngIf = "selectedValueTipo == 'PC'">
+                <div class="form-group" *ngIf="selectedValueTipo == 'PC'">
                     <button type="button" class="btn">Asociar trabajo de grado</button>
                 </div>
                 <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
-                    [minLength]="1" placeholder="tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
+                    [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
                 </p-autoComplete>
                 <br>
                 <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
+            </div>
+        </div>
         <div class="panel panel-default center" *ngFor="let i of ideas">
             <div class="panel panel-danger">
                 <div class="panel-heading">{{i.usuario}}</div>
@@ -202,53 +204,69 @@
     </div>
 </div>
 <div *ngIf="activeTab == 'following' || activeTab == 'friends' || activeTab == 'followers'" class="row">
-    <div class="col-xs-2"></div>
-    <div *ngIf="activeTab == 'friends'" class="col-xs-8">
-        <h3 *ngIf="!usuario.amigos || usuario.amigos?.length == 0">Aún no tiene amigos en su red.</h3>
+    <div *ngIf="activeTab == 'friends'" class="col-xs-12">
+        <div class="panel panel-default" *ngIf="!usuario.amigos || usuario.amigos?.length == 0">
+            <div class="panel-heading center">
+                <img class="find_user" src="images/find-user.png" />
+                <h3>Aún no tiene amigos en su red.</h3>
+                <button (click)="search()" type="button" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Buscar</button>
+            </div>
+        </div>
         <div class="row">
             <div *ngFor="let a of usuario.amigos" class="col-xs-4">
-                <button type="button" data-toggle="tooltip" title="Eliminar" (click)="eliminarAmigo(a.username)" class="btn btn-danger btn-circle right"><i class="glyphicon glyphicon-remove"></i></button>
-                <a (click)="goProfile(a.username)">
-                    <div class="card">
-                        <img src="images/image-profile.png">
-                        <div class="container-card">
-                            <h3>{{a.nombre}}</h3>
-                            <br>
-                        </div>
+                <div class="card">
+                    <button type="button" data-toggle="tooltip" title="Eliminar" (click)="eliminarAmigo(a.username)" class="btn btn-danger btn-circle remove"><i class="glyphicon glyphicon-remove"></i></button>
+                    <img src="images/image-profile.png" class="find-user">
+                    <div class="container-card">
+                        <h2 class="name-card">{{a.nombre}}</h2>
+                        <p class="title-card">{{a.carrera}}</p>
+                        <p>@{{a.username}}</p>
+                        <p><button (click)="goProfile(a.username)" class="button-card">Ver perfil</button></p>
                     </div>
-                </a>
+                </div>
             </div>
         </div>
     </div>
-    <div *ngIf="activeTab == 'followers'" class="col-xs-8">
-        <h3 *ngIf="!usuario.seguidores || usuario.seguidores?.length == 0">Aún no tiene seguidores en su red.</h3>
+    <div *ngIf="activeTab == 'followers'" class="col-xs-12">
+        <div class="panel panel-default" *ngIf="!usuario.seguidores || usuario.seguidores?.length == 0">
+            <div class="panel-heading center">
+                <img class="find_user" src="images/find-user.png" />
+                <h3>Aún no tiene seguidores en su red.</h3>
+            </div>
+        </div>
         <div class="row">
             <div *ngFor="let s of usuario.seguidores" class="col-xs-4">
-                <a (click)="goProfile(s.username)">
-                    <div class="card">
-                        <img src="images/image-profile.png">
-                        <div class="container-card">
-                            <h3>{{s.nombre}}</h3>
-                            <br>
-                        </div>
+                <div class="card">
+                    <img src="images/image-profile.png" class="find-user">
+                    <div class="container-card">
+                        <h2 class="name-card">{{s.nombre}}</h2>
+                        <p class="title-card">{{s.carrera}}</p>
+                        <p>@{{s.username}}</p>
+                        <p><button (click)="goProfile(s.username)" class="button-card">Ver perfil</button></p>
                     </div>
-                </a>
+                </div>
             </div>
         </div>
     </div>
-    <div *ngIf="activeTab == 'following'" class="col-xs-8">
-        <h3 *ngIf="!usuario.siguiendo || usuario.siguiendo?.length == 0">Aún no está siguiendo a alguien.</h3>
+    <div *ngIf="activeTab == 'following'" class="col-xs-12">
+        <div class="panel panel-default" *ngIf="!usuario.siguiendo || usuario.siguiendo?.length == 0">
+            <div class="panel-heading center">
+                <img class="find_user" src="images/find-user.png" />
+                <h3>Aún no está siguiendo a alguien.</h3>
+                <button (click)="search()" type="button" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> Buscar</button>
+            </div>
+        </div>
         <div class="row">
             <div *ngFor="let s of usuario.siguiendo" class="col-xs-4">
-                <a (click)="goProfile(s.username)">
-                    <div class="card">
-                        <img src="images/image-profile.png">
-                        <div class="container-card">
-                            <h3>{{s.nombre}}</h3>
-                            <br>
-                        </div>
+                <div class="card">
+                    <img src="images/image-profile.png" class="find-user">
+                    <div class="container-card">
+                        <h2 class="name-card">{{s.nombre}}</h2>
+                        <p class="title-card">{{s.carrera}}</p>
+                        <p>@{{s.username}}</p>
+                        <p><button (click)="goProfile(s.username)" class="button-card">Ver perfil</button></p>
                     </div>
-                </a>
+                </div>
             </div>
         </div>
     </div>

@@ -271,4 +271,8 @@ export class ProfileComponent implements OnInit {
         }
         return filtered;
     }
+
+    search(){
+        this.router.navigate(['/search']);
+    }
 }
