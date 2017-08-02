@@ -148,5 +148,25 @@ export class IdeaService{
 
     }
 
+    compartir(idea : Idea){
+        let url = this.baseUrl + "compartir";
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        return this.http.post(url,idea,{
+            headers:header
+        }).map((res : Response)=>{
+            if(res.status == 200){
+                return res.json();
+            }
+            if(res.status == 500){
+                throw new Error('No se pudo compartir.');
+            }
+        }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+        });
+    }
+
     
 }

@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
 
     ideaForm: FormGroup;
     newIdeas: Array<Idea> = new Array;
-    idea : Idea = new Idea;
+    idea: Idea = new Idea;
     selectedValueTipo: string;
     contenido: string;
     numeroEstudiantes: number;
@@ -218,14 +218,23 @@ export class HomeComponent implements OnInit {
 
     }
 
-    cambio(confirm : Idea){
-        if(confirm != null){
+    cambio(confirm: Idea) {
+        if (confirm != null) {
             let i = this.newIdeas.indexOf(confirm);
             this.ideaService.findById(confirm.id)
-                .subscribe((res : Idea)=>{
-                    this.newIdeas.splice(i,1,res);
+                .subscribe((res: Idea) => {
+                    console.log(res.compartida);
+                    if (res.compartida) {
+                        this.newIdeas.push(res);
+                    } else {
+                        this.newIdeas.splice(i, 1, res);
+                    }
+                }, error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
                 })
-        }else
+        } else
             console.log("error")
     }
 }

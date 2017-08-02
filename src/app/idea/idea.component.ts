@@ -31,6 +31,7 @@ export class IdeaComponent implements OnInit {
     }
 
     light(){
+        console.log(this.idea);
         this.ideaService.light(this.idea)
             .subscribe((res :Idea)=> {
                 if (res != null) {
@@ -51,6 +52,17 @@ export class IdeaComponent implements OnInit {
                     this.change.emit(this.idea);
                 } else {
                     this.change.emit(null);
+                }
+            });
+    }
+
+    compartir(){
+        this.ideaService.compartir(this.idea)
+            .subscribe((res : Idea) =>{
+                if(res != null){
+                    this.change.emit(res);
+                }else{
+                     this.change.emit(null);
                 }
             });
     }
