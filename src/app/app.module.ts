@@ -11,6 +11,9 @@ import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import {GrowlModule} from 'primeng/primeng';
 import {AutoCompleteModule} from 'primeng/primeng';
 import {DataListModule} from 'primeng/primeng';
+import {DataTableModule,SharedModule} from 'primeng/primeng';
+import {TabViewModule} from 'primeng/primeng';
+//import {DialogModule} from 'primeng/primeng';
 
 // Components
 import { AppComponent } from './app.component';
@@ -33,6 +36,7 @@ import { IdeaComponent } from './idea/idea.component';
 
 // Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
+import {AdminCrudComponent} from './admin/admin-crud.component';
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -62,7 +66,11 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         BootstrapModalModule,
         GrowlModule,
         DataListModule,
-        AutoCompleteModule
+        AutoCompleteModule,
+        DataTableModule,
+        SharedModule,
+        TabViewModule
+       // DialogModule
     ],
     declarations: [
         UserComponent,
@@ -82,7 +90,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         ComentarModalComponent,
         PanelAdminComponent,
         SearchComponent,
-        IdeaComponent
+        IdeaComponent,
+        AdminCrudComponent
     ],
     providers: [{
         provide: LocationStrategy,

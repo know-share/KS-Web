@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'admin-panel',
-    template:`<h1>Admin panel</h1>`
+    templateUrl: './panel-admin.component.html',
+    //styleUrls: ['']
 })
 export class PanelAdminComponent implements OnInit {
 
@@ -14,5 +15,9 @@ export class PanelAdminComponent implements OnInit {
 
     ngOnInit(){
 
+    }
+
+    onclickCrud(){
+        this.router.navigate(['/crud']);
     }
 }
