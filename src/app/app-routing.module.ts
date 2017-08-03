@@ -11,6 +11,7 @@ import { SearchComponent } from './search/search.component';
 
 //Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
+import {AdminCrudComponent} from './admin/admin-crud.component';
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
@@ -26,6 +27,7 @@ const routes: Routes = [
     { path: 'admin', component: PanelAdminComponent, canActivate:[AuthAdminGuard] },
     { path: 'search/:query', component: SearchComponent, canActivate:[AuthGuard]},
     { path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
+    { path: 'crud', component: AdminCrudComponent, canActivate:[AuthAdminGuard]},
 ];
 
 @NgModule({
