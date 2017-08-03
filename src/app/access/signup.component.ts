@@ -152,7 +152,8 @@ export class SignUpComponent implements OnInit {
 
         this.stepOneForm = this.fb.group({
             password: ['', Validators.compose([Validators.required,
-            Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[ "/\(\)+=¿¡{|}[+\',.:;<=>`°¬@_~#?!@$%^&*-]).{8,}$')])],
+                //(?=.*?[a-z])(?=.*?[ "/\(\)+=¿¡{|}[+\',.:;<=>`°¬@_~#?!@$%^&*-])
+            Validators.pattern('^(?=.*?[A-Z])(?=.*?[0-9]).{8,}$')])],
             email: ['', [Validators.required, Validators.pattern(/^[0-9a-zA-Z]+([.\-_][0-9a-zA-Z]+)*@[0-9a-zA-Z]+(\.[a-zA-Z]+)+$/i)]],
             name: ['', Validators.required],
             lastName: ['', Validators.required],

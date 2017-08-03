@@ -18,6 +18,7 @@ export class SearchComponent implements OnInit {
     search: string = '';
     searchAdv: string = '';
     option: number = 1;
+    optionSelected: number = 1;
     activeTab: string = 'users';
     error: boolean = false;;
 
@@ -71,6 +72,7 @@ export class SearchComponent implements OnInit {
             if (this.activeTab == 'users') {
                 this.ruleService.buscarUsuario(this.transformOption(), this.searchAdv)
                     .subscribe(rec => {
+                        this.optionSelected = this.option;
                         this.listUsers = rec;
                         this.search = this.searchAdv;
                     },error => {

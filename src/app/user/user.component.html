@@ -1,7 +1,11 @@
 <div class="container" *ngIf="usuario && !isMyProfile">
     <div class="row">
         <div class="center">
-            <div class="col-xs-4"></div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-3">
+                <img *ngIf="usuario.genero == 'Femenino'" src="images/icons/woman.png" class="img-thumbnail" width="128" height="128">
+                <img *ngIf="usuario.genero == 'Masculino'" src="images/icons/dude4_x128.png" class="img-thumbnail" width="128" height="128">
+            </div>
             <div class="col-xs-4">
                 <h2>{{usuario.nombre}} {{usuario.apellido}}</h2>
                 <p>Amigos: {{usuario.cantidadAmigos}} | Seguidores: {{usuario.cantidadSeguidores}}</p>
@@ -11,9 +15,9 @@
                     <span *ngIf="!isFollowing" class="glyphicon glyphicon-eye-open"></span>
                     <span *ngIf="isFollowing" class="glyphicon glyphicon-ok"></span> {{textFollow}}</button>
             </div>
-            <div class="col-xs-4">
+            <!-- <div class="col-xs-4">
                 <img src="images/personalidades/{{usuario.personalidad.nombre}}.png" />
-            </div>
+            </div> -->
         </div>
     </div>
     <br>
@@ -94,7 +98,7 @@
                     <div class="panel-body">
                         <h3>Habilidades personales:</h3>
                         <p *ngIf="habilidadesPersonales?.length == 0">No tiene habilidades personales registradas</p>
-                        <button *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                        <button *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                         <!--<p *ngFor="let h of habilidadesPersonales">{{h.nombre}} <span class="label label-default">{{h.avales}}</span></p>-->
                     </div>
                 </div>
@@ -104,7 +108,7 @@
                     <div class="panel-body">
                         <h3>Cualidades como profesor:</h3>
                         <p *ngIf="usuario.cualidades?.length == 0">No tiene cualidades como profesor registradas</p>
-                        <button *ngFor="let c of usuario.cualidades" type="button" class="btn btn-default">{{c.nombre}} <span class="badge">{{c.avales}}</span></button>
+                        <button *ngFor="let c of usuario.cualidades" type="button" class="btn btn-default btn-aval">{{c.nombre}} <span class="badge">{{c.avales}}</span></button>
                     </div>
                 </div>
             </div>
@@ -137,12 +141,12 @@
                             <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="panel-body">
                                 <h3>Habilidades profesionales:</h3>
                                 <p *ngIf="habilidadesProfesionales?.length == 0">No tiene habilidades profesionales registradas</p>
-                                <button *ngFor="let h of habilidadesProfesionales" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                                <button *ngFor="let h of habilidadesProfesionales" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                             </div>
                             <div *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="panel-body">
                                 <h3>Cualidades profesionales:</h3>
                                 <p *ngIf="habilidadesProfesionales?.length == 0">No tiene cualidades profesionales registradas</p>
-                                <button *ngFor="let h of usuario.habilidades" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                                <button *ngFor="let h of usuario.habilidades" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                             </div>
                         </div>
                     </div>
@@ -170,7 +174,7 @@
                             <div class="panel-body">
                                 <h3>Habilidades profesionales:</h3>
                                 <p *ngIf="habilidadesProfesionalesSeg?.length == 0">No tiene habilidades profesionales registradas</p>
-                                <button *ngFor="let h of habilidadesProfesionalesSeg" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                                <button *ngFor="let h of habilidadesProfesionalesSeg" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                             </div>
                         </div>
                     </div>

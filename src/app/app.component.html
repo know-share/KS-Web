@@ -31,7 +31,7 @@
             <!-- if is logged on -->
             <div *ngIf="loggeado">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a id="navbarred" href="/">Inicio <span class="sr-only"></span></a></li>
+                    <li><a id="navbarred" href="#">Inicio <span class="sr-only"></span></a></li>
                     <li><a *ngIf="!isAdmin" id="navbarred" class="links" (click)="myProfile()">Mi perfil <span class="sr-only"></span></a></li>
                     <li><a id="navbarred" (click)="logout()">Cerrar sesión <span class="sr-only"></span></a></li>
                 </ul>

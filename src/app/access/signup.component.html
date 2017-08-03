@@ -98,7 +98,7 @@
                         Contraseña es requerida.
                     </div>
                     <div class="alert alert-danger" *ngIf="stepOneForm.get('password').touched && stepOneForm.get('password').hasError('pattern')">
-                        La contraseña debe ser mínimo de 8 caracteres y contener mayúsculas, minúsculas, números y caracteres especiales.
+                        La contraseña debe ser mínimo de 8 caracteres y contener al menos una mayúscula y un número.
                     </div>
                 </div>
             </div>
@@ -211,9 +211,9 @@
         <h2>Mis gustos</h2>
         <p>Seleccione cada uno de sus gustos.</p>
         <ul class="nav nav-tabs">
-            <li [ngClass]="{'active': activeTabGustos == 'generales'}"><a data-toggle="tab" (click)="goTo('generales','gustos')">Generales</a></li>
-            <li [ngClass]="{'active': activeTabGustos == 'deportes'}"><a data-toggle="tab" (click)="goTo('deportes','gustos')">Deportes</a></li>
-            <li [ngClass]="{'active': activeTabGustos == 'artes'}"><a data-toggle="tab" (click)="goTo('artes','gustos')">Artes</a></li>
+            <li [ngClass]="{'active resaltar': activeTabGustos == 'generales'}"><a data-toggle="tab" (click)="goTo('generales','gustos')">Generales</a></li>
+            <li [ngClass]="{'active resaltar': activeTabGustos == 'deportes'}"><a data-toggle="tab" (click)="goTo('deportes','gustos')">Deportes</a></li>
+            <li [ngClass]="{'active resaltar': activeTabGustos == 'artes'}"><a data-toggle="tab" (click)="goTo('artes','gustos')">Artes</a></li>
         </ul>
 
         <div class="tab-content">
@@ -251,8 +251,8 @@
             <h2>Perfil de usuario</h2>
             <p>En cada una de las siguientes pestañas seleccione sus énfasis y las áreas de conocimiento que le interesan.</p>
             <ul class="nav nav-tabs">
-                <li [ngClass]="{'active' : activeTabEnfasis == 'enfasis'}"><a data-toggle="tab" (click)="goTo('enfasis','enfasis')">Mis énfasis</a></li>
-                <li [ngClass]="{'active' : activeTabEnfasis == 'ac'}"><a data-toggle="tab" (click)="goTo('ac','enfasis')">Mis áreas de conocimiento</a></li>
+                <li [ngClass]="{'active resaltar' : activeTabEnfasis == 'enfasis'}"><a data-toggle="tab" (click)="goTo('enfasis','enfasis')">Mis énfasis</a></li>
+                <li [ngClass]="{'active resaltar' : activeTabEnfasis == 'ac'}"><a data-toggle="tab" (click)="goTo('ac','enfasis')">Mis áreas de conocimiento</a></li>
             </ul>
 
             <div class="tab-content">
@@ -328,8 +328,8 @@
             <h2>Perfil de usuario</h2>
             <p>En cada una de las siguientes pestañas seleccione sus habilidades personales y profesionales.</p>
             <ul class="nav nav-tabs">
-                <li [ngClass]="{'active':activeTabHabilidades == 'personales'}"><a data-toggle="tab" (click)="goTo('personales','habilidades')">Habilidades Personales</a></li>
-                <li [ngClass]="{'active':activeTabHabilidades == 'profesionales'}"><a data-toggle="tab" (click)="goTo('profesionales','habilidades')">Habilidades Profesionales</a></li>
+                <li [ngClass]="{'active resaltar':activeTabHabilidades == 'personales'}"><a data-toggle="tab" (click)="goTo('personales','habilidades')">Habilidades Personales</a></li>
+                <li [ngClass]="{'active resaltar':activeTabHabilidades == 'profesionales'}"><a data-toggle="tab" (click)="goTo('profesionales','habilidades')">Habilidades Profesionales</a></li>
             </ul>
 
             <div class="tab-content">
@@ -370,8 +370,8 @@
             <h2>Perfil de usuario</h2>
             <p>En cada una de las siguientes pestañas seleccione sus énfasis y las áreas de conocimiento en las que tiene experiencia.</p>
             <ul class="nav nav-tabs">
-                <li [ngClass]="{'active' : activeTabEnfasis == 'enfasis'}"><a data-toggle="tab" (click)="goTo('enfasis','enfasis')">Mis énfasis</a></li>
-                <li [ngClass]="{'active' : activeTabEnfasis == 'ac'}"><a data-toggle="tab" (click)="goTo('ac','enfasis')">Mis áreas de conocimiento</a></li>
+                <li [ngClass]="{'active resaltar' : activeTabEnfasis == 'enfasis'}"><a data-toggle="tab" (click)="goTo('enfasis','enfasis')">Mis énfasis</a></li>
+                <li [ngClass]="{'active resaltar' : activeTabEnfasis == 'ac'}"><a data-toggle="tab" (click)="goTo('ac','enfasis')">Mis áreas de conocimiento</a></li>
             </ul>
 
             <div class="tab-content">
@@ -431,8 +431,8 @@
             <h2>Perfil de usuario</h2>
             <p>En cada una de las siguientes pestañas seleccione sus cualidades como profesor y como profesional.</p>
             <ul class="nav nav-tabs">
-                <li [ngClass]="{'active':activeTabCualidades == 'profesor'}"><a data-toggle="tab" (click)="goTo('profesor','cualidades')">Cualidades como Profesor</a></li>
-                <li [ngClass]="{'active':activeTabCualidades == 'profesional'}"><a data-toggle="tab" (click)="goTo('profesional','cualidades')">Cualidades como Profesional</a></li>
+                <li [ngClass]="{'active resaltar':activeTabCualidades == 'profesor'}"><a data-toggle="tab" (click)="goTo('profesor','cualidades')">Cualidades como Profesor</a></li>
+                <li [ngClass]="{'active resaltar':activeTabCualidades == 'profesional'}"><a data-toggle="tab" (click)="goTo('profesional','cualidades')">Cualidades como Profesional</a></li>
             </ul>
 
             <div class="tab-content">

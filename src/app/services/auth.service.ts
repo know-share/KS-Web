@@ -56,7 +56,7 @@ export class AuthService {
             headers : header
         })
             .map((res:Response) =>{
-                if(res.status == 200){
+                if(res.status == 200 || res.status == 304){
                     this.loggedIn = false;
                     this.logger.next(this.loggedIn);
                     this.isUserAdmin = false;

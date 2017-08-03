@@ -4,4 +4,6 @@ export class Recomendacion{
     nombre: string;
     carrera: string;
     conexion: string;
+    tipoUsuario: string;
+    porcentaje: number;
 }

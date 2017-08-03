@@ -56,9 +56,17 @@
                                 <div class="ui-g-2 ui-sm-6">Carrera: </div>
                                 <div class="ui-g-10 ui-sm-6">{{usr.carrera}}</div>
 
-                                <div class="ui-g-2 ui-sm-12">
+                                <div class="right">
+                                    <img class="icon_user" *ngIf="usr.tipoUsuario == 'PROFESOR'" src="images/icons/teacher_blackboard.png" />
+                                    <img class="icon_user" *ngIf="usr.tipoUsuario == 'ESTUDIANTE'" src="images/icons/dude4.png" />
+                                    <img class="icon_user" *ngIf="usr.tipoUsuario == 'EGRESADO'" src="images/icons/graduate.png" />
+                                </div>
+
+                                <div class="ui-g-4 ui-sm-12">
                                     <button class="btn btn-link" (click)="goToProfile(usr.username)" >Ver perfil</button>
                                 </div>
+
+                                <div *ngIf="optionSelected == 1" class="ui-g-6 ui-sm-6"><i>{{usr.porcentaje}}% de coincidencia con tu perfil</i></div>
                             </div>
                         </div>
                     </div>

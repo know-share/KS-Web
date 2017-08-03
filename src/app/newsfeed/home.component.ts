@@ -1,5 +1,5 @@
 import { IdeaHome } from './../entities/ideaHome';
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from "ng2-bootstrap-modal";
@@ -26,8 +26,7 @@ import { ComentarModalComponent } from '../modals/comentar.component';
 })
 export class HomeComponent implements OnInit {
 
-    @ViewChild('friendButton') friendButton: ElementRef;
-    @ViewChild('followButton') followButton: ElementRef;
+    @ViewChildren('friendButton') friendButton;
 
     ideaForm: FormGroup;
     newIdeas: Array<Idea> = new Array;
@@ -63,10 +62,7 @@ export class HomeComponent implements OnInit {
         this.listSolicitudes = [];
         this.cantidadSolicitudes = 0;
 
-        this.refreshSolicitudes();
-        this.showTags();
         this.find10();
-        this.getRecomendaciones();
     }
 
     refreshSolicitudes() {
@@ -76,6 +72,7 @@ export class HomeComponent implements OnInit {
                 localStorage.setItem("dto", JSON.stringify(res));
                 this.listSolicitudes = res.solicitudesAmistad;
                 this.cantidadSolicitudes = this.listSolicitudes.length;
+                this.getRecomendaciones();
             }, error => {
                 let disposable;
                 if (error == 'Error: 401')
@@ -107,12 +104,12 @@ export class HomeComponent implements OnInit {
         this.recomendaciones = this.recomendaciones.filter(rec => rec.username != username);
     }
 
-    agregarAmigo(username) {
+    agregarAmigo(username, i) {
         this.usuarioService.agregar(username)
             .subscribe(
             res => {
-                this.friendButton.nativeElement.innerHTML = 'Petición enviada';
-                this.friendButton.nativeElement.disabled = true;
+                this.friendButton.toArray()[i].nativeElement.innerHTML = 'Petición enviada';
+                this.friendButton.toArray()[i].nativeElement.disabled = true;
                 setTimeout(() => this.removeRecomendacion(username), 2000);
             },
             error => {
@@ -123,12 +120,12 @@ export class HomeComponent implements OnInit {
             );
     }
 
-    seguirUsuario(username) {
+    seguirUsuario(username, i) {
         this.usuarioService.seguir(username)
             .subscribe(
             res => {
-                this.followButton.nativeElement.innerHTML = 'Siguiendo';
-                this.followButton.nativeElement.disabled = true;
+                this.friendButton.toArray()[i].nativeElement.innerHTML = 'Siguiendo';
+                this.friendButton.toArray()[i].nativeElement.disabled = true;
                 setTimeout(() => this.removeRecomendacion(username), 2000);
             },
             error => {
@@ -144,7 +141,7 @@ export class HomeComponent implements OnInit {
     }
 
     crearIdea() {
-        let temp : Array<Idea> = new Array;
+        let temp: Array<Idea> = new Array;
         this.idea.alcance = this.alcance;
         this.idea.tipo = this.selectedValueTipo;
         this.idea.contenido = this.contenido;
@@ -186,8 +183,10 @@ export class HomeComponent implements OnInit {
         this.tagService.getAllTags()
             .subscribe((res: Array<Tag>) => {
                 this.tags = res;
+                this.refreshSolicitudes();
             }, error => {
-                console.log("Error" + error)
+                console.log("Error" + error);
+                this.refreshSolicitudes();
             });
     }
 
@@ -214,6 +213,7 @@ export class HomeComponent implements OnInit {
         this.ideaService.find10().
             subscribe((res: Array<Idea>) => {
                 this.newIdeas = res;
+                this.showTags();
             }, error => {
                 let disposable;
                 if (error == 'Error: 401')
@@ -223,7 +223,7 @@ export class HomeComponent implements OnInit {
     }
 
     cambio(confirm: IdeaHome) {
-        let temp : Array<Idea> = new Array;
+        let temp: Array<Idea> = new Array;
         if (confirm != null) {
             let i = this.newIdeas.indexOf(confirm.idea);
             this.ideaService.findById(confirm.idea.id)
@@ -240,9 +240,9 @@ export class HomeComponent implements OnInit {
                     if (error == 'Error: 401')
                         disposable = this.dialogService.addDialog(ExpirationModalComponent);
                 })
-        } else{
+        } else {
             //pop up con error
         }
-            
+
     }
 }
