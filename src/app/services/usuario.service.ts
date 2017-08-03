@@ -34,6 +34,8 @@ export class UsuarioService {
     }
 
     crearUsuario(usuario) {
+        let header = new Headers();
+        header.append('Content-Type','application/json')
         return this.http.post(this.baseUrl,
             usuario).map((res: Response) =>{
                 if(res.status == 201)

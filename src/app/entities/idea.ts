@@ -17,4 +17,7 @@ export class Idea{
     comentarios: number;
     tags:Array<Tag>;
     isLight : boolean;
+    usuarioOriginal: string;
+    compartida:boolean;
+    fechaCreacion:Date;
 }
