@@ -1,3 +1,4 @@
+import { IdeaHome } from './../entities/ideaHome';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -143,6 +144,7 @@ export class HomeComponent implements OnInit {
     }
 
     crearIdea() {
+        let temp : Array<Idea> = new Array;
         this.idea.alcance = this.alcance;
         this.idea.tipo = this.selectedValueTipo;
         this.idea.contenido = this.contenido;
@@ -153,9 +155,9 @@ export class HomeComponent implements OnInit {
         console.log(this.idea);
         this.ideaService.crearIdea(this.idea)
             .subscribe((res: Idea) => {
-                this.newIdeas.push(res);
-                console.log(res.usuario);
-                console.log(this.newIdeas.length);
+                temp.push(res);
+                temp = temp.concat(this.newIdeas);
+                this.newIdeas = temp;
             }, error => {
                 let disposable;
                 if (error == 'Error: 401')
@@ -213,19 +215,23 @@ export class HomeComponent implements OnInit {
             subscribe((res: Array<Idea>) => {
                 this.newIdeas = res;
             }, error => {
-                console.log('error' + error);
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
             });
 
     }
 
-    cambio(confirm: Idea) {
+    cambio(confirm: IdeaHome) {
+        let temp : Array<Idea> = new Array;
         if (confirm != null) {
-            let i = this.newIdeas.indexOf(confirm);
-            this.ideaService.findById(confirm.id)
+            let i = this.newIdeas.indexOf(confirm.idea);
+            this.ideaService.findById(confirm.idea.id)
                 .subscribe((res: Idea) => {
-                    console.log(res.compartida);
-                    if (res.compartida) {
-                        this.newIdeas.push(res);
+                    if (confirm.operacion === "compartir") {
+                        temp.push(res);
+                        temp = temp.concat(this.newIdeas);
+                        this.newIdeas = temp;
                     } else {
                         this.newIdeas.splice(i, 1, res);
                     }
@@ -234,7 +240,9 @@ export class HomeComponent implements OnInit {
                     if (error == 'Error: 401')
                         disposable = this.dialogService.addDialog(ExpirationModalComponent);
                 })
-        } else
-            console.log("error")
+        } else{
+            //pop up con error
+        }
+            
     }
 }

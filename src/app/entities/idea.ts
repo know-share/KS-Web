@@ -19,4 +19,5 @@ export class Idea{
     isLight : boolean;
     usuarioOriginal: string;
     compartida:boolean;
+    fechaCreacion:Date;
 }
