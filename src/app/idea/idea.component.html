@@ -2,7 +2,8 @@
     <div class="panel-heading titulo">
     <div class="row" >
         <div class="col-xs-6">
-           <a>{{idea.usuario}}</a>
+           <a *ngIf = "idea.compartida === false" (click) = "goProfile(idea.usuario)">{{idea.usuario}}</a>
+           <span *ngIf = "idea.compartida === true"><a (click) = "goProfile(idea.usuario)">{{idea.usuario}}</a> compartida de: <a (click) = "goProfile(idea.usuarioOriginal)">{{idea.usuarioOriginal}}</a></span>
         </div>
         <div class="col-xs-6">
             <label style=" text-align: right;">Publicada: {{idea.fechaCreacion | date:"dd/MM/yyyy"}}</label>

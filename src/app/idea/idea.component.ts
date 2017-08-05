@@ -26,12 +26,13 @@ export class IdeaComponent implements OnInit {
 
     constructor(
         private ideaService:IdeaService,
-        private dialogService : DialogService
+        private dialogService : DialogService,
+        private router: Router
     ){  }
 
     ngOnInit(){
         for(var item of this.idea.tags){
-            this.tags = this.tags + '#' + item.nombre + ' ';
+            this.tags = this.tags + ' ' + item.nombre + ' ';
         }
         console.log(this.tags);
     }
@@ -79,5 +80,9 @@ export class IdeaComponent implements OnInit {
                      this.change.emit(null);
                 }
             });
+    }
+
+    goProfile(username) {
+        this.router.navigate(['/user', username]);
     }
 }
