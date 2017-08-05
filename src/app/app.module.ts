@@ -1,3 +1,4 @@
+import { CrearIdeaModalComponent } from './modals/crear-idea.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule, } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -94,7 +95,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         ScrollPointDirective,
         SearchComponent,
         IdeaComponent,
-        AdminCrudComponent
+        AdminCrudComponent,
+        CrearIdeaModalComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -123,7 +125,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         AddFAModalComponent,
         EditHabilidadModalComponent,
         EditBasisModalComponent,
-        ComentarModalComponent
+        ComentarModalComponent,
+        CrearIdeaModalComponent
     ],
     bootstrap: [AppComponent]
 })

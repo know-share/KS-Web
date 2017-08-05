@@ -19,7 +19,7 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
     { path: 'user/:username', component: UserComponent, canActivate: [AuthGuard]},
     { path: 'signup', component: SignUpComponent, canActivate:[AuthReverseGuard] },
     { path: 'login', component: LoginComponent, canActivate:[AuthReverseGuard] },
