@@ -14,8 +14,6 @@ import {GrowlModule} from 'primeng/primeng';
 import {AutoCompleteModule} from 'primeng/primeng';
 import {DataListModule} from 'primeng/primeng';
 import {DataTableModule,SharedModule} from 'primeng/primeng';
-import {TabViewModule} from 'primeng/primeng';
-//import {DialogModule} from 'primeng/primeng';
 
 // Components
 import { AppComponent } from './app.component';
@@ -36,6 +34,7 @@ import { ComentarModalComponent } from './modals/comentar.component';
 import { SearchComponent } from './search/search.component';
 import { IdeaComponent } from './idea/idea.component';
 import { UploadImageModalComponent } from './modals/upload-image.component';
+import { CrudCarreraModalComponent } from './modals/crud-carrera.component';
 
 // Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
@@ -71,9 +70,7 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         DataListModule,
         AutoCompleteModule,
         DataTableModule,
-        SharedModule,
-        TabViewModule
-       // DialogModule
+        SharedModule
     ],
     declarations: [
         UserComponent,
@@ -96,7 +93,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         SearchComponent,
         IdeaComponent,
         AdminCrudComponent,
-        UploadImageModalComponent
+        UploadImageModalComponent,
+        CrudCarreraModalComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -126,7 +124,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         EditHabilidadModalComponent,
         EditBasisModalComponent,
         ComentarModalComponent,
-        UploadImageModalComponent
+        UploadImageModalComponent,
+        CrudCarreraModalComponent
     ],
     bootstrap: [AppComponent]
 })
