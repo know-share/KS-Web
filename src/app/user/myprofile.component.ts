@@ -25,6 +25,7 @@ import { AddFAModalComponent } from '../modals/add-fa.component';
 import { ExpirationModalComponent } from '../modals/expiration.component';
 import { EditHabilidadModalComponent } from '../modals/edit-habilidad.component';
 import { EditBasisModalComponent } from '../modals/edit-basis.component';
+import { UploadImageModalComponent } from '../modals/upload-image.component';
 
 @Component({
     selector: 'myprofile',
@@ -277,6 +278,13 @@ export class ProfileComponent implements OnInit {
     }
 
     uploadImage(){
-        
+        let disposable = this.dialogService.addDialog(UploadImageModalComponent)
+            .subscribe(
+            confirmed => {
+                if (confirmed) {
+                    this.msgs = [];
+                    this.msgs.push({severity:'success', summary:'Operación exitosa', detail:'Imagen de perfil actualizada.'});
+                }
+            });
     }
 }

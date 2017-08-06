@@ -35,6 +35,7 @@ import { EditBasisModalComponent } from './modals/edit-basis.component';
 import { ComentarModalComponent } from './modals/comentar.component';
 import { SearchComponent } from './search/search.component';
 import { IdeaComponent } from './idea/idea.component';
+import { UploadImageModalComponent } from './modals/upload-image.component';
 
 // Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
@@ -94,7 +95,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         ScrollPointDirective,
         SearchComponent,
         IdeaComponent,
-        AdminCrudComponent
+        AdminCrudComponent,
+        UploadImageModalComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -123,7 +125,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         AddFAModalComponent,
         EditHabilidadModalComponent,
         EditBasisModalComponent,
-        ComentarModalComponent
+        ComentarModalComponent,
+        UploadImageModalComponent
     ],
     bootstrap: [AppComponent]
 })
