@@ -1,46 +1,31 @@
-<!-- <nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            <li [ngClass]="{ 'active': activeTab == 'ideas' }"><a (click)="moveTab('ideas')" class="links">Principal</a></li>
-            <li [ngClass]="{ 'active': activeTab == 'info' }"><a (click)="moveTab('info')" class="links">Información académica</a></li>
-            <li [ngClass]="{ 'active': activeTab == 'friends' }"><a (click)="moveTab('friends')" class="links">Amigos</a></li>
-            <li [ngClass]="{ 'active': activeTab == 'following' }"><a (click)="moveTab('following')" class="links">Siguiendo</a></li>
-            <li [ngClass]="{ 'active': activeTab == 'followers' }"><a (click)="moveTab('followers')" class="links">Seguidores</a></li>
-            <li [ngClass]="{ 'active': activeTab == 'badges' }"><a (click)="moveTab('badges')" class="links">Insignias</a></li>
-            <li *ngIf="usuario.tipoUsuario == 'PROFESOR'" [ngClass]="{ 'active': activeTab == 'tg' }"><a (click)="moveTab('tg')" class="links">TG Dirigidos</a></li>
-            <li *ngIf="usuario.tipoUsuario != 'ESTUDIANTE'" [ngClass]="{ 'active': activeTab == 'career' }"><a (click)="moveTab('career')" class="links">Formación académica</a></li>
-        </ul>
-    </div>
-</nav> -->
-
+<p-growl [(value)]="msgs"></p-growl>
 <div class="container">
     <h1>CRUD</h1>
-    <p-tabView>
-        <p-tabPanel header="Etiquetas">
-
-        </p-tabPanel>
-        <p-tabPanel header="Habilidades">
-            Content 2
-        </p-tabPanel>
-        <p-tabPanel header="Gustos">
-            Content 3
-        </p-tabPanel>
-        <p-tabPanel header="Carreras">
-
-            <p-dataTable [value]="AreasC" selectionMode="single" [(selection)]="selectedAC" (onRowSelect)="onRowSelect($event)" [paginator]="true"
-                rows="10" [responsive]="true">
-                <p-header>CRUD Area de Conocimiento</p-header>
-                <p-column field="nombre" header="Nombre" [sortable]="true"></p-column>
-                <p-column field="carrera" header="Carrera" [sortable]="true"></p-column>
-                <p-column field="porcentaje" header="Porcentaje" [sortable]="true"></p-column>
-                <p-footer>
-                    <div class="ui-helper-clearfix" style="width:100%"><button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add"></button></div>
-                </p-footer>
-            </p-dataTable>
-
-        </p-tabPanel>
-        <p-tabPanel header="Énfasis">
-            Content 5
-        </p-tabPanel>
-    </p-tabView>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li [ngClass]="{ 'active': activeTab == 'etiquetas' }"><a (click)="moveTab('etiquetas')" class="links">Etiquetas</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'habilidades' }"><a (click)="moveTab('habilidades')" class="links">Habilidades académica</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'gustos' }"><a (click)="moveTab('gustos')" class="links">Gustos</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'carreras' }"><a (click)="moveTab('carreras')" class="links">Carreras</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'enfasis' }"><a (click)="moveTab('enfasis')" class="links">Énfasis</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div *ngIf="activeTab == 'carreras'" class="row">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8">
+        <p-dataTable [value]="carreras" selectionMode="single" [(selection)]="selectedcarrera" (onRowSelect)="onRowSelect($event)" [paginator]="true"
+            rows="10" [responsive]="true">
+            <p-header>CRUD Carreras</p-header>
+            <p-column field="nombre" header="Nombre" [sortable]="true"></p-column>
+            <p-column field="facultad" header="Facultad" [sortable]="true"></p-column>
+           <!-- <p-column field="carrerasAfines" header="Carreras Afines" [sortable]="true"></p-column>-->
+            <p-footer>
+                <!-- (click)="showDialogToAdd()"-->
+                <button type="submit" class="btn btn-primary btn-block"   (click)="editCarrera()">Agregar</button>
+            </p-footer>
+        </p-dataTable>
+    </div>
 </div>
