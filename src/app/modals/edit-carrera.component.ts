@@ -127,7 +127,7 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
         this.acSelected = [];
         this.areasConocimiento = [];
         this.loading = true;
-        this.carreraService.getEnfasisAreaConocimiento(this.carrera.nombre)
+        this.carreraService.getEnfasisAreaConocimiento(this.carrera.id)
             .subscribe(
             enfasisAC => {
                 for (let e of enfasisAC.enfasis) {
@@ -182,7 +182,7 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
     getHabilidades() {
         this.loading = true;
         this.habilidadesSelected = [];
-        this.habilidadService.getHabilidadesProfesionales(this.carrera.nombre)
+        this.habilidadService.getHabilidadesProfesionales(this.carrera.id)
             .subscribe(
             habilidades => {
                 this.habilidadesProfesionales = habilidades;

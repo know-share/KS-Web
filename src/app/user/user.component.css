@@ -75,3 +75,6 @@
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+>>> .ui-growl{
+    top:60px;
+}

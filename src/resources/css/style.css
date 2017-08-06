@@ -55,9 +55,6 @@ a:hover{
 textarea{
     resize: none;
 }
->>> .ui-growl{
-    top: 50px;
-}
 .sticky-nav {
   position:fixed;
  }
@@ -66,5 +63,4 @@ textarea{
 }
 .titulo{
     text-align: left;
-    
 }

@@ -203,7 +203,7 @@ export class SignUpComponent implements OnInit {
                 );
         }
         this.enfasisCarrera = []; this.ACCarrera = [];
-        this.carreraService.getEnfasisAreaConocimiento(this.carrera.nombre)
+        this.carreraService.getEnfasisAreaConocimiento(this.carrera.id)
             .subscribe(
             enfasisAC => {
                 for (let e of enfasisAC.enfasis) {
@@ -225,7 +225,7 @@ export class SignUpComponent implements OnInit {
             );
         if (this.segundaCarrera != null) {
             this.ACSegundaCarrera = []; this.enfasisSegundaCarrera = [];
-            this.carreraService.getEnfasisAreaConocimiento(this.segundaCarrera.nombre)
+            this.carreraService.getEnfasisAreaConocimiento(this.segundaCarrera.id)
                 .subscribe(
                 enfasisAC => {
                     for (let e of enfasisAC.enfasis) {
@@ -254,7 +254,7 @@ export class SignUpComponent implements OnInit {
         this.habilidadProfesionalesSegunda = [];
         this.habilidadesPersonales = [];
         if (this.habilidadesPersonales.length == 0 && this.habilidadProfesionalesPrimera.length == 0) {
-            this.habilidadService.getHabilidades(this.carrera.nombre)
+            this.habilidadService.getHabilidades(this.carrera.id)
                 .subscribe(
                 habilidades => {
                     for (let habilidad of habilidades) {
@@ -267,7 +267,7 @@ export class SignUpComponent implements OnInit {
                 );
         }
         if (this.segundaCarrera && this.habilidadProfesionalesSegunda.length == 0) {
-            this.habilidadService.getHabilidadesProfesionales(this.segundaCarrera.nombre)
+            this.habilidadService.getHabilidadesProfesionales(this.segundaCarrera.id)
                 .subscribe(
                 habilidades => {
                     this.habilidadProfesionalesSegunda = habilidades;

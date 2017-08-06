@@ -27,7 +27,7 @@ export class AuthService {
                 if (res.status == 200) {
                     this.loggedIn = true;
                     this.logger.next(this.loggedIn);
-                    if(res.json().role == 'ADMIN'){
+                    if (res.json().role == 'ADMIN') {
                         this.isUserAdmin = true;
                         this.loggerAdmin.next(this.isUserAdmin);
                     }
@@ -48,22 +48,22 @@ export class AuthService {
         return this.loggerAdmin.asObservable();
     }
 
-    logout(){
+    logout() {
         let header = new Headers();
-        header.append('Authorization',localStorage.getItem('token'));
+        header.append('Authorization', localStorage.getItem('token'));
         let url = this.baseUrl + "logout";
-        return this.http.put(url,null,{
-            headers : header
+        return this.http.put(url, null, {
+            headers: header
         })
-            .map((res:Response) =>{
-                if(res.status == 200 || res.status == 304){
+            .map((res: Response) => {
+                if (res.status == 200) {
                     this.loggedIn = false;
                     this.logger.next(this.loggedIn);
                     this.isUserAdmin = false;
                     this.loggerAdmin.next(this.isUserAdmin);
                     return true;
-                }else
-                    throw new Error('Error '+res.status);
+                }
+                throw new Error('Error ' + res.status);
             });
     }
 }
