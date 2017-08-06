@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 
 import { UsuarioService } from '../services/usuario.service';
 
+import { ExpirationModalComponent } from './expiration.component';
+
 @Component({
     selector: 'confirm',
     template: `<div class="modal-dialog">
@@ -21,8 +23,7 @@ import { UsuarioService } from '../services/usuario.service';
                     <button [disabled]="!valid" (click)="upload()" class="btn btn-primary btn-block" >Actualizar imagen</button>
                    </div>
                  </div>
-              </div>`,
-    styleUrls: ['./upload-image.component.css']
+              </div>`
 })
 export class UploadImageModalComponent extends DialogComponent<void, boolean>
     implements OnInit {
@@ -72,6 +73,23 @@ export class UploadImageModalComponent extends DialogComponent<void, boolean>
     }
 
     upload() {
-        console.log(this.uploadedImage);
+        let formData = new FormData();
+        formData.append('file',this.uploadedImage);
+        this.usuarioService.upload(formData)
+            .subscribe(
+                ok => {
+                    this.result = true;
+                    super.close();
+                },error => {
+                    this.result = false;
+                    let disposable;
+                    if(error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                    else{
+                        console.log('error: '+error);
+                    }
+                    super.close();
+                }
+            );
     }
 }

@@ -54,7 +54,9 @@ export class Usuario {
     insignias: string[];
 
     tgDirigidos:TrabajoGrado[];
-	formacionAcademica:FormacionAcademica[];
+    formacionAcademica:FormacionAcademica[];
+    
+    imagen:boolean;
 
     constructor(){
         this.personalidad = new Personalidad();

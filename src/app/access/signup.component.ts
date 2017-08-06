@@ -158,7 +158,7 @@ export class SignUpComponent implements OnInit {
             name: ['', Validators.required],
             lastName: ['', Validators.required],
             confirmPassword: ['', Validators.required],
-            username: ['', Validators.compose([Validators.required,Validators.minLength(4),Validators.pattern(/^\S*$/)])]
+            username: ['', Validators.compose([Validators.required,Validators.pattern(/^[a-zA-Z0-9\.\-_]{4,}$/)])]
         }, {
                 validator: SignUpValidation.Validate // UsernameValidation.UsernameTaken
             });

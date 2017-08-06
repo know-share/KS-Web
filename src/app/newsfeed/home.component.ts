@@ -218,6 +218,7 @@ export class HomeComponent implements OnInit {
                 let disposable;
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                this.showTags();
             });
 
     }
