@@ -63,6 +63,30 @@ export class IdeaService{
             });
     }
 
+    findByUsuarioPro(username : string){
+        let url = this.baseUrl + 'findByUsuarioPro/' + username;
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        return this.http.get(url,{
+            headers : header
+        })
+            .map((res : Response)=>{
+                if(res.status == 200){
+                    return res.json();
+                }
+                if(res.status == 204){
+                    throw new Error('No hay ideas.');
+                }
+                if(res.status == 500){
+                    throw new Error('No se pudieron cargar las ideas.');
+                }
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
     find10(){
         let url = this.baseUrl + 'find10';
         let header = new Headers();

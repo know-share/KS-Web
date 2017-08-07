@@ -1,3 +1,7 @@
+import { AsociarTGModalComponent } from './modals/asociarTG.component';
+import { IdeasProyectoModalComponent } from './modals/ideasProyecto.component';
+import { TrabajoGradoService } from './services/trabajoGrado.service';
+import { CrearIdeaModalComponent } from './modals/crear-idea.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule, } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -94,7 +98,10 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         ScrollPointDirective,
         SearchComponent,
         IdeaComponent,
-        AdminCrudComponent
+        AdminCrudComponent,
+        CrearIdeaModalComponent,
+        IdeasProyectoModalComponent,
+        AsociarTGModalComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -113,7 +120,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         AuthAdminGuard,
         IdeaService,
         TagService,
-        RuleService
+        RuleService,
+        TrabajoGradoService
     ],
     entryComponents:[
         RequestModalComponent,
@@ -123,7 +131,10 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         AddFAModalComponent,
         EditHabilidadModalComponent,
         EditBasisModalComponent,
-        ComentarModalComponent
+        ComentarModalComponent,
+        CrearIdeaModalComponent,
+        IdeasProyectoModalComponent,
+        AsociarTGModalComponent
     ],
     bootstrap: [AppComponent]
 })
