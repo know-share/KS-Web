@@ -55,17 +55,12 @@ a:hover{
 textarea{
     resize: none;
 }
->>> .ui-growl{
-    top: 50px;
-}
 .sticky-nav {
   position:fixed;
  }
 .input-group{
     width:514px;
 }
-
 .titulo{
     text-align: left;
-    
 }

@@ -80,10 +80,8 @@
                         Nombre de usuario es requerido.
                     </div>
                     <div class="alert alert-danger" *ngIf="stepOneForm.get('username').touched && stepOneForm.get('username').hasError('pattern')">
-                        Ingrese un nombre de usuario sin espacios en blanco.
-                    </div>
-                    <div class="alert alert-danger" *ngIf="stepOneForm.get('username').touched && stepOneForm.get('username').hasError('minlength')">
-                        La longitud mínima debe ser de 4 caracteres.
+                        Nombre de usuario debe ser de una longitud mínima de 4 caracteres y sin espacios en blanco. Los caracteres especiales aceptados
+                        son: .-_
                     </div>
                     <div class="alert alert-danger" *ngIf="stepOneForm.get('username').touched && stepOneForm.controls.username.errors?.UsernameTaken">
                         Nombre de usuario no disponible.

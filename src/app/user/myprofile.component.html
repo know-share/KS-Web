@@ -11,8 +11,7 @@
                             <i class="fa fa-pencil fa-stack-1x pdf-thumb-eye"></i>
                         </span>
                     </div>
-                    <img *ngIf="usuario.genero == 'Femenino'" src="images/icons/woman.png" class="img-thumbnail" width="128" height="128">
-                    <img *ngIf="usuario.genero == 'Masculino'" src="images/icons/dude4_x128.png" class="img-thumbnail" width="128" height="128">
+                    <img #profileImage class="img-thumbnail" />
                 </a>
 
             </div>
@@ -155,7 +154,9 @@
         <div [ngClass]="usuario.segundaCarrera ? 'col-xs-6':'col-xs-8'">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <button type="button" (click)="editCarrera(true)" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-pencil"></i></button>
+                    <button type="button" (click)="editCarrera(true,false)" class="btn btn-success btn-circle btn-aval right"><i class="glyphicon glyphicon-pencil"></i></button>
+                    <button *ngIf="!usuario.segundaCarrera && !usuario.tipoUsuario != 'PROFESOR'" type="button" (click)="editCarrera(false,true)"
+                        class="btn btn-primary btn-circle btn-aval right"><i class="glyphicon glyphicon-plus"></i></button>
                     <h2>{{usuario.carrera.nombre}}</h2>
                     <div class="panel panel-default">
                         <div class="panel-body">
@@ -191,7 +192,9 @@
         <div *ngIf="usuario.segundaCarrera" class="col-xs-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <button type="button" (click)="editCarrera(false)" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-pencil"></i></button>
+                    <button type="button" (click)="editCarrera(false,false)" class="btn btn-success btn-circle btn-aval right"><i class="glyphicon glyphicon-pencil"></i></button>
+                    <button type="button" (click)="eliminarCarrera()"
+                        class="btn btn-danger btn-circle btn-aval right"><i class="glyphicon glyphicon-minus"></i></button>
                     <h2>{{usuario.segundaCarrera.nombre}}</h2>
                     <div class="panel panel-default">
                         <div class="panel-body">
@@ -232,7 +235,8 @@
             <div *ngFor="let a of usuario.amigos" class="col-xs-4">
                 <div class="card">
                     <button type="button" data-toggle="tooltip" title="Eliminar" (click)="eliminarAmigo(a.username)" class="btn btn-danger btn-circle remove"><i class="glyphicon glyphicon-remove"></i></button>
-                    <img src="images/image-profile.png" class="find-user">
+                    <img src="{{serverUri}}{{s.username}}"
+                            (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
                     <div class="container-card">
                         <h2 class="name-card">{{a.nombre}}</h2>
                         <p class="title-card">{{a.carrera}}</p>
@@ -253,7 +257,8 @@
         <div class="row">
             <div *ngFor="let s of usuario.seguidores" class="col-xs-4">
                 <div class="card">
-                    <img src="images/image-profile.png" class="find-user">
+                    <img src="{{serverUri}}{{s.username}}"
+                            (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
                     <div class="container-card">
                         <h2 class="name-card">{{s.nombre}}</h2>
                         <p class="title-card">{{s.carrera}}</p>
@@ -275,7 +280,8 @@
         <div class="row">
             <div *ngFor="let s of usuario.siguiendo" class="col-xs-4">
                 <div class="card">
-                    <img src="images/image-profile.png" class="find-user">
+                    <img src="{{serverUri}}{{s.username}}"
+                            (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
                     <div class="container-card">
                         <h2 class="name-card">{{s.nombre}}</h2>
                         <p class="title-card">{{s.carrera}}</p>

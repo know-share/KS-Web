@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
 
@@ -14,6 +14,7 @@ import { Usuario } from '../entities/usuario';
 import { Habilidad } from '../entities/habilidad';
 import { AreaConocimiento } from '../entities/areaConocimiento';
 import { Idea } from '../entities/idea';
+import { URL_IMAGE_USER } from '../entities/constants';
 
 @Component({
     selector: 'user',
@@ -21,6 +22,10 @@ import { Idea } from '../entities/idea';
     styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+
+    imagePath: string;
+
+    serverUri=URL_IMAGE_USER;
 
     username: string;
     activeTab: string;
@@ -43,7 +48,7 @@ export class UserComponent implements OnInit {
     isEnableFollow = true;
     textRequest = "Agregar como amigo";
     textFollow = "Seguir";
-    isFriend:boolean = false;
+    isFriend: boolean = false;
 
     constructor(
         private ideaService: IdeaService,
@@ -88,20 +93,23 @@ export class UserComponent implements OnInit {
                             this.habilidadesProfesionalesSeg.push(h);
                         }
                     }
-                    if(this.usuario.amigos
-                        .find(amigo => amigo.username.toLowerCase() == localStorage.getItem("user").toLowerCase())){
+                    if (this.usuario.amigos
+                        .find(amigo => amigo.username.toLowerCase() == localStorage.getItem("user").toLowerCase())) {
                         this.isFriend = true;
                         this.isEnableFollow = false;
                     }
-                    if(this.username.toLowerCase() == localStorage.getItem('user').toLowerCase())
+                    if (this.username.toLowerCase() == localStorage.getItem('user').toLowerCase())
                         this.isMyProfile = true;
-                    this.botonSeguir();
-                    this.botonSolicitud();
+                    if (!this.isMyProfile) {
+                        this.botonSeguir();
+                        this.botonSolicitud();
+                        this.reloadImage();
+                    }
                 }, error => {
                     let disposable;
-                    if(error == 'Error: 401')
+                    if (error == 'Error: 401')
                         disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                    else{
+                    else {
                         this.errorService.updateMessage(error);
                         this.router.navigate(['error']);
                     }
@@ -109,11 +117,29 @@ export class UserComponent implements OnInit {
                 );
         });
         this.ideaService.findByUsuario(this.username)
-            .subscribe((res : any[])=>{
+            .subscribe((res: any[]) => {
                 this.ideas = res;
-            }, error =>{
+            }, error => {
                 console.log('Error' + error);
             });
+    }
+
+    reloadImage() {
+        if (this.usuario.imagen) {
+            this.imagePath = URL_IMAGE_USER + this.usuario.username;
+        } else {
+            if (this.usuario.genero == 'Femenino')
+                this.imagePath = "images/icons/woman.png";
+            else
+                this.imagePath = "images/icons/dude4_x128.png";
+        }
+    }
+
+    imageCard(username, genero): string {
+        if(genero == 'Femenino')
+            return "images/icons/woman.png";
+        else
+            return "images/icons/dude4_x128.png";
     }
 
     mapAreasConocimiento(areasConocimiento: AreaConocimiento[]) {
@@ -132,19 +158,19 @@ export class UserComponent implements OnInit {
         this.activeTab = tab;
     }
 
-    agregar(){
+    agregar() {
         this.usuarioService.agregar(this.username)
             .subscribe(
-                res => {
-                    this.textRequest = "Petición enviada";
-                    this.isEnableRequest = false;
-                    this.isEnableFollow = false;
-                },
-                error => {
-                    let disposable;
-                    if(error == 'Error: 401')
-                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                }
+            res => {
+                this.textRequest = "Petición enviada";
+                this.isEnableRequest = false;
+                this.isEnableFollow = false;
+            },
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            }
             );
     }
 
@@ -178,63 +204,63 @@ export class UserComponent implements OnInit {
             );
     }
 
-    seguir(){
-        if(!this.isFollowing){
+    seguir() {
+        if (!this.isFollowing) {
             this.usuarioService.seguir(this.username)
                 .subscribe(
-                    res => {
-                        this.textFollow = "Siguiendo";
-                        this.isFollowing = true;
-                        this.isFriend = true;
-                        this.refreshUsuario();
-                    },
-                    error => {
-                        let disposable;
-                        if(error == 'Error: 401')
-                            disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                    }
+                res => {
+                    this.textFollow = "Siguiendo";
+                    this.isFollowing = true;
+                    this.isFriend = true;
+                    this.refreshUsuario();
+                },
+                error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                }
                 );
-        }else{
+        } else {
             this.usuarioService.dejarSeguir(this.username)
                 .subscribe(
-                    res => {
-                        this.textFollow = "Seguir";
-                        this.isFollowing = false;
-                        this.isFriend = false;
-                        this.refreshUsuario();
-                    },
-                    error => {
-                        let disposable;
-                        if(error == 'Error: 401')
-                            disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                        else
-                            console.log('error: '+error);
-                    }
+                res => {
+                    this.textFollow = "Seguir";
+                    this.isFollowing = false;
+                    this.isFriend = false;
+                    this.refreshUsuario();
+                },
+                error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                    else
+                        console.log('error: ' + error);
+                }
                 );
         }
     }
 
-    botonSeguir(){
+    botonSeguir() {
         let seguidores = this.usuario.seguidores;
-        if(seguidores.find(seg => seg.username.toLowerCase() == localStorage.getItem("user").toLowerCase())){
+        if (seguidores.find(seg => seg.username.toLowerCase() == localStorage.getItem("user").toLowerCase())) {
             this.textFollow = "Siguiendo";
             this.isFollowing = true;
             this.isFriend = true;
         }
     }
 
-    botonSolicitud(){
-        let solicitudes:string[] = this.usuario.solicitudesAmistad;
-        if(solicitudes && 
-            solicitudes.find(value => value.toLowerCase() == localStorage.getItem("user").toLowerCase())){
+    botonSolicitud() {
+        let solicitudes: string[] = this.usuario.solicitudesAmistad;
+        if (solicitudes &&
+            solicitudes.find(value => value.toLowerCase() == localStorage.getItem("user").toLowerCase())) {
             this.isEnableRequest = false;
             this.textRequest = "Petición enviada";
             this.isEnableFollow = false;
-        }else {
-            let usu:Usuario = JSON.parse(localStorage.getItem("dto"));
+        } else {
+            let usu: Usuario = JSON.parse(localStorage.getItem("dto"));
             solicitudes = usu.solicitudesAmistad;
-            if(solicitudes && 
-                solicitudes.find(value => value.toLowerCase() == this.username.toLowerCase())){
+            if (solicitudes &&
+                solicitudes.find(value => value.toLowerCase() == this.username.toLowerCase())) {
                 this.isEnableRequest = false;
                 this.textRequest = "Petición pendiente";
                 this.isEnableFollow = false;
@@ -242,11 +268,15 @@ export class UserComponent implements OnInit {
         }
     }
 
-    goProfile(username){
-        this.router.navigate(['/user',username]);
+    goProfile(username) {
+        this.router.navigate(['/user', username]);
     }
 
-    search(){
+    search() {
         this.router.navigate(['/search']);
+    }
+
+    errorImageHandler(event,username,genero){
+        event.target.src=this.imageCard(username,genero);
     }
 }

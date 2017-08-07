@@ -8,7 +8,7 @@
     max-width: 300px;
     margin: auto;
     background: #EBEBEB;
-    min-height: 500px;
+    min-height: 400px;
 }
 .container-card{
     padding: 0 16px;
@@ -74,4 +74,16 @@
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
+}
+>>> .ui-growl{
+    top:60px;
+}
+>>>.img-thumbnail{
+    width:128px;
+    height: 128px;
+}
+.profile_image{
+    width:128px;
+    height: 128px;
+    border: 3px solid black;
 }

@@ -1,9 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TabViewModule } from 'primeng/primeng';
-import { DataTableModule, SharedModule } from 'primeng/primeng';
-import { AreaConocimiento } from '../entities/areaConocimiento';
-import { DialogModule } from 'primeng/primeng';
+import { DialogService } from "ng2-bootstrap-modal";
+
+//primeng
+import { Message } from 'primeng/primeng';
+
+//Entities
+import { Carrera } from '../entities/carrera';
+
+import { CrudCarreraModalComponent } from '../modals/crud-carrera.component';
+
+import { CarreraService } from '../services/carrera.service';
+
 
 @Component({
     selector: 'admin-crud',
@@ -12,75 +20,81 @@ import { DialogModule } from 'primeng/primeng';
 })
 export class AdminCrudComponent implements OnInit {
 
-    displayDialog: boolean = true;
+    activeTab: string;
+    displayDialog: boolean;
 
-    AC: AreaConocimiento = new AreaConocimiento();
+    carrera: Carrera = new Carrera();
+    selectedcarrera: Carrera;
+    newcarrera: boolean;
+    carreras: Carrera[] = [];
 
-    selectedAC: AreaConocimiento;
-
-    newAC: boolean;
-
-    AreasC: AreaConocimiento[] = [];
-
-    area: AreaConocimiento; // por el momento
+    msgs: Message[] = [];
 
     constructor(
         private router: Router,
+        private dialogService: DialogService,
+        private carreraService: CarreraService
     ) { }
 
     ngOnInit() {
 
-        for (let i = 0; i < 10; i++) {
-
-            let area = new AreaConocimiento();// por el momento
-            area.carrera = "Carrera " + i;
-            area.nombre = "Ingeniería " + i;
-            area.porcentaje = i;
-            this.AreasC.push(area);
-        }
-
     }
 
     showDialogToAdd() {
-        this.newAC = true;
-        this.AC = new AreaConocimiento();
+        this.newcarrera = true;
+        this.carrera = new Carrera();
         this.displayDialog = true;
-    }
-
-    save() {
-        let AreasC = [...this.AreasC];
-        if (this.newAC)
-            AreasC.push(this.AC);
-        else
-            AreasC[this.findSelectedAreaIndex()] = this.AC;
-
-        this.AreasC = AreasC;
-        this.AC = null;
-        this.displayDialog = false;
     }
 
     findSelectedAreaIndex(): number {
-        return this.AreasC.indexOf(this.selectedAC);
-    }
-
-    delete() {
-        let index = this.findSelectedAreaIndex();
-        this.AreasC = this.AreasC.filter((val, i) => i != index);
-        this.AC = null;
-        this.displayDialog = false;
+        return this.carreras.indexOf(this.selectedcarrera);
     }
 
     onRowSelect(event) {
-        this.newAC = false;
-        this.AC = this.cloneAC(event.data);
-        this.displayDialog = true;
+        let disposable = this.dialogService.addDialog(CrudCarreraModalComponent, {
+            carrera: this.selectedcarrera,
+            tipo: "update"
+        }).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    this.refreshCarrera();
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Carrera fue actualizada.' });
+                }
+            });
     }
 
-    cloneAC(c: AreaConocimiento): AreaConocimiento {
-        let car = new AreaConocimiento();
-        for (let prop in c) {
-            car[prop] = c[prop];
-        }
-        return car;
+    //-------------------------------
+
+    refreshCarrera() {
+        this.carreraService.getAllCarreras()
+            .subscribe(
+            carreras => this.carreras = carreras,
+            error => console.log("Error cargando las carreras " + error)
+            );
     }
+    moveTab(tab) {
+        this.activeTab = tab;
+        if (this.activeTab == "carreras") {
+            this.refreshCarrera();
+        }
+    }
+
+    editCarrera() {
+        if (this.carrera != null) {
+            let disposable = this.dialogService.addDialog(CrudCarreraModalComponent, {
+                carrera: this.carrera
+            }).subscribe(
+                confirmed => {
+                    if (confirmed) {
+                        //  this.refreshUsuario();
+                        //  this.msgs = [];
+                        //  this.msgs.push({severity:'success', summary:'Operación exitosa', detail:'Información personal fue actualizada.'});
+                        console.log("se supone que confirmo en admin crud");
+                    }
+                });
+        }
+
+    }
+
 }
