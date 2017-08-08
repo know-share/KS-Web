@@ -18,6 +18,6 @@ export class PanelAdminComponent implements OnInit {
     }
 
     onclickCrud(){
-        this.router.navigate(['/crud']);
+        this.router.navigate(['/admin/crud']);
     }
 }

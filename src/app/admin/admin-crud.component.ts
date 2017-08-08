@@ -2,31 +2,34 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
 
-//primeng
+//Primeng
 import { Message } from 'primeng/primeng';
 
 //Entities
 import { Carrera } from '../entities/carrera';
 
-import { CrudCarreraModalComponent } from '../modals/crud-carrera.component';
-
+//Service
 import { CarreraService } from '../services/carrera.service';
+
+//Modals
+import { CrudCarreraModalComponent } from '../modals/crud-carrera.component';
 
 
 @Component({
     selector: 'admin-crud',
     templateUrl: './admin-crud.component.html',
-    //styleUrls: ['']
+    styleUrls: ['../user/user.component.css']
 })
 export class AdminCrudComponent implements OnInit {
 
     activeTab: string;
-    displayDialog: boolean;
 
+    // CARRERA
     carrera: Carrera = new Carrera();
     selectedcarrera: Carrera;
-    newcarrera: boolean;
     carreras: Carrera[] = [];
+
+    //OTRO
 
     msgs: Message[] = [];
 
@@ -37,20 +40,19 @@ export class AdminCrudComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-
+        this.activeTab = "etiquetas";
     }
 
-    showDialogToAdd() {
-        this.newcarrera = true;
-        this.carrera = new Carrera();
-        this.displayDialog = true;
+    moveTab(tab) {
+        this.activeTab = tab;
+        if (this.activeTab == "carreras") {
+            this.refreshCarrera();
+        }
     }
 
-    findSelectedAreaIndex(): number {
-        return this.carreras.indexOf(this.selectedcarrera);
-    }
+    //----------------------------  CARRERA --------------------------------
 
-    onRowSelect(event) {
+    onRowSelect(event) { 
         let disposable = this.dialogService.addDialog(CrudCarreraModalComponent, {
             carrera: this.selectedcarrera,
             tipo: "update"
@@ -64,8 +66,6 @@ export class AdminCrudComponent implements OnInit {
             });
     }
 
-    //-------------------------------
-
     refreshCarrera() {
         this.carreraService.getAllCarreras()
             .subscribe(
@@ -73,28 +73,21 @@ export class AdminCrudComponent implements OnInit {
             error => console.log("Error cargando las carreras " + error)
             );
     }
-    moveTab(tab) {
-        this.activeTab = tab;
-        if (this.activeTab == "carreras") {
-            this.refreshCarrera();
-        }
+    
+    createCarrera(){
+        let disposable = this.dialogService.addDialog(CrudCarreraModalComponent, {
+            carrera: new Carrera(),
+            tipo: "create"
+        }).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    this.refreshCarrera();
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Carrera fue actualizada.' });
+                }
+            });
     }
+    //----------------------------  OTRO --------------------------------
 
-    editCarrera() {
-        if (this.carrera != null) {
-            let disposable = this.dialogService.addDialog(CrudCarreraModalComponent, {
-                carrera: this.carrera
-            }).subscribe(
-                confirmed => {
-                    if (confirmed) {
-                        //  this.refreshUsuario();
-                        //  this.msgs = [];
-                        //  this.msgs.push({severity:'success', summary:'Operación exitosa', detail:'Información personal fue actualizada.'});
-                        console.log("se supone que confirmo en admin crud");
-                    }
-                });
-        }
-
-    }
 
 }

@@ -83,29 +83,84 @@ export class CrudCarreraModalComponent extends DialogComponent<RequestModalDispl
         carrera.nombre = this.nombre;
         carrera.facultad = this.facultad;
         carrera.id = this.carrera.id;
-        this.carreraService.actualizar(carrera)
-            .subscribe(
-            ok => {
-                if (ok == 'ok') {
-                    this.result = true;
-                    super.close();
-                } else {
-                    this.result = false;
+        if (this.tipo == "update") {
+            this.carreraService.actualizar(carrera)
+                .subscribe(
+                ok => {
+                    if (ok == 'ok') {
+                        this.result = true;
+                        super.close();
+                    } else {
+                        this.result = false;
+                        super.close();
+                    }
+                }
+                , error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                    else
+                        console.log('error: ' + error);
                     super.close();
                 }
-            }
-            , error => {
-                let disposable;
-                if (error == 'Error: 401')
-                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                else
-                    console.log('error: ' + error);
-                super.close();
-            }
-            );
+                );
+        }
+        if (this.tipo == "create") {
+            let carrera = new Carrera();
+            carrera.id = this.nombre;
+            carrera.nombre = this.nombre;
+            carrera.facultad = this.facultad;
+            this.carreraService.crear(carrera)
+                .subscribe(
+                ok => {
+                    if (ok == 'ok') {
+                        this.result = true;
+                        super.close();
+                    } else {
+                        this.result = false;
+                        super.close();
+                    }
+                }
+                , error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                    else
+                        console.log('error: ' + error);
+                    super.close();
+                }
+                );
+        }
     }
 
-
+    delete() {
+        let carrera: Carrera = new Carrera();
+        carrera.nombre = this.nombre;
+        carrera.facultad = this.facultad;
+        carrera.id = this.carrera.id;
+        if (this.tipo == "update") {
+            this.carreraService.eliminar(carrera)
+                .subscribe(
+                ok => {
+                    if (ok == 'ok') {
+                        this.result = true;
+                        super.close();
+                    } else {
+                        this.result = false;
+                        super.close();
+                    }
+                }
+                , error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                    else
+                        console.log('error: ' + error);
+                    super.close();
+                }
+                );
+        }
+    }
 
     close() {
         this.result = false;
