@@ -1,3 +1,4 @@
+import { CrearIdeaModalComponent } from './../modals/crear-idea.component';
 import { IdeaHome } from './../entities/ideaHome';
 import { Component, OnInit, ElementRef, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
@@ -140,33 +141,7 @@ export class HomeComponent implements OnInit {
         console.log(ide.contenido);
     }
 
-    crearIdea() {
-        let temp: Array<Idea> = new Array;
-        this.idea.alcance = this.alcance;
-        this.idea.tipo = this.selectedValueTipo;
-        this.idea.contenido = this.contenido;
-        this.idea.numeroEstudiantes = this.numeroEstudiantes;
-        this.idea.problematica = this.problematica;
-        this.idea.tags = this.selectedTags;
-        console.log(this.selectedTags);
-        console.log(this.idea);
-        this.ideaService.crearIdea(this.idea)
-            .subscribe((res: Idea) => {
-                temp.push(res);
-                temp = temp.concat(this.newIdeas);
-                this.newIdeas = temp;
-            }, error => {
-                let disposable;
-                if (error == 'Error: 401')
-                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
-            });
-
-        this.selectedTags = new Array;
-        this.contenido = '';
-        this.alcance = '';
-        this.problematica = '';
-        this.numeroEstudiantes = 0;
-    }
+    
 
     showRequests() {
         let disposable = this.dialogService.addDialog(RequestModalComponent, {
@@ -185,8 +160,13 @@ export class HomeComponent implements OnInit {
                 this.tags = res;
                 this.refreshSolicitudes();
             }, error => {
-                console.log("Error" + error);
-                this.refreshSolicitudes();
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                else{
+                    console.log('Error ' + error);
+                    this.refreshSolicitudes();
+                }
             });
     }
 
@@ -218,7 +198,8 @@ export class HomeComponent implements OnInit {
                 let disposable;
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                this.showTags();
+                else
+                    this.showTags();
             });
 
     }
@@ -245,5 +226,19 @@ export class HomeComponent implements OnInit {
             //pop up con error
         }
 
+    }
+
+    crearIdea(){
+        let temp: Array<Idea> = new Array;
+        let disposable = this.dialogService.addDialog(CrearIdeaModalComponent,{})
+        .subscribe(confirmed => {
+                if (confirmed) {
+                    temp.push(confirmed);
+                    temp = temp.concat(this.newIdeas);
+                    this.newIdeas = temp;
+                } else {
+                   //pop up con error 
+                }
+            });
     }
 }

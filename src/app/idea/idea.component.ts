@@ -31,10 +31,12 @@ export class IdeaComponent implements OnInit {
     ){  }
 
     ngOnInit(){
-        for(var item of this.idea.tags){
-            this.tags = this.tags + ' ' + item.nombre + ' ';
+        if(this.idea.tags != null){
+            for(var item of this.idea.tags){
+                this.tags = this.tags + ' ' + item.nombre + ' ';
+            }
+            //console.log(this.tags);
         }
-        console.log(this.tags);
     }
 
     light(){
