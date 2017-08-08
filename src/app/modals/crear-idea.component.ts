@@ -52,13 +52,14 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     }
 
    crearIdea() {
+       console.log(this.tg);
         if(this.contenido != undefined && this.selectedValueTipo == "NU" && this.selectedTags.length > 0){
             this.crearIdeaNorm();
         }else{
             this.valid = false;
         }
         if(this.contenido != undefined && this.selectedValueTipo == "PC" && this.selectedTags.length > 0 && 
-            this.numeroEstudiantes > 0){
+            this.numeroEstudiantes > 0 && this.tg != undefined){
             this.crearIdeaNorm();
         }else{
             this.valid = false;
@@ -86,6 +87,7 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
         this.idea.problematica = this.problematica;
         this.idea.tags = this.selectedTags;
         this.idea.ideasProyecto = this.ideasPro;
+        this.idea.trabajoGrado = this.tg;
         this.ideaService.crearIdea(this.idea)
                 .subscribe((res: Idea) => {
                     this.result = res;
@@ -142,7 +144,7 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
         .subscribe(confirmed => {
                 if (confirmed) {
                     this.tg = confirmed;
-                    
+                    console.log(this.tg);
                 } else {
                 }
             });

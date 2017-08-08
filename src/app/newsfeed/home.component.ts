@@ -160,8 +160,13 @@ export class HomeComponent implements OnInit {
                 this.tags = res;
                 this.refreshSolicitudes();
             }, error => {
-                console.log("Error" + error);
-                this.refreshSolicitudes();
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                else{
+                    console.log('Error ' + error);
+                    this.refreshSolicitudes();
+                }
             });
     }
 
@@ -193,7 +198,8 @@ export class HomeComponent implements OnInit {
                 let disposable;
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                this.showTags();
+                else
+                    this.showTags();
             });
 
     }

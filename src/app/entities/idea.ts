@@ -1,3 +1,4 @@
+import { TrabajoGrado } from './trabajoGrado';
 import {Usuario} from './usuario'
 import { Tag } from './tag'
 
@@ -20,4 +21,5 @@ export class Idea{
     usuarioOriginal: string;
     compartida:boolean;
     fechaCreacion:Date;
+    trabajoGrado:TrabajoGrado;
 }
