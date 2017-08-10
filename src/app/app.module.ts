@@ -39,6 +39,8 @@ import { SearchComponent } from './search/search.component';
 import { IdeaComponent } from './idea/idea.component';
 import { UploadImageModalComponent } from './modals/upload-image.component';
 import { CrudCarreraModalComponent } from './modals/crud-carrera.component';
+import { CrudTagModalComponent } from './modals/crud-tag.component';
+
 
 // Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
@@ -56,6 +58,7 @@ import { ErrorService } from './error/error.service';
 import { IdeaService } from './services/idea.service';
 import { TagService } from './services/tag.service';
 import { RuleService } from './services/rules.service';
+
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
@@ -101,7 +104,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         IdeasProyectoModalComponent,
         AsociarTGModalComponent,
         UploadImageModalComponent,
-        CrudCarreraModalComponent
+        CrudCarreraModalComponent,
+        CrudTagModalComponent
 
     ],
     providers: [{
@@ -137,7 +141,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         IdeasProyectoModalComponent,
         AsociarTGModalComponent,
         UploadImageModalComponent,
-        CrudCarreraModalComponent
+        CrudCarreraModalComponent,
+        CrudTagModalComponent
     ],
     bootstrap: [AppComponent]
 })

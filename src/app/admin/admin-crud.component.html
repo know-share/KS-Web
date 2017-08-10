@@ -4,8 +4,8 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <ul class="nav navbar-nav">
-                <li [ngClass]="{ 'active': activeTab == 'etiquetas' }"><a (click)="moveTab('etiquetas')" class="links">Etiquetas</a></li>
-                <li [ngClass]="{ 'active': activeTab == 'habilidades' }"><a (click)="moveTab('habilidades')" class="links">Habilidades académica</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'etiquetas' }"><a (click)="moveTab('etiquetas')" class="links">Taqs</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'habilidades' }"><a (click)="moveTab('habilidades')" class="links">Habilidades Profesionales</a></li>
                 <li [ngClass]="{ 'active': activeTab == 'gustos' }"><a (click)="moveTab('gustos')" class="links">Gustos</a></li>
                 <li [ngClass]="{ 'active': activeTab == 'carreras' }"><a (click)="moveTab('carreras')" class="links">Carreras</a></li>
                 <li [ngClass]="{ 'active': activeTab == 'enfasis' }"><a (click)="moveTab('enfasis')" class="links">Énfasis</a></li>
@@ -24,6 +24,19 @@
            <!-- <p-column field="carrerasAfines" header="Carreras Afines" [sortable]="true"></p-column>-->
             <p-footer>
                 <button type="submit" class="btn btn-primary btn-block"   (click)="createCarrera()">Agregar</button>
+            </p-footer>
+        </p-dataTable>
+    </div>
+</div>
+<div *ngIf="activeTab == 'etiquetas'" class="row">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8">
+        <p-dataTable [value]="tags" selectionMode="single" [(selection)]="selectedTag" (onRowSelect)="onRowSelectTag($event)" [paginator]="true"
+            [rows]="10" emptyMessage="No hay tags">
+            <p-header>CRUD Tags</p-header>
+            <p-column field="nombre" header="Nombre" [sortable]="true"></p-column>
+            <p-footer>
+                <button type="submit" class="btn btn-primary btn-block"   (click)="createTag()">Agregar</button>
             </p-footer>
         </p-dataTable>
     </div>

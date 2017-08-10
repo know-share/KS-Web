@@ -7,12 +7,15 @@ import { Message } from 'primeng/primeng';
 
 //Entities
 import { Carrera } from '../entities/carrera';
+import {Tag} from '../entities/Tag';
 
 //Service
 import { CarreraService } from '../services/carrera.service';
+import {TagService} from '../services/tag.service';
 
 //Modals
 import { CrudCarreraModalComponent } from '../modals/crud-carrera.component';
+import { CrudTagModalComponent } from '../modals/crud-tag.component';
 
 
 @Component({
@@ -29,18 +32,23 @@ export class AdminCrudComponent implements OnInit {
     selectedcarrera: Carrera;
     carreras: Carrera[] = [];
 
-    //OTRO
+    //TAG
+    tag: Tag = new Tag();
+    selectedTag: Tag;
+    tags: Tag[] = [];
 
     msgs: Message[] = [];
 
     constructor(
         private router: Router,
         private dialogService: DialogService,
-        private carreraService: CarreraService
+        private carreraService: CarreraService,
+        private tagService: TagService
     ) { }
 
     ngOnInit() {
         this.activeTab = "etiquetas";
+        this.refreshTag();
     }
 
     moveTab(tab) {
@@ -48,7 +56,11 @@ export class AdminCrudComponent implements OnInit {
         if (this.activeTab == "carreras") {
             this.refreshCarrera();
         }
+        if(this.activeTab == "etiquetas"){
+            this.refreshTag();
+        }
     }
+
 
     //----------------------------  CARRERA --------------------------------
 
@@ -87,7 +99,46 @@ export class AdminCrudComponent implements OnInit {
                 }
             });
     }
-    //----------------------------  OTRO --------------------------------
+
+
+    //----------------------------  TAG --------------------------------
+
+    onRowSelectTag(event) { 
+        let disposable = this.dialogService.addDialog(CrudTagModalComponent, {
+            tag: this.selectedTag,
+            antiguo: this.selectedTag.id,
+            tipo: "update"
+        }).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    this.refreshTag();
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Tag fue actualizado.' });
+                }
+            });
+    }
+
+    refreshTag() {
+        this.tagService.getAllTags()
+            .subscribe(
+            tags => this.tags = tags,
+            error => console.log("Error cargando los tags " + error)
+            );
+    }
+    
+    createTag(){
+        let disposable = this.dialogService.addDialog(CrudTagModalComponent, {
+            tag: new Tag(),
+            tipo: "create"
+        }).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    this.refreshTag();
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Tag fue actualizado.' });
+                }
+            });
+    }
 
 
 }
