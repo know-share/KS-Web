@@ -1,3 +1,4 @@
+import { DetalleIdeaModalComponent } from './../modals/idea-detalles.component';
 import { Component, OnInit, ElementRef, ViewChild, Input ,Output, EventEmitter} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -86,5 +87,13 @@ export class IdeaComponent implements OnInit {
 
     goProfile(username) {
         this.router.navigate(['/user', username]);
+    }
+
+    detalles(){
+        let disposable = this.dialogService.addDialog(DetalleIdeaModalComponent,{
+            idea: this.idea
+        }).subscribe(confirmed => {
+
+        });
     }
 }

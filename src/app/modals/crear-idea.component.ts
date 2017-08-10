@@ -87,7 +87,7 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
         this.idea.problematica = this.problematica;
         this.idea.tags = this.selectedTags;
         this.idea.ideasProyecto = this.ideasPro;
-        this.idea.trabajoGrado = this.tg;
+        this.idea.tg = this.tg;
         this.ideaService.crearIdea(this.idea)
                 .subscribe((res: Idea) => {
                     this.result = res;

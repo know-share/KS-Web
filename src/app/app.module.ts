@@ -1,3 +1,4 @@
+import { DetalleIdeaModalComponent } from './modals/idea-detalles.component';
 import { AsociarTGModalComponent } from './modals/asociarTG.component';
 import { IdeasProyectoModalComponent } from './modals/ideasProyecto.component';
 import { TrabajoGradoService } from './services/trabajoGrado.service';
@@ -101,7 +102,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         IdeasProyectoModalComponent,
         AsociarTGModalComponent,
         UploadImageModalComponent,
-        CrudCarreraModalComponent
+        CrudCarreraModalComponent,
+        DetalleIdeaModalComponent
 
     ],
     providers: [{
@@ -137,7 +139,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         IdeasProyectoModalComponent,
         AsociarTGModalComponent,
         UploadImageModalComponent,
-        CrudCarreraModalComponent
+        CrudCarreraModalComponent,
+        DetalleIdeaModalComponent
     ],
     bootstrap: [AppComponent]
 })

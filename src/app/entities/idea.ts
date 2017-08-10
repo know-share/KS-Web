@@ -21,5 +21,5 @@ export class Idea{
     usuarioOriginal: string;
     compartida:boolean;
     fechaCreacion:Date;
-    trabajoGrado:TrabajoGrado;
+    tg:TrabajoGrado;
 }
