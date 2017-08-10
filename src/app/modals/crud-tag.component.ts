@@ -3,15 +3,16 @@ import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { CarreraService } from '../services/carrera.service';
+import { TagService } from '../services/tag.service';
 
 import { ExpirationModalComponent } from '../modals/expiration.component';
 
-import { Carrera } from '../entities/carrera';
+import { Tag } from '../entities/tag';
 
 export interface RequestModalDisplay {
-    carrera: Carrera;
+    tag: Tag;
     tipo: string;
+    antiguo:string;
 }
 
 @Component({
@@ -20,7 +21,7 @@ export interface RequestModalDisplay {
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" (click)="close()">&times;</button>
-                    <h4 class="modal-title">Editar Carrera</h4>
+                    <h4 class="modal-title">Editar Tag</h4>
                 </div>
                 <div class="modal-body">
                     <form novalidate class="form-horizontal" (ngSubmit)="save()" [formGroup]="update">
@@ -33,15 +34,6 @@ export interface RequestModalDisplay {
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Facultad</label>
-                            <div class="col-sm-10">
-                                <input [(ngModel)]="facultad" class="form-control" type="text" formControlName="facultad">
-                                <div class="alert alert-danger" *ngIf="update.get('facultad').touched && update.get('facultad').hasError('required')">
-                                    Facultad es requerido.
-                                </div>
-                            </div>
-                        </div>
                         <button type="submit" class="btn btn-primary btn-block" [disabled]="update.invalid" >Guardar</button>
                     </form><br>
                     <button *ngIf="tipo == 'update'" type="submit" class="btn btn-danger btn-block" (click)="delete()">Eliminar</button>
@@ -50,41 +42,38 @@ export interface RequestModalDisplay {
         </div>`,
     styleUrls: ['../access/signup.component.css', './edit-carrera.component.css']
 })
-export class CrudCarreraModalComponent extends DialogComponent<RequestModalDisplay, boolean>
+export class CrudTagModalComponent extends DialogComponent<RequestModalDisplay, boolean>
     implements RequestModalDisplay, OnInit {
 
-    carrera: Carrera;
+    tag: Tag;
     tipo: string;
-    nombre: string;
-    facultad: string;
+    antiguo: string;
+    nombre:string;
 
     update: FormGroup;
 
     constructor(
         dialogService: DialogService,
-        private carreraService: CarreraService,
+        private tagService: TagService,
         private fb: FormBuilder,
     ) {
         super(dialogService);
     }
 
     ngOnInit() {
-        this.nombre = this.carrera.nombre;
-        this.facultad = this.carrera.facultad;
+        this.nombre = this.tag.nombre;
         this.update = this.fb.group({
-            nombre: ['', Validators.required],
-            facultad: ['', Validators.required]
+            nombre: ['', Validators.required]
         });
     }
 
 
     save() {
-        let carrera: Carrera = new Carrera();
-        carrera.nombre = this.nombre;
-        carrera.facultad = this.facultad;
-        carrera.id = this.carrera.id;
+        let tag: Tag = new Tag();
+        tag.nombre = this.nombre;
+        tag.id = this.antiguo;
         if (this.tipo == "update") {
-            this.carreraService.actualizar(carrera)
+            this.tagService.actualizar(tag)
                 .subscribe(
                 ok => {
                     if (ok == 'ok') {
@@ -106,11 +95,9 @@ export class CrudCarreraModalComponent extends DialogComponent<RequestModalDispl
                 );
         }
         if (this.tipo == "create") {
-            let carrera = new Carrera();
-            carrera.id = this.nombre;
-            carrera.nombre = this.nombre;
-            carrera.facultad = this.facultad;
-            this.carreraService.crear(carrera)
+            let tag = new Tag();
+            tag.nombre = this.nombre;
+            this.tagService.crear(tag)
                 .subscribe(
                 ok => {
                     if (ok == 'ok') {
@@ -134,12 +121,11 @@ export class CrudCarreraModalComponent extends DialogComponent<RequestModalDispl
     }
 
     delete() {
-        let carrera: Carrera = new Carrera();
-        carrera.nombre = this.nombre;
-        carrera.facultad = this.facultad;
-        carrera.id = this.carrera.id;
+        let tag: Tag = new Tag();
+        tag.nombre = this.nombre;
+        tag.id = this.antiguo;
         if (this.tipo == "update") {
-            this.carreraService.eliminar(carrera)
+            this.tagService.eliminar(tag)
                 .subscribe(
                 ok => {
                     if (ok == 'ok') {

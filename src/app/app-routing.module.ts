@@ -27,7 +27,7 @@ const routes: Routes = [
     { path: 'admin', component: PanelAdminComponent, canActivate:[AuthAdminGuard] },
     { path: 'search/:query', component: SearchComponent, canActivate:[AuthGuard]},
     { path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
-    { path: 'crud', component: AdminCrudComponent, canActivate:[AuthAdminGuard]},
+    { path: 'admin/crud', component: AdminCrudComponent, canActivate:[AuthAdminGuard]},
 ];
 
 @NgModule({

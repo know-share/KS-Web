@@ -36,4 +36,57 @@ export class TagService{
                 throw Error(err.toString());
             });
     }
+
+     crear(tag) {
+        let header = new Headers();
+        header.append('Authorization', localStorage.getItem('token'));
+        let url = this.baseUrl+"create";
+        return this.http.post(url, tag.nombre, {
+            headers: header
+        })
+            .map((res: Response) => {
+                if (res.status == 200)
+                    return 'ok';
+                throw Error('Error: ' + res.status);
+            }).catch((err: Response) => {
+                if (err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    actualizar(tag){
+        let header = new Headers();
+        header.append('Authorization', localStorage.getItem('token'));
+        return this.http.patch(this.baseUrl, tag, {
+            headers: header
+        })
+            .map((res: Response) => {
+                if (res.status == 200)
+                    return 'ok';
+                throw Error('Error: ' + res.status);
+            }).catch((err: Response) => {
+                if (err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    eliminar(tag){
+        let header = new Headers();
+        header.append('Authorization', localStorage.getItem('token'));
+        let url = this.baseUrl + `delete/${tag.id}`;
+        return this.http.delete(url, {
+            headers: header
+        })
+            .map((res: Response) => {
+                if (res.status == 200)
+                    return 'ok';
+                throw Error('Error: ' + res.status);
+            }).catch((err: Response) => {
+                if (err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
 }
