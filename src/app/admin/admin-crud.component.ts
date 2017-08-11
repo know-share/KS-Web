@@ -7,7 +7,7 @@ import { Message } from 'primeng/primeng';
 
 //Entities
 import { Carrera } from '../entities/carrera';
-import {Tag} from '../entities/Tag';
+import {Tag} from '../entities/tag';
 
 //Service
 import { CarreraService } from '../services/carrera.service';
