@@ -8,7 +8,10 @@ import { Message } from 'primeng/primeng';
 //Entities
 import { Carrera } from '../entities/carrera';
 import {Tag} from '../entities/tag';
+<<<<<<< HEAD
 import {Habilidad} from '../entities/habilidad';
+=======
+>>>>>>> a6f25f7f76669db732d6fed904a7baa54daa583b
 
 //Service
 import { CarreraService } from '../services/carrera.service';
