@@ -39,13 +39,15 @@ import { ComentarModalComponent } from './modals/comentar.component';
 import { SearchComponent } from './search/search.component';
 import { IdeaComponent } from './idea/idea.component';
 import { UploadImageModalComponent } from './modals/upload-image.component';
-import { CrudCarreraModalComponent } from './modals/crud-carrera.component';
-import { CrudTagModalComponent } from './modals/crud-tag.component';
 
 
 // Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
 import {AdminCrudComponent} from './admin/admin-crud.component';
+import { CrudCarreraModalComponent } from './modals/crud-carrera.component';
+import { CrudTagModalComponent } from './modals/crud-tag.component';
+import { CrudHabilidadModalComponent } from './modals/crud-habilidad.component';
+
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -107,7 +109,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         UploadImageModalComponent,
         CrudCarreraModalComponent,
         DetalleIdeaModalComponent,
-        CrudTagModalComponent
+        CrudTagModalComponent,
+        CrudHabilidadModalComponent
 
     ],
     providers: [{
@@ -145,7 +148,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         UploadImageModalComponent,
         CrudCarreraModalComponent,
         DetalleIdeaModalComponent,
-        CrudTagModalComponent
+        CrudTagModalComponent,
+        CrudHabilidadModalComponent
     ],
     bootstrap: [AppComponent]
 })

@@ -7,15 +7,18 @@ import { Message } from 'primeng/primeng';
 
 //Entities
 import { Carrera } from '../entities/carrera';
-import {Tag} from '../entities/Tag';
+import {Tag} from '../entities/tag';
+import {Habilidad} from '../entities/habilidad';
 
 //Service
 import { CarreraService } from '../services/carrera.service';
 import {TagService} from '../services/tag.service';
+import {HabilidadService} from '../services/habilidad.service';
 
 //Modals
 import { CrudCarreraModalComponent } from '../modals/crud-carrera.component';
 import { CrudTagModalComponent } from '../modals/crud-tag.component';
+import { CrudHabilidadModalComponent } from '../modals/crud-habilidad.component';
 
 
 @Component({
@@ -37,13 +40,19 @@ export class AdminCrudComponent implements OnInit {
     selectedTag: Tag;
     tags: Tag[] = [];
 
+    //HABILIDAD
+    habilidad: Habilidad = new Habilidad();
+    selectedHabilidad: Habilidad;
+    habilidades: Habilidad[] = [];
+
     msgs: Message[] = [];
 
     constructor(
         private router: Router,
         private dialogService: DialogService,
         private carreraService: CarreraService,
-        private tagService: TagService
+        private tagService: TagService,
+        private habilidadService: HabilidadService
     ) { }
 
     ngOnInit() {
@@ -58,6 +67,9 @@ export class AdminCrudComponent implements OnInit {
         }
         if(this.activeTab == "etiquetas"){
             this.refreshTag();
+        }
+        if(this.activeTab == "habilidades"){
+            this.refreshHabilidad();
         }
     }
 
@@ -139,6 +151,45 @@ export class AdminCrudComponent implements OnInit {
                 }
             });
     }
+
+    //----------------------------  Habilidades --------------------------------
+
+    onRowSelectHabilidad(event) { 
+        let disposable = this.dialogService.addDialog(CrudHabilidadModalComponent, {
+            habilidad: this.selectedHabilidad,
+            tipo: "update"
+        }).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    this.refreshHabilidad();
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Habilidad fue actualizada.' });
+                }
+            });
+    }
+
+    refreshHabilidad() {
+        this.habilidadService.getAll()
+            .subscribe(
+            habilidades => this.habilidades = habilidades,
+            error => console.log("Error cargando las habilidades " + error)
+            );
+    }
+    
+    createHabilidad(){
+        let disposable = this.dialogService.addDialog(CrudHabilidadModalComponent, {
+            habilidad: new Habilidad(),
+            tipo: "create"
+        }).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    this.refreshHabilidad();
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Habilidad fue actualizada.' });
+                }
+            });
+    }
+
 
 
 }
