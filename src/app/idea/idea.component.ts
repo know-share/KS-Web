@@ -1,3 +1,4 @@
+import { OperacionIdeaModalComponent } from './../modals/operacionIdea.component';
 import { DetalleIdeaModalComponent } from './../modals/idea-detalles.component';
 import { Component, OnInit, ElementRef, ViewChild, Input ,Output, EventEmitter} from '@angular/core';
 import { Router } from '@angular/router';
@@ -92,6 +93,24 @@ export class IdeaComponent implements OnInit {
     detalles(){
         let disposable = this.dialogService.addDialog(DetalleIdeaModalComponent,{
             idea: this.idea
+        }).subscribe(confirmed => {
+
+        });
+    }
+
+    detallesLight(){
+        let disposable = this.dialogService.addDialog(OperacionIdeaModalComponent,{
+            ideaId: this.idea.id,
+            tipo: 'light'
+        }).subscribe(confirmed => {
+
+        });
+    }
+
+    detallesComentarios(){
+        let disposable = this.dialogService.addDialog(OperacionIdeaModalComponent,{
+            ideaId: this.idea.id,
+            tipo: 'comentarios'
         }).subscribe(confirmed => {
 
         });

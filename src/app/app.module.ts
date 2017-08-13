@@ -1,3 +1,5 @@
+import { OperacionIdeaModalComponent } from './modals/operacionIdea.component';
+import { OperacionIdea } from './entities/operacionIdea';
 import { DetalleIdeaModalComponent } from './modals/idea-detalles.component';
 import { AsociarTGModalComponent } from './modals/asociarTG.component';
 import { IdeasProyectoModalComponent } from './modals/ideasProyecto.component';
@@ -107,7 +109,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         UploadImageModalComponent,
         CrudCarreraModalComponent,
         DetalleIdeaModalComponent,
-        CrudTagModalComponent
+        CrudTagModalComponent,
+        OperacionIdeaModalComponent
 
     ],
     providers: [{
@@ -145,7 +148,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         UploadImageModalComponent,
         CrudCarreraModalComponent,
         DetalleIdeaModalComponent,
-        CrudTagModalComponent
+        CrudTagModalComponent,
+        OperacionIdeaModalComponent
     ],
     bootstrap: [AppComponent]
 })
