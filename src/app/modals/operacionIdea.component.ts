@@ -55,6 +55,7 @@ export class OperacionIdeaModalComponent extends DialogComponent<RequestModalDis
 
     goProfile(username) {
         this.router.navigate(['/user', username]);
+        super.close();
     }
 
 

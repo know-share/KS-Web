@@ -5,9 +5,11 @@
             <h4 class="modal-title" *ngIf = "tipo === 'light'">Lights</h4>
             <h4 class="modal-title" *ngIf = "tipo === 'comentarios'">Comentarios</h4>
         </div>
-        <div class="panel panel-info" *ngIf = "tipo === 'light'">
+        <div *ngIf = "tipo === 'light'">
             <div *ngFor = "let o of operaciones">
-                <a (click) = "goProfile(idea.usuario)">{{o.username}}</a>
+                <div class="panel panel-default">
+                    <div class="panel panel-body likes"><a (click) = "goProfile(o.username)">{{o.username}}</a></div>
+                </div>
             </div>
             <div>
                 <button class="btn btn-primary" (click) = "aceptar()">Aceptar</button>
@@ -16,8 +18,15 @@
         <div class="panel panel-info" *ngIf = "tipo === 'comentarios'">
             <div *ngFor = "let o of operaciones">
                 <div class="panel panel-info">
-                    <div class="panel panel-heading titulo">
-                        <a (click) = "goProfile(o.username)">{{o.username}}</a>
+                    <div class="panel panel-heading">
+                        <div class="row" >
+                            <div class="col-xs-6">
+                                <a  (click) = "goProfile(o.username)">{{o.username}}</a>
+                            </div>
+                            <div class="col-xs-6">
+                                <label style=" text-align: right;">Publicada: {{o.fecha | date:"dd/MM/yyyy"}}</label>
+                            </div>
+                        </div>
                     </div>
                     <div class="panel panel-body titulo">
                         {{o.contenido}}

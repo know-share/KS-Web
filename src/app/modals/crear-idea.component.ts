@@ -133,7 +133,6 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
         .subscribe(confirmed => {
                 if (confirmed) {
                     this.ideasPro = confirmed;
-                    console.log(this.ideasPro.length);
                 } else {
                 }
             });
@@ -144,7 +143,6 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
         .subscribe(confirmed => {
                 if (confirmed) {
                     this.tg = confirmed;
-                    console.log(this.tg);
                 } else {
                 }
             });

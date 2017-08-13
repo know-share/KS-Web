@@ -20,4 +20,10 @@ export class PanelAdminComponent implements OnInit {
     onclickCrud(){
         this.router.navigate(['/admin/crud']);
     }
+    onclickEstadistica(){
+        
+    }
+    onclickMotor(){
+        
+    }
 }

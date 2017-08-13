@@ -59,34 +59,8 @@
             </div>
         </div>
         <div class="col-xs-7">
-            <div class="panel panel-danger">
-                <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
-                <div class="panel-body">Description</div>
-                <div class="row">
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
-                </div>
-            </div>
-
-            <div class="panel panel-danger">
-                <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
-                <div class="panel-body">Description</div>
-                <div class="row">
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
-                </div>
-            </div>
-
-            <div class="panel panel-danger">
-                <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
-                <div class="panel-body">Description</div>
-                <div class="row">
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
-                </div>
+            <div class="panel panel-default center" *ngFor="let idea of ideas; index as indice">
+                <idea [idea]="idea" (change)="cambio($event)"></idea>
             </div>
         </div>
     </div>

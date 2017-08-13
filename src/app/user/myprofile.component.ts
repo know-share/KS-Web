@@ -1,3 +1,7 @@
+import { AsociarTGModalComponent } from './../modals/asociarTG.component';
+import { IdeasProyectoModalComponent } from './../modals/ideasProyecto.component';
+import { TrabajoGrado } from './../entities/trabajoGrado';
+import { IdeaHome } from './../entities/ideaHome';
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Router } from '@angular/router';
@@ -50,6 +54,10 @@ export class ProfileComponent implements OnInit {
     areasConocimiento: AreaConocimiento[] = [];
     areasConocimientoSeg: AreaConocimiento[] = [];
 
+    idea:Idea = new Idea;
+    tg:TrabajoGrado;
+    valid:boolean = true;
+    ideasPro: Array<Idea> = new Array;
     ideas: Array<Idea> = new Array;
     msgs: Message[] = [];
 
@@ -247,30 +255,70 @@ export class ProfileComponent implements OnInit {
     }
 
     crearIdea() {
-        let idea: Idea = new Idea();
-        idea.alcance = this.alcance;
-        idea.tipo = this.selectedValueTipo;
-        idea.contenido = this.contenido;
-        idea.numeroEstudiantes = this.numeroEstudiantes;
-        idea.problematica = this.problematica;
-        idea.tags = this.selectedTags;
-        console.log(this.selectedTags);
-        console.log(idea);
-        this.ideaService.crearIdea(idea)
-            .subscribe((res: Idea) => {
-                this.ideas.push(res);
-                console.log(res.usuario);
-            }, error => {
-                let disposable;
-                if (error == 'Error: 401')
-                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
-            });
+       console.log(this.tg);
+        if(this.contenido != undefined && this.selectedValueTipo == "NU" && this.selectedTags.length > 0){
+            this.crearIdeaNorm();
+        }else{
+            this.valid = false;
+        }
+        if(this.contenido != undefined && this.selectedValueTipo == "PC" && this.selectedTags.length > 0 && 
+            this.numeroEstudiantes > 0 && this.tg != undefined){
+            this.crearIdeaNorm();
+        }else{
+            this.valid = false;
+        }
+        if(this.contenido != undefined && this.selectedValueTipo == "PE" && this.selectedTags.length > 0 && 
+            this.numeroEstudiantes > 0 && this.alcance!=undefined && this.problematica != undefined){
+            this.crearIdeaNorm();
+        }else{
+            this.valid = false;
+        }
+        if(this.contenido != undefined && this.selectedValueTipo == "PR" && this.selectedTags.length > 0 && 
+            this.ideasPro.length > 0){
+            this.crearIdeaNorm();
+        }else{
+            this.valid = false;
+        } 
+    }
 
-        this.selectedTags = new Array;
-        this.contenido = '';
-        this.alcance = '';
-        this.problematica = '';
-        this.numeroEstudiantes = 0;
+    crearIdeaNorm(){
+        let temp: Array<Idea> = new Array;
+        this.idea.alcance = this.alcance;
+        this.idea.tipo = this.selectedValueTipo;
+        this.idea.contenido = this.contenido;
+        this.idea.numeroEstudiantes = this.numeroEstudiantes;
+        this.idea.problematica = this.problematica;
+        this.idea.tags = this.selectedTags;
+        this.idea.ideasProyecto = this.ideasPro;
+        this.idea.tg = this.tg;
+        this.ideaService.crearIdea(this.idea)
+                .subscribe((res: Idea) => {
+                    this.ideas.push(res);
+                }, error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                });
+    }
+
+    agregarIdeas(){
+        let disposable = this.dialogService.addDialog(IdeasProyectoModalComponent,{})
+        .subscribe(confirmed => {
+                if (confirmed) {
+                    this.ideasPro = confirmed;
+                } else {
+                }
+            });
+    }
+
+    asociarTG(){
+        let disposable = this.dialogService.addDialog(AsociarTGModalComponent,{})
+        .subscribe(confirmed => {
+                if (confirmed) {
+                    this.tg = confirmed;
+                } else {
+                }
+            });
     }
 
     filterTagMultiple(event) {
@@ -351,4 +399,30 @@ export class ProfileComponent implements OnInit {
             }
             );
     }
+
+    
+    cambio(confirm: IdeaHome) {
+        let temp: Array<Idea> = new Array;
+        if (confirm != null) {
+            let i = this.ideas.indexOf(confirm.idea);
+            this.ideaService.findById(confirm.idea.id)
+                .subscribe((res: Idea) => {
+                    if (confirm.operacion === "compartir") {
+                        temp.push(res);
+                        temp = temp.concat(this.ideas);
+                        this.ideas = temp;
+                    } else {
+                        this.ideas.splice(i, 1, res);
+                    }
+                }, error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                })
+        } else {
+            //pop up con error
+        }
+
+    }
+    
 }

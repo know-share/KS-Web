@@ -1,3 +1,4 @@
+import { IdeaHome } from './../entities/ideaHome';
 import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
@@ -278,5 +279,28 @@ export class UserComponent implements OnInit {
 
     errorImageHandler(event,username,genero){
         event.target.src=this.imageCard(username,genero);
+    }
+    cambio(confirm: IdeaHome) {
+        let temp: Array<Idea> = new Array;
+        if (confirm != null) {
+            let i = this.ideas.indexOf(confirm.idea);
+            this.ideaService.findById(confirm.idea.id)
+                .subscribe((res: Idea) => {
+                    if (confirm.operacion === "compartir") {
+                        temp.push(res);
+                        temp = temp.concat(this.ideas);
+                        this.ideas = temp;
+                    } else {
+                        this.ideas.splice(i, 1, res);
+                    }
+                }, error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                })
+        } else {
+            //pop up con error
+        }
+
     }
 }
