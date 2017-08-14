@@ -22,6 +22,8 @@ export class Usuario {
     email: string;
     password: string;
     username: string;
+    genero: string;
+    grupoInvestigacion: string;
 
     tipoUsuario: string;
     carrera: Carrera;
@@ -52,7 +54,9 @@ export class Usuario {
     insignias: string[];
 
     tgDirigidos:TrabajoGrado[];
-	formacionAcademica:FormacionAcademica[];
+    formacionAcademica:FormacionAcademica[];
+    
+    imagen:boolean;
 
     constructor(){
         this.personalidad = new Personalidad();

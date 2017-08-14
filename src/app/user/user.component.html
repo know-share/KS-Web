@@ -1,7 +1,10 @@
 <div class="container" *ngIf="usuario && !isMyProfile">
     <div class="row">
         <div class="center">
-            <div class="col-xs-4"></div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-3">
+                <img src={{imagePath}} class="img-thumbnail" />
+            </div>
             <div class="col-xs-4">
                 <h2>{{usuario.nombre}} {{usuario.apellido}}</h2>
                 <p>Amigos: {{usuario.cantidadAmigos}} | Seguidores: {{usuario.cantidadSeguidores}}</p>
@@ -11,9 +14,9 @@
                     <span *ngIf="!isFollowing" class="glyphicon glyphicon-eye-open"></span>
                     <span *ngIf="isFollowing" class="glyphicon glyphicon-ok"></span> {{textFollow}}</button>
             </div>
-            <div class="col-xs-4">
+            <!-- <div class="col-xs-4">
                 <img src="images/personalidades/{{usuario.personalidad.nombre}}.png" />
-            </div>
+            </div> -->
         </div>
     </div>
     <br>
@@ -35,53 +38,29 @@
         <div class="col-xs-1">
         </div>
         <div class="col-xs-3">
-            <div class="panel panel-default">
+            <div [scrollPoint]="0" class="panel panel-default">
                 <div class="panel-heading">
                     <h2 class="center">Información básica</h2>
-                    <div class="panel-body">
-                        <p><strong>Nombre: </strong>{{usuario.nombre}}</p>
-                        <p><strong>Apellido: </strong>{{usuario.apellido}}</p>
-                        <p *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'">
-                            <strong>Semestre: </strong>
-                            <span *ngIf="usuario.semestre < 11">{{usuario.semestre}}</span>
-                            <span *ngIf="usuario.semestre > 10">10+</span>
-                        </p>
-                        <p><strong>Correo: </strong>{{usuario.email}}</p>
-                        <p *ngIf="usuario.tipoUsuario == 'PROFESOR'"><strong>Grupo investigación: </strong>no disponible</p>
-                        <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
-                    </div>
+                    <p><strong>Nombre: </strong>{{usuario.nombre}}</p>
+                    <p><strong>Apellido: </strong>{{usuario.apellido}}</p>
+                    <p *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'">
+                        <strong>Semestre: </strong>
+                        <span *ngIf="usuario.semestre < 11">{{usuario.semestre}}</span>
+                        <span *ngIf="usuario.semestre > 10">10+</span>
+                    </p>
+                    <p><strong>Correo: </strong>{{usuario.email}}</p>
+                    <p *ngIf="usuario.tipoUsuario == 'PROFESOR'">
+                        <strong>Grupo investigación: </strong>
+                        <span *ngIf="usuario.grupoInvestigacion">{{usuario.grupoInvestigacion}}</span>
+                        <span *ngIf="!usuario.grupoInvestigacion">-</span>
+                    </p>
+                    <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
                 </div>
             </div>
         </div>
         <div class="col-xs-7">
-            <div class="panel panel-danger">
-                <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
-                <div class="panel-body">Description</div>
-                <div class="row">
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
-                </div>
-            </div>
-
-            <div class="panel panel-danger">
-                <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
-                <div class="panel-body">Description</div>
-                <div class="row">
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
-                </div>
-            </div>
-
-            <div class="panel panel-danger">
-                <div class="panel-heading">Type of idea Posted on dd/MM/yyyy</div>
-                <div class="panel-body">Description</div>
-                <div class="row">
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-asterisk"></i> Light</button></div>
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment"></i> Comment</button></div>
-                    <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"><i class="glyphicon glyphicon-share"></i> Share</button></div>
-                </div>
+            <div class="panel panel-default center" *ngFor="let idea of ideas; index as indice">
+                <idea [idea]="idea" (change)="cambio($event)"></idea>
             </div>
         </div>
     </div>
@@ -92,7 +71,7 @@
                     <div class="panel-body">
                         <h3>Habilidades personales:</h3>
                         <p *ngIf="habilidadesPersonales?.length == 0">No tiene habilidades personales registradas</p>
-                        <button *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                        <button *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                         <!--<p *ngFor="let h of habilidadesPersonales">{{h.nombre}} <span class="label label-default">{{h.avales}}</span></p>-->
                     </div>
                 </div>
@@ -102,7 +81,7 @@
                     <div class="panel-body">
                         <h3>Cualidades como profesor:</h3>
                         <p *ngIf="usuario.cualidades?.length == 0">No tiene cualidades como profesor registradas</p>
-                        <button *ngFor="let c of usuario.cualidades" type="button" class="btn btn-default">{{c.nombre}} <span class="badge">{{c.avales}}</span></button>
+                        <button *ngFor="let c of usuario.cualidades" type="button" class="btn btn-default btn-aval">{{c.nombre}} <span class="badge">{{c.avales}}</span></button>
                     </div>
                 </div>
             </div>
@@ -135,12 +114,12 @@
                             <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="panel-body">
                                 <h3>Habilidades profesionales:</h3>
                                 <p *ngIf="habilidadesProfesionales?.length == 0">No tiene habilidades profesionales registradas</p>
-                                <button *ngFor="let h of habilidadesProfesionales" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                                <button *ngFor="let h of habilidadesProfesionales" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                             </div>
                             <div *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="panel-body">
                                 <h3>Cualidades profesionales:</h3>
                                 <p *ngIf="habilidadesProfesionales?.length == 0">No tiene cualidades profesionales registradas</p>
-                                <button *ngFor="let h of usuario.habilidades" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                                <button *ngFor="let h of usuario.habilidades" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                             </div>
                         </div>
                     </div>
@@ -168,7 +147,7 @@
                             <div class="panel-body">
                                 <h3>Habilidades profesionales:</h3>
                                 <p *ngIf="habilidadesProfesionalesSeg?.length == 0">No tiene habilidades profesionales registradas</p>
-                                <button *ngFor="let h of habilidadesProfesionalesSeg" type="button" class="btn btn-default">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                                <button *ngFor="let h of habilidadesProfesionalesSeg" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                             </div>
                         </div>
                     </div>
@@ -177,52 +156,69 @@
         </div>
     </div>
     <div *ngIf="activeTab == 'following' || activeTab == 'friends' || activeTab == 'followers'" class="row">
-        <div class="col-xs-2"></div>
-        <div *ngIf="activeTab == 'friends'" class="col-xs-8">
-            <h3 *ngIf="!usuario.amigos || usuario.amigos?.length == 0">Aún no tiene amigos en su red.</h3>
+        <div *ngIf="activeTab == 'friends'" class="col-xs-12">
+            <div class="panel panel-default" *ngIf="!usuario.amigos || usuario.amigos?.length == 0">
+                <div class="panel-heading center">
+                    <img class="find_user" src="images/find-user.png" />
+                    <h3>Aún no tiene amigos en su red.</h3>
+                </div>
+            </div>
             <div class="row">
                 <div *ngFor="let a of usuario.amigos" class="col-xs-4">
-                    <a (click)="goProfile(a.username)">
-                        <div class="card">
-                            <img src="images/image-profile.png">
-                            <div class="container-card">
-                                <h3>{{a.nombre}}</h3>
-                                <br>
-                            </div>
+                    <div class="card">
+                        <img src="{{serverUri}}{{a.username}}"
+                            (error)="errorImageHandler($event,a.username,a.genero)" class="profile_image">
+                        <div class="container-card">
+                            <h2 class="name-card">{{a.nombre}}</h2>
+                            <p class="title-card">{{a.carrera}}</p>
+                            <p>@{{a.username}}</p>
+                            <p><button (click)="goProfile(a.username)" class="button-card">Ver perfil</button></p>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div *ngIf="activeTab == 'followers'" class="col-xs-8">
-            <h3 *ngIf="!usuario.seguidores || usuario.seguidores?.length == 0">Aún no tiene seguidores en su red.</h3>
+        <div *ngIf="activeTab == 'followers'" class="col-xs-12">
+            <div class="panel panel-default" *ngIf="!usuario.seguidores || usuario.seguidores?.length == 0">
+                <div class="panel-heading center">
+                    <img class="find_user" src="images/find-user.png" />
+                    <h3>Aún no tiene seguidores en su red.</h3>
+                </div>
+            </div>
             <div class="row">
                 <div *ngFor="let s of usuario.seguidores" class="col-xs-4">
-                    <a (click)="goProfile(s.username)">
-                        <div class="card">
-                            <img src="images/image-profile.png">
-                            <div class="container-card">
-                                <h3>{{s.nombre}}</h3>
-                                <br>
-                            </div>
+                    <div class="card">
+                        <img src="{{serverUri}}{{s.username}}"
+                            (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
+                        <div class="container-card">
+                            <h2 class="name-card">{{s.nombre}}</h2>
+                            <p class="title-card">{{s.carrera}}</p>
+                            <p>@{{s.username}}</p>
+                            <p><button (click)="goProfile(s.username)" class="button-card">Ver perfil</button></p>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div *ngIf="activeTab == 'following'" class="col-xs-8">
-            <h3 *ngIf="!usuario.siguiendo || usuario.siguiendo?.length == 0">Aún no está siguiendo a alguien.</h3>
+        <div *ngIf="activeTab == 'following'" class="col-xs-12">
+            <div class="panel panel-default" *ngIf="!usuario.siguiendo || usuario.siguiendo?.length == 0">
+                <div class="panel-heading center">
+                    <img class="find_user" src="images/find-user.png" />
+                    <h3>Aún no está siguiendo a alguien.</h3>
+                </div>
+            </div>
             <div class="row">
                 <div *ngFor="let s of usuario.siguiendo" class="col-xs-4">
-                    <a (click)="goProfile(s.username)">
-                        <div class="card">
-                            <img src="images/image-profile.png">
-                            <div class="container-card">
-                                <h3>{{s.nombre}}</h3>
-                                <br>
-                            </div>
+                    <div class="card">
+                        <img src="{{serverUri}}{{s.username}}"
+                            (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
+                        <div class="container-card">
+                            <h2 class="name-card">{{s.nombre}}</h2>
+                            <p class="title-card">{{s.carrera}}</p>
+                            <p>@{{s.username}}</p>
+                            <p><button (click)="goProfile(s.username)" class="button-card">Ver perfil</button></p>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>

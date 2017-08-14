@@ -1,0 +1,33 @@
+<div class="panel panel-info">
+    <div class="panel-heading titulo">
+    <div class="row" >
+        <div class="col-xs-6">
+           <a *ngIf = "idea.compartida === false" (click) = "goProfile(idea.usuario)">{{idea.usuario}}</a>
+           <span *ngIf = "idea.compartida === true"><a (click) = "goProfile(idea.usuario)">{{idea.usuario}}</a> compartida de: <a (click) = "goProfile(idea.usuarioOriginal)">{{idea.usuarioOriginal}}</a></span>
+        </div>
+        <div class="col-xs-6">
+            <label style=" text-align: right;">Publicada: {{idea.fechaCreacion | date:"dd/MM/yyyy"}}</label>
+        </div>
+    </div>
+    </div>
+        <div class="panel-body titulo">{{idea.contenido}}</div>
+        <div class="panel-body titulo" >Tags: {{tags}}</div>
+        <div class="panel-body ">
+            <div class="row">
+                <div class="col-xs-4"><a (click) = "detallesLight()">Lights: {{idea.lights}}</a></div>
+                <div class="col-xs-4"><a (click) = "detallesComentarios()">Comentarios: {{idea.comentarios}}</a></div>
+                <div class="col-xs-4"><a style="text-decoration: underline;" (click) = "detalles()">Detalles</a></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4"><button type="button" (click)="light()" 
+                class="btn btn-default btn-block" [style.backgroundColor] = "(idea.isLight)? '#BBE3EF' : 'Transparent'"><i class="glyphicon glyphicon-asterisk">
+                </i> Light</button></div>
+            <div class="col-xs-4"><button type="button" (click)="comentar()" 
+                class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment" >
+                </i> Comentar</button></div>
+            <div class="col-xs-4"><button type="button" class="btn btn-default btn-block"
+                (click) = "compartir()" [class.disabled] = "idea.isCompartida">
+                <i class="glyphicon glyphicon-share"></i> Share</button></div>
+        </div>    
+</div>

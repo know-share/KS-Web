@@ -91,7 +91,10 @@ export class AddFAModalComponent extends DialogComponent<void, boolean>
         fa.tituloTG = this.tituloTG;
         this.usuarioService.addFormacionAcademica(fa)
             .subscribe(
-                ok => this.result = true,
+                ok => {
+                    this.result = true;
+                    super.close();
+                },
                 error => {
                     this.result = false;
                     let disposable;
@@ -100,9 +103,9 @@ export class AddFAModalComponent extends DialogComponent<void, boolean>
                     else{
                         console.log('error: '+error);
                     }
+                    super.close();
                 }
-            )
-        super.close();
+            );
     }
 
     close() {

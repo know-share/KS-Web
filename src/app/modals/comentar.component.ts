@@ -36,7 +36,6 @@ export class ComentarModalComponent extends DialogComponent<RequestModalDisplay,
     }
 
     comentar(){
-        console.log(this.comentario);
         let params : Comentario = new Comentario;
         params.comentario = this.comentario;
         params.idea = this.idea;

@@ -62,6 +62,7 @@ export class SignUpComponent implements OnInit {
     email: string;
     password: string;
     username: string;
+    gender: string;
 
     //Step 2 attributes
     tipoUsuario: string;
@@ -70,6 +71,7 @@ export class SignUpComponent implements OnInit {
     semestre: number;
     seminario: any;
     temaTG: boolean;
+    grupoInvestigacion: string = "";
 
     //Step 3 attributes
     personalidad: Personalidad;
@@ -104,6 +106,7 @@ export class SignUpComponent implements OnInit {
         private cualidadService: CualidadService,
         private authService: AuthService,
     ) {
+        this.gender="Femenino";
         this.activeTabGustos = 'generales';
         this.activeTabEnfasis = 'enfasis';
         this.activeTabHabilidades = 'personales';
@@ -149,12 +152,13 @@ export class SignUpComponent implements OnInit {
 
         this.stepOneForm = this.fb.group({
             password: ['', Validators.compose([Validators.required,
-            Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[ "/\(\)+=¿¡{|}[+\',.:;<=>`°¬@_~#?!@$%^&*-]).{8,}$')])],
+                //(?=.*?[a-z])(?=.*?[ "/\(\)+=¿¡{|}[+\',.:;<=>`°¬@_~#?!@$%^&*-])
+            Validators.pattern('^(?=.*?[A-Z])(?=.*?[0-9]).{8,}$')])],
             email: ['', [Validators.required, Validators.pattern(/^[0-9a-zA-Z]+([.\-_][0-9a-zA-Z]+)*@[0-9a-zA-Z]+(\.[a-zA-Z]+)+$/i)]],
             name: ['', Validators.required],
             lastName: ['', Validators.required],
             confirmPassword: ['', Validators.required],
-            username: ['', Validators.compose([Validators.required,Validators.minLength(4),Validators.pattern(/^\S*$/)])]
+            username: ['', Validators.compose([Validators.required,Validators.pattern(/^[a-zA-Z0-9\.\-_]{4,}$/)])]
         }, {
                 validator: SignUpValidation.Validate // UsernameValidation.UsernameTaken
             });
@@ -199,7 +203,7 @@ export class SignUpComponent implements OnInit {
                 );
         }
         this.enfasisCarrera = []; this.ACCarrera = [];
-        this.carreraService.getEnfasisAreaConocimiento(this.carrera.nombre)
+        this.carreraService.getEnfasisAreaConocimiento(this.carrera.id)
             .subscribe(
             enfasisAC => {
                 for (let e of enfasisAC.enfasis) {
@@ -221,7 +225,7 @@ export class SignUpComponent implements OnInit {
             );
         if (this.segundaCarrera != null) {
             this.ACSegundaCarrera = []; this.enfasisSegundaCarrera = [];
-            this.carreraService.getEnfasisAreaConocimiento(this.segundaCarrera.nombre)
+            this.carreraService.getEnfasisAreaConocimiento(this.segundaCarrera.id)
                 .subscribe(
                 enfasisAC => {
                     for (let e of enfasisAC.enfasis) {
@@ -250,7 +254,7 @@ export class SignUpComponent implements OnInit {
         this.habilidadProfesionalesSegunda = [];
         this.habilidadesPersonales = [];
         if (this.habilidadesPersonales.length == 0 && this.habilidadProfesionalesPrimera.length == 0) {
-            this.habilidadService.getHabilidades(this.carrera.nombre)
+            this.habilidadService.getHabilidades(this.carrera.id)
                 .subscribe(
                 habilidades => {
                     for (let habilidad of habilidades) {
@@ -263,7 +267,7 @@ export class SignUpComponent implements OnInit {
                 );
         }
         if (this.segundaCarrera && this.habilidadProfesionalesSegunda.length == 0) {
-            this.habilidadService.getHabilidadesProfesionales(this.segundaCarrera.nombre)
+            this.habilidadService.getHabilidadesProfesionales(this.segundaCarrera.id)
                 .subscribe(
                 habilidades => {
                     this.habilidadProfesionalesSegunda = habilidades;
@@ -391,6 +395,7 @@ export class SignUpComponent implements OnInit {
         usuario.email = this.email;
         usuario.password = this.password;
         usuario.username = this.username;
+        usuario.genero = this.gender;
 
         //Step 2 attributes
         usuario.tipoUsuario = this.tipoUsuario;
@@ -399,6 +404,8 @@ export class SignUpComponent implements OnInit {
         usuario.semestre = this.semestre;
         usuario.seminario = this.seminario;
         usuario.temaTG = this.temaTG;
+        if(this.tipoUsuario == 'PROFESOR')
+            usuario.grupoInvestigacion = this.grupoInvestigacion;
 
         //Step 3 attributes 
         usuario.personalidad = this.personalidad;
@@ -438,6 +445,7 @@ export class SignUpComponent implements OnInit {
                     .subscribe(res => {
                         localStorage.setItem('user', auth.username);
                         localStorage.setItem('token', res.token);
+                        localStorage.setItem('role',res.role);
                         this.router.navigate(['/home']);
                     }, error => {
                         console.log('Error: ' + error);

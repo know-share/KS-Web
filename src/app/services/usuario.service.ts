@@ -34,6 +34,8 @@ export class UsuarioService {
     }
 
     crearUsuario(usuario) {
+        let header = new Headers();
+        header.append('Content-Type','application/json')
         return this.http.post(this.baseUrl,
             usuario).map((res: Response) =>{
                 if(res.status == 201)
@@ -229,6 +231,24 @@ export class UsuarioService {
         header.append('Authorization',localStorage.getItem('token'));
         let url = this.baseUrl + `actualizarBasis`;
         return this.http.patch(url,usuario,{
+            headers: header
+        })
+            .map((res: Response) =>{
+                if(res.status == 200)
+                    return 'ok';
+                throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    upload(formData){
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        let url = this.baseUrl + `upload`;
+        return this.http.post(url,formData,{
             headers: header
         })
             .map((res: Response) =>{

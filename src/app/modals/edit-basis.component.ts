@@ -41,6 +41,12 @@ export interface RequestModalDisplay {
                                 </div>
                             </div>
                         </div>
+                        <div *ngIf="usuario.tipoUsuario=='PROFESOR'" class="form-group">
+                            <label class="col-sm-2 control-label">Grupo de investigación</label>
+                            <div class="col-sm-10">
+                                <input [(ngModel)]="grupo" class="form-control" type="text" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Correo Electrónico</label>
                             <div class="col-sm-10">
@@ -106,7 +112,7 @@ export class EditBasisModalComponent extends DialogComponent<RequestModalDisplay
         this.nombre = this.usuario.nombre;
         this.apellido = this.usuario.apellido;
         this.correo = this.usuario.email;
-        //this.grupo = this.usuario.grupo
+        this.grupo = this.usuario.grupoInvestigacion;
         this.semestre = this.usuario.semestre;
         this.update = this.fb.group({
             email: ['', [Validators.required, Validators.pattern(/^[0-9a-zA-Z]+([.\-_][0-9a-zA-Z]+)*@[0-9a-zA-Z]+(\.[a-zA-Z]+)+$/i)]],
@@ -116,40 +122,49 @@ export class EditBasisModalComponent extends DialogComponent<RequestModalDisplay
     }
 
     confirm() {
-        this.usuarioService.isCorreoTaken(this.correo)
+        if (this.correo.toLowerCase() != this.usuario.email.toLowerCase()) {
+            this.usuarioService.isCorreoTaken(this.correo)
+                .subscribe(
+                taken => {
+                    if (taken)
+                        this.update.get("email").setErrors({ CorreoTaken: true });
+                    else {
+                        this.updateUser();
+                    }
+                });
+        }else{
+            this.updateUser();
+        }
+    }
+
+    updateUser() {
+        let usu: Usuario = new Usuario();
+        usu.id = this.usuario.id;
+        usu.tipoUsuario = this.usuario.tipoUsuario;
+        usu.email = this.correo;
+        usu.semestre = this.semestre;
+        usu.nombre = this.nombre;
+        usu.grupoInvestigacion = this.grupo;
+        usu.apellido = this.apellido;
+        this.usuarioService.actualizarBasis(usu)
             .subscribe(
-            taken => {
-                if (taken)
-                    this.update.get("email").setErrors({ CorreoTaken: true });
-                else {
-                    let usu: Usuario = new Usuario();
-                    usu.id = this.usuario.id;
-                    usu.tipoUsuario = this.usuario.tipoUsuario;
-                    usu.email = this.correo;
-                    usu.semestre = this.semestre;
-                    usu.nombre = this.nombre;
-                    usu.apellido = this.apellido;
-                    this.usuarioService.actualizarBasis(usu)
-                        .subscribe(
-                        ok => {
-                            if (ok == 'ok') {
-                                this.result = true;
-                                super.close();
-                            } else {
-                                this.result = false;
-                                super.close();
-                            }
-                        }
-                        , error => {
-                            let disposable;
-                            if (error == 'Error: 401')
-                                disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                            else
-                                console.log('error: ' + error);
-                        }
-                    );
+            ok => {
+                if (ok == 'ok') {
+                    this.result = true;
+                    super.close();
+                } else {
+                    this.result = false;
+                    super.close();
                 }
-            });
+            }
+            , error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                else
+                    console.log('error: ' + error);
+            }
+            );
     }
 
     close() {

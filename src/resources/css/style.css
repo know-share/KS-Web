@@ -26,6 +26,9 @@ a:hover{
 .right{
     float:right;
 }
+.left{
+    text-align:justify;
+}
 .modal{
   background: rgba(1, 1, 1, 0.5);
 }
@@ -52,6 +55,16 @@ a:hover{
 textarea{
     resize: none;
 }
->>> .ui-growl{
-    top: 50px;
+.sticky-nav {
+  position:fixed;
+ }
+.input-group{
+    width:514px;
+}
+.titulo{
+    text-align: left;
+}
+
+.likes{
+    height: 10px;
 }

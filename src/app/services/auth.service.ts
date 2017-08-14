@@ -11,8 +11,10 @@ export class AuthService {
 
     baseUrl = URL_API + "/auth/";
     loggedIn: boolean;
+    isUserAdmin: boolean;
 
     private logger = new Subject<boolean>();
+    private loggerAdmin = new Subject<boolean>();
 
     constructor(
         private http: Http
@@ -25,6 +27,10 @@ export class AuthService {
                 if (res.status == 200) {
                     this.loggedIn = true;
                     this.logger.next(this.loggedIn);
+                    if (res.json().role == 'ADMIN') {
+                        this.isUserAdmin = true;
+                        this.loggerAdmin.next(this.isUserAdmin);
+                    }
                     return res.json();
                 }
                 if (res.status == 401)
@@ -38,20 +44,26 @@ export class AuthService {
         return this.logger.asObservable();
     }
 
-    logout(){
+    isAdmin(): Observable<boolean> {
+        return this.loggerAdmin.asObservable();
+    }
+
+    logout() {
         let header = new Headers();
-        header.append('Authorization',localStorage.getItem('token'));
+        header.append('Authorization', localStorage.getItem('token'));
         let url = this.baseUrl + "logout";
-        return this.http.put(url,null,{
-            headers : header
+        return this.http.put(url, null, {
+            headers: header
         })
-            .map((res:Response) =>{
-                if(res.status == 200){
+            .map((res: Response) => {
+                if (res.status == 200) {
                     this.loggedIn = false;
                     this.logger.next(this.loggedIn);
+                    this.isUserAdmin = false;
+                    this.loggerAdmin.next(this.isUserAdmin);
                     return true;
-                }else
-                    throw new Error('Error '+res.status);
+                }
+                throw new Error('Error ' + res.status);
             });
     }
 }

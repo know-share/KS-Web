@@ -4,5 +4,6 @@ export class Habilidad{
     nombre: string;
     tipo: string;
     carrera: string;
+    idCarrera:string;
     avales: number;
 }

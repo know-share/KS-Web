@@ -1,3 +1,10 @@
+import { OperacionIdeaModalComponent } from './modals/operacionIdea.component';
+import { OperacionIdea } from './entities/operacionIdea';
+import { DetalleIdeaModalComponent } from './modals/idea-detalles.component';
+import { AsociarTGModalComponent } from './modals/asociarTG.component';
+import { IdeasProyectoModalComponent } from './modals/ideasProyecto.component';
+import { TrabajoGradoService } from './services/trabajoGrado.service';
+import { CrearIdeaModalComponent } from './modals/crear-idea.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule, } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -7,9 +14,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
+import {ScrollPointDirective} from './directives/scroll-point.component';
+
 //primeng
 import {GrowlModule} from 'primeng/primeng';
 import {AutoCompleteModule} from 'primeng/primeng';
+import {DataListModule} from 'primeng/primeng';
+import {DataTableModule,SharedModule} from 'primeng/primeng';
 
 // Components
 import { AppComponent } from './app.component';
@@ -27,6 +38,20 @@ import { AddFAModalComponent } from './modals/add-fa.component';
 import { EditHabilidadModalComponent } from './modals/edit-habilidad.component';
 import { EditBasisModalComponent } from './modals/edit-basis.component';
 import { ComentarModalComponent } from './modals/comentar.component';
+import { SearchComponent } from './search/search.component';
+import { IdeaComponent } from './idea/idea.component';
+import { UploadImageModalComponent } from './modals/upload-image.component';
+
+
+// Components - Admin
+import { PanelAdminComponent } from './admin/panel-admin.component';
+import {AdminCrudComponent} from './admin/admin-crud.component';
+import { CrudCarreraModalComponent } from './modals/crud-carrera.component';
+import { CrudTagModalComponent } from './modals/crud-tag.component';
+import { CrudHabilidadModalComponent } from './modals/crud-habilidad.component';
+import { CrudEnfasisModalComponent } from './modals/crud-enfasis.component';
+
+
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -39,9 +64,12 @@ import { AuthService } from './services/auth.service';
 import { ErrorService } from './error/error.service';
 import { IdeaService } from './services/idea.service';
 import { TagService } from './services/tag.service';
+import { RuleService } from './services/rules.service';
+
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
+import { AuthAdminGuard } from './security/auth-admin.guard';
 
 @NgModule({
     imports: [
@@ -53,7 +81,10 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         FormsModule,
         BootstrapModalModule,
         GrowlModule,
-        AutoCompleteModule
+        DataListModule,
+        AutoCompleteModule,
+        DataTableModule,
+        SharedModule
     ],
     declarations: [
         UserComponent,
@@ -70,7 +101,23 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         AddFAModalComponent,
         EditHabilidadModalComponent,
         EditBasisModalComponent,
-        ComentarModalComponent
+        ComentarModalComponent,
+        PanelAdminComponent,
+        ScrollPointDirective,
+        SearchComponent,
+        IdeaComponent,
+        AdminCrudComponent,
+        CrearIdeaModalComponent,
+        IdeasProyectoModalComponent,
+        AsociarTGModalComponent,
+        UploadImageModalComponent,
+        CrudCarreraModalComponent,
+        DetalleIdeaModalComponent,
+        CrudTagModalComponent,
+        OperacionIdeaModalComponent,
+        CrudHabilidadModalComponent,
+        CrudEnfasisModalComponent
+
     ],
     providers: [{
         provide: LocationStrategy,
@@ -86,8 +133,11 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         ErrorService,
         AuthGuard,
         AuthReverseGuard,
+        AuthAdminGuard,
         IdeaService,
-        TagService
+        TagService,
+        RuleService,
+        TrabajoGradoService
     ],
     entryComponents:[
         RequestModalComponent,
@@ -97,7 +147,18 @@ import { AuthReverseGuard } from './security/auth-reverse.guard';
         AddFAModalComponent,
         EditHabilidadModalComponent,
         EditBasisModalComponent,
-        ComentarModalComponent
+        ComentarModalComponent,
+        CrearIdeaModalComponent,
+        IdeasProyectoModalComponent,
+        AsociarTGModalComponent,
+        UploadImageModalComponent,
+        CrudCarreraModalComponent,
+        DetalleIdeaModalComponent,
+        CrudTagModalComponent,
+        OperacionIdeaModalComponent,
+        CrudHabilidadModalComponent,
+        CrudEnfasisModalComponent
+
     ],
     bootstrap: [AppComponent]
 })

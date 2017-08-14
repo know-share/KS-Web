@@ -1,0 +1,97 @@
+<div class="container">
+    <div *ngIf="search != ''" class="row">
+        <div class="col-xs-12">
+            <h2>Resultados para: {{search}}</h2>
+        </div>
+    </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li [ngClass]="{ 'active': activeTab == 'users' }"><a (click)="moveTab('users')" class="links">Usuarios</a></li>
+                <li [ngClass]="{ 'active': activeTab == 'ideas' }"><a (click)="moveTab('ideas')" class="links">Ideas</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="center">Parámetros de búsqueda</h2>
+                    <input [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
+                    <div class="alert alert-danger" *ngIf="error">
+                        Debe llenar el campo de búsqueda.
+                    </div>
+                    <br><label>Buscar por:</label>
+                    <select *ngIf="activeTab == 'users'" [(ngModel)]="option" class="form-control" name="enfasisSecundarioSegundaCarrera">
+                        <option value=1>Por nombre</option>
+                        <option value=2>Por Área conocimiento</option>
+                        <option value=3>Por Habilidad</option>
+                    </select>
+                    <select *ngIf="activeTab != 'users'" [(ngModel)]="option" class="form-control" name="enfasisSecundarioSegundaCarrera">
+                        <option value=1>Idea Nueva</option>
+                        <option value=2>Para Continuar</option>
+                        <option value=4>Para Empezar</option>
+                        <option value=5>Proyectos</option>
+                        <option value=6>Por Tag</option>
+                    </select>
+                    <br><button (click)="onSearchAdv()" class="btn btn-primary btn-block">Buscar</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-8">
+            <p-dataList *ngIf="activeTab == 'users'" [value]="listUsers" [paginator]="true" [rows]="5" emptyMessage="No se encontraron resultados">
+                <p-header>
+                    Usuarios
+                </p-header>
+                <ng-template let-usr pTemplate="item">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-3" style="text-align:center">
+                            <img src="images/image-profile.png" />
+                        </div>
+                        <div class="ui-g-12 ui-md-9">
+                            <div class="ui-g">
+                                <div class="ui-g-2 ui-sm-6">Nombre: </div>
+                                <div class="ui-g-10 ui-sm-6">{{usr.nombre}}</div>
+
+                                <div class="ui-g-2 ui-sm-6">Carrera: </div>
+                                <div class="ui-g-10 ui-sm-6">{{usr.carrera}}</div>
+
+                                <div class="right">
+                                    <img class="icon_user" *ngIf="usr.tipoUsuario == 'PROFESOR'" src="images/icons/teacher_blackboard.png" />
+                                    <img class="icon_user" *ngIf="usr.tipoUsuario == 'ESTUDIANTE'" src="images/icons/dude4.png" />
+                                    <img class="icon_user" *ngIf="usr.tipoUsuario == 'EGRESADO'" src="images/icons/graduate.png" />
+                                </div>
+
+                                <div class="ui-g-4 ui-sm-12">
+                                    <button class="btn btn-link" (click)="goToProfile(usr.username)" >Ver perfil</button>
+                                </div>
+
+                                <div *ngIf="optionSelected == 1" class="ui-g-6 ui-sm-6"><i>{{usr.porcentaje}}% de coincidencia con tu perfil</i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="height: 2px; border: none; background: lightgray;" />
+                </ng-template>
+            </p-dataList>
+            <p-dataList *ngIf="activeTab != 'users'" [value]="listUsers" [paginator]="true" [rows]="5" emptyMessage="No se encontraron resultados">
+                <p-header>
+                    Ideas
+                </p-header>
+                <ng-template let-per pTemplate="item">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-md-3" style="text-align:center">
+                            imagen
+                        </div>
+                        <div class="ui-g-12 ui-md-9">
+                            <div class="ui-g">
+                                <div class="ui-g-2 ui-sm-6">Nombre: </div>
+                                <div class="ui-g-10 ui-sm-6">{{per.nombre}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="height: 2px; border: none; background: lightgray;" />
+                </ng-template>
+            </p-dataList>
+        </div>
+    </div>
+</div>

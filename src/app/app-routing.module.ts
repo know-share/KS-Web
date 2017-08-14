@@ -7,9 +7,15 @@ import { HomeComponent } from './newsfeed/home.component';
 import { SignUpComponent } from './access/signup.component';
 import { LoginComponent } from './access/login.component';
 import { ErrorComponent } from './error/error.component';
+import { SearchComponent } from './search/search.component';
+
+//Components - Admin
+import { PanelAdminComponent } from './admin/panel-admin.component';
+import {AdminCrudComponent} from './admin/admin-crud.component';
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
+import { AuthAdminGuard } from './security/auth-admin.guard';
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -18,6 +24,10 @@ const routes: Routes = [
     { path: 'signup', component: SignUpComponent, canActivate:[AuthReverseGuard] },
     { path: 'login', component: LoginComponent, canActivate:[AuthReverseGuard] },
     { path: 'error', component: ErrorComponent },
+    { path: 'admin', component: PanelAdminComponent, canActivate:[AuthAdminGuard] },
+    { path: 'search/:query', component: SearchComponent, canActivate:[AuthGuard]},
+    { path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
+    { path: 'admin/crud', component: AdminCrudComponent, canActivate:[AuthAdminGuard]},
 ];
 
 @NgModule({

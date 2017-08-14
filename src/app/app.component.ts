@@ -9,7 +9,9 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent implements OnInit {
 
-    loggeado: boolean;
+    loggeado: boolean = false;
+    isAdmin: boolean = false;
+    search: string = "";
 
     constructor(
         private router: Router,
@@ -19,14 +21,19 @@ export class AppComponent implements OnInit {
             .subscribe(
                 logged => this.loggeado = logged
             );
+        this.authService.isAdmin()
+            .subscribe(
+                isUserAdmin => this.isAdmin = isUserAdmin
+            );
     }
 
     ngOnInit(){
         this.loggeado = (localStorage.getItem('user') != null);
+        if(this.loggeado)
+            this.isAdmin = (localStorage.getItem('role') == 'ADMIN');
     }
 
     myProfile() {
-        //get from localStorage the username
         this.router.navigate(['/user', localStorage.getItem('user')]);
     }
 
@@ -39,5 +46,14 @@ export class AppComponent implements OnInit {
                 }
             }, error => console.log('Error: '+error)
         );
+    }
+
+    goToSearch(){
+        if(this.search != ""){
+            this.router.navigate(['/search',this.search]);
+        }else{
+            this.router.navigate(['/search']);
+        }
+        this.search = "";
     }
 }
