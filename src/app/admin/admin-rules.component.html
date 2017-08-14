@@ -1,0 +1,31 @@
+<p-growl [(value)]="msgs"></p-growl>
+<div class="container">
+    <h1>Panel de gestión de reglas.</h1>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="well panel_text">
+                <h3>Guía resumida gestor de reglas.</h3>
+                <object data="info/manual_rules.txt"></object>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="well">
+                <h3>Panel</h3>
+                <h4>Links de interés</h4>
+                <li>Documentación Drools versión 6.5.0 Final: <a target="_blank" href="https://docs.jboss.org/drools/release/6.5.0.Final/drools-docs/html_single/">link</a></li>
+                <li>Motor de reglas de Know&Share: <a target="_blank" href="http://52.14.144.253:8080/drools-wb">link</a></li>
+                <hr><h4>Administración</h4>
+                <div class="row">
+                    <div class="col-xs-6 center">
+                        <span class="title_btn">Actualizar reglas</span>.<br>
+                        <button (click)="updateRules()" type="button" class="btn btn-primary btn-md" title="Actualizar reglas"><span class="glyphicon glyphicon-refresh"></span></button>
+                    </div>
+                    <div class="col-xs-6 center">
+                        <span class="title_btn">Activar/Desactivar recomendaciones en el sistema.</span><br>
+                        <p-inputSwitch [(ngModel)]="checked"></p-inputSwitch>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -11,9 +11,9 @@
                             <div class="col-xs-5"></div>
                             <div class="col-xs-3">Ordenar por:</div>
                             <div class="col-xs-4">
-                                <select name="orden" id="orden" class="form-control btn btn-primary">
-                                    <option value="CR">Cronológicamente</option>
-                                    <option value="RL">Relevancia</option>
+                                <select [(ngModel)]="preferenciaDespliegue" class="form-control btn btn-primary" (change)="updatePreferencia($event)">
+                                    <option value="ORDEN_CRONOLOGICO">Fecha</option>
+                                    <option value="POR_RELEVANCIA">Relevancia</option>
                                 </select> 
                             </div>
                         </div>

@@ -33,10 +33,7 @@ export class AuthService {
                     }
                     return res.json();
                 }
-                if (res.status == 401)
-                    throw new Error('Usuario y contraseña inválidos');
-                if (res.status == 400)
-                    throw new Error('Null');
+                return null;
             });
     }
 

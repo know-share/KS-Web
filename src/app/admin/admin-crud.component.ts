@@ -184,11 +184,12 @@ export class AdminCrudComponent implements OnInit {
     refreshHabilidad() {
         this.habilidadService.getAll()
             .subscribe(
-            habilidades => {this.habilidades = habilidades;
-            for(let h of this.habilidades){
-                if(h.tipo=="PERSONALES")
-                    h.carrera = "No Aplica";
-            }
+            habilidades => {
+                this.habilidades = habilidades;
+                for (let h of this.habilidades) {
+                    if (h.tipo == "PERSONALES")
+                        h.carrera = "No Aplica";
+                }
             },
             error => console.log("Error cargando las habilidades " + error)
             );

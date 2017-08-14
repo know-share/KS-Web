@@ -24,6 +24,6 @@ export class PanelAdminComponent implements OnInit {
         
     }
     onclickMotor(){
-        
+        this.router.navigate(['/admin/rules']);
     }
 }

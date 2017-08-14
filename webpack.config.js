@@ -56,6 +56,9 @@ module.exports = {
         },{
             from:'./node_modules/font-awesome',
             to: './fonts'
+        },{
+            from:'./src/resources/info',
+            to:'./info'
         }])
     ]
 

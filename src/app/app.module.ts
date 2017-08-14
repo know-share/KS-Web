@@ -21,6 +21,7 @@ import {GrowlModule} from 'primeng/primeng';
 import {AutoCompleteModule} from 'primeng/primeng';
 import {DataListModule} from 'primeng/primeng';
 import {DataTableModule,SharedModule} from 'primeng/primeng';
+import {InputSwitchModule} from 'primeng/primeng';
 
 // Components
 import { AppComponent } from './app.component';
@@ -42,16 +43,14 @@ import { SearchComponent } from './search/search.component';
 import { IdeaComponent } from './idea/idea.component';
 import { UploadImageModalComponent } from './modals/upload-image.component';
 
-
 // Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
-import {AdminCrudComponent} from './admin/admin-crud.component';
+import { AdminCrudComponent } from './admin/admin-crud.component';
 import { CrudCarreraModalComponent } from './modals/crud-carrera.component';
 import { CrudTagModalComponent } from './modals/crud-tag.component';
 import { CrudHabilidadModalComponent } from './modals/crud-habilidad.component';
 import { CrudEnfasisModalComponent } from './modals/crud-enfasis.component';
-
-
+import { AdminRulesComponent } from './admin/admin-rules.component';
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -65,7 +64,6 @@ import { ErrorService } from './error/error.service';
 import { IdeaService } from './services/idea.service';
 import { TagService } from './services/tag.service';
 import { RuleService } from './services/rules.service';
-
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
@@ -84,7 +82,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         DataListModule,
         AutoCompleteModule,
         DataTableModule,
-        SharedModule
+        SharedModule,
+        InputSwitchModule
     ],
     declarations: [
         UserComponent,
@@ -116,8 +115,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         CrudTagModalComponent,
         OperacionIdeaModalComponent,
         CrudHabilidadModalComponent,
-        CrudEnfasisModalComponent
-
+        CrudEnfasisModalComponent,
+        AdminRulesComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -158,7 +157,6 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         OperacionIdeaModalComponent,
         CrudHabilidadModalComponent,
         CrudEnfasisModalComponent
-
     ],
     bootstrap: [AppComponent]
 })

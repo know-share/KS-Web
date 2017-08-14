@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit{
     username: string;
     password: string;
 
+    errorLogin:boolean = false;
+
     constructor(
         private fb: FormBuilder,
         private authService: AuthService,
@@ -44,7 +46,7 @@ export class LoginComponent implements OnInit{
                 localStorage.setItem('role',res.role);
                 this.router.navigate(['/home']);
             },error => {
-                console.log('Error: '+error);
+                this.errorLogin = true;
             });
     }
 }

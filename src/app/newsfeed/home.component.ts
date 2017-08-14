@@ -47,6 +47,8 @@ export class HomeComponent implements OnInit {
     selectedTags: any[]
     filteredTagsMultiple: any[];
 
+    preferenciaDespliegue: string = "";
+
     constructor(
         private fb: FormBuilder,
         private ideaService: IdeaService,
@@ -73,6 +75,7 @@ export class HomeComponent implements OnInit {
                 localStorage.setItem("dto", JSON.stringify(res));
                 this.listSolicitudes = res.solicitudesAmistad;
                 this.cantidadSolicitudes = this.listSolicitudes.length;
+                this.preferenciaDespliegue = res.preferenciaIdea;
                 this.getRecomendaciones();
             }, error => {
                 let disposable;
@@ -141,7 +144,7 @@ export class HomeComponent implements OnInit {
         console.log(ide.contenido);
     }
 
-    
+
 
     showRequests() {
         let disposable = this.dialogService.addDialog(RequestModalComponent, {
@@ -163,7 +166,7 @@ export class HomeComponent implements OnInit {
                 let disposable;
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                else{
+                else {
                     console.log('Error ' + error);
                     this.refreshSolicitudes();
                 }
@@ -221,24 +224,36 @@ export class HomeComponent implements OnInit {
                     let disposable;
                     if (error == 'Error: 401')
                         disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                })
+                });
         } else {
             //pop up con error
         }
 
     }
 
-    crearIdea(){
+    crearIdea() {
         let temp: Array<Idea> = new Array;
-        let disposable = this.dialogService.addDialog(CrearIdeaModalComponent,{})
-        .subscribe(confirmed => {
+        let disposable = this.dialogService.addDialog(CrearIdeaModalComponent, {})
+            .subscribe(confirmed => {
                 if (confirmed) {
                     temp.push(confirmed);
                     temp = temp.concat(this.newIdeas);
                     this.newIdeas = temp;
                 } else {
-                   //pop up con error 
+                    //pop up con error 
                 }
+            });
+    }
+
+    updatePreferencia(event) {
+        this.usuarioService.updatePreferencia(this.preferenciaDespliegue)
+            .subscribe(
+            res => {
+                return null;
+            }, error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
             });
     }
 }

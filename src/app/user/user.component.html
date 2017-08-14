@@ -59,6 +59,12 @@
             </div>
         </div>
         <div class="col-xs-7">
+            <div *ngIf="!ideas || ideas.length == 0" class="panel panel-default">
+                <div class="panel-heading center">
+                    <img class="find_user" src="images/loading.gif" />
+                    <h3>Este usuario no tiene ideas publicadas actualmente.</h3>
+                </div>
+            </div>
             <div class="panel panel-default center" *ngFor="let idea of ideas; index as indice">
                 <idea [idea]="idea" (change)="cambio($event)"></idea>
             </div>
