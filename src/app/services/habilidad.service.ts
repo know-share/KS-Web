@@ -77,8 +77,8 @@ export class HabilidadService{
     eliminar(habilidad){
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
-        let url = this.baseUrl + `delete/${habilidad.id}`;
-        return this.http.delete(url, {
+        let url = this.baseUrl+"delete";
+        return this.http.post(url, habilidad.id, {
             headers: header
         })
             .map((res: Response) => {

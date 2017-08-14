@@ -3,16 +3,16 @@ import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { HabilidadService } from '../services/habilidad.service';
 import { CarreraService } from '../services/carrera.service';
 
 import { ExpirationModalComponent } from '../modals/expiration.component';
 
-import { Habilidad } from '../entities/habilidad';
 import { Carrera } from '../entities/carrera';
+import { Enfasis } from '../entities/enfasis';
 
 export interface RequestModalDisplay {
-    habilidad: Habilidad;
+    carreras: Carrera[];
+    enfasis:Enfasis;
     tipo: string;
 }
 
@@ -22,7 +22,7 @@ export interface RequestModalDisplay {
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" (click)="close()">&times;</button>
-                    <h4 class="modal-title">Editar Habilidad</h4>
+                    <h4 class="modal-title">Editar Énfasis</h4>
                 </div>
                 <div class="modal-body">
                     <form novalidate class="form-horizontal" (ngSubmit)="save()" [formGroup]="update">
@@ -35,16 +35,7 @@ export interface RequestModalDisplay {
                                 </div>
                             </div>
                         </div>
-                      <div *ngIf="tipo == 'create'" class="form-group">
-                            <label class="col-sm-2 control-label">Tipo</label>
-                            <div class="col-sm-10">
-                                <select [(ngModel)]="tipoHabilidad" class="form-control" name="tipoHabilidad" [ngModelOptions]="{standalone: true}">
-                                    <option value="PERSONALES">PERSONALES</option>
-                                    <option values="PROFESIONALES">PROFESIONALES</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div *ngIf="tipo == 'create' && tipoHabilidad=='PROFESIONALES'" class="form-group">
+                        <div *ngIf="tipo == 'create'" class="form-group">
                             <label class="col-sm-2 control-label">Carrera</label>
                             <div class="col-sm-10">
                                 <select [(ngModel)]="carreraSelected" class="form-control" name="carreras" [ngModelOptions]="{standalone: true}">
@@ -60,22 +51,18 @@ export interface RequestModalDisplay {
         </div>`,
     styleUrls: ['../access/signup.component.css', './edit-carrera.component.css']
 })
-export class CrudHabilidadModalComponent extends DialogComponent<RequestModalDisplay, boolean>
+export class CrudEnfasisModalComponent extends DialogComponent<RequestModalDisplay, boolean>
     implements RequestModalDisplay, OnInit {
 
-    habilidad: Habilidad;
     tipo: string;
     nombre: string;
-    carreraSelected: Carrera;
-    carreras: Carrera[] = [];
-    tipoHabilidad: string;
-
-
+    enfasis:Enfasis;
     update: FormGroup;
+    carreras: Carrera[];
+    carreraSelected: Carrera;
 
     constructor(
         dialogService: DialogService,
-        private habilidadService: HabilidadService,
         private carreraService: CarreraService,
         private fb: FormBuilder,
     ) {
@@ -83,28 +70,31 @@ export class CrudHabilidadModalComponent extends DialogComponent<RequestModalDis
     }
 
     ngOnInit() {
-        if(this.tipo=="create"){
-            this.refreshCarrera();
-        }    
-        this.nombre = this.habilidad.nombre;
+        this.nombre = this.enfasis.nombre;
         this.update = this.fb.group({
             nombre: ['', Validators.required]
-            //tipoHabilidad: ['', [Validators.required, Validators.pattern('[a-zA-Z]+]')]]
         });
-
-        this.tipoHabilidad = "PERSONALES";
-       
+        this.carreraSelected = this.carreras[0];
     }
 
 
     save() {
-        let habilidad: Habilidad = new Habilidad();
-        habilidad.nombre = this.nombre;
-        habilidad.id = this.habilidad.id;
-        habilidad.carrera = this.habilidad.carrera;
-        habilidad.tipo = this.habilidad.tipo;
         if (this.tipo == "update") {
-            this.habilidadService.actualizar(habilidad)
+            let lista: string[]=[];
+            let carrera;
+            for(let cr of this.carreras){
+                if(cr.nombre == this.enfasis.carrera){
+                    carrera = cr;
+                    for(let en of cr.enfasis){
+                       if(this.enfasis.nombre==en)
+                            lista.push(this.nombre);
+                       else
+                            lista.push(en);
+                    }    
+                }
+            }
+            carrera.enfasis = lista;
+            this.carreraService.actualizar(carrera)
                 .subscribe(
                 ok => {
                     if (ok == 'ok') {
@@ -126,16 +116,14 @@ export class CrudHabilidadModalComponent extends DialogComponent<RequestModalDis
                 );
         }
         if (this.tipo == "create") {
-            let habilidad = new Habilidad();
-            habilidad.id = this.habilidad.id;
-            habilidad.nombre = this.nombre;
-            habilidad.carrera = this.habilidad.carrera;
-            habilidad.tipo = this.tipoHabilidad;
-            if(this.tipoHabilidad=="PROFESIONALES")
-                habilidad.idCarrera = this.carreraSelected.id;
+            if(this.carreraSelected.enfasis==null){
+                this.carreraSelected.enfasis = [];
+                this.carreraSelected.enfasis.push(this.nombre);
+            }
             else
-                habilidad.idCarrera = "";
-            this.habilidadService.crear(habilidad)
+                this.carreraSelected.enfasis.push(this.nombre);
+           
+            this.carreraService.actualizar(this.carreraSelected)
                 .subscribe(
                 ok => {
                     if (ok == 'ok') {
@@ -159,13 +147,20 @@ export class CrudHabilidadModalComponent extends DialogComponent<RequestModalDis
     }
 
     delete() {
-        let habilidad: Habilidad = new Habilidad();
-        habilidad.nombre = this.nombre;
-        habilidad.carrera = this.habilidad.carrera;
-        habilidad.tipo = this.habilidad.tipo;
-        habilidad.id = this.habilidad.id;
-        if (this.tipo == "update") {
-            this.habilidadService.eliminar(habilidad)
+  if (this.tipo == "update") {
+            let lista: string[]=[];
+            let carrera;
+            for(let cr of this.carreras){
+                if(cr.nombre == this.enfasis.carrera){
+                    carrera = cr;
+                    for(let en of cr.enfasis){
+                       if(this.enfasis.nombre!=en)
+                           lista.push(en);
+                    }    
+                }
+            }
+            carrera.enfasis = lista;
+            this.carreraService.actualizar(carrera)
                 .subscribe(
                 ok => {
                     if (ok == 'ok') {
@@ -192,15 +187,4 @@ export class CrudHabilidadModalComponent extends DialogComponent<RequestModalDis
         this.result = false;
         super.close();
     }
-
-      refreshCarrera() {
-        this.carreraService.getAllCarreras()
-            .subscribe(
-            carreras => {this.carreras = carreras,
-                 this.carreraSelected = this.carreras[0];
-            },           
-            error => console.log("Error cargando las carreras " + error)
-            );
-    }
-        
 }

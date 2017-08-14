@@ -49,6 +49,8 @@ import {AdminCrudComponent} from './admin/admin-crud.component';
 import { CrudCarreraModalComponent } from './modals/crud-carrera.component';
 import { CrudTagModalComponent } from './modals/crud-tag.component';
 import { CrudHabilidadModalComponent } from './modals/crud-habilidad.component';
+import { CrudEnfasisModalComponent } from './modals/crud-enfasis.component';
+
 
 
 //Services
@@ -113,7 +115,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         DetalleIdeaModalComponent,
         CrudTagModalComponent,
         OperacionIdeaModalComponent,
-        CrudHabilidadModalComponent
+        CrudHabilidadModalComponent,
+        CrudEnfasisModalComponent
 
     ],
     providers: [{
@@ -153,7 +156,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         DetalleIdeaModalComponent,
         CrudTagModalComponent,
         OperacionIdeaModalComponent,
-        CrudHabilidadModalComponent
+        CrudHabilidadModalComponent,
+        CrudEnfasisModalComponent
 
     ],
     bootstrap: [AppComponent]

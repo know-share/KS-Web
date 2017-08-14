@@ -7,18 +7,21 @@ import { Message } from 'primeng/primeng';
 
 //Entities
 import { Carrera } from '../entities/carrera';
-import {Tag} from '../entities/tag';
-import {Habilidad} from '../entities/habilidad';
+import { Tag } from '../entities/tag';
+import { Habilidad } from '../entities/habilidad';
+import { Enfasis } from '../entities/enfasis';
 
 //Service
 import { CarreraService } from '../services/carrera.service';
-import {TagService} from '../services/tag.service';
-import {HabilidadService} from '../services/habilidad.service';
+import { TagService } from '../services/tag.service';
+import { HabilidadService } from '../services/habilidad.service';
 
 //Modals
 import { CrudCarreraModalComponent } from '../modals/crud-carrera.component';
 import { CrudTagModalComponent } from '../modals/crud-tag.component';
 import { CrudHabilidadModalComponent } from '../modals/crud-habilidad.component';
+import { CrudEnfasisModalComponent } from '../modals/crud-enfasis.component';
+
 
 
 @Component({
@@ -31,19 +34,20 @@ export class AdminCrudComponent implements OnInit {
     activeTab: string;
 
     // CARRERA
-    carrera: Carrera = new Carrera();
     selectedcarrera: Carrera;
     carreras: Carrera[] = [];
 
     //TAG
-    tag: Tag = new Tag();
     selectedTag: Tag;
     tags: Tag[] = [];
 
     //HABILIDAD
-    habilidad: Habilidad = new Habilidad();
     selectedHabilidad: Habilidad;
     habilidades: Habilidad[] = [];
+
+    // ÉNFASIS
+    selectedEnfasis: Enfasis;
+    enfasisList: Enfasis[] = [];
 
     msgs: Message[] = [];
 
@@ -65,18 +69,24 @@ export class AdminCrudComponent implements OnInit {
         if (this.activeTab == "carreras") {
             this.refreshCarrera();
         }
-        if(this.activeTab == "etiquetas"){
+        if (this.activeTab == "etiquetas") {
             this.refreshTag();
         }
-        if(this.activeTab == "habilidades"){
+        if (this.activeTab == "habilidades") {
             this.refreshHabilidad();
+        }
+        if (this.activeTab == "enfasis" && this.carreras.length == 0) {
+            this.refreshCarrera();
+        }
+        if (this.activeTab == "enfasis" && this.carreras.length > 0) {
+            this.refreshEnfasis();
         }
     }
 
 
     //----------------------------  CARRERA --------------------------------
 
-    onRowSelect(event) { 
+    onRowSelect(event) {
         let disposable = this.dialogService.addDialog(CrudCarreraModalComponent, {
             carrera: this.selectedcarrera,
             tipo: "update"
@@ -93,12 +103,15 @@ export class AdminCrudComponent implements OnInit {
     refreshCarrera() {
         this.carreraService.getAllCarreras()
             .subscribe(
-            carreras => this.carreras = carreras,
+            carreras => {
+                this.carreras = carreras;
+                this.refreshEnfasis();
+            },
             error => console.log("Error cargando las carreras " + error)
             );
     }
-    
-    createCarrera(){
+
+    createCarrera() {
         let disposable = this.dialogService.addDialog(CrudCarreraModalComponent, {
             carrera: new Carrera(),
             tipo: "create"
@@ -115,7 +128,7 @@ export class AdminCrudComponent implements OnInit {
 
     //----------------------------  TAG --------------------------------
 
-    onRowSelectTag(event) { 
+    onRowSelectTag(event) {
         let disposable = this.dialogService.addDialog(CrudTagModalComponent, {
             tag: this.selectedTag,
             antiguo: this.selectedTag.id,
@@ -137,8 +150,8 @@ export class AdminCrudComponent implements OnInit {
             error => console.log("Error cargando los tags " + error)
             );
     }
-    
-    createTag(){
+
+    createTag() {
         let disposable = this.dialogService.addDialog(CrudTagModalComponent, {
             tag: new Tag(),
             tipo: "create"
@@ -154,7 +167,7 @@ export class AdminCrudComponent implements OnInit {
 
     //----------------------------  Habilidades --------------------------------
 
-    onRowSelectHabilidad(event) { 
+    onRowSelectHabilidad(event) {
         let disposable = this.dialogService.addDialog(CrudHabilidadModalComponent, {
             habilidad: this.selectedHabilidad,
             tipo: "update"
@@ -171,12 +184,17 @@ export class AdminCrudComponent implements OnInit {
     refreshHabilidad() {
         this.habilidadService.getAll()
             .subscribe(
-            habilidades => this.habilidades = habilidades,
+            habilidades => {this.habilidades = habilidades;
+            for(let h of this.habilidades){
+                if(h.tipo=="PERSONALES")
+                    h.carrera = "No Aplica";
+            }
+            },
             error => console.log("Error cargando las habilidades " + error)
             );
     }
-    
-    createHabilidad(){
+
+    createHabilidad() {
         let disposable = this.dialogService.addDialog(CrudHabilidadModalComponent, {
             habilidad: new Habilidad(),
             tipo: "create"
@@ -191,5 +209,51 @@ export class AdminCrudComponent implements OnInit {
     }
 
 
+    //----------------------------  ÉNFASIS --------------------------------
+
+    onRowSelectEnfasis(event) {
+        let disposable = this.dialogService.addDialog(CrudEnfasisModalComponent, {
+            enfasis: this.selectedEnfasis,
+            carreras: this.carreras,
+            tipo: "update"
+        }).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    this.refreshCarrera();
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Énfasis fue actualizada.' });
+                }
+            });
+    }
+
+    refreshEnfasis() {
+        let enfasislist: Enfasis[] = [];
+        for (let cr of this.carreras) {
+            if (cr.enfasis != null) {
+                for (let en of cr.enfasis) {
+                    let enfasis = new Enfasis();
+                    enfasis.carrera = cr.nombre;
+                    enfasis.nombre = en;
+                    enfasislist.push(enfasis);
+                }
+            }
+        }
+        this.enfasisList = enfasislist;
+    }
+
+    createEnfasis() {
+        let disposable = this.dialogService.addDialog(CrudEnfasisModalComponent, {
+            enfasis: new Enfasis(),
+            carreras: this.carreras,
+            tipo: "create"
+        }).subscribe(
+            confirmed => {
+                if (confirmed) {
+                    this.refreshCarrera();
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Carrera fue actualizada.' });
+                }
+            });
+    }
 
 }
