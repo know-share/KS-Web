@@ -7,6 +7,7 @@ import { Habilidad } from './habilidad';
 import { Cualidad } from './cualidad';
 import { TrabajoGrado } from './trabajoGrado';
 import { FormacionAcademica } from './formacionAcademica';
+import { Insignia } from './insignia';
 
 class InfoUsuario{
     username:string;
@@ -51,7 +52,7 @@ export class Usuario {
 
     solicitudesAmistad: string[];
 
-    insignias: string[];
+    insignias: Insignia[];
 
     tgDirigidos:TrabajoGrado[];
     formacionAcademica:FormacionAcademica[];

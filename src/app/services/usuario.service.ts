@@ -279,4 +279,22 @@ export class UsuarioService {
                 throw Error(err.toString());
             });
     }
+
+    updateInsignias(){
+        let header = new Headers();
+        header.append('Authorization', localStorage.getItem('token'));
+        let url = this.baseUrl + `updateInsignias`;
+        return this.http.put(url, null, {
+            headers: header
+        })
+            .map((res: Response) => {
+                if (res.status == 200)
+                    return 'ok';
+                return 'no content';
+            }).catch((err: Response) => {
+                if (err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
 }

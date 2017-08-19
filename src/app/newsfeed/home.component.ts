@@ -144,8 +144,6 @@ export class HomeComponent implements OnInit {
         console.log(ide.contenido);
     }
 
-
-
     showRequests() {
         let disposable = this.dialogService.addDialog(RequestModalComponent, {
             listSolicitudes: this.listSolicitudes

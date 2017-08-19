@@ -54,9 +54,9 @@ export class ProfileComponent implements OnInit {
     areasConocimiento: AreaConocimiento[] = [];
     areasConocimientoSeg: AreaConocimiento[] = [];
 
-    idea:Idea = new Idea;
-    tg:TrabajoGrado;
-    valid:boolean = true;
+    idea: Idea = new Idea;
+    tg: TrabajoGrado;
+    valid: boolean = true;
     ideasPro: Array<Idea> = new Array;
     ideas: Array<Idea> = new Array;
     msgs: Message[] = [];
@@ -72,6 +72,8 @@ export class ProfileComponent implements OnInit {
     numeroEstudiantes: number;
     alcance: string;
     problematica: string;
+
+    insgniasNoVistas = 0;
 
     showDialog() {
         this.display = true;
@@ -113,6 +115,15 @@ export class ProfileComponent implements OnInit {
                 console.log('Error' + error);
             });
         this.reloadImage();
+        this.totalInsigniasNoVistas();
+    }
+
+    totalInsigniasNoVistas() {
+        let total = 0;
+        for (let ins of this.usuario.insignias)
+            if (!ins.visto)
+                total += 1;
+        this.insgniasNoVistas = total;
     }
 
     mapAreasConocimiento(areasConocimiento: AreaConocimiento[]) {
@@ -140,6 +151,16 @@ export class ProfileComponent implements OnInit {
 
     moveTab(tab) {
         this.activeTab = tab;
+        if (this.activeTab == 'badges') {
+            this.usuarioService.updateInsignias()
+                .subscribe(
+                ok => setTimeout(() => this.insgniasNoVistas = 0, 2000)
+                , error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                });
+        }
     }
 
     addTG() {
@@ -228,12 +249,12 @@ export class ProfileComponent implements OnInit {
                     }
                 }
                 this.reloadImage();
+                this.totalInsigniasNoVistas();
             }, error => {
                 let disposable;
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
-            }
-            );
+            });
     }
 
     goProfile(username) {
@@ -255,33 +276,33 @@ export class ProfileComponent implements OnInit {
     }
 
     crearIdea() {
-       console.log(this.tg);
-        if(this.contenido != undefined && this.selectedValueTipo == "NU" && this.selectedTags.length > 0){
+        console.log(this.tg);
+        if (this.contenido != undefined && this.selectedValueTipo == "NU" && this.selectedTags.length > 0) {
             this.crearIdeaNorm();
-        }else{
+        } else {
             this.valid = false;
         }
-        if(this.contenido != undefined && this.selectedValueTipo == "PC" && this.selectedTags.length > 0 && 
-            this.numeroEstudiantes > 0 && this.tg != undefined){
+        if (this.contenido != undefined && this.selectedValueTipo == "PC" && this.selectedTags.length > 0 &&
+            this.numeroEstudiantes > 0 && this.tg != undefined) {
             this.crearIdeaNorm();
-        }else{
+        } else {
             this.valid = false;
         }
-        if(this.contenido != undefined && this.selectedValueTipo == "PE" && this.selectedTags.length > 0 && 
-            this.numeroEstudiantes > 0 && this.alcance!=undefined && this.problematica != undefined){
+        if (this.contenido != undefined && this.selectedValueTipo == "PE" && this.selectedTags.length > 0 &&
+            this.numeroEstudiantes > 0 && this.alcance != undefined && this.problematica != undefined) {
             this.crearIdeaNorm();
-        }else{
+        } else {
             this.valid = false;
         }
-        if(this.contenido != undefined && this.selectedValueTipo == "PR" && this.selectedTags.length > 0 && 
-            this.ideasPro.length > 0){
+        if (this.contenido != undefined && this.selectedValueTipo == "PR" && this.selectedTags.length > 0 &&
+            this.ideasPro.length > 0) {
             this.crearIdeaNorm();
-        }else{
+        } else {
             this.valid = false;
-        } 
+        }
     }
 
-    crearIdeaNorm(){
+    crearIdeaNorm() {
         let temp: Array<Idea> = new Array;
         this.idea.alcance = this.alcance;
         this.idea.tipo = this.selectedValueTipo;
@@ -292,18 +313,18 @@ export class ProfileComponent implements OnInit {
         this.idea.ideasProyecto = this.ideasPro;
         this.idea.tg = this.tg;
         this.ideaService.crearIdea(this.idea)
-                .subscribe((res: Idea) => {
-                    this.ideas.push(res);
-                }, error => {
-                    let disposable;
-                    if (error == 'Error: 401')
-                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                });
+            .subscribe((res: Idea) => {
+                this.ideas.push(res);
+            }, error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
     }
 
-    agregarIdeas(){
-        let disposable = this.dialogService.addDialog(IdeasProyectoModalComponent,{})
-        .subscribe(confirmed => {
+    agregarIdeas() {
+        let disposable = this.dialogService.addDialog(IdeasProyectoModalComponent, {})
+            .subscribe(confirmed => {
                 if (confirmed) {
                     this.ideasPro = confirmed;
                 } else {
@@ -311,9 +332,9 @@ export class ProfileComponent implements OnInit {
             });
     }
 
-    asociarTG(){
-        let disposable = this.dialogService.addDialog(AsociarTGModalComponent,{})
-        .subscribe(confirmed => {
+    asociarTG() {
+        let disposable = this.dialogService.addDialog(AsociarTGModalComponent, {})
+            .subscribe(confirmed => {
                 if (confirmed) {
                     this.tg = confirmed;
                 } else {
@@ -400,7 +421,6 @@ export class ProfileComponent implements OnInit {
             );
     }
 
-    
     cambio(confirm: IdeaHome) {
         let temp: Array<Idea> = new Array;
         if (confirm != null) {
@@ -424,5 +444,4 @@ export class ProfileComponent implements OnInit {
         }
 
     }
-    
 }

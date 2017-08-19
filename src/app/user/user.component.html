@@ -172,8 +172,7 @@
             <div class="row">
                 <div *ngFor="let a of usuario.amigos" class="col-xs-4">
                     <div class="card">
-                        <img src="{{serverUri}}{{a.username}}"
-                            (error)="errorImageHandler($event,a.username,a.genero)" class="profile_image">
+                        <img src="{{serverUri}}{{a.username}}" (error)="errorImageHandler($event,a.username,a.genero)" class="profile_image">
                         <div class="container-card">
                             <h2 class="name-card">{{a.nombre}}</h2>
                             <p class="title-card">{{a.carrera}}</p>
@@ -194,8 +193,7 @@
             <div class="row">
                 <div *ngFor="let s of usuario.seguidores" class="col-xs-4">
                     <div class="card">
-                        <img src="{{serverUri}}{{s.username}}"
-                            (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
+                        <img src="{{serverUri}}{{s.username}}" (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
                         <div class="container-card">
                             <h2 class="name-card">{{s.nombre}}</h2>
                             <p class="title-card">{{s.carrera}}</p>
@@ -216,8 +214,7 @@
             <div class="row">
                 <div *ngFor="let s of usuario.siguiendo" class="col-xs-4">
                     <div class="card">
-                        <img src="{{serverUri}}{{s.username}}"
-                            (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
+                        <img src="{{serverUri}}{{s.username}}" (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
                         <div class="container-card">
                             <h2 class="name-card">{{s.nombre}}</h2>
                             <p class="title-card">{{s.carrera}}</p>
@@ -232,10 +229,36 @@
     <div *ngIf="activeTab == 'badges'" class="row">
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
-            <h3 *ngIf="!usuario.insignias || usuario.insignias?.length == 0">Aún no ha conseguido insignias para mostrar.</h3>
             <div class="row">
-                <div *ngFor="let a of usuario.insignias" class="col-xs-6">
-                    {{a}}
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="media">
+                                <div class="media-left">
+                                    <img src="images/personalidades/{{usuario.personalidad.nombre}}.png" class="media-object" style="width:60px">
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">Registro exitoso</h4>
+                                    <p>Por haber completado el registro de forma exitosa</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngFor="let a of usuario.insignias" class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="media">
+                                <div class="media-left">
+                                    <img src="images/motor.png" class="media-object" style="width:60px">
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{a.nombre}}</h4>
+                                    <p>{{a.descripcion}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
