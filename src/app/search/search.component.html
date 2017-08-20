@@ -46,7 +46,7 @@
                 <ng-template let-usr pTemplate="item">
                     <div class="ui-g ui-fluid">
                         <div class="ui-g-12 ui-md-3" style="text-align:center">
-                            <img src="images/image-profile.png" />
+                            <img src="{{serverUri}}{{usr.username}}" (error)="errorImageHandler($event,usr.username,usr.genero)" />
                         </div>
                         <div class="ui-g-12 ui-md-9">
                             <div class="ui-g">

@@ -63,6 +63,11 @@
                     <span *ngIf="usuario.grupoInvestigacion">{{usuario.grupoInvestigacion}}</span>
                     <span *ngIf="!usuario.grupoInvestigacion">-</span>
                 </p>
+                <p *ngIf="usuario.tipoUsuario == 'PROFESOR'">
+                    <strong>Disponible: </strong>
+                    <span *ngIf="usuario.disponible">Si</span>
+                    <span *ngIf="!usuario.disponible">No</span>
+                </p>
                 <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
             </div>
         </div>

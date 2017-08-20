@@ -25,6 +25,7 @@ export class Usuario {
     username: string;
     genero: string;
     grupoInvestigacion: string;
+    disponible:boolean;
 
     tipoUsuario: string;
     carrera: Carrera;

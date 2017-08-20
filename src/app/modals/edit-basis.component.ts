@@ -47,6 +47,15 @@ export interface RequestModalDisplay {
                                 <input [(ngModel)]="grupo" class="form-control" type="text" [ngModelOptions]="{standalone: true}">
                             </div>
                         </div>
+                        <div *ngIf="usuario.tipoUsuario=='PROFESOR'" class="form-group">
+                            <label class="col-sm-2 control-label">Disponible semestre actual</label>
+                            <div class="col-sm-10">
+                                <select [(ngModel)]="disponible" class="form-control" name="disponible" [ngModelOptions]="{standalone: true}">
+                                    <option [ngValue]=true>Si</option>
+                                    <option [ngValue]=false>No</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Correo Electrónico</label>
                             <div class="col-sm-10">
@@ -97,6 +106,7 @@ export class EditBasisModalComponent extends DialogComponent<RequestModalDisplay
     correo: string;
     semestre: number;
     grupo: string;
+    disponible:boolean;
 
     update: FormGroup;
 
@@ -114,6 +124,7 @@ export class EditBasisModalComponent extends DialogComponent<RequestModalDisplay
         this.correo = this.usuario.email;
         this.grupo = this.usuario.grupoInvestigacion;
         this.semestre = this.usuario.semestre;
+        this.disponible = this.usuario.disponible;
         this.update = this.fb.group({
             email: ['', [Validators.required, Validators.pattern(/^[0-9a-zA-Z]+([.\-_][0-9a-zA-Z]+)*@[0-9a-zA-Z]+(\.[a-zA-Z]+)+$/i)]],
             name: ['', Validators.required],
@@ -144,6 +155,7 @@ export class EditBasisModalComponent extends DialogComponent<RequestModalDisplay
         usu.email = this.correo;
         usu.semestre = this.semestre;
         usu.nombre = this.nombre;
+        usu.disponible = this.disponible
         usu.grupoInvestigacion = this.grupo;
         usu.apellido = this.apellido;
         this.usuarioService.actualizarBasis(usu)

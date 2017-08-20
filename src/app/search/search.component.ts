@@ -5,6 +5,7 @@ import { DialogService } from "ng2-bootstrap-modal";
 import { ExpirationModalComponent } from '../modals/expiration.component';
 
 import { Recomendacion } from '../entities/recomendacion';
+import { URL_IMAGE_USER } from '../entities/constants';
 
 import { RuleService } from '../services/rules.service';
 
@@ -20,7 +21,9 @@ export class SearchComponent implements OnInit {
     option: number = 1;
     optionSelected: number = 1;
     activeTab: string = 'users';
-    error: boolean = false;;
+    error: boolean = false;
+
+    serverUri = URL_IMAGE_USER;
 
     listUsers: Recomendacion[] = [];
 
@@ -90,5 +93,16 @@ export class SearchComponent implements OnInit {
 
     goToProfile(username){
         this.router.navigate(["/user",username]);
+    }
+
+    errorImageHandler(event, username, genero) {
+        event.target.src = this.imageCard(username, genero);
+    }
+
+    imageCard(username, genero): string {
+        if (genero == 'Femenino')
+            return "images/icons/woman.png";
+        else
+            return "images/icons/dude4_x128.png";
     }
 }

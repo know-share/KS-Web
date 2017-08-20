@@ -396,6 +396,7 @@ export class SignUpComponent implements OnInit {
         usuario.password = this.password;
         usuario.username = this.username;
         usuario.genero = this.gender;
+        usuario.disponible = true;
 
         //Step 2 attributes
         usuario.tipoUsuario = this.tipoUsuario;
