@@ -26,7 +26,7 @@ export class UserComponent implements OnInit {
 
     imagePath: string;
 
-    serverUri=URL_IMAGE_USER;
+    serverUri = URL_IMAGE_USER;
 
     username: string;
     activeTab: string;
@@ -42,6 +42,8 @@ export class UserComponent implements OnInit {
 
     usuario: Usuario;
     isMyProfile: boolean = false;
+
+    role: string = "";
 
     //buttons for friendship and follower
     isEnableRequest = true;
@@ -63,6 +65,7 @@ export class UserComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.role = localStorage.getItem('role');
         this.usuario = null;
         this.activatedRoute.params.subscribe((params: Params) => {
             this.isMyProfile = false;
@@ -105,6 +108,7 @@ export class UserComponent implements OnInit {
                         this.botonSeguir();
                         this.botonSolicitud();
                         this.reloadImage();
+                        this.refreshIdeas();
                     }
                 }, error => {
                     let disposable;
@@ -117,6 +121,9 @@ export class UserComponent implements OnInit {
                 }
                 );
         });
+    }
+
+    refreshIdeas() {
         this.ideaService.findByUsuario(this.username)
             .subscribe((res: any[]) => {
                 this.ideas = res;
@@ -137,7 +144,7 @@ export class UserComponent implements OnInit {
     }
 
     imageCard(username, genero): string {
-        if(genero == 'Femenino')
+        if (genero == 'Femenino')
             return "images/icons/woman.png";
         else
             return "images/icons/dude4_x128.png";
@@ -277,9 +284,10 @@ export class UserComponent implements OnInit {
         this.router.navigate(['/search']);
     }
 
-    errorImageHandler(event,username,genero){
-        event.target.src=this.imageCard(username,genero);
+    errorImageHandler(event, username, genero) {
+        event.target.src = this.imageCard(username, genero);
     }
+
     cambio(confirm: IdeaHome) {
         let temp: Array<Idea> = new Array;
         if (confirm != null) {
@@ -301,6 +309,16 @@ export class UserComponent implements OnInit {
         } else {
             //pop up con error
         }
+    }
 
+    promote() {
+        this.usuarioService.promote(this.username)
+            .subscribe(
+            ok => this.refreshUsuario(),
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
     }
 }

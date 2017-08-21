@@ -280,11 +280,47 @@ export class UsuarioService {
             });
     }
 
-    updateInsignias(){
+    updateInsignias() {
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
         let url = this.baseUrl + `updateInsignias`;
         return this.http.put(url, null, {
+            headers: header
+        })
+            .map((res: Response) => {
+                if (res.status == 200)
+                    return 'ok';
+                return 'no content';
+            }).catch((err: Response) => {
+                if (err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    promote(username) {
+        let header = new Headers();
+        header.append('Authorization', localStorage.getItem('token'));
+        let url = this.baseUrl + `promover/${username}`;
+        return this.http.put(url, null, {
+            headers: header
+        })
+            .map((res: Response) => {
+                if (res.status == 200)
+                    return 'ok';
+                return 'no content';
+            }).catch((err: Response) => {
+                if (err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    actualizarGustos(gustos){
+        let header = new Headers();
+        header.append('Authorization', localStorage.getItem('token'));
+        let url = this.baseUrl + `actualizarGustos`;
+        return this.http.patch(url, gustos, {
             headers: header
         })
             .map((res: Response) => {

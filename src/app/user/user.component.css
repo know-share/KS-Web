@@ -87,3 +87,8 @@
     height: 128px;
     border: 3px solid black;
 }
+.check{
+    opacity:0.5;
+	background:gray;
+    color:white;
+}
