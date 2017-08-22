@@ -213,5 +213,22 @@ export class IdeaService{
 
     }
 
+    cambiarEstado(idea:Idea){
+        let url = this.baseUrl + "cambiarestado";
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        return this.http.put(url,idea,{
+            headers:header
+        }).map((res : Response) =>{
+            if(res.status == 200){
+                return res.json();
+            }
+        }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+        });
+    }
+
     
 }
