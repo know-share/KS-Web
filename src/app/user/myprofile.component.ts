@@ -169,7 +169,7 @@ export class ProfileComponent implements OnInit {
     moveTab(tab) {
         this.editLikes = false;
         this.activeTab = tab;
-        if (this.activeTab == 'badges') {
+        if (this.activeTab == 'badges' && this.insgniasNoVistas > 0) {
             this.usuarioService.updateInsignias()
                 .subscribe(
                 ok => setTimeout(() => this.insgniasNoVistas = 0, 2000)
