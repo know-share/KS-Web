@@ -15,6 +15,7 @@ import { UsuarioService } from '../services/usuario.service';
 import { ErrorService } from '../error/error.service';
 import { IdeaService } from '../services/idea.service';
 import { TagService } from '../services/tag.service';
+import { GustoService } from '../services/gusto.service';
 
 //Entities
 import { Usuario } from '../entities/usuario';
@@ -24,6 +25,7 @@ import { Idea } from '../entities/idea';
 import { Tag } from '../entities/tag';
 import { URL_IMAGE_USER } from '../entities/constants';
 import { Enfasis } from '../entities/enfasis';
+import { Gusto } from '../entities/gusto';
 
 import { EditCarreraModalComponent } from '../modals/edit-carrera.component';
 import { AddTGModalComponent } from '../modals/add-tg.component';
@@ -75,6 +77,19 @@ export class ProfileComponent implements OnInit {
 
     insgniasNoVistas = 0;
 
+    editLikes: boolean = false;
+
+    //---------------------------------------------
+    //Gustos
+    //---------------------------------------------
+
+    activeTabGustos: string = "generales";
+
+    gustosGenerales: Gusto[] = [];
+    gustosDeportes: Gusto[] = [];
+    gustosArtes: Gusto[] = [];
+    gustos: Gusto[] = []; // Just for student
+
     showDialog() {
         this.display = true;
     }
@@ -84,12 +99,14 @@ export class ProfileComponent implements OnInit {
         private dialogService: DialogService,
         private usuarioService: UsuarioService,
         private router: Router,
-        private tagService: TagService
+        private tagService: TagService,
+        private gustoService: GustoService,
     ) {
         this.selectedValueTipo = 'NU';
     }
 
     ngOnInit() {
+        this.editLikes = false;
         this.activeTab = 'ideas';
         this.habilidadesPersonales = [];
         this.habilidadesProfesionales = [];
@@ -150,6 +167,7 @@ export class ProfileComponent implements OnInit {
     }
 
     moveTab(tab) {
+        this.editLikes = false;
         this.activeTab = tab;
         if (this.activeTab == 'badges') {
             this.usuarioService.updateInsignias()
@@ -160,6 +178,26 @@ export class ProfileComponent implements OnInit {
                     if (error == 'Error: 401')
                         disposable = this.dialogService.addDialog(ExpirationModalComponent);
                 });
+        }
+        if (this.activeTab == 'likes') {
+            this.gustos = [];
+            this.gustosArtes = [];
+            this.gustosDeportes = [];
+            this.gustosGenerales = [];
+            this.gustoService.getAllGustos()
+                .subscribe(
+                gustos => {
+                    for (let gusto of gustos) {
+                        if (gusto.tipo == 'GENERALES')
+                            this.gustosGenerales.push(gusto);
+                        if (gusto.tipo == 'ARTES')
+                            this.gustosArtes.push(gusto);
+                        if (gusto.tipo == 'DEPORTES')
+                            this.gustosDeportes.push(gusto);
+                        if (this.usuario.gustos.find(g => g.imagePath == gusto.imagePath) != null)
+                            this.gustos.push(gusto);
+                    }
+                }, error => console.log('error: ' + error));
         }
     }
 
@@ -442,6 +480,48 @@ export class ProfileComponent implements OnInit {
         } else {
             //pop up con error
         }
+    }
 
+    // gustos
+
+    checkGusto(object) {
+        if (this.gustos.find(obj => obj.id == object.id) == null)
+            this.gustos.push(object);
+        else
+            this.gustos = this.gustos.filter(obj => obj.id != object.id);
+    }
+
+    isCheckWithId(item, list) {
+        return list.find(obj => obj.id == item.id) == null ? false : true;
+    }
+
+    goTo(location, where) {
+        if (where == 'gustos')
+            this.activeTabGustos = location;
+    }
+
+    setEditLikes() {
+        this.editLikes = true;
+    }
+
+    saveLikes() {
+        if (this.gustos.length == 0) {
+            this.msgs = [];
+            this.msgs.push({ severity: 'error', summary: 'No hay gustos seleccionados', detail: 'Debe seleccionar al menos un gusto.' });
+        } else {
+            this.editLikes = false;
+            this.usuarioService.actualizarGustos(this.gustos)
+                .subscribe(
+                ok => {
+                    this.refreshUsuario();
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Gustos actualizados.' });
+                }, error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                }
+                )
+        }
     }
 }

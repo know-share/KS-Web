@@ -31,6 +31,7 @@
                 <li [ngClass]="{ 'active': activeTab == 'badges' }"><a (click)="moveTab('badges')" class="links">Insignias</a></li>
                 <li *ngIf="usuario.tipoUsuario == 'PROFESOR'" [ngClass]="{ 'active': activeTab == 'tg' }"><a (click)="moveTab('tg')" class="links">TG Dirigidos</a></li>
                 <li *ngIf="usuario.tipoUsuario != 'ESTUDIANTE'" [ngClass]="{ 'active': activeTab == 'career' }"><a (click)="moveTab('career')" class="links">Formación académica</a></li>
+                <li *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'" [ngClass]="{ 'active': activeTab == 'likes' }"><a (click)="moveTab('likes')" class="links">Gustos</a></li>
             </ul>
         </div>
     </nav>
@@ -60,6 +61,8 @@
                         <span *ngIf="!usuario.disponible">No</span>
                     </p>
                     <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
+                    <button *ngIf="usuario.tipoUsuario == 'ESTUDIANTE' && role == 'PROFESOR'" (click)="promote()" type="button" class="btn btn-success btn-block"
+                        title="Promover a egresado">Promover</button>
                 </div>
             </div>
         </div>
@@ -303,6 +306,20 @@
                             <p><strong>Título del trabajo de grado: </strong>{{fa.tituloTG}}</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="activeTab == 'likes'" class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default" *ngIf="!usuario.gustos || usuario.gustos?.length == 0">
+                <div class="panel-heading center">
+                    <h3>No tiene gustos seleccionados.</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2" *ngFor="let g of usuario.gustos">
+                    <a class="thumbnail"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
                 </div>
             </div>
         </div>
