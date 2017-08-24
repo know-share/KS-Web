@@ -27,7 +27,14 @@ export class AdminRulesComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.checked = true;
+        this.ruleService.getRulesPreferences()
+            .subscribe(
+            ok => this.checked = ok,
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
     }
 
     updateRules() {
@@ -36,6 +43,25 @@ export class AdminRulesComponent implements OnInit {
             res => {
                 this.msgs = [];
                 this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Las reglas han sido actualizadas.' });
+            },
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                else {
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'error', summary: 'Error conexión', detail: 'Inténtelo más tarde.' });
+                }
+            });
+    }
+
+    handleChange(event) {
+        let state = this.checked ? 1 : 0;
+        let msg = this.checked ? 'habilitadas' : 'deshabilitadas';
+        this.ruleService.updateRulesPreferences(state)
+            .subscribe(res => {
+                this.msgs = [];
+                this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: `Las reglas han sido ${msg}.` });
             },
             error => {
                 let disposable;

@@ -22,7 +22,7 @@
                     </div>
                     <div class="col-xs-6 center">
                         <span class="title_btn">Activar/Desactivar recomendaciones en el sistema.</span><br>
-                        <p-inputSwitch [(ngModel)]="checked"></p-inputSwitch>
+                        <p-inputSwitch (onChange)="handleChange($event)" [(ngModel)]="checked"></p-inputSwitch>
                     </div>
                 </div>
             </div>

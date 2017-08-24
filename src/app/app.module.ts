@@ -64,6 +64,7 @@ import { ErrorService } from './error/error.service';
 import { IdeaService } from './services/idea.service';
 import { TagService } from './services/tag.service';
 import { RuleService } from './services/rules.service';
+import { LudificacionService } from './services/ludificacion.service';
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
@@ -136,7 +137,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         IdeaService,
         TagService,
         RuleService,
-        TrabajoGradoService
+        TrabajoGradoService,
+        LudificacionService
     ],
     entryComponents:[
         RequestModalComponent,
