@@ -65,7 +65,6 @@ import { AuthService } from './services/auth.service';
 import { ErrorService } from './error/error.service';
 import { IdeaService } from './services/idea.service';
 import { TagService } from './services/tag.service';
-import { CarreraLeaderService } from './services/carreraLeader.service';
 import { RuleService } from './services/rules.service';
 import { LudificacionService } from './services/ludificacion.service';
 
@@ -140,7 +139,6 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         AuthAdminGuard,
         IdeaService,
         TagService,
-        CarreraLeaderService,
         RuleService,
         TrabajoGradoService,
         LudificacionService

@@ -31,7 +31,7 @@ const routes: Routes = [
     { path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
     { path: 'admin/crud', component: AdminCrudComponent, canActivate:[AuthAdminGuard]},
     { path: 'admin/rules', component: AdminRulesComponent, canActivate:[AuthAdminGuard]},
-    { path: 'leaderCarrera', component: LeaderBoardComponent},
+    { path: 'leaderCarrera', component: LeaderBoardComponent, canActivate:[AuthGuard]},
 
 ];
 

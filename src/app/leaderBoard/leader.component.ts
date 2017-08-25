@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DialogService } from "ng2-bootstrap-modal";
 
-// PrimeNG
+//PrimeNG
 import {DataListModule} from 'primeng/primeng';
 
 //Entities
 import { CarreraLeader } from '../entities/carreraLeader';
 
 //Service
-import { CarreraLeaderService } from '../services/carreraLeader.service';
+import { LudificacionService } from '../services/ludificacion.service';
 
-
+import { ExpirationModalComponent } from '../modals/expiration.component';
 
 @Component({
     selector: 'leaderCarrera', 
@@ -23,7 +24,8 @@ export class LeaderBoardComponent implements OnInit {
 
         constructor(
             private router: Router,
-            private carreraLeaderService: CarreraLeaderService
+            private ludificacionService: LudificacionService,
+            private dialogService: DialogService,
         ) { }
     
         ngOnInit() {
@@ -31,13 +33,16 @@ export class LeaderBoardComponent implements OnInit {
         }
     
         refreshCarrerasLeader(){
-            this.carreraLeaderService.getAllCarreras()
+            this.ludificacionService.getAllCarreras()
             .subscribe(
             carreras => {
                 this.carreras = carreras;              
             },
-            error => console.log("Error cargando las carreras " + error)
-            );
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
         }
       
     }
