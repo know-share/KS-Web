@@ -42,6 +42,8 @@ import { ComentarModalComponent } from './modals/comentar.component';
 import { SearchComponent } from './search/search.component';
 import { IdeaComponent } from './idea/idea.component';
 import { UploadImageModalComponent } from './modals/upload-image.component';
+import { LeaderBoardComponent } from './leaderBoard/leader.component';
+
 
 // Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
@@ -63,6 +65,7 @@ import { AuthService } from './services/auth.service';
 import { ErrorService } from './error/error.service';
 import { IdeaService } from './services/idea.service';
 import { TagService } from './services/tag.service';
+import { CarreraLeaderService } from './services/carreraLeader.service';
 import { RuleService } from './services/rules.service';
 
 import { AuthGuard } from './security/auth.guard';
@@ -116,7 +119,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         OperacionIdeaModalComponent,
         CrudHabilidadModalComponent,
         CrudEnfasisModalComponent,
-        AdminRulesComponent
+        AdminRulesComponent,
+        LeaderBoardComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -135,6 +139,7 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         AuthAdminGuard,
         IdeaService,
         TagService,
+        CarreraLeaderService,
         RuleService,
         TrabajoGradoService
     ],

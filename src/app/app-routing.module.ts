@@ -17,6 +17,7 @@ import { AdminRulesComponent } from './admin/admin-rules.component';
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
 import { AuthAdminGuard } from './security/auth-admin.guard';
+import { LeaderBoardComponent } from './leaderBoard/leader.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -30,6 +31,8 @@ const routes: Routes = [
     { path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
     { path: 'admin/crud', component: AdminCrudComponent, canActivate:[AuthAdminGuard]},
     { path: 'admin/rules', component: AdminRulesComponent, canActivate:[AuthAdminGuard]},
+    { path: 'leaderCarrera', component: LeaderBoardComponent},
+
 ];
 
 @NgModule({
