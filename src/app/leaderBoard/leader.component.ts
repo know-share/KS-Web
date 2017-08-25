@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+// PrimeNG
+import {DataListModule} from 'primeng/primeng';
+
 //Entities
 import { CarreraLeader } from '../entities/carreraLeader';
 
@@ -12,7 +15,6 @@ import { CarreraLeaderService } from '../services/carreraLeader.service';
 @Component({
     selector: 'leaderCarrera', 
     templateUrl: './leader.component.html',
-    styleUrls: ['./leader.component.css', '../user/user.component.css']
 })
 
 export class LeaderBoardComponent implements OnInit {
@@ -25,7 +27,6 @@ export class LeaderBoardComponent implements OnInit {
         ) { }
     
         ngOnInit() {
-        
             this.refreshCarrerasLeader();
         }
     
