@@ -43,6 +43,8 @@ import { ComentarModalComponent } from './modals/comentar.component';
 import { SearchComponent } from './search/search.component';
 import { IdeaComponent } from './idea/idea.component';
 import { UploadImageModalComponent } from './modals/upload-image.component';
+import { LeaderBoardComponent } from './leaderBoard/leader.component';
+
 
 // Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
@@ -65,6 +67,7 @@ import { ErrorService } from './error/error.service';
 import { IdeaService } from './services/idea.service';
 import { TagService } from './services/tag.service';
 import { RuleService } from './services/rules.service';
+import { LudificacionService } from './services/ludificacion.service';
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
@@ -118,7 +121,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         CrudHabilidadModalComponent,
         CrudEnfasisModalComponent,
         AdminRulesComponent,
-        CompartirIdeaModalComponent
+        CompartirIdeaModalComponent,
+        LeaderBoardComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -138,7 +142,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         IdeaService,
         TagService,
         RuleService,
-        TrabajoGradoService
+        TrabajoGradoService,
+        LudificacionService
     ],
     entryComponents:[
         RequestModalComponent,

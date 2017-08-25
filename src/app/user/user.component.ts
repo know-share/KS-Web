@@ -9,6 +9,7 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
 import { UsuarioService } from '../services/usuario.service';
 import { ErrorService } from '../error/error.service';
 import { IdeaService } from '../services/idea.service';
+import { LudificacionService } from '../services/ludificacion.service';
 
 //Entities
 import { Usuario } from '../entities/usuario';
@@ -16,6 +17,9 @@ import { Habilidad } from '../entities/habilidad';
 import { AreaConocimiento } from '../entities/areaConocimiento';
 import { Idea } from '../entities/idea';
 import { URL_IMAGE_USER } from '../entities/constants';
+
+//primeng
+import { Message } from 'primeng/primeng';
 
 @Component({
     selector: 'user',
@@ -53,6 +57,8 @@ export class UserComponent implements OnInit {
     textFollow = "Seguir";
     isFriend: boolean = false;
 
+    msgs: Message[] = [];
+
     constructor(
         private ideaService: IdeaService,
         private activatedRoute: ActivatedRoute,
@@ -60,6 +66,7 @@ export class UserComponent implements OnInit {
         private errorService: ErrorService,
         private router: Router,
         private dialogService: DialogService,
+        private ludificacionService: LudificacionService,
     ) {
         this.activeTab = 'ideas';
     }
@@ -319,6 +326,24 @@ export class UserComponent implements OnInit {
                 let disposable;
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
+    }
+
+    avalar(id, tipo) {
+        this.ludificacionService.avalar(this.username, tipo, id)
+            .subscribe(
+            ok => {
+                this.msgs = [];
+                this.msgs.push({ severity: 'success', summary: 'Operación completada', detail: 'Felicidades, has dado tu aval.' });
+                this.refreshUsuario();
+            }, error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                else{
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'error', summary: 'Operación no completada', detail: 'Solo puedes dar un aval por cualidad/habilidad.' });
+                }
             });
     }
 }

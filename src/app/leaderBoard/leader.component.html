@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6">
+                <p-dataList [value]="carreras" [paginator]="true" [rows]="5">
+                        <p-header>
+                            ¡ListBoard Carreras!
+                        </p-header>
+                        <ng-template let-carrera pTemplate="item">
+                            <div class="ui-g ui-fluid carrera-item">
+                                <div class="ui-g-12 ui-md-3" style="text-align:center">
+                                    <!--<img src="assets/showcase/images/demo/car/{{car.brand}}.png">-->
+                                    <img src="images/idea.png" style="width:20px">
+                                </div>
+                                <div class="ui-g-12 ui-md-9 carrera-details">
+                                    <div class="ui-g">
+                                        <div class="ui-g-2 ui-sm-6">Carrera: </div>
+                                        <div class="ui-g-10 ui-sm-6">{{carrera.carrera}}</div>
+                                        
+                                        <div class="ui-g-2 ui-sm-6">Cantidad: </div>
+                                        <div class="ui-g-10 ui-sm-6">{{carrera.cantidad}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-dataList>
+        </div>
+        <div class="col-xs-6">
+                
+        </div>
+    </div>
+</div>        
