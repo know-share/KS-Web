@@ -1,3 +1,4 @@
+import { CompartirIdeaModalComponent } from './modals/compartit-idea.component';
 import { OperacionIdeaModalComponent } from './modals/operacionIdea.component';
 import { OperacionIdea } from './entities/operacionIdea';
 import { DetalleIdeaModalComponent } from './modals/idea-detalles.component';
@@ -116,7 +117,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         OperacionIdeaModalComponent,
         CrudHabilidadModalComponent,
         CrudEnfasisModalComponent,
-        AdminRulesComponent
+        AdminRulesComponent,
+        CompartirIdeaModalComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -156,7 +158,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         CrudTagModalComponent,
         OperacionIdeaModalComponent,
         CrudHabilidadModalComponent,
-        CrudEnfasisModalComponent
+        CrudEnfasisModalComponent,
+        CompartirIdeaModalComponent
     ],
     bootstrap: [AppComponent]
 })

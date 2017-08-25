@@ -1,3 +1,4 @@
+import { CompartirIdeaModalComponent } from './../modals/compartit-idea.component';
 import { OperacionIdeaModalComponent } from './../modals/operacionIdea.component';
 import { DetalleIdeaModalComponent } from './../modals/idea-detalles.component';
 import { Component, OnInit, ElementRef, ViewChild, Input ,Output, EventEmitter} from '@angular/core';
@@ -81,12 +82,28 @@ export class IdeaComponent implements OnInit {
                         retorno.idea=res;
                         retorno.operacion="compartir";
                         this.change.emit(retorno);
+                        let disposable = this.dialogService.addDialog(CompartirIdeaModalComponent, {
+                            mensaje: "Idea compartida"
+                        }).subscribe(
+                            confirmed => {
+                                if (confirmed) {
+                                    
+                                }
+                            });
                     }else{
                         this.change.emit(null);
                     }
                 });
         }else{
             console.log('no puede compartir su propia idea');
+            let disposable = this.dialogService.addDialog(CompartirIdeaModalComponent, {
+                            mensaje: "No puede compartir su propia idea."
+                        }).subscribe(
+                            confirmed => {
+                                if (confirmed) {
+                                    
+                                }
+                            });
         }
     }
 
