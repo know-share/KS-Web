@@ -48,4 +48,20 @@ export class LudificacionService{
                 throw Error(err.toString());
             });
     }
+
+    getAllEstudiantes(carrera ) {
+        let header = new Headers();
+        header.append('Authorization', localStorage.getItem('token'));
+        let url = this.baseUrl + `getEstudiantes?carrera=${carrera}`;
+        return this.http.get(url,{
+            headers:header
+        })
+            .map((res: Response) => {
+                return res.json();
+            }).catch((err: Response) => {
+                if (err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
 }
