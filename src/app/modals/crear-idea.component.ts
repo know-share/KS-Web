@@ -34,8 +34,8 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     selectedTags: any[] = new Array;
     filteredTagsMultiple: any[];
     role = localStorage.getItem('role');
-    ideasPro: Array<Idea>;
-    tg: TrabajoGrado;
+    ideasPro: Array<Idea> = new Array();
+    tg: TrabajoGrado = new TrabajoGrado();
 
     constructor(
         dialogService: DialogService,
@@ -95,7 +95,7 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
         this.idea.problematica = this.problematica;
         this.idea.tags = this.selectedTags;
         this.idea.ideasProyecto = this.ideasPro;
-        this.idea.tg = this.tg;
+        this.idea.tg = this.tg; 
         this.ideaService.crearIdea(this.idea)
                 .subscribe((res: Idea) => {
                     this.result = res;

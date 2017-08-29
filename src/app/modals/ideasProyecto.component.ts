@@ -48,6 +48,8 @@ export class IdeasProyectoModalComponent extends DialogComponent<null, Array<Ide
 
     agregar(idea:Idea){
         this.selectedIdeas.push(idea);
+        let i = this.ideas.indexOf(idea,0);
+        this.ideas.splice(i,1);
     }
 
     finalizar(){

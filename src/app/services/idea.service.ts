@@ -87,7 +87,7 @@ export class IdeaService{
             });
     }
 
-    find10(){
+    findRed(){
         let url = this.baseUrl + 'find10';
         let header = new Headers();
         header.append('Authorization',localStorage.getItem('token'));

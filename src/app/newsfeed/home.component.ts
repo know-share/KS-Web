@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit {
         this.listSolicitudes = [];
         this.cantidadSolicitudes = 0;
 
-        this.find10();
+        this.findRed();
     }
 
     refreshSolicitudes() {
@@ -190,8 +190,8 @@ export class HomeComponent implements OnInit {
         return filtered;
     }
 
-    find10() {
-        this.ideaService.find10().
+    findRed() {
+        this.ideaService.findRed().
             subscribe((res: Array<Idea>) => {
                 this.newIdeas = res;
                 this.showTags();
