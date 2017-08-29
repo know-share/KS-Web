@@ -21,7 +21,7 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
 export class LeaderBoardComponent implements OnInit {
     
     carreras: CarreraLeader[] = [];
-
+    users: CarreraLeader[] = [];
         constructor(
             private router: Router,
             private ludificacionService: LudificacionService,
@@ -30,6 +30,7 @@ export class LeaderBoardComponent implements OnInit {
     
         ngOnInit() {
             this.refreshCarrerasLeader();
+            this.refreshUserLeader();
         }
     
         refreshCarrerasLeader(){
@@ -37,6 +38,20 @@ export class LeaderBoardComponent implements OnInit {
             .subscribe(
             carreras => {
                 this.carreras = carreras;              
+            },
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
+        }
+
+        refreshUserLeader(){
+            this.ludificacionService.getAllEstudiantes("Administración de empresas")
+            .subscribe(
+            users => {
+                this.users = users;     
+                console.log(this.users.length);         
             },
             error => {
                 let disposable;

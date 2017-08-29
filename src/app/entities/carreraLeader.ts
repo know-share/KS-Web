@@ -1,5 +1,7 @@
 export class CarreraLeader{
     id:String;
-    carrera:String;
+    nombre:String;
     cantidad:number;
+    aval:String;
+    pos:number;
 }
