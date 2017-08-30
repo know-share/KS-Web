@@ -56,4 +56,8 @@ export class AppComponent implements OnInit {
         }
         this.search = "";
     }
+
+    leaderBoard(){
+        this.router.navigate(['/leaderCarrera']);
+    }
 }

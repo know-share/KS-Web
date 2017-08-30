@@ -27,6 +27,8 @@ export class IdeaComponent implements OnInit {
 
     tags:string = '';
 
+    username: string = '';
+
     constructor(
         private ideaService:IdeaService,
         private dialogService : DialogService,
@@ -40,6 +42,7 @@ export class IdeaComponent implements OnInit {
             }
             //console.log(this.tags);
         }
+        this.username = localStorage.getItem('user');
     }
 
     light(){
