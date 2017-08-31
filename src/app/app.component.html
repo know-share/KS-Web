@@ -33,7 +33,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a id="navbarred" href="#">Inicio <span class="sr-only"></span></a></li>
                     <li><a *ngIf="!isAdmin" id="navbarred" (click)="myProfile()">Mi perfil <span class="sr-only"></span></a></li>
-                    <li><a id="navbarred" (click)="leaderBoard()" >LeaderBoard <span class="sr-only"></span></a></li>
+                    <li><a *ngIf="!isAdmin" id="navbarred" (click)="leaderBoard()" >LeaderBoard <span class="sr-only"></span></a></li>
                     <li><a id="navbarred" (click)="logout()">Cerrar sesión <span class="sr-only"></span></a></li>
                 </ul>
             </div>
