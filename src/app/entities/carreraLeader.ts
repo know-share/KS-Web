@@ -3,5 +3,5 @@ export class CarreraLeader{
     nombre:String;
     cantidad:number;
     aval:String;
-    pos:number;
+    pos:number;// cuadno es su propia carrera y esta lejos le dice su posicion
 }

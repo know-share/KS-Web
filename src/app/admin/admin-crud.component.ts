@@ -96,7 +96,10 @@ export class AdminCrudComponent implements OnInit {
                     this.refreshCarrera();
                     this.msgs = [];
                     this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Carrera fue actualizada.' });
-                }
+                }else{
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar carrera" });
+                }    
             });
     }
 
@@ -107,8 +110,9 @@ export class AdminCrudComponent implements OnInit {
                 this.carreras = carreras;
                 this.refreshEnfasis();
             },
-            error => console.log("Error cargando las carreras " + error)
-            );
+            error => {this.msgs = [];
+            this.msgs.push({ severity: 'fail', summary: 'Error cargando las carreras', detail: error });
+            });
     }
 
     createCarrera() {
@@ -120,7 +124,11 @@ export class AdminCrudComponent implements OnInit {
                 if (confirmed) {
                     this.refreshCarrera();
                     this.msgs = [];
-                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Carrera fue actualizada.' });
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Carrera fue creada.' });
+                }else{
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear carrera" });
+                    
                 }
             });
     }
@@ -139,7 +147,10 @@ export class AdminCrudComponent implements OnInit {
                     this.refreshTag();
                     this.msgs = [];
                     this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Tag fue actualizado.' });
-                }
+                }else{
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar Tag" });
+                } 
             });
     }
 
@@ -147,7 +158,9 @@ export class AdminCrudComponent implements OnInit {
         this.tagService.getAllTags()
             .subscribe(
             tags => this.tags = tags,
-            error => console.log("Error cargando los tags " + error)
+            error => {this.msgs = [];
+                this.msgs.push({ severity: 'fail', summary: 'Error cargando los Tags', detail: error });
+                }
             );
     }
 
@@ -160,7 +173,12 @@ export class AdminCrudComponent implements OnInit {
                 if (confirmed) {
                     this.refreshTag();
                     this.msgs = [];
-                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Tag fue actualizado.' });
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Tag fue creado' });
+                }
+                else{
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear Tag" });
+                    
                 }
             });
     }
@@ -178,6 +196,10 @@ export class AdminCrudComponent implements OnInit {
                     this.msgs = [];
                     this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Habilidad fue actualizada.' });
                 }
+                else{
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar Habilidad" });
+                } 
             });
     }
 
@@ -191,7 +213,9 @@ export class AdminCrudComponent implements OnInit {
                         h.carrera = "No Aplica";
                 }
             },
-            error => console.log("Error cargando las habilidades " + error)
+            error => {this.msgs = [];
+                this.msgs.push({ severity: 'fail', summary: 'Error cargando las habilidades', detail: error });
+                }
             );
     }
 
@@ -204,7 +228,12 @@ export class AdminCrudComponent implements OnInit {
                 if (confirmed) {
                     this.refreshHabilidad();
                     this.msgs = [];
-                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Habilidad fue actualizada.' });
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Habilidad fue creada.' });
+                }
+                else{
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear Habilidad" });
+                    
                 }
             });
     }
@@ -223,7 +252,10 @@ export class AdminCrudComponent implements OnInit {
                     this.refreshCarrera();
                     this.msgs = [];
                     this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Énfasis fue actualizada.' });
-                }
+                }else{
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar Énfasis" });
+                } 
             });
     }
 
@@ -252,7 +284,11 @@ export class AdminCrudComponent implements OnInit {
                 if (confirmed) {
                     this.refreshCarrera();
                     this.msgs = [];
-                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Carrera fue actualizada.' });
+                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Énfasis fue creado' });
+                }else{
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear énfasis" });
+                    
                 }
             });
     }

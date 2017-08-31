@@ -23,6 +23,9 @@ import {AutoCompleteModule} from 'primeng/primeng';
 import {DataListModule} from 'primeng/primeng';
 import {DataTableModule,SharedModule} from 'primeng/primeng';
 import {InputSwitchModule} from 'primeng/primeng';
+import {ChartModule} from 'primeng/primeng';
+
+
 
 // Components
 import { AppComponent } from './app.component';
@@ -54,6 +57,8 @@ import { CrudTagModalComponent } from './modals/crud-tag.component';
 import { CrudHabilidadModalComponent } from './modals/crud-habilidad.component';
 import { CrudEnfasisModalComponent } from './modals/crud-enfasis.component';
 import { AdminRulesComponent } from './admin/admin-rules.component';
+import { AdminEstadisticaComponent } from './admin/admin-estadistica.component';
+
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -68,6 +73,8 @@ import { IdeaService } from './services/idea.service';
 import { TagService } from './services/tag.service';
 import { RuleService } from './services/rules.service';
 import { LudificacionService } from './services/ludificacion.service';
+import { AdminService } from './services/admin.service';
+
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
@@ -87,7 +94,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         AutoCompleteModule,
         DataTableModule,
         SharedModule,
-        InputSwitchModule
+        InputSwitchModule,
+        ChartModule
     ],
     declarations: [
         UserComponent,
@@ -121,6 +129,7 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         CrudHabilidadModalComponent,
         CrudEnfasisModalComponent,
         AdminRulesComponent,
+        AdminEstadisticaComponent,
         CompartirIdeaModalComponent,
         LeaderBoardComponent
     ],
@@ -143,7 +152,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         TagService,
         RuleService,
         TrabajoGradoService,
-        LudificacionService
+        LudificacionService,
+        AdminService
     ],
     entryComponents:[
         RequestModalComponent,

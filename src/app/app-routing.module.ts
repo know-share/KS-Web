@@ -13,6 +13,7 @@ import { SearchComponent } from './search/search.component';
 import { PanelAdminComponent } from './admin/panel-admin.component';
 import { AdminCrudComponent } from './admin/admin-crud.component';
 import { AdminRulesComponent } from './admin/admin-rules.component';
+import { AdminEstadisticaComponent } from './admin/admin-estadistica.component';
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
@@ -30,8 +31,10 @@ const routes: Routes = [
     { path: 'search/:query', component: SearchComponent, canActivate:[AuthGuard]},
     { path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
     { path: 'admin/crud', component: AdminCrudComponent, canActivate:[AuthAdminGuard]},
+    { path: 'admin/estadistica', component: AdminEstadisticaComponent, canActivate:[AuthAdminGuard]},
     { path: 'admin/rules', component: AdminRulesComponent, canActivate:[AuthAdminGuard]},
-    { path: 'leaderCarrera', component: LeaderBoardComponent, canActivate:[AuthGuard]},
+    { path: 'leader', component: LeaderBoardComponent, canActivate:[AuthGuard]},
+
 
 ];
 

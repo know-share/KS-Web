@@ -58,6 +58,6 @@ export class AppComponent implements OnInit {
     }
 
     leaderBoard(){
-        this.router.navigate(['/leaderCarrera']);
+        this.router.navigate(['/leader']);
     }
 }

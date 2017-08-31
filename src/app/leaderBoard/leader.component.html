@@ -1,3 +1,4 @@
+<p-growl [(value)]="msgs"></p-growl>
 <div class="container">
     <div class="row">
         <div class="col-xs-6">
@@ -27,7 +28,40 @@
                     </p-dataList>
         </div>
         <div class="col-xs-6">
-                
+                <div class="col-sm-12">
+                        <select [(ngModel)]="selectedcarrera"  (change)="refreshUserLeader()" class="form-control" name="carreras" >
+                             <option *ngFor="let x of carreras" [ngValue]="x" >{{x.nombre}} </option>
+                        </select>
+                </div>
+                <br>
+                <br>
+                <p-dataList [value]="users" [paginator]="true" [rows]="5">
+                        <p-header>
+                            <b>¡LeaderBoard Usuarios!</b>
+                        </p-header>
+                        <ng-template let-user pTemplate="item">
+                            <div class="ui-g ui-fluid carrera-item">
+                                <div  class="ui-g-12 ui-md-3" style="text-align:center">
+                                    <!--<img src="assets/showcase/images/demo/car/{{car.brand}}.png">-->
+                                    <img *ngIf="user.nombre== users[0].nombre" src="images/leaderBoard/1.png" style="width:90px">
+                                    <img *ngIf="user.nombre== users[1].nombre" src="images/leaderBoard/2.png" style="width:80px">
+                                    <img *ngIf="user.nombre== users[2].nombre" src="images/leaderBoard/3.png" style="width:70px">
+                                </div>
+                                <div class="ui-g-12 ui-md-9 carrera-details">
+                                    <div  class="ui-g">
+                                      <div class="ui-g-2 ui-sm-6"> <b>Usuario: </b></div>
+                                        <div class="ui-g-10 ui-sm-6">{{user.nombre}}</div>
+                                        
+                                        <div class="ui-g-2 ui-sm-6"> <b>Avales: </b></div>
+                                        <div class="ui-g-10 ui-sm-6">{{user.cantidad}}</div>
+
+                                        <div class="ui-g-2 ui-sm-6"> <b>Habilidad: </b></div>
+                                        <div class="ui-g-10 ui-sm-6">{{user.aval}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-dataList>
         </div>
     </div>
 </div>        

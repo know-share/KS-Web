@@ -1,0 +1,23 @@
+<p-growl [(value)]="msgs"></p-growl>
+<div class="container">
+    <div class="row">
+      <h1 align="center">Estadísticas de Know&Share</h1>
+      <br>
+      <div class="col-xs-6">
+        <h4 align="center" class="media-heading"><b>GÉNERO POR CARRERAS</b></h4>
+        <div class="col-sm-12">
+            <select [(ngModel)]="selectedcarrera"  (change)="mostrardatos()" class="form-control" name="carreras" >
+                 <option *ngFor="let x of carreras" [ngValue]="x" >{{x.nombre}} </option>
+            </select>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+                <p-chart type="doughnut" [data]="data"></p-chart>
+        </div>
+      </div>
+      <div class="col-xs-6">
+
+      </div>
+    </div>
+  </div>
