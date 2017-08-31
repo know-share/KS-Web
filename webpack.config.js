@@ -59,7 +59,10 @@ module.exports = {
         },{
             from:'./src/resources/info',
             to:'./info'
-        }])
+        },{
+			from: './node_modules/chart.js/dist',
+			to:'./chart.js'
+		}])
     ]
 
 };

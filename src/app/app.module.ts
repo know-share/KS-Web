@@ -26,7 +26,6 @@ import {InputSwitchModule} from 'primeng/primeng';
 import {ChartModule} from 'primeng/primeng';
 
 
-
 // Components
 import { AppComponent } from './app.component';
 import { UserComponent } from './user/user.component';
