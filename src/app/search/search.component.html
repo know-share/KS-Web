@@ -17,7 +17,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2 class="center">Parámetros de búsqueda</h2>
-                    <input [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
+                     <p-autoComplete *ngIf="activeTab != 'users' && option==6" [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
+                        [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
+                    </p-autoComplete>
+                    <input *ngIf="option!=6" [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
                     <div class="alert alert-danger" *ngIf="error">
                         Debe llenar el campo de búsqueda.
                     </div>
@@ -73,25 +76,11 @@
                     <hr style="height: 2px; border: none; background: lightgray;" />
                 </ng-template>
             </p-dataList>
-            <p-dataList *ngIf="activeTab != 'users'" [value]="listUsers" [paginator]="true" [rows]="5" emptyMessage="No se encontraron resultados">
-                <p-header>
-                    Ideas
-                </p-header>
-                <ng-template let-per pTemplate="item">
-                    <div class="ui-g ui-fluid">
-                        <div class="ui-g-12 ui-md-3" style="text-align:center">
-                            imagen
-                        </div>
-                        <div class="ui-g-12 ui-md-9">
-                            <div class="ui-g">
-                                <div class="ui-g-2 ui-sm-6">Nombre: </div>
-                                <div class="ui-g-10 ui-sm-6">{{per.nombre}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr style="height: 2px; border: none; background: lightgray;" />
-                </ng-template>
-            </p-dataList>
+            <div *ngIf="activeTab != 'users'">
+                <div class="panel panel-default center" *ngFor="let idea of ideas; index as indice">
+                    <idea [idea]="idea" (change)="cambio($event)"></idea>
+                </div>
+            </div>
         </div>
     </div>
 </div>
