@@ -103,7 +103,7 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
     }
 
     isCheckWithId(item, list) {
-        return list.find(obj => obj.id == item.id) == null ? false : true;
+        return this.isCheck(item,list);
     }
 
     isCheck(item, list) {
@@ -111,10 +111,10 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
     }
 
     checkHabilidades(h) {
-        if (this.habilidadesSelected.find(obj => obj.id == h.id) == null)
+        if (this.habilidadesSelected.find(obj => obj.nombre == h.nombre) == null)
             this.habilidadesSelected.push(h);
         else
-            this.habilidadesSelected = this.habilidadesSelected.filter(obj => obj.id != h.id);
+            this.habilidadesSelected = this.habilidadesSelected.filter(obj => obj.nombre != h.nombre);
     }
 
     checkAC(ac) {
@@ -200,8 +200,9 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
             habilidades => {
                 this.habilidadesProfesionales = habilidades;
                 for (let h of this.habilidadesProfesionales) {
-                    if (!this.isNew && this.usuario.habilidades.find(hp => hp.nombre == h.nombre)) {
-                        this.habilidadesSelected.push(h);
+                    let existente = this.usuario.habilidades.find(hp => hp.nombre == h.nombre);
+                    if (!this.isNew && existente) {
+                        this.habilidadesSelected.push(existente);
                     }
                 }
                 this.loading = false;
@@ -254,8 +255,7 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
                 else
                     console.log('error: ' + error);
                 super.close();
-            }
-            );
+            });
     }
 
     close() {

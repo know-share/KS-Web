@@ -34,7 +34,7 @@ export class LudificacionService{
     }
 
     getAllCarreras() {
-        let url = this.baseUrl + "findAll";
+        let url = this.baseUrl + "leaderCarreras";
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
         return this.http.get(url,{
@@ -49,10 +49,10 @@ export class LudificacionService{
             });
     }
 
-    getAllEstudiantes(carrera ) {
+    getAllEstudiantes(carrera,tipo ) {
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
-        let url = this.baseUrl + `getEstudiantes?carrera=${carrera}`;
+        let url = this.baseUrl + `leaderUsuarios?carrera=${carrera}&tipo=${tipo}`;
         return this.http.get(url,{
             headers:header
         })

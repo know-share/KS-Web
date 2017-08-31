@@ -7,16 +7,16 @@
                     <div [ngClass]="currentStep == 1 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">1</div>
                 </div>
                 <div class="stepwizard-step">
-                    <div (click)="verifyStep1()" [ngClass]="currentStep == 2 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">2</div>
+                    <div [ngClass]="currentStep == 2 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">2</div>
                 </div>
                 <div class="stepwizard-step">
-                    <div (click)="verifyStep2()" [ngClass]="currentStep == 3 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">3</div>
+                    <div [ngClass]="currentStep == 3 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">3</div>
                 </div>
                 <div class="stepwizard-step">
-                    <div (click)="verifyStep3()" [ngClass]="currentStep == 4 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">4</div>
+                    <div [ngClass]="currentStep == 4 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">4</div>
                 </div>
                 <div class="stepwizard-step">
-                    <div (click)="next()" [ngClass]="currentStep == 5 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">5</div>
+                    <div [ngClass]="currentStep == 5 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">5</div>
                 </div>
                 <div *ngIf="tipoUsuario=='ESTUDIANTE'" class="stepwizard-step">
                     <div [ngClass]="currentStep == 6 ? 'btn btn-primary btn-circle':'btn btn-default btn-circle'">6</div>
