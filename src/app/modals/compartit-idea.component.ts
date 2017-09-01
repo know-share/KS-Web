@@ -17,9 +17,12 @@ export interface RequestModalDisplay {
     selector: 'confirm',
     template: `<div class="modal-dialog">
             <div class="modal-content">
-                <h3>{{mensaje}}</h3>
+                <div class="msg_share">
+                    <h3>{{mensaje}}</h3>
+                </div>
             </div>
-        </div>`
+        </div>`,
+    styleUrls: ['compartir-idea.component.css']
 })
 export class CompartirIdeaModalComponent extends DialogComponent<RequestModalDisplay, null>
     implements RequestModalDisplay, OnInit {
@@ -36,8 +39,6 @@ export class CompartirIdeaModalComponent extends DialogComponent<RequestModalDis
         setTimeout(() => super.close(), 2000);
       
     }
-
-
     
     close() {
         super.close();

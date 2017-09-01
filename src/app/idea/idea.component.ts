@@ -86,7 +86,7 @@ export class IdeaComponent implements OnInit {
                         retorno.operacion="compartir";
                         this.change.emit(retorno);
                         let disposable = this.dialogService.addDialog(CompartirIdeaModalComponent, {
-                            mensaje: "Idea compartida"
+                            mensaje: "Idea compartida exitosamente."
                         }).subscribe(
                             confirmed => {
                                 if (confirmed) {
