@@ -12,7 +12,7 @@ import { Enfasis } from '../entities/enfasis';
 
 export interface RequestModalDisplay {
     carreras: Carrera[];
-    enfasis:Enfasis;
+    enfasis: Enfasis;
     tipo: string;
 }
 
@@ -56,7 +56,7 @@ export class CrudEnfasisModalComponent extends DialogComponent<RequestModalDispl
 
     tipo: string;
     nombre: string;
-    enfasis:Enfasis;
+    enfasis: Enfasis;
     update: FormGroup;
     carreras: Carrera[];
     carreraSelected: Carrera;
@@ -80,21 +80,21 @@ export class CrudEnfasisModalComponent extends DialogComponent<RequestModalDispl
 
     save() {
         if (this.tipo == "update") {
-            let lista: string[]=[];
+            let lista: string[] = [];
             let carrera;
-            for(let cr of this.carreras){
-                if(cr.nombre == this.enfasis.carrera){
+            for (let cr of this.carreras) {
+                if (cr.nombre == this.enfasis.carrera) {
                     carrera = cr;
-                    for(let en of cr.enfasis){
-                       if(this.enfasis.nombre==en)
+                    for (let en of cr.enfasis) {
+                        if (this.enfasis.nombre == en)
                             lista.push(this.nombre);
-                       else
+                        else
                             lista.push(en);
-                    }    
+                    }
                 }
             }
             carrera.enfasis = lista;
-            this.carreraService.actualizar(carrera)
+            this.carreraService.actualizarEnfasis(carrera)
                 .subscribe(
                 ok => {
                     if (ok == 'ok') {
@@ -116,14 +116,14 @@ export class CrudEnfasisModalComponent extends DialogComponent<RequestModalDispl
                 );
         }
         if (this.tipo == "create") {
-            if(this.carreraSelected.enfasis==null){
+            if (this.carreraSelected.enfasis == null) {
                 this.carreraSelected.enfasis = [];
                 this.carreraSelected.enfasis.push(this.nombre);
             }
             else
                 this.carreraSelected.enfasis.push(this.nombre);
-           
-            this.carreraService.actualizar(this.carreraSelected)
+
+            this.carreraService.actualizarEnfasis(this.carreraSelected)
                 .subscribe(
                 ok => {
                     if (ok == 'ok') {
@@ -147,20 +147,20 @@ export class CrudEnfasisModalComponent extends DialogComponent<RequestModalDispl
     }
 
     delete() {
-  if (this.tipo == "update") {
-            let lista: string[]=[];
+        if (this.tipo == "update") {
+            let lista: string[] = [];
             let carrera;
-            for(let cr of this.carreras){
-                if(cr.nombre == this.enfasis.carrera){
+            for (let cr of this.carreras) {
+                if (cr.nombre == this.enfasis.carrera) {
                     carrera = cr;
-                    for(let en of cr.enfasis){
-                       if(this.enfasis.nombre!=en)
-                           lista.push(en);
-                    }    
+                    for (let en of cr.enfasis) {
+                        if (this.enfasis.nombre != en)
+                            lista.push(en);
+                    }
                 }
             }
             carrera.enfasis = lista;
-            this.carreraService.actualizar(carrera)
+            this.carreraService.actualizarEnfasis(carrera)
                 .subscribe(
                 ok => {
                     if (ok == 'ok') {

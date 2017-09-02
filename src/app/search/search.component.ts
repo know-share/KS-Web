@@ -88,6 +88,7 @@ export class SearchComponent implements OnInit {
             this.error = true;
             return;
         }
+        this.search = this.searchAdv;
         this.error = false;
         this.listUsers = [];
         this.ideas = [];
@@ -99,7 +100,6 @@ export class SearchComponent implements OnInit {
                     this.search = this.searchAdv;
                 }, error => {
                     let disposable;
-
                     if (error == 'Error: 401')
                         disposable = this.dialogService.addDialog(ExpirationModalComponent);
                     else
@@ -111,7 +111,6 @@ export class SearchComponent implements OnInit {
             this.ideaService.findByTags(this.selectedTags)
                 .subscribe(res => {
                     this.ideas = res;
-                    console.log(this.ideas.length);
                 }, error => {
                     let disposable;
 

@@ -139,7 +139,7 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
             enfasisAC => {
                 for (let e of enfasisAC.enfasis) {
                     let enf: Enfasis = new Enfasis();
-                    enf.carrera = this.carrera.nombre;
+                    enf.carrera = this.carrera.id;
                     enf.nombre = e;
                     this.enfasisCarrera.push(enf);
                 }
@@ -173,7 +173,7 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
                 //--------------------------------------------------------
                 for (let ac of enfasisAC.areaConocimiento) {
                     let acNew: AreaConocimiento = new AreaConocimiento();
-                    acNew.carrera = this.carrera.nombre;
+                    acNew.carrera = this.carrera.id;
                     acNew.nombre = ac;
                     acNew.porcentaje = 0;
                     if (!this.isNew) {

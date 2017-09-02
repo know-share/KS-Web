@@ -17,8 +17,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2 class="center">Parámetros de búsqueda</h2>
-                     <p-autoComplete *ngIf="activeTab != 'users' && option==6" [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
-                        [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
+                    <p-autoComplete *ngIf="activeTab != 'users' && option==6" [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple"
+                        (completeMethod)="filterTagMultiple($event)" [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true"
+                        [ngModelOptions]="{standalone: true}">
                     </p-autoComplete>
                     <input *ngIf="option!=6" [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
                     <div class="alert alert-danger" *ngIf="error">
@@ -38,6 +39,38 @@
                         <option value=6>Por Tag</option>
                     </select>
                     <br><button (click)="onSearchAdv()" class="btn btn-primary btn-block">Buscar</button>
+                </div>
+            </div>
+            <div *ngIf="activeTab == 'users'" class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="center">Perfiles de usuario</h3>
+                    <div class="media">
+                        <div class="media-left">
+                            <img class="icon_user" src="images/icons/teacher_blackboard.png" />
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Profesor</h4>
+                            <p>Representa a un usuario que ejerce labor como profesor dentro del sistema</p>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <div class="media-left">
+                            <img class="icon_user" src="images/icons/dude4.png" />
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Estudiante</h4>
+                            <p>Representa a un usuario que es estudiante dentro del sistema</p>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <div class="media-left">
+                            <img class="icon_user" src="images/icons/graduate.png" />
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Profesor</h4>
+                            <p>Representa a un usuario que es egresado dentro del sistema</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -66,7 +99,7 @@
                                 </div>
 
                                 <div class="ui-g-4 ui-sm-12">
-                                    <button class="btn btn-link" (click)="goToProfile(usr.username)" >Ver perfil</button>
+                                    <button class="btn btn-link" (click)="goToProfile(usr.username)">Ver perfil</button>
                                 </div>
 
                                 <div *ngIf="optionSelected == 1" class="ui-g-6 ui-sm-6"><i>{{usr.porcentaje}}% de coincidencia con tu perfil</i></div>

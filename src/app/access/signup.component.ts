@@ -208,13 +208,13 @@ export class SignUpComponent implements OnInit {
             enfasisAC => {
                 for (let e of enfasisAC.enfasis) {
                     let enf: Enfasis = new Enfasis();
-                    enf.carrera = this.carrera.nombre;
+                    enf.carrera = this.carrera.id;
                     enf.nombre = e;
                     this.enfasisCarrera.push(enf);
                 }
                 for (let ac of enfasisAC.areaConocimiento) {
                     let acono: AreaConocimiento = new AreaConocimiento();
-                    acono.carrera = this.carrera.nombre;
+                    acono.carrera = this.carrera.id;
                     acono.nombre = ac;
                     acono.porcentaje = 0;
                     this.ACCarrera.push(acono);
@@ -230,13 +230,13 @@ export class SignUpComponent implements OnInit {
                 enfasisAC => {
                     for (let e of enfasisAC.enfasis) {
                         let enf: Enfasis = new Enfasis();
-                        enf.carrera = this.segundaCarrera.nombre;
+                        enf.carrera = this.segundaCarrera.id;
                         enf.nombre = e;
                         this.enfasisSegundaCarrera.push(enf);
                     }
                     for (let ac of enfasisAC.areaConocimiento) {
                         let acono: AreaConocimiento = new AreaConocimiento();
-                        acono.carrera = this.segundaCarrera.nombre;
+                        acono.carrera = this.segundaCarrera.id;
                         acono.nombre = ac;
                         acono.porcentaje = 0;
                         this.ACSegundaCarrera.push(acono);
