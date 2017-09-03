@@ -31,4 +31,20 @@ export class AdminService{
                 throw Error(err.toString());
             });
     }
+
+    getTags() {
+        let header = new Headers();
+        header.append('Authorization', localStorage.getItem('token'));
+        let url = this.baseUrl + "getTags";
+        return this.http.get(url,{
+            headers:header
+        })
+            .map((res: Response) => {
+                return res.json();
+            }).catch((err: Response) => {
+                if (err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
 }

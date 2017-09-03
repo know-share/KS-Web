@@ -4,7 +4,11 @@
       <h1 align="center">Estadísticas de Know&Share</h1>
       <br>
       <div class="col-xs-6">
-        <h4 align="center" class="media-heading"><b>GÉNERO POR CARRERAS</b></h4>
+        <h4 align="center" class="media-heading">
+            <font color="#F80013">
+                <b>GÉNERO POR CARRERAS</b>
+          </font>  
+        </h4>
         <div class="col-sm-12">
             <select [(ngModel)]="selectedcarrera"  (change)="mostrardatos()" class="form-control" name="carreras" >
                  <option *ngFor="let x of carreras" [ngValue]="x" >{{x.nombre}} </option>
@@ -13,11 +17,28 @@
         <br>
         <br>
         <div class="row">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-8" align = "center">
                 <p-chart type="doughnut" [data]="data"></p-chart>
+            </div>    
         </div>
       </div>
       <div class="col-xs-6">
-
+          <h4 align="center" class="media-heading">
+              <font color="#F80013">
+                  <b>USO DE TAGS</b>
+            </font>
+          </h4>
+          <div class="col-xs-1"></div>
+          <div class="col-xs-10" align = "center">
+              <p-chart type="doughnut" [data]="dataTags"></p-chart>
+              <h4 align="center" class="media-heading">
+                  <font color="#F80013" size="1">
+                      Si algún Tag no aparece es porque no se ha usado.
+                </font>  
+              </h4>
+          </div> 
+          <br>
       </div>
     </div>
   </div>

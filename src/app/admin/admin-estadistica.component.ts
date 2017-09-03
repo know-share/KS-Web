@@ -21,7 +21,9 @@ export class AdminEstadisticaComponent implements OnInit {
     carreras: Carrera[] = [];
     valores: number[]=[];
     data: any;
+    dataTags: any;
     msgs: Message[] = [];
+    tags: Map<string, number> = new Map<string, number>();
     
     constructor(
         private router: Router,
@@ -32,6 +34,7 @@ export class AdminEstadisticaComponent implements OnInit {
 
     ngOnInit() {
         this.refreshCarrera();
+        this.refreshTags();
     }
 
 
@@ -49,13 +52,24 @@ export class AdminEstadisticaComponent implements OnInit {
             });
     }
 
+    refreshTags() {
+        this.adminService.getTags()
+            .subscribe(
+            tags => {
+               this.tags = tags;
+              this.refreshEstadisticaTags();
+            },
+            error => {
+            this.msgs = [];
+            this.msgs.push({ severity: 'fail', summary: 'Error cargando datos', detail: error });
+            });
+    }
+
     mostrardatos(){
         this.adminService.getAllUsuarios(this.selectedcarrera.nombre)
         .subscribe(
         valores => {
-            this.valores = valores; 
-            //valores[0]=30;
-            //valores[1]=100;   
+            this.valores = valores;  
             if(valores[0]==0 && valores[1]==0){
                 this.msgs = []; 
                 this.msgs.push({ severity: 'info', summary: 'Operación exitosa', detail: 'No hay usuarios en la carrera '+this.selectedcarrera.nombre });
@@ -89,6 +103,45 @@ export class AdminEstadisticaComponent implements OnInit {
                     hoverBackgroundColor: [
                         "#36A2EB",
                         "#FF6384"
+                    ]
+                }]    
+            };
+    }
+
+    refreshEstadisticaTags(){
+        let l: string[] = [];
+        let d: number[] = [];
+        for (const key in this.tags) {
+            l.push(key);
+            d.push(this.tags[key]);
+            //console.log('The value for ' + key + ' is = ' + this.tags[key]);
+          }
+
+        this.dataTags = {
+            labels: l,
+            datasets: [
+                {
+                    data: d,
+                    backgroundColor: [
+                        "#36A2EB",
+                        "#FF6384",
+                        "#FFCE56",
+                        "#ff0040",
+                        "#ff0000",
+                        "#00ff40",
+                        "#ff8000",
+                        "#bf00ff"
+                          
+                    ],
+                    hoverBackgroundColor: [
+                        "#36A2EB",
+                        "#FF6384",
+                        "#FFCE56",
+                        "#ff0040",
+                        "#ff0000",
+                        "#00ff40",
+                        "#ff8000",
+                        "#bf00ff",
                     ]
                 }]    
             };

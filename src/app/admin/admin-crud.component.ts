@@ -111,7 +111,7 @@ export class AdminCrudComponent implements OnInit {
                 this.refreshEnfasis();
             },
             error => {this.msgs = [];
-            this.msgs.push({ severity: 'fail', summary: 'Error cargando las carreras', detail: error });
+            this.msgs.push({ severity: 'info', summary: '', detail: 'No hay carreras' });
             });
     }
 
@@ -159,7 +159,7 @@ export class AdminCrudComponent implements OnInit {
             .subscribe(
             tags => this.tags = tags,
             error => {this.msgs = [];
-                this.msgs.push({ severity: 'fail', summary: 'Error cargando los Tags', detail: error });
+                this.msgs.push({ severity: 'info', summary: '', detail: 'No hay Tags' });
                 }
             );
     }
@@ -214,7 +214,7 @@ export class AdminCrudComponent implements OnInit {
                 }
             },
             error => {this.msgs = [];
-                this.msgs.push({ severity: 'fail', summary: 'Error cargando las habilidades', detail: error });
+                this.msgs.push({ severity: 'info', summary: '', detail: 'No hay Habilidades' });
                 }
             );
     }
