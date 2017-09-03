@@ -16,14 +16,16 @@ export interface RequestModalDisplay {
     selector: 'confirm',
     templateUrl: './idea-detalles.component.html',
 })
-export class DetalleIdeaModalComponent extends DialogComponent<RequestModalDisplay, null>
+export class DetalleIdeaModalComponent extends DialogComponent<RequestModalDisplay, Idea>
     implements  OnInit {
     
+    usuario:string = localStorage.getItem('user');
     idea:Idea;
     tipo : string;
 
     constructor(
-        dialogService: DialogService
+        dialogService: DialogService,
+        private ideaService: IdeaService
     ){
         super(dialogService);
         
@@ -39,11 +41,26 @@ export class DetalleIdeaModalComponent extends DialogComponent<RequestModalDispl
         if(this.idea.tipo === 'PR')
             this.tipo = 'Proyecto';
 
-        console.log(this.idea.numeroEstudiantes);
+
     }
 
     aceptar(){
+        this.result = this.idea;
         super.close();
+    }
+
+    cambiarEstado(){
+        let estado;
+        if(this.idea.estado === "TG"){
+            this.idea.estado = "NOTG";
+        }else{
+            this.idea.estado = "TG";
+        }
+        this.ideaService.cambiarEstado(this.idea)
+            .subscribe(res =>{
+                this.result = res;
+                super.close()
+            });            
     }
 
     

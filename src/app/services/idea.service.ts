@@ -1,3 +1,4 @@
+import { Tag } from './../entities/tag';
 import { Http, Response, Headers } from '@angular/http';
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs/Rx';
@@ -87,8 +88,8 @@ export class IdeaService{
             });
     }
 
-    find10(){
-        let url = this.baseUrl + 'find10';
+    findRed(){
+        let url = this.baseUrl + 'findRed';
         let header = new Headers();
         header.append('Authorization',localStorage.getItem('token'));
         return this.http.get(url,{
@@ -211,6 +212,47 @@ export class IdeaService{
                 throw Error(err.toString());
         });
 
+    }
+
+    cambiarEstado(idea:Idea){
+        let url = this.baseUrl + "cambiarestado";
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        return this.http.put(url,idea,{
+            headers:header
+        }).map((res : Response) =>{
+            if(res.status == 200){
+                return res.json();
+            }
+        }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+        });
+    }
+
+    findByTags(tags:Array<Tag>){
+        let url = this.baseUrl + 'findByTags';
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        return this.http.post(url,tags,{
+            headers : header
+        })
+            .map((res : Response)=>{
+                if(res.status == 200){
+                    return res.json();
+                }
+                if(res.status == 204){
+                    throw new Error('No hay ideas.');
+                }
+                if(res.status == 500){
+                    throw new Error('No se pudieron cargar las ideas.');
+                }
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
     }
 
     

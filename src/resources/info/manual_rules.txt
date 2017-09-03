@@ -1,0 +1,17 @@
+Actualmente, en la aplicación para las funcionalidades de recomendación de ideas y usuarios, se usa un motor de reglas especializado para gestionarlo. En Know&Share el gestor de reglas usado es Drools versión 6.5.0.Final.
+
+El motor de reglas, está situado en una aplicación ajena a la arquitectura actual de Know&Share, sin embargo, se conectan vía peticiones HTTP. Para la edición de reglas es importante que ingrese al link provisto en el panel derecho y siga los siguientes pasos:
+	
+  1. Ingresar al sistema de gestor de reglas con las siguientes credenciales:
+	Username: admin
+	Password: shareknow20175
+  2. Ir al módulo Authoring y seleccionar el sub-módulo 'Project Authoring'
+  3. Ya dentro del sub-módulo, podrá ver una regla por defecto, si expande el toggle de 'DRL', podrá ver más reglas usadas por el sistema.
+  4. Después de haber realizado un cambio, es necesario que guarde dando clic en el botón 'Save'.
+  5. Posteriormente, es necesario volver a desplegar el módulo de reglas, para ello, dentro del gestor de reglas, dar clic en el botón 'Open Project Editor' y luego darle a Build & Deploy, de esta manera, las reglas estarán listas para ser actualizadas en Know&Share.
+
+Ahí básicamente se hace la edición de las reglas que requieran ajutes *.
+
+Para la actualización de esos cambios, es necesario que de clic en el botón del panel derecho que permite actualizar las reglas en tiempo de ejecución.
+
+* Actualmente, al adicionar reglas (nuevos archivos) es probable que el sistema no las reconozca.

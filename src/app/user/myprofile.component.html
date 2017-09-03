@@ -35,9 +35,10 @@
             <li [ngClass]="{ 'active': activeTab == 'friends' }"><a (click)="moveTab('friends')" class="links">Amigos</a></li>
             <li [ngClass]="{ 'active': activeTab == 'following' }"><a (click)="moveTab('following')" class="links">Siguiendo</a></li>
             <li [ngClass]="{ 'active': activeTab == 'followers' }"><a (click)="moveTab('followers')" class="links">Seguidores</a></li>
-            <li [ngClass]="{ 'active': activeTab == 'badges' }"><a (click)="moveTab('badges')" class="links">Insignias</a></li>
+            <li [ngClass]="{ 'active': activeTab == 'badges' }"><a (click)="moveTab('badges')" class="links">Insignias <span *ngIf="insgniasNoVistas > 0" class="badge">{{insgniasNoVistas}}</span></a></li>
             <li *ngIf="usuario.tipoUsuario == 'PROFESOR'" [ngClass]="{ 'active': activeTab == 'tg' }"><a (click)="moveTab('tg')" class="links">TG Dirigidos</a></li>
             <li *ngIf="usuario.tipoUsuario != 'ESTUDIANTE'" [ngClass]="{ 'active': activeTab == 'career' }"><a (click)="moveTab('career')" class="links">Formación académica</a></li>
+            <li *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'" [ngClass]="{ 'active': activeTab == 'likes' }"><a (click)="moveTab('likes')" class="links">Gustos</a></li>
         </ul>
     </div>
 </nav>
@@ -63,58 +64,63 @@
                     <span *ngIf="usuario.grupoInvestigacion">{{usuario.grupoInvestigacion}}</span>
                     <span *ngIf="!usuario.grupoInvestigacion">-</span>
                 </p>
+                <p *ngIf="usuario.tipoUsuario == 'PROFESOR'">
+                    <strong>Disponible: </strong>
+                    <span *ngIf="usuario.disponible">Si</span>
+                    <span *ngIf="!usuario.disponible">No</span>
+                </p>
                 <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
             </div>
         </div>
     </div>
     <div class="col-xs-7">
-        <div class="panel panel-default"> 
-        <div class="panel-heading">
-            <form>
-                <div class="form-group">
-                    <label for="sel1">Seleccione el tipo de idea:</label>
-                    <select class="form-control" id="sel1" [(ngModel)]="selectedValueTipo" name="tipoIdea" [ngModelOptions]="{standalone: true}">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <form>
+                    <div class="form-group">
+                        <label for="sel1">Seleccione el tipo de idea:</label>
+                        <select class="form-control" id="sel1" [(ngModel)]="selectedValueTipo" name="tipoIdea" [ngModelOptions]="{standalone: true}">
                         <option value="NU">Nueva</option>
                         <option value="PC">Para continuar</option>
                         <option value="PE">Para empezar</option>
                         <option value="PR">Proyecto</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <h4>Contenido</h4>
-                    <textarea class="form-control" rows="5" [(ngModel)]="contenido" name="content"></textarea>
-                </div>
+                    </div>
+                    <div class="form-group">
+                        <h4>Contenido</h4>
+                        <textarea class="form-control" rows="5" [(ngModel)]="contenido" name="content"></textarea>
+                    </div>
 
-                <div class="form-group" *ngIf="selectedValueTipo == 'PC' || selectedValueTipo == 'PE'">
-                    <label for="numeroest">Numero de estudiantes: </label>
-                    <input class="form-control" type="number" [(ngModel)]="numeroEstudiantes" name="numero">
-                </div>
+                    <div class="form-group" *ngIf="selectedValueTipo == 'PC' || selectedValueTipo == 'PE'">
+                        <label for="numeroest">Numero de estudiantes: </label>
+                        <input class="form-control" type="number" [(ngModel)]="numeroEstudiantes" name="numero">
+                    </div>
 
-                <div class="form-group" *ngIf="selectedValueTipo == 'PE'">
-                    <label for="alcance">Alcance: </label>
-                    <input class="form-control" type="text" [(ngModel)]="alcance" name="alc">
-                    <label for="problematica">Problematica: </label>
-                    <textarea class="form-control" type="text" [(ngModel)]="problematica" rows = '5' name="problem"></textarea>
-                </div>
-                <div class="form-group" *ngIf="selectedValueTipo == 'PR'">
-                    <button type="button" class="btn" (click) = "agregarIdeas()">Agregar ideas</button>
-                </div>
+                    <div class="form-group" *ngIf="selectedValueTipo == 'PE'">
+                        <label for="alcance">Alcance: </label>
+                        <input class="form-control" type="text" [(ngModel)]="alcance" name="alc">
+                        <label for="problematica">Problematica: </label>
+                        <textarea class="form-control" type="text" [(ngModel)]="problematica" rows='5' name="problem"></textarea>
+                    </div>
+                    <div class="form-group" *ngIf="selectedValueTipo == 'PR'">
+                        <button type="button" class="btn" (click)="agregarIdeas()">Agregar ideas</button>
+                    </div>
 
-                <div class="form-group" *ngIf="selectedValueTipo == 'PC'">
-                    <button type="button" class="btn" (click) = "asociarTG()">Asociar tg</button>
-                </div>
+                    <div class="form-group" *ngIf="selectedValueTipo == 'PC'">
+                        <button type="button" class="btn" (click)="asociarTG()">Asociar tg</button>
+                    </div>
 
-                <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
-                    [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
-                </p-autoComplete>
-                <div class="alert alert-danger" *ngIf = "valid === false">
-                    <label> Por Favor completar el formulario.</label>
-                </div>
-                <br>
-                <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
-            </form>
+                    <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
+                        [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
+                    </p-autoComplete>
+                    <div class="alert alert-danger" *ngIf="valid === false">
+                        <label> Por Favor completar el formulario.</label>
+                    </div>
+                    <br>
+                    <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
+                </form>
+            </div>
         </div>
-    </div>
         <div class="panel panel-default center" *ngFor="let idea of ideas; index as indice">
             <idea [idea]="idea" (change)="cambio($event)"></idea>
         </div>
@@ -128,7 +134,7 @@
                     <button type="button" (click)="editHabilidadCualidad()" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-pencil"></i></button>
                     <h3>Habilidades personales:</h3>
                     <p *ngIf="habilidadesPersonales?.length == 0">No tiene habilidades personales registradas</p>
-                    <button *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                    <button *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default btn-aval disabled">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                     <!--<p *ngFor="let h of habilidadesPersonales">{{h.nombre}} <span class="label label-default">{{h.avales}}</span></p>-->
                 </div>
             </div>
@@ -139,7 +145,7 @@
                     <button type="button" (click)="editHabilidadCualidad()" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-pencil"></i></button>
                     <h3>Cualidades como profesor:</h3>
                     <p *ngIf="usuario.cualidades?.length == 0">No tiene cualidades como profesor registradas</p>
-                    <button *ngFor="let c of usuario.cualidades" type="button" class="btn btn-default btn-aval">{{c.nombre}} <span class="badge">{{c.avales}}</span></button>
+                    <button *ngFor="let c of usuario.cualidades" type="button" class="btn btn-default btn-aval disabled">{{c.nombre}} <span class="badge">{{c.avales}}</span></button>
                 </div>
             </div>
         </div>
@@ -152,7 +158,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <button type="button" (click)="editCarrera(true,false)" class="btn btn-success btn-circle btn-aval right"><i class="glyphicon glyphicon-pencil"></i></button>
-                    <button *ngIf="!usuario.segundaCarrera && !usuario.tipoUsuario != 'PROFESOR'" type="button" (click)="editCarrera(false,true)"
+                    <button *ngIf="!usuario.segundaCarrera && usuario.tipoUsuario != 'PROFESOR'" type="button" (click)="editCarrera(false,true)"
                         class="btn btn-primary btn-circle btn-aval right"><i class="glyphicon glyphicon-plus"></i></button>
                     <h2>{{usuario.carrera.nombre}}</h2>
                     <div class="panel panel-default">
@@ -175,12 +181,12 @@
                         <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="panel-body">
                             <h3>Habilidades profesionales:</h3>
                             <p *ngIf="habilidadesProfesionales?.length == 0">No tiene habilidades profesionales registradas</p>
-                            <button *ngFor="let h of habilidadesProfesionales" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                            <button *ngFor="let h of habilidadesProfesionales" type="button" class="btn btn-default btn-aval disabled">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                         </div>
                         <div *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="panel-body">
                             <h3>Cualidades profesionales:</h3>
                             <p *ngIf="habilidadesProfesionales?.length == 0">No tiene cualidades profesionales registradas</p>
-                            <button *ngFor="let h of usuario.habilidades" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                            <button *ngFor="let h of usuario.habilidades" type="button" class="btn btn-default btn-aval disabled">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                         </div>
                     </div>
                 </div>
@@ -190,8 +196,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <button type="button" (click)="editCarrera(false,false)" class="btn btn-success btn-circle btn-aval right"><i class="glyphicon glyphicon-pencil"></i></button>
-                    <button type="button" (click)="eliminarCarrera()"
-                        class="btn btn-danger btn-circle btn-aval right"><i class="glyphicon glyphicon-minus"></i></button>
+                    <button type="button" (click)="eliminarCarrera()" class="btn btn-danger btn-circle btn-aval right"><i class="glyphicon glyphicon-minus"></i></button>
                     <h2>{{usuario.segundaCarrera.nombre}}</h2>
                     <div class="panel panel-default">
                         <div class="panel-body">
@@ -211,7 +216,7 @@
                         <div class="panel-body">
                             <h3>Habilidades profesionales:</h3>
                             <p *ngIf="habilidadesProfesionalesSeg?.length == 0">No tiene habilidades profesionales registradas</p>
-                            <button *ngFor="let h of habilidadesProfesionalesSeg" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                            <button *ngFor="let h of habilidadesProfesionalesSeg" type="button" class="btn btn-default btn-aval disabled">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                         </div>
                     </div>
                 </div>
@@ -232,8 +237,7 @@
             <div *ngFor="let a of usuario.amigos" class="col-xs-4">
                 <div class="card">
                     <button type="button" data-toggle="tooltip" title="Eliminar" (click)="eliminarAmigo(a.username)" class="btn btn-danger btn-circle remove"><i class="glyphicon glyphicon-remove"></i></button>
-                    <img src="{{serverUri}}{{s.username}}"
-                            (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
+                    <img src="{{serverUri}}{{a.username}}" (error)="errorImageHandler($event,a.username,a.genero)" class="profile_image">
                     <div class="container-card">
                         <h2 class="name-card">{{a.nombre}}</h2>
                         <p class="title-card">{{a.carrera}}</p>
@@ -254,8 +258,7 @@
         <div class="row">
             <div *ngFor="let s of usuario.seguidores" class="col-xs-4">
                 <div class="card">
-                    <img src="{{serverUri}}{{s.username}}"
-                            (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
+                    <img src="{{serverUri}}{{s.username}}" (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
                     <div class="container-card">
                         <h2 class="name-card">{{s.nombre}}</h2>
                         <p class="title-card">{{s.carrera}}</p>
@@ -277,8 +280,7 @@
         <div class="row">
             <div *ngFor="let s of usuario.siguiendo" class="col-xs-4">
                 <div class="card">
-                    <img src="{{serverUri}}{{s.username}}"
-                            (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
+                    <img src="{{serverUri}}{{s.username}}" (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
                     <div class="container-card">
                         <h2 class="name-card">{{s.nombre}}</h2>
                         <p class="title-card">{{s.carrera}}</p>
@@ -293,10 +295,36 @@
 <div *ngIf="activeTab == 'badges'" class="row">
     <div class="col-xs-2"></div>
     <div class="col-xs-8">
-        <h3 *ngIf="!usuario.insignias || usuario.insignias?.length == 0">Aún no ha conseguido insignias para mostrar.</h3>
         <div class="row">
-            <div *ngFor="let a of usuario.insignias" class="col-xs-6">
-                {{a}}
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="media">
+                            <div class="media-left">
+                                <img src="images/personalidades/{{usuario.personalidad.nombre}}.png" class="media-object" style="width:60px">
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">Registro exitoso</h4>
+                                <p>Por haber completado el registro de forma exitosa</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngFor="let a of usuario.insignias" class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="media">
+                            <div class="media-left">
+                                <img src="images/motor.png" class="media-object" style="width:60px">
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{a.nombre}}</h4>
+                                <p>{{a.descripcion}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -313,7 +341,6 @@
                     <div class="panel-body">
                         <p><strong>Título: </strong>{{tg.nombre}}</p>
                         <p><strong>Periodo fin: </strong>{{tg.periodoFin}}</p>
-                        <p><strong>Descripción: </strong>{{tg.descripcion}}</p>
                         <p><strong>Número de estudiantes: </strong>{{tg.numEstudiantes}}</p>
                         <p><strong>Resumen: </strong>{{tg.resumen}}</p>
                     </div>
@@ -340,5 +367,57 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div *ngIf="activeTab == 'likes'" class="row">
+    <div class="col-xs-12" *ngIf="!editLikes">
+        <button type="button" (click)="setEditLikes()" class="btn btn-success btn-block">Editar gustos</button><br>
+        <div class="panel panel-default" *ngIf="!usuario.gustos || usuario.gustos?.length == 0">
+            <div class="panel-heading center">
+                <h3>No tiene gustos seleccionados.</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2" *ngFor="let g of usuario.gustos">
+                <a class="thumbnail"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="editLikes" class="well well-lg">
+        <h2>Mis gustos</h2>
+        <p>Seleccione cada uno de sus gustos.</p>
+        <ul class="nav nav-tabs">
+            <li [ngClass]="{'active resaltar': activeTabGustos == 'generales'}"><a data-toggle="tab" (click)="goTo('generales','gustos')">Generales</a></li>
+            <li [ngClass]="{'active resaltar': activeTabGustos == 'deportes'}"><a data-toggle="tab" (click)="goTo('deportes','gustos')">Deportes</a></li>
+            <li [ngClass]="{'active resaltar': activeTabGustos == 'artes'}"><a data-toggle="tab" (click)="goTo('artes','gustos')">Artes</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="generales" [ngClass]="activeTabGustos == 'generales' ? 'tab-pane fade in active' : 'tab-pane fade'">
+                <br>
+                <div *ngIf="activeTabGustos == 'generales'" class="row">
+                    <div class="col-xs-2" *ngFor="let g of gustosGenerales">
+                        <a [ngClass]="isCheckWithId(g,gustos) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
+                    </div>
+                </div>
+            </div>
+            <div id="deportes" [ngClass]="activeTabGustos == 'deportes' ? 'tab-pane fade in active' : 'tab-pane fade'">
+                <br>
+                <div *ngIf="activeTabGustos == 'deportes'" class="row">
+                    <div class="col-xs-2" *ngFor="let g of gustosDeportes">
+                        <a [ngClass]="isCheckWithId(g,gustos) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
+                    </div>
+                </div>
+            </div>
+            <div id="artes" [ngClass]="activeTabGustos == 'artes' ? 'tab-pane fade in active' : 'tab-pane fade'">
+                <br>
+                <div *ngIf="activeTabGustos == 'artes'" class="row">
+                    <div class="col-xs-2" *ngFor="let g of gustosArtes">
+                        <a [ngClass]="isCheckWithId(g,gustos) ? 'thumbnail check':'thumbnail'" (click)="checkGusto(g)"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button (click)="saveLikes()" class="btn btn-primary btn-block">Guardar</button>
     </div>
 </div>

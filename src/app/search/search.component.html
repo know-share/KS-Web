@@ -17,7 +17,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2 class="center">Parámetros de búsqueda</h2>
-                    <input [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
+                    <p-autoComplete *ngIf="activeTab != 'users' && option==6" [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple"
+                        (completeMethod)="filterTagMultiple($event)" [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true"
+                        [ngModelOptions]="{standalone: true}">
+                    </p-autoComplete>
+                    <input *ngIf="option!=6" [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
                     <div class="alert alert-danger" *ngIf="error">
                         Debe llenar el campo de búsqueda.
                     </div>
@@ -37,6 +41,38 @@
                     <br><button (click)="onSearchAdv()" class="btn btn-primary btn-block">Buscar</button>
                 </div>
             </div>
+            <div *ngIf="activeTab == 'users'" class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="center">Perfiles de usuario</h3>
+                    <div class="media">
+                        <div class="media-left">
+                            <img class="icon_user" src="images/icons/teacher_blackboard.png" />
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Profesor</h4>
+                            <p>Representa a un usuario que ejerce labor como profesor dentro del sistema</p>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <div class="media-left">
+                            <img class="icon_user" src="images/icons/dude4.png" />
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Estudiante</h4>
+                            <p>Representa a un usuario que es estudiante dentro del sistema</p>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <div class="media-left">
+                            <img class="icon_user" src="images/icons/graduate.png" />
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Profesor</h4>
+                            <p>Representa a un usuario que es egresado dentro del sistema</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-xs-8">
             <p-dataList *ngIf="activeTab == 'users'" [value]="listUsers" [paginator]="true" [rows]="5" emptyMessage="No se encontraron resultados">
@@ -46,7 +82,7 @@
                 <ng-template let-usr pTemplate="item">
                     <div class="ui-g ui-fluid">
                         <div class="ui-g-12 ui-md-3" style="text-align:center">
-                            <img src="images/image-profile.png" />
+                            <img src="{{serverUri}}{{usr.username}}" (error)="errorImageHandler($event,usr.username,usr.genero)" />
                         </div>
                         <div class="ui-g-12 ui-md-9">
                             <div class="ui-g">
@@ -63,7 +99,7 @@
                                 </div>
 
                                 <div class="ui-g-4 ui-sm-12">
-                                    <button class="btn btn-link" (click)="goToProfile(usr.username)" >Ver perfil</button>
+                                    <button class="btn btn-link" (click)="goToProfile(usr.username)">Ver perfil</button>
                                 </div>
 
                                 <div *ngIf="optionSelected == 1" class="ui-g-6 ui-sm-6"><i>{{usr.porcentaje}}% de coincidencia con tu perfil</i></div>
@@ -73,25 +109,11 @@
                     <hr style="height: 2px; border: none; background: lightgray;" />
                 </ng-template>
             </p-dataList>
-            <p-dataList *ngIf="activeTab != 'users'" [value]="listUsers" [paginator]="true" [rows]="5" emptyMessage="No se encontraron resultados">
-                <p-header>
-                    Ideas
-                </p-header>
-                <ng-template let-per pTemplate="item">
-                    <div class="ui-g ui-fluid">
-                        <div class="ui-g-12 ui-md-3" style="text-align:center">
-                            imagen
-                        </div>
-                        <div class="ui-g-12 ui-md-9">
-                            <div class="ui-g">
-                                <div class="ui-g-2 ui-sm-6">Nombre: </div>
-                                <div class="ui-g-10 ui-sm-6">{{per.nombre}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr style="height: 2px; border: none; background: lightgray;" />
-                </ng-template>
-            </p-dataList>
+            <div *ngIf="activeTab != 'users'">
+                <div class="panel panel-default center" *ngFor="let idea of ideas; index as indice">
+                    <idea [idea]="idea" (change)="cambio($event)"></idea>
+                </div>
+            </div>
         </div>
     </div>
 </div>

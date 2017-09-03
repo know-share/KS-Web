@@ -1,3 +1,4 @@
+import { CompartirIdeaModalComponent } from './modals/compartit-idea.component';
 import { OperacionIdeaModalComponent } from './modals/operacionIdea.component';
 import { OperacionIdea } from './entities/operacionIdea';
 import { DetalleIdeaModalComponent } from './modals/idea-detalles.component';
@@ -21,6 +22,9 @@ import {GrowlModule} from 'primeng/primeng';
 import {AutoCompleteModule} from 'primeng/primeng';
 import {DataListModule} from 'primeng/primeng';
 import {DataTableModule,SharedModule} from 'primeng/primeng';
+import {InputSwitchModule} from 'primeng/primeng';
+import {ChartModule} from 'primeng/primeng';
+
 
 // Components
 import { AppComponent } from './app.component';
@@ -41,16 +45,18 @@ import { ComentarModalComponent } from './modals/comentar.component';
 import { SearchComponent } from './search/search.component';
 import { IdeaComponent } from './idea/idea.component';
 import { UploadImageModalComponent } from './modals/upload-image.component';
+import { LeaderBoardComponent } from './leaderBoard/leader.component';
 
 
 // Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
-import {AdminCrudComponent} from './admin/admin-crud.component';
+import { AdminCrudComponent } from './admin/admin-crud.component';
 import { CrudCarreraModalComponent } from './modals/crud-carrera.component';
 import { CrudTagModalComponent } from './modals/crud-tag.component';
 import { CrudHabilidadModalComponent } from './modals/crud-habilidad.component';
 import { CrudEnfasisModalComponent } from './modals/crud-enfasis.component';
-
+import { AdminRulesComponent } from './admin/admin-rules.component';
+import { AdminEstadisticaComponent } from './admin/admin-estadistica.component';
 
 
 //Services
@@ -65,6 +71,8 @@ import { ErrorService } from './error/error.service';
 import { IdeaService } from './services/idea.service';
 import { TagService } from './services/tag.service';
 import { RuleService } from './services/rules.service';
+import { LudificacionService } from './services/ludificacion.service';
+import { AdminService } from './services/admin.service';
 
 
 import { AuthGuard } from './security/auth.guard';
@@ -84,7 +92,9 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         DataListModule,
         AutoCompleteModule,
         DataTableModule,
-        SharedModule
+        SharedModule,
+        InputSwitchModule,
+        ChartModule
     ],
     declarations: [
         UserComponent,
@@ -116,8 +126,11 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         CrudTagModalComponent,
         OperacionIdeaModalComponent,
         CrudHabilidadModalComponent,
-        CrudEnfasisModalComponent
-
+        CrudEnfasisModalComponent,
+        AdminRulesComponent,
+        AdminEstadisticaComponent,
+        CompartirIdeaModalComponent,
+        LeaderBoardComponent
     ],
     providers: [{
         provide: LocationStrategy,
@@ -137,7 +150,9 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         IdeaService,
         TagService,
         RuleService,
-        TrabajoGradoService
+        TrabajoGradoService,
+        LudificacionService,
+        AdminService
     ],
     entryComponents:[
         RequestModalComponent,
@@ -157,8 +172,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         CrudTagModalComponent,
         OperacionIdeaModalComponent,
         CrudHabilidadModalComponent,
-        CrudEnfasisModalComponent
-
+        CrudEnfasisModalComponent,
+        CompartirIdeaModalComponent
     ],
     bootstrap: [AppComponent]
 })

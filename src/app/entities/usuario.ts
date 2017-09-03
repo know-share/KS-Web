@@ -7,6 +7,7 @@ import { Habilidad } from './habilidad';
 import { Cualidad } from './cualidad';
 import { TrabajoGrado } from './trabajoGrado';
 import { FormacionAcademica } from './formacionAcademica';
+import { Insignia } from './insignia';
 
 class InfoUsuario{
     username:string;
@@ -24,6 +25,7 @@ export class Usuario {
     username: string;
     genero: string;
     grupoInvestigacion: string;
+    disponible:boolean;
 
     tipoUsuario: string;
     carrera: Carrera;
@@ -51,7 +53,7 @@ export class Usuario {
 
     solicitudesAmistad: string[];
 
-    insignias: string[];
+    insignias: Insignia[];
 
     tgDirigidos:TrabajoGrado[];
     formacionAcademica:FormacionAcademica[];

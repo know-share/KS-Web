@@ -56,7 +56,13 @@ module.exports = {
         },{
             from:'./node_modules/font-awesome',
             to: './fonts'
-        }])
+        },{
+            from:'./src/resources/info',
+            to:'./info'
+        },{
+			from: './node_modules/chart.js/dist',
+			to:'./chart.js'
+		}])
     ]
 
 };

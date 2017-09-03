@@ -11,11 +11,14 @@ import { SearchComponent } from './search/search.component';
 
 //Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
-import {AdminCrudComponent} from './admin/admin-crud.component';
+import { AdminCrudComponent } from './admin/admin-crud.component';
+import { AdminRulesComponent } from './admin/admin-rules.component';
+import { AdminEstadisticaComponent } from './admin/admin-estadistica.component';
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
 import { AuthAdminGuard } from './security/auth-admin.guard';
+import { LeaderBoardComponent } from './leaderBoard/leader.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -28,6 +31,11 @@ const routes: Routes = [
     { path: 'search/:query', component: SearchComponent, canActivate:[AuthGuard]},
     { path: 'search', component: SearchComponent, canActivate:[AuthGuard]},
     { path: 'admin/crud', component: AdminCrudComponent, canActivate:[AuthAdminGuard]},
+    { path: 'admin/estadistica', component: AdminEstadisticaComponent, canActivate:[AuthAdminGuard]},
+    { path: 'admin/rules', component: AdminRulesComponent, canActivate:[AuthAdminGuard]},
+    { path: 'leader', component: LeaderBoardComponent, canActivate:[AuthGuard]},
+
+
 ];
 
 @NgModule({

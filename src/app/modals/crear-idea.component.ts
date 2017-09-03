@@ -18,7 +18,7 @@ export interface RequestModalDisplay {
 
 @Component({
     selector: 'confirm',
-    templateUrl: './crear-idea.html',
+    templateUrl: './crear-idea.component.html',
 })
 export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     implements  OnInit {    
@@ -34,8 +34,8 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     selectedTags: any[] = new Array;
     filteredTagsMultiple: any[];
     role = localStorage.getItem('role');
-    ideasPro: Array<Idea>;
-    tg: TrabajoGrado;
+    ideasPro: Array<Idea> = new Array();
+    tg: TrabajoGrado = new TrabajoGrado();
 
     constructor(
         dialogService: DialogService,
@@ -55,26 +55,34 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
        console.log(this.tg);
         if(this.contenido != undefined && this.selectedValueTipo == "NU" && this.selectedTags.length > 0){
             this.crearIdeaNorm();
-        }else{
+            return;
+        }else if(this.selectedValueTipo == "NU"){
             this.valid = false;
+            return;
         }
         if(this.contenido != undefined && this.selectedValueTipo == "PC" && this.selectedTags.length > 0 && 
             this.numeroEstudiantes > 0 && this.tg != undefined){
             this.crearIdeaNorm();
-        }else{
+            return;
+        }else if(this.selectedValueTipo == "PC"){
             this.valid = false;
+            return;
         }
         if(this.contenido != undefined && this.selectedValueTipo == "PE" && this.selectedTags.length > 0 && 
             this.numeroEstudiantes > 0 && this.alcance!=undefined && this.problematica != undefined){
             this.crearIdeaNorm();
-        }else{
+            return;
+        }else if(this.selectedValueTipo == "PE"){
             this.valid = false;
+            return;
         }
         if(this.contenido != undefined && this.selectedValueTipo == "PR" && this.selectedTags.length > 0 && 
             this.ideasPro.length > 0){
             this.crearIdeaNorm();
+            return;
         }else{
             this.valid = false;
+            return;
         } 
     }
 
@@ -87,7 +95,7 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
         this.idea.problematica = this.problematica;
         this.idea.tags = this.selectedTags;
         this.idea.ideasProyecto = this.ideasPro;
-        this.idea.tg = this.tg;
+        this.idea.tg = this.tg; 
         this.ideaService.crearIdea(this.idea)
                 .subscribe((res: Idea) => {
                     this.result = res;
@@ -151,7 +159,4 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     close(){
         super.close();
     }
-    
-
-    
 }

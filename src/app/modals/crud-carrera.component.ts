@@ -9,6 +9,8 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
 
 import { Carrera } from '../entities/carrera';
 
+import { Message } from 'primeng/primeng';
+
 export interface RequestModalDisplay {
     carrera: Carrera;
     tipo: string;
@@ -16,7 +18,8 @@ export interface RequestModalDisplay {
 
 @Component({
     selector: 'confirm',
-    template: `<div class="modal-dialog">
+    template: `
+    <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" (click)="close()">&times;</button>
@@ -57,7 +60,7 @@ export class CrudCarreraModalComponent extends DialogComponent<RequestModalDispl
     tipo: string;
     nombre: string;
     facultad: string;
-
+    msgs: Message[] = [];
     update: FormGroup;
 
     constructor(
@@ -99,8 +102,6 @@ export class CrudCarreraModalComponent extends DialogComponent<RequestModalDispl
                     let disposable;
                     if (error == 'Error: 401')
                         disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                    else
-                        console.log('error: ' + error);
                     super.close();
                 }
                 );
@@ -125,8 +126,6 @@ export class CrudCarreraModalComponent extends DialogComponent<RequestModalDispl
                     let disposable;
                     if (error == 'Error: 401')
                         disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                    else
-                        console.log('error: ' + error);
                     super.close();
                 }
                 );
@@ -154,8 +153,6 @@ export class CrudCarreraModalComponent extends DialogComponent<RequestModalDispl
                     let disposable;
                     if (error == 'Error: 401')
                         disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                    else
-                        console.log('error: ' + error);
                     super.close();
                 }
                 );

@@ -9,6 +9,7 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
 import { UsuarioService } from '../services/usuario.service';
 import { ErrorService } from '../error/error.service';
 import { IdeaService } from '../services/idea.service';
+import { LudificacionService } from '../services/ludificacion.service';
 
 //Entities
 import { Usuario } from '../entities/usuario';
@@ -16,6 +17,9 @@ import { Habilidad } from '../entities/habilidad';
 import { AreaConocimiento } from '../entities/areaConocimiento';
 import { Idea } from '../entities/idea';
 import { URL_IMAGE_USER } from '../entities/constants';
+
+//primeng
+import { Message } from 'primeng/primeng';
 
 @Component({
     selector: 'user',
@@ -26,7 +30,7 @@ export class UserComponent implements OnInit {
 
     imagePath: string;
 
-    serverUri=URL_IMAGE_USER;
+    serverUri = URL_IMAGE_USER;
 
     username: string;
     activeTab: string;
@@ -43,6 +47,8 @@ export class UserComponent implements OnInit {
     usuario: Usuario;
     isMyProfile: boolean = false;
 
+    role: string = "";
+
     //buttons for friendship and follower
     isEnableRequest = true;
     isFollowing = false;
@@ -51,6 +57,8 @@ export class UserComponent implements OnInit {
     textFollow = "Seguir";
     isFriend: boolean = false;
 
+    msgs: Message[] = [];
+
     constructor(
         private ideaService: IdeaService,
         private activatedRoute: ActivatedRoute,
@@ -58,11 +66,13 @@ export class UserComponent implements OnInit {
         private errorService: ErrorService,
         private router: Router,
         private dialogService: DialogService,
+        private ludificacionService: LudificacionService,
     ) {
         this.activeTab = 'ideas';
     }
 
     ngOnInit() {
+        this.role = localStorage.getItem('role');
         this.usuario = null;
         this.activatedRoute.params.subscribe((params: Params) => {
             this.isMyProfile = false;
@@ -105,6 +115,7 @@ export class UserComponent implements OnInit {
                         this.botonSeguir();
                         this.botonSolicitud();
                         this.reloadImage();
+                        this.refreshIdeas();
                     }
                 }, error => {
                     let disposable;
@@ -117,6 +128,9 @@ export class UserComponent implements OnInit {
                 }
                 );
         });
+    }
+
+    refreshIdeas() {
         this.ideaService.findByUsuario(this.username)
             .subscribe((res: any[]) => {
                 this.ideas = res;
@@ -137,7 +151,7 @@ export class UserComponent implements OnInit {
     }
 
     imageCard(username, genero): string {
-        if(genero == 'Femenino')
+        if (genero == 'Femenino')
             return "images/icons/woman.png";
         else
             return "images/icons/dude4_x128.png";
@@ -277,9 +291,10 @@ export class UserComponent implements OnInit {
         this.router.navigate(['/search']);
     }
 
-    errorImageHandler(event,username,genero){
-        event.target.src=this.imageCard(username,genero);
+    errorImageHandler(event, username, genero) {
+        event.target.src = this.imageCard(username, genero);
     }
+
     cambio(confirm: IdeaHome) {
         let temp: Array<Idea> = new Array;
         if (confirm != null) {
@@ -301,6 +316,34 @@ export class UserComponent implements OnInit {
         } else {
             //pop up con error
         }
+    }
 
+    promote() {
+        this.usuarioService.promote(this.username)
+            .subscribe(
+            ok => this.refreshUsuario(),
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
+    }
+
+    avalar(id, tipo) {
+        this.ludificacionService.avalar(this.username, tipo, id)
+            .subscribe(
+            ok => {
+                this.msgs = [];
+                this.msgs.push({ severity: 'success', summary: 'Operación completada', detail: 'Felicidades, has dado tu aval.' });
+                this.refreshUsuario();
+            }, error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                else{
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'error', summary: 'Operación no completada', detail: 'Solo puedes dar un aval por cualidad/habilidad.' });
+                }
+            });
     }
 }

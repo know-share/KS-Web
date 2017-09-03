@@ -6,18 +6,25 @@
                     <div class="col-xs-2">
                     </div>
                     <div class="col-xs-6">
-                        <button class="btn btn-primary" (click) = "crearIdea()">Crear Idea</button>
                         <div class="row">
-                            <div class="col-xs-5"></div>
-                            <div class="col-xs-3">Ordenar por:</div>
                             <div class="col-xs-4">
-                                <select name="orden" id="orden" class="form-control btn btn-primary">
-                                    <option value="CR">Cronológicamente</option>
-                                    <option value="RL">Relevancia</option>
-                                </select> 
+                                <button class="btn btn-primary" (click)="crearIdea()">Crear Idea</button>
+                            </div>
+                            <div class="col-xs-3">Ordenar por:</div>
+                            <div class="col-xs-5">
+                                <select [(ngModel)]="preferenciaDespliegue" class="form-control btn btn-primary" (change)="updatePreferencia($event)">
+                                    <option value="ORDEN_CRONOLOGICO">Fecha</option>
+                                    <option value="POR_RELEVANCIA">Relevancia</option>
+                                </select>
                             </div>
                         </div>
                         <br>
+                        <div class="panel panel-default" *ngIf="!newIdeas || newIdeas?.length == 0">
+                            <div class="panel-heading center">
+                                <img width="200px" height="200px" class="find_user" src="images/no_ideas.png" />
+                                <h3>Conecta con personas para ver sus ideas.</h3>
+                            </div>
+                        </div>
                         <div class="panel panel-default center" *ngFor="let idea of newIdeas; index as indice">
                             <idea [idea]="idea" (change)="cambio($event)"></idea>
                         </div>

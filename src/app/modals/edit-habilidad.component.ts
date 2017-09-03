@@ -51,7 +51,7 @@ export interface RequestModalDisplay {
             </div>
         </div>
     </div>`,
-    styleUrls: ['../access/signup.component.css','./edit-carrera.component.css']
+    styleUrls: ['../access/signup.component.css', './edit-carrera.component.css']
 })
 export class EditHabilidadModalComponent extends DialogComponent<RequestModalDisplay, boolean>
     implements RequestModalDisplay, OnInit {
@@ -62,7 +62,7 @@ export class EditHabilidadModalComponent extends DialogComponent<RequestModalDis
     habilidades: Habilidad[] = [];
     cualidades: Cualidad[] = [];
 
-    habilidadesProfesionales:Habilidad[] = [];
+    habilidadesProfesionales: Habilidad[] = [];
 
     habilidadesSelected: Habilidad[] = [];
     cualidadesSelected: Cualidad[] = [];
@@ -72,11 +72,11 @@ export class EditHabilidadModalComponent extends DialogComponent<RequestModalDis
         private habilidadService: HabilidadService,
         private cualidadService: CualidadService,
         private usuarioService: UsuarioService,
-    ){
+    ) {
         super(dialogService);
     }
 
-    ngOnInit(){
+    ngOnInit() {
         this.habilidades = [];
         this.cualidades = [];
 
@@ -85,89 +85,90 @@ export class EditHabilidadModalComponent extends DialogComponent<RequestModalDis
         this.habilidadesSelected = [];
         this.cualidadesSelected = [];
         this.loadInitInfo();
-        if(this.usuario.tipoUsuario != 'PROFESOR'){
+        if (this.usuario.tipoUsuario != 'PROFESOR') {
             this.habilidadService.getHabilidades(this.usuario.carrera.nombre)
                 .subscribe(
                 habilidades => {
                     for (let h of habilidades) {
-                        if(h.tipo == 'PERSONALES'){
+                        if (h.tipo == 'PERSONALES') {
                             this.habilidades.push(h);
-                            if (this.usuario.habilidades.find(hp => hp.nombre == h.nombre)) {
-                                this.habilidadesSelected.push(h);
+                            let existente = this.usuario.habilidades.find(hp => hp.nombre == h.nombre);
+                            if (existente) {
+                                this.habilidadesSelected.push(existente);
                             }
                         }
                     }
                     this.loading = false
-                },error => this.loading = false
+                }, error => this.loading = false
                 );
-        }else{
+        } else {
             this.cualidadService.getAllCualidades()
                 .subscribe(
-                    cualidades => {
-                        this.cualidades = cualidades;
-                        for(let c of this.cualidades){
-                            if(this.usuario.cualidades.find(cu => cu.nombre == c.nombre))
-                                this.cualidadesSelected.push(c);
-                        }
-                        this.loading = false
-                    },error => this.loading = false
+                cualidades => {
+                    this.cualidades = cualidades;
+                    for (let c of this.cualidades) {
+                        let existente = this.usuario.cualidades.find(cu => cu.nombre == c.nombre);
+                        if (existente)
+                            this.cualidadesSelected.push(existente);
+                    }
+                    this.loading = false
+                }, error => this.loading = false
                 );
         }
     }
 
-    loadInitInfo(){
-        for(let h of this.usuario.habilidades){
-            if(h.tipo == 'PROFESIONALES')
+    loadInitInfo() {
+        for (let h of this.usuario.habilidades) {
+            if (h.tipo == 'PROFESIONALES')
                 this.habilidadesProfesionales.push(h);
         }
     }
 
     isCheckWithId(item, list) {
-        return list.find(obj => obj.id == item.id) == null ? false : true;
+        return list.find(obj => obj.nombre == item.nombre) == null ? false : true;
     }
 
     checkHabilidades(h) {
-        if (this.habilidadesSelected.find(obj => obj.id == h.id) == null)
+        if (this.habilidadesSelected.find(obj => obj.nombre == h.nombre) == null)
             this.habilidadesSelected.push(h);
         else
-            this.habilidadesSelected = this.habilidadesSelected.filter(obj => obj.id != h.id);
+            this.habilidadesSelected = this.habilidadesSelected.filter(obj => obj.nombre != h.nombre);
     }
 
     checkCualidades(c) {
-        if (this.cualidadesSelected.find(obj => obj.id == c.id) == null)
+        if (this.cualidadesSelected.find(obj => obj.nombre == c.nombre) == null)
             this.cualidadesSelected.push(c);
         else
-            this.cualidadesSelected = this.cualidadesSelected.filter(obj => obj.id != c.id);
+            this.cualidadesSelected = this.cualidadesSelected.filter(obj => obj.nombre != c.nombre);
     }
 
-    confirm(){
-        let usu : Usuario = new Usuario();
+    confirm() {
+        let usu: Usuario = new Usuario();
         usu.id = this.usuario.id;
         usu.tipoUsuario = this.usuario.tipoUsuario;
-        if(this.usuario.tipoUsuario == 'PROFESOR'){
+        if (this.usuario.tipoUsuario == 'PROFESOR') {
             usu.cualidades = this.cualidadesSelected;
-        }else{
+        } else {
             usu.habilidades = this.habilidadesProfesionales
                 .concat(this.habilidadesSelected);
         }
         this.usuarioService.actualizarHabilidadCualidad(usu)
             .subscribe(
-                ok => {
-                    if(ok == 'ok'){
-                        this.result = true;
-                        super.close();
-                    }else{
-                        this.result = false;
-                        super.close();
-                    }
-                },error => {
-                    let disposable;
-                    if (error == 'Error: 401')
-                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                    else
-                        console.log('error: '+error);
+            ok => {
+                if (ok == 'ok') {
+                    this.result = true;
+                    super.close();
+                } else {
+                    this.result = false;
+                    super.close();
                 }
-            );
+            }, error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                else
+                    console.log('error: ' + error);
+            });
     }
 
     close() {

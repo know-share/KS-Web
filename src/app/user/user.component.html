@@ -1,4 +1,5 @@
 <div class="container" *ngIf="usuario && !isMyProfile">
+    <p-growl [(value)]="msgs"></p-growl>
     <div class="row">
         <div class="center">
             <div class="col-xs-1"></div>
@@ -31,6 +32,7 @@
                 <li [ngClass]="{ 'active': activeTab == 'badges' }"><a (click)="moveTab('badges')" class="links">Insignias</a></li>
                 <li *ngIf="usuario.tipoUsuario == 'PROFESOR'" [ngClass]="{ 'active': activeTab == 'tg' }"><a (click)="moveTab('tg')" class="links">TG Dirigidos</a></li>
                 <li *ngIf="usuario.tipoUsuario != 'ESTUDIANTE'" [ngClass]="{ 'active': activeTab == 'career' }"><a (click)="moveTab('career')" class="links">Formación académica</a></li>
+                <li *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'" [ngClass]="{ 'active': activeTab == 'likes' }"><a (click)="moveTab('likes')" class="links">Gustos</a></li>
             </ul>
         </div>
     </nav>
@@ -54,11 +56,24 @@
                         <span *ngIf="usuario.grupoInvestigacion">{{usuario.grupoInvestigacion}}</span>
                         <span *ngIf="!usuario.grupoInvestigacion">-</span>
                     </p>
+                    <p *ngIf="usuario.tipoUsuario == 'PROFESOR'">
+                        <strong>Disponible: </strong>
+                        <span *ngIf="usuario.disponible">Si</span>
+                        <span *ngIf="!usuario.disponible">No</span>
+                    </p>
                     <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
+                    <button *ngIf="usuario.tipoUsuario == 'ESTUDIANTE' && role == 'PROFESOR'" (click)="promote()" type="button" class="btn btn-success btn-block"
+                        title="Promover a egresado">Promover</button>
                 </div>
             </div>
         </div>
         <div class="col-xs-7">
+            <div *ngIf="!ideas || ideas.length == 0" class="panel panel-default">
+                <div class="panel-heading center">
+                    <img class="find_user" src="images/loading.gif" />
+                    <h3>Este usuario no tiene ideas publicadas actualmente.</h3>
+                </div>
+            </div>
             <div class="panel panel-default center" *ngFor="let idea of ideas; index as indice">
                 <idea [idea]="idea" (change)="cambio($event)"></idea>
             </div>
@@ -71,7 +86,7 @@
                     <div class="panel-body">
                         <h3>Habilidades personales:</h3>
                         <p *ngIf="habilidadesPersonales?.length == 0">No tiene habilidades personales registradas</p>
-                        <button *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                        <button (click)="avalar(h.id,'HABILIDAD')" *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                         <!--<p *ngFor="let h of habilidadesPersonales">{{h.nombre}} <span class="label label-default">{{h.avales}}</span></p>-->
                     </div>
                 </div>
@@ -81,7 +96,7 @@
                     <div class="panel-body">
                         <h3>Cualidades como profesor:</h3>
                         <p *ngIf="usuario.cualidades?.length == 0">No tiene cualidades como profesor registradas</p>
-                        <button *ngFor="let c of usuario.cualidades" type="button" class="btn btn-default btn-aval">{{c.nombre}} <span class="badge">{{c.avales}}</span></button>
+                        <button (click)="avalar(c.id,'CUALIDAD')" *ngFor="let c of usuario.cualidades" type="button" class="btn btn-default btn-aval">{{c.nombre}} <span class="badge">{{c.avales}}</span></button>
                     </div>
                 </div>
             </div>
@@ -114,12 +129,12 @@
                             <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="panel-body">
                                 <h3>Habilidades profesionales:</h3>
                                 <p *ngIf="habilidadesProfesionales?.length == 0">No tiene habilidades profesionales registradas</p>
-                                <button *ngFor="let h of habilidadesProfesionales" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                                <button (click)="avalar(h.id,'HABILIDAD')" *ngFor="let h of habilidadesProfesionales" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                             </div>
                             <div *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="panel-body">
                                 <h3>Cualidades profesionales:</h3>
                                 <p *ngIf="habilidadesProfesionales?.length == 0">No tiene cualidades profesionales registradas</p>
-                                <button *ngFor="let h of usuario.habilidades" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                                <button (click)="avalar(h.id,'HABILIDAD')" *ngFor="let h of usuario.habilidades" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                             </div>
                         </div>
                     </div>
@@ -147,7 +162,7 @@
                             <div class="panel-body">
                                 <h3>Habilidades profesionales:</h3>
                                 <p *ngIf="habilidadesProfesionalesSeg?.length == 0">No tiene habilidades profesionales registradas</p>
-                                <button *ngFor="let h of habilidadesProfesionalesSeg" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
+                                <button (click)="avalar(h.id,'HABILIDAD')" *ngFor="let h of habilidadesProfesionalesSeg" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
                             </div>
                         </div>
                     </div>
@@ -166,8 +181,7 @@
             <div class="row">
                 <div *ngFor="let a of usuario.amigos" class="col-xs-4">
                     <div class="card">
-                        <img src="{{serverUri}}{{a.username}}"
-                            (error)="errorImageHandler($event,a.username,a.genero)" class="profile_image">
+                        <img src="{{serverUri}}{{a.username}}" (error)="errorImageHandler($event,a.username,a.genero)" class="profile_image">
                         <div class="container-card">
                             <h2 class="name-card">{{a.nombre}}</h2>
                             <p class="title-card">{{a.carrera}}</p>
@@ -188,8 +202,7 @@
             <div class="row">
                 <div *ngFor="let s of usuario.seguidores" class="col-xs-4">
                     <div class="card">
-                        <img src="{{serverUri}}{{s.username}}"
-                            (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
+                        <img src="{{serverUri}}{{s.username}}" (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
                         <div class="container-card">
                             <h2 class="name-card">{{s.nombre}}</h2>
                             <p class="title-card">{{s.carrera}}</p>
@@ -210,8 +223,7 @@
             <div class="row">
                 <div *ngFor="let s of usuario.siguiendo" class="col-xs-4">
                     <div class="card">
-                        <img src="{{serverUri}}{{s.username}}"
-                            (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
+                        <img src="{{serverUri}}{{s.username}}" (error)="errorImageHandler($event,s.username,s.genero)" class="profile_image">
                         <div class="container-card">
                             <h2 class="name-card">{{s.nombre}}</h2>
                             <p class="title-card">{{s.carrera}}</p>
@@ -226,10 +238,36 @@
     <div *ngIf="activeTab == 'badges'" class="row">
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
-            <h3 *ngIf="!usuario.insignias || usuario.insignias?.length == 0">Aún no ha conseguido insignias para mostrar.</h3>
             <div class="row">
-                <div *ngFor="let a of usuario.insignias" class="col-xs-6">
-                    {{a}}
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="media">
+                                <div class="media-left">
+                                    <img src="images/personalidades/{{usuario.personalidad.nombre}}.png" class="media-object" style="width:60px">
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">Registro exitoso</h4>
+                                    <p>Por haber completado el registro de forma exitosa</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngFor="let a of usuario.insignias" class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="media">
+                                <div class="media-left">
+                                    <img src="images/motor.png" class="media-object" style="width:60px">
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{a.nombre}}</h4>
+                                    <p>{{a.descripcion}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -245,7 +283,6 @@
                         <div class="panel-body">
                             <p><strong>Título: </strong>{{tg.nombre}}</p>
                             <p><strong>Periodo fin: </strong>{{tg.periodoFin}}</p>
-                            <p><strong>Descripción: </strong>{{tg.descripcion}}</p>
                             <p><strong>Número de estudiantes: </strong>{{tg.numEstudiantes}}</p>
                             <p><strong>Resumen: </strong>{{tg.resumen}}</p>
                         </div>
@@ -269,6 +306,20 @@
                             <p><strong>Título del trabajo de grado: </strong>{{fa.tituloTG}}</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="activeTab == 'likes'" class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default" *ngIf="!usuario.gustos || usuario.gustos?.length == 0">
+                <div class="panel-heading center">
+                    <h3>No tiene gustos seleccionados.</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2" *ngFor="let g of usuario.gustos">
+                    <a class="thumbnail"><img src="images/gustos/{{g.imagePath}}" class="img-responsive"></a>
                 </div>
             </div>
         </div>

@@ -1,3 +1,4 @@
+import { CompartirIdeaModalComponent } from './../modals/compartit-idea.component';
 import { OperacionIdeaModalComponent } from './../modals/operacionIdea.component';
 import { DetalleIdeaModalComponent } from './../modals/idea-detalles.component';
 import { Component, OnInit, ElementRef, ViewChild, Input ,Output, EventEmitter} from '@angular/core';
@@ -26,6 +27,8 @@ export class IdeaComponent implements OnInit {
 
     tags:string = '';
 
+    username: string = '';
+
     constructor(
         private ideaService:IdeaService,
         private dialogService : DialogService,
@@ -39,6 +42,7 @@ export class IdeaComponent implements OnInit {
             }
             //console.log(this.tags);
         }
+        this.username = localStorage.getItem('user');
     }
 
     light(){
@@ -74,16 +78,36 @@ export class IdeaComponent implements OnInit {
 
     compartir(){
         let retorno: IdeaHome = new IdeaHome();
-        this.ideaService.compartir(this.idea)
-            .subscribe((res : Idea) =>{
-                if(res != null){
-                    retorno.idea=res;
-                    retorno.operacion="compartir";
-                    this.change.emit(retorno);
-                }else{
-                     this.change.emit(null);
-                }
-            });
+        if(this.idea.usuario != localStorage.getItem('user')){
+            this.ideaService.compartir(this.idea)
+                .subscribe((res : Idea) =>{
+                    if(res != null){
+                        retorno.idea=res;
+                        retorno.operacion="compartir";
+                        this.change.emit(retorno);
+                        let disposable = this.dialogService.addDialog(CompartirIdeaModalComponent, {
+                            mensaje: "Idea compartida exitosamente."
+                        }).subscribe(
+                            confirmed => {
+                                if (confirmed) {
+                                    
+                                }
+                            });
+                    }else{
+                        this.change.emit(null);
+                    }
+                });
+        }else{
+            console.log('no puede compartir su propia idea');
+            let disposable = this.dialogService.addDialog(CompartirIdeaModalComponent, {
+                            mensaje: "No puede compartir su propia idea."
+                        }).subscribe(
+                            confirmed => {
+                                if (confirmed) {
+                                    
+                                }
+                            });
+        }
     }
 
     goProfile(username) {
@@ -94,7 +118,7 @@ export class IdeaComponent implements OnInit {
         let disposable = this.dialogService.addDialog(DetalleIdeaModalComponent,{
             idea: this.idea
         }).subscribe(confirmed => {
-
+            this.idea = confirmed;
         });
     }
 
@@ -103,7 +127,7 @@ export class IdeaComponent implements OnInit {
             ideaId: this.idea.id,
             tipo: 'light'
         }).subscribe(confirmed => {
-
+        
         });
     }
 
@@ -112,7 +136,7 @@ export class IdeaComponent implements OnInit {
             ideaId: this.idea.id,
             tipo: 'comentarios'
         }).subscribe(confirmed => {
-
+            
         });
     }
 }
