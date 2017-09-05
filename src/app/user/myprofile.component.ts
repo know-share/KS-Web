@@ -524,4 +524,15 @@ export class ProfileComponent implements OnInit {
                 )
         }
     }
+
+    promote() {
+        this.usuarioService.promote(this.usuario.username)
+            .subscribe(
+            ok => this.refreshUsuario(),
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
+    }
 }

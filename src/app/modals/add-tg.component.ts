@@ -26,9 +26,11 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
                             <h3 class="center">Registro de TG</h3>
                             <form novalidate (ngSubmit)="confirm()" [formGroup]="formGroup">
                                 <div class="alert alert-danger" *ngIf="formGroup.get('titulo').touched && formGroup.get('titulo').hasError('required')
-                                    || formGroup.get('resumen').touched && formGroup.get('resumen').hasError('required')
-                                    || formGroup.get('numEstudiantes').touched && formGroup.get('numEstudiantes').hasError('required')">
+                                    || formGroup.get('resumen').touched && formGroup.get('resumen').hasError('required')">
                                     Todos los campos son requeridos.
+                                </div>
+                                <div class="alert alert-danger" *ngIf="formGroup.get('numEstudiantes').touched || formGroup.controls.numEstudiantes.errors?.NumMissed">
+                                    El número de estudiantes ingresado es inválido.
                                 </div>
                                 <div class="form-group">
                                     <input placeholder="Título" [(ngModel)]="titulo" type="text" name="titulo" class="form-control" 
@@ -55,7 +57,7 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
                                         El límite son 300 caracteres
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div *ngIf="tipoUsuario == 'PROFESOR'" class="form-group">
                                     <input min=1 placeholder="Número de estudiantes" [(ngModel)]="numEstudiantes" type="number" name="numEstudiantes" class="form-control"
                                         formControlName="numEstudiantes"/>
                                 </div>
@@ -78,7 +80,8 @@ export class AddTGModalComponent extends DialogComponent<void, boolean>
     periodo: number = 1;
     anio: string;
     resumen: string;
-    numEstudiantes:number;
+    numEstudiantes:number = -1;
+    tipoUsuario: string;
 
     anios:string[] = [];
 
@@ -89,6 +92,7 @@ export class AddTGModalComponent extends DialogComponent<void, boolean>
         private fb: FormBuilder,
     ) {
         super(dialogService);
+        this.tipoUsuario = localStorage.getItem('role');
     }
 
     ngOnInit(){
@@ -100,11 +104,16 @@ export class AddTGModalComponent extends DialogComponent<void, boolean>
         this.formGroup = this.fb.group({
             titulo:['',Validators.required],
             resumen:['',Validators.compose([Validators.required,Validators.maxLength(300)])],
-            numEstudiantes:['',Validators.compose([Validators.required])]
+            numEstudiantes:['']
         });
     }
 
     confirm(){
+        if(this.tipoUsuario == 'PROFESOR' && (this.numEstudiantes == -1
+            || !Number.isInteger(this.numEstudiantes) || this.numEstudiantes <= 0)){
+            this.formGroup.get("numEstudiantes").setErrors({ NumMissed: true });
+            return;
+        }
         let tg:TrabajoGrado = new TrabajoGrado();
         tg.nombre = this.titulo;
         tg.numEstudiantes = this.numEstudiantes;

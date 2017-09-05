@@ -47,8 +47,6 @@ export class UserComponent implements OnInit {
     usuario: Usuario;
     isMyProfile: boolean = false;
 
-    role: string = "";
-
     //buttons for friendship and follower
     isEnableRequest = true;
     isFollowing = false;
@@ -72,7 +70,6 @@ export class UserComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.role = localStorage.getItem('role');
         this.usuario = null;
         this.activatedRoute.params.subscribe((params: Params) => {
             this.isMyProfile = false;
@@ -316,17 +313,6 @@ export class UserComponent implements OnInit {
         } else {
             //pop up con error
         }
-    }
-
-    promote() {
-        this.usuarioService.promote(this.username)
-            .subscribe(
-            ok => this.refreshUsuario(),
-            error => {
-                let disposable;
-                if (error == 'Error: 401')
-                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
-            });
     }
 
     avalar(id, tipo) {

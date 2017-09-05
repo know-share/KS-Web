@@ -37,6 +37,7 @@
             <li [ngClass]="{ 'active': activeTab == 'followers' }"><a (click)="moveTab('followers')" class="links">Seguidores</a></li>
             <li [ngClass]="{ 'active': activeTab == 'badges' }"><a (click)="moveTab('badges')" class="links">Insignias <span *ngIf="insgniasNoVistas > 0" class="badge">{{insgniasNoVistas}}</span></a></li>
             <li *ngIf="usuario.tipoUsuario == 'PROFESOR'" [ngClass]="{ 'active': activeTab == 'tg' }"><a (click)="moveTab('tg')" class="links">TG Dirigidos</a></li>
+            <li *ngIf="usuario.tipoUsuario == 'EGRESADO'" [ngClass]="{ 'active': activeTab == 'tg' }"><a (click)="moveTab('tg')" class="links">Trabajos de grado</a></li>
             <li *ngIf="usuario.tipoUsuario != 'ESTUDIANTE'" [ngClass]="{ 'active': activeTab == 'career' }"><a (click)="moveTab('career')" class="links">Formación académica</a></li>
             <li *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'" [ngClass]="{ 'active': activeTab == 'likes' }"><a (click)="moveTab('likes')" class="links">Gustos</a></li>
         </ul>
@@ -70,6 +71,8 @@
                     <span *ngIf="!usuario.disponible">No</span>
                 </p>
                 <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
+                <button *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'" (click)="promote()" type="button" class="btn btn-success btn-block"
+                        title="Promover a egresado">Promover</button>
             </div>
         </div>
     </div>
@@ -335,13 +338,21 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <button type="button" (click)="addTG()" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-plus"></i></button>
-                <h2 class="center">Trabajos de grado dirigidos</h2>
-                <p *ngIf="!usuario.tgDirigidos || usuario.tgDirigidos?.length == 0">No tiene trabajos de grado dirigidos asociados</p>
+                <h2 *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="center">Trabajos de grado dirigidos</h2>
+                <h2 *ngIf="usuario.tipoUsuario == 'EGRESADO'" class="center">Trabajos de grado</h2>
+                <div *ngIf="!usuario.tgDirigidos || usuario.tgDirigidos?.length == 0">
+                    <p *ngIf="usuario.tipoUsuario == 'PROFESOR'">
+                        No tiene trabajos de grado dirigidos asociados
+                    </p>
+                    <p *ngIf="usuario.tipoUsuario == 'EGRESADO'">
+                        No tiene trabajos de grado asociados
+                    </p>
+                </div>
                 <div class="panel panel-default" *ngFor="let tg of usuario.tgDirigidos">
                     <div class="panel-body">
                         <p><strong>Título: </strong>{{tg.nombre}}</p>
                         <p><strong>Periodo fin: </strong>{{tg.periodoFin}}</p>
-                        <p><strong>Número de estudiantes: </strong>{{tg.numEstudiantes}}</p>
+                        <p *ngIf="usuario.tipoUsuario == 'PROFESOR'"><strong>Número de estudiantes: </strong>{{tg.numEstudiantes}}</p>
                         <p><strong>Resumen: </strong>{{tg.resumen}}</p>
                     </div>
                 </div>
