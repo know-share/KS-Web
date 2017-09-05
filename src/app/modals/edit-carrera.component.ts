@@ -46,6 +46,7 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
 
     carreras: Carrera[] = [];
     enfasisCarrera: Enfasis[] = [];
+    copyEnfasisCarrera: Enfasis[] = [];
     areasConocimiento: AreaConocimiento[] = [];
     habilidadesProfesionales: Habilidad[] = [];
 
@@ -68,13 +69,19 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
             .subscribe(
             carreras => {
                 this.carreras = carreras;
-                if (!this.isNew)
-                    if (this.isMain)
+                if (!this.isNew){
+                    if (this.isMain){
+                        if(this.usuario.segundaCarrera)
+                            this.carreras = this.carreras.filter(c => c.id != this.usuario.segundaCarrera.id);
                         this.carrera = this.carreras.find(c => c.nombre == this.usuario.carrera.nombre);
-                    else
+                    }else{
+                        this.carreras = this.carreras.filter(c => c.id != this.usuario.carrera.id);
                         this.carrera = this.carreras.find(c => c.nombre == this.usuario.segundaCarrera.nombre);
-                else
+                    }
+                }else{
+                    this.carreras = this.carreras.filter(c => c.id != this.usuario.carrera.id);
                     this.carrera = this.carreras[0];
+                }
                 this.loading = false;
                 this.getEnfasis();
                 this.getHabilidades();
@@ -169,6 +176,7 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
                     this.enfasisPrincipal = this.enfasisCarrera[0];
                     this.enfasisSecundario = null;
                 }
+                this.copyEnfasisCarrera = this.enfasisCarrera.filter(e=>e.nombre != this.enfasisPrincipal.nombre);
 
                 //--------------------------------------------------------
                 for (let ac of enfasisAC.areaConocimiento) {
@@ -261,5 +269,11 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
     close() {
         this.result = false;
         super.close();
+    }
+
+    updateCopyEnfasis(event){
+        if(this.enfasisSecundario && this.enfasisPrincipal.nombre == this.enfasisSecundario.nombre)
+            this.enfasisSecundario = null;
+        this.copyEnfasisCarrera = this.enfasisCarrera.filter(e=>e.nombre != this.enfasisPrincipal.nombre);
     }
 }
