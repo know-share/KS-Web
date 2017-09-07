@@ -96,10 +96,10 @@ export class AdminCrudComponent implements OnInit {
                     this.refreshCarrera();
                     this.msgs = [];
                     this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Carrera fue actualizada.' });
-                }else{
+                } else {
                     this.msgs = [];
                     this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar carrera" });
-                }    
+                }
             });
     }
 
@@ -110,8 +110,9 @@ export class AdminCrudComponent implements OnInit {
                 this.carreras = carreras;
                 this.refreshEnfasis();
             },
-            error => {this.msgs = [];
-            this.msgs.push({ severity: 'info', summary: '', detail: 'No hay carreras' });
+            error => {
+                this.msgs = [];
+                this.msgs.push({ severity: 'info', summary: '', detail: 'No hay carreras' });
             });
     }
 
@@ -125,10 +126,10 @@ export class AdminCrudComponent implements OnInit {
                     this.refreshCarrera();
                     this.msgs = [];
                     this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Carrera fue creada.' });
-                }else{
+                } else {
                     this.msgs = [];
                     this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear carrera" });
-                    
+
                 }
             });
     }
@@ -147,10 +148,10 @@ export class AdminCrudComponent implements OnInit {
                     this.refreshTag();
                     this.msgs = [];
                     this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Tag fue actualizado.' });
-                }else{
+                } else {
                     this.msgs = [];
                     this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar Tag" });
-                } 
+                }
             });
     }
 
@@ -158,139 +159,140 @@ export class AdminCrudComponent implements OnInit {
         this.tagService.getAllTags()
             .subscribe(
             tags => this.tags = tags,
-            error => {this.msgs = [];
+            error => {
+                this.msgs = [];
                 this.msgs.push({ severity: 'info', summary: '', detail: 'No hay Tags' });
-                }
-            );
-    }
-
-    createTag() {
-        let disposable = this.dialogService.addDialog(CrudTagModalComponent, {
-            tag: new Tag(),
-            tipo: "create"
-        }).subscribe(
-            confirmed => {
-                if (confirmed) {
-                    this.refreshTag();
-                    this.msgs = [];
-                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Tag fue creado' });
-                }
-                else{
-                    this.msgs = [];
-                    this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear Tag" });
-                    
-                }
             });
-    }
+}
 
-    //----------------------------  Habilidades --------------------------------
+createTag() {
+    let disposable = this.dialogService.addDialog(CrudTagModalComponent, {
+        tag: new Tag(),
+        tipo: "create"
+    }).subscribe(
+        confirmed => {
+            if (confirmed) {
+                this.refreshTag();
+                this.msgs = [];
+                this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Tag fue creado' });
+            }
+            else {
+                this.msgs = [];
+                this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear Tag" });
 
-    onRowSelectHabilidad(event) {
-        let disposable = this.dialogService.addDialog(CrudHabilidadModalComponent, {
-            habilidad: this.selectedHabilidad,
-            tipo: "update"
-        }).subscribe(
-            confirmed => {
-                if (confirmed) {
-                    this.refreshHabilidad();
-                    this.msgs = [];
-                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Habilidad fue actualizada.' });
-                }
-                else{
-                    this.msgs = [];
-                    this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar Habilidad" });
-                } 
-            });
-    }
+            }
+        });
+}
 
-    refreshHabilidad() {
-        this.habilidadService.getAll()
-            .subscribe(
-            habilidades => {
-                this.habilidades = habilidades;
-                for (let h of this.habilidades) {
-                    if (h.tipo == "PERSONALES")
-                        h.carrera = "No Aplica";
-                }
-            },
-            error => {this.msgs = [];
-                this.msgs.push({ severity: 'info', summary: '', detail: 'No hay Habilidades' });
-                }
-            );
-    }
+//----------------------------  Habilidades --------------------------------
 
-    createHabilidad() {
-        let disposable = this.dialogService.addDialog(CrudHabilidadModalComponent, {
-            habilidad: new Habilidad(),
-            tipo: "create"
-        }).subscribe(
-            confirmed => {
-                if (confirmed) {
-                    this.refreshHabilidad();
-                    this.msgs = [];
-                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Habilidad fue creada.' });
-                }
-                else{
-                    this.msgs = [];
-                    this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear Habilidad" });
-                    
-                }
-            });
-    }
+onRowSelectHabilidad(event) {
+    let disposable = this.dialogService.addDialog(CrudHabilidadModalComponent, {
+        habilidad: this.selectedHabilidad,
+        tipo: "update"
+    }).subscribe(
+        confirmed => {
+            if (confirmed) {
+                this.refreshHabilidad();
+                this.msgs = [];
+                this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Habilidad fue actualizada.' });
+            }
+            else {
+                this.msgs = [];
+                this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar Habilidad" });
+            }
+        });
+}
+
+refreshHabilidad() {
+    this.habilidadService.getAll()
+        .subscribe(
+        habilidades => {
+            this.habilidades = habilidades;
+            for (let h of this.habilidades) {
+                if (h.tipo == "PERSONALES")
+                    h.carrera = "No Aplica";
+            }
+        },
+        error => {
+            this.msgs = [];
+            this.msgs.push({ severity: 'info', summary: '', detail: 'No hay Habilidades' });
+        }
+        );
+}
+
+createHabilidad() {
+    let disposable = this.dialogService.addDialog(CrudHabilidadModalComponent, {
+        habilidad: new Habilidad(),
+        tipo: "create"
+    }).subscribe(
+        confirmed => {
+            if (confirmed) {
+                this.refreshHabilidad();
+                this.msgs = [];
+                this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Habilidad fue creada.' });
+            }
+            else {
+                this.msgs = [];
+                this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear Habilidad" });
+
+            }
+        });
+}
 
 
-    //----------------------------  ÉNFASIS --------------------------------
+//----------------------------  ÉNFASIS --------------------------------
 
-    onRowSelectEnfasis(event) {
-        let disposable = this.dialogService.addDialog(CrudEnfasisModalComponent, {
-            enfasis: this.selectedEnfasis,
-            carreras: this.carreras,
-            tipo: "update"
-        }).subscribe(
-            confirmed => {
-                if (confirmed) {
-                    this.refreshCarrera();
-                    this.msgs = [];
-                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Énfasis fue actualizada.' });
-                }else{
-                    this.msgs = [];
-                    this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar Énfasis" });
-                } 
-            });
-    }
+onRowSelectEnfasis(event) {
+    let disposable = this.dialogService.addDialog(CrudEnfasisModalComponent, {
+        enfasis: this.selectedEnfasis,
+        carreras: this.carreras,
+        tipo: "update"
+    }).subscribe(
+        confirmed => {
+            if (confirmed) {
+                this.refreshCarrera();
+                this.msgs = [];
+                this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Énfasis fue actualizada.' });
+            } else {
+                this.msgs = [];
+                this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar Énfasis" });
+            }
+        });
+}
 
-    refreshEnfasis() {
-        let enfasislist: Enfasis[] = [];
-        for (let cr of this.carreras) {
-            if (cr.enfasis != null) {
-                for (let en of cr.enfasis) {
-                    let enfasis = new Enfasis();
-                    enfasis.carrera = cr.nombre;
-                    enfasis.nombre = en;
-                    enfasislist.push(enfasis);
-                }
+refreshEnfasis() {
+    let enfasislist: Enfasis[] = [];
+    for (let cr of this.carreras) {
+        if (cr.enfasis != null) {
+            for (let en of cr.enfasis) {
+                let enfasis = new Enfasis();
+                enfasis.carrera = cr.nombre;
+                enfasis.nombre = en;
+                enfasislist.push(enfasis);
             }
         }
-        this.enfasisList = enfasislist;
     }
+    this.enfasisList = enfasislist;
+}
 
-    createEnfasis() {
-        let disposable = this.dialogService.addDialog(CrudEnfasisModalComponent, {
-            enfasis: new Enfasis(),
-            carreras: this.carreras,
-            tipo: "create"
-        }).subscribe(
-            confirmed => {
-                if (confirmed) {
-                    this.refreshCarrera();
-                    this.msgs = [];
-                    this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Énfasis fue creado' });
-                }else{
-                    this.msgs = [];
-                    this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear énfasis" });
-                    
-                }
-            });
-    }
+createEnfasis() {
+    let disposable = this.dialogService.addDialog(CrudEnfasisModalComponent, {
+        enfasis: new Enfasis(),
+        carreras: this.carreras,
+        tipo: "create"
+    }).subscribe(
+        confirmed => {
+            if (confirmed) {
+                this.refreshCarrera();
+                this.msgs = [];
+                this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Énfasis fue creado' });
+            } else {
+                this.msgs = [];
+                this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear énfasis" });
+
+            }
+        });
+}
 
 }

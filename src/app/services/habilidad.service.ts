@@ -35,6 +35,8 @@ export class HabilidadService{
         let url = this.baseUrl + "getAll";
         return this.http.get(url)
             .map((res: Response) => {
+                if(res.status == 204)
+                    return [];
                 return res.json();
             });
     }

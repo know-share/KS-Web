@@ -19,6 +19,8 @@ export class CarreraService {
         let url = this.baseUrl + "findAll";
         return this.http.get(url)
             .map((res: Response) => {
+                if(res.status == 204)
+                    return [];
                 return res.json();
             });
     }
