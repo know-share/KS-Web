@@ -1,3 +1,4 @@
+import { IdeaHome } from './../entities/ideaHome';
 import { Idea } from './../entities/idea';
 import { IdeaService } from './../services/idea.service';
 import { Tag } from './../entities/tag';
@@ -108,17 +109,32 @@ export class SearchComponent implements OnInit {
                 });
         }
         if (this.activeTab == 'ideas') {
-            this.ideaService.findByTags(this.selectedTags)
-                .subscribe(res => {
-                    this.ideas = res;
-                }, error => {
-                    let disposable;
+            if(this.option == 6){
+                this.ideaService.find(this.selectedTags,'/tag')
+                    .subscribe(res => {
+                        this.ideas = res;
+                    }, error => {
+                        let disposable;
 
-                    if (error == 'Error: 401')
-                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                    else
-                        console.log('Error ' + error);
-                });
+                        if (error == 'Error: 401')
+                            disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                        else
+                            console.log('Error ' + error);
+                    });
+            }
+            if(this.option == 2){
+                this.ideaService.find(this.selectedTags,'/continuar ')
+                    .subscribe(res => {
+                        this.ideas = res;
+                    }, error => {
+                        let disposable;
+
+                        if (error == 'Error: 401')
+                            disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                        else
+                            console.log('Error ' + error);
+                    });
+            }
         }
     }
 
@@ -163,5 +179,29 @@ export class SearchComponent implements OnInit {
             }
         }
         return filtered;
+    }
+    
+    cambio(confirm: IdeaHome) {
+        let temp: Array<Idea> = new Array;
+        if (confirm != null) {
+            let i = this.ideas.indexOf(confirm.idea);
+            this.ideaService.findById(confirm.idea.id)
+                .subscribe((res: Idea) => {
+                    if (confirm.operacion === "compartir") {
+                        temp.push(res);
+                        temp = temp.concat(this.ideas);
+                        this.ideas = temp;
+                    } else {
+                        this.ideas.splice(i, 1, res);
+                    }
+                }, error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                });
+        } else {
+            //pop up con error
+        }
+
     }
 }

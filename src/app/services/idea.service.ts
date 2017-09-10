@@ -231,8 +231,8 @@ export class IdeaService{
         });
     }
 
-    findByTags(tags:Array<Tag>){
-        let url = this.baseUrl + 'findByTags';
+    find(tags:Array<Tag>,criterio:string){
+        let url = this.baseUrl + 'find' + criterio;
         let header = new Headers();
         header.append('Authorization',localStorage.getItem('token'));
         return this.http.post(url,tags,{
