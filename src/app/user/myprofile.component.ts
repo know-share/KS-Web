@@ -57,7 +57,7 @@ export class ProfileComponent implements OnInit {
     areasConocimientoSeg: AreaConocimiento[] = [];
 
     idea: Idea = new Idea;
-    tg: TrabajoGrado;
+    tg: TrabajoGrado = new TrabajoGrado();
     valid: boolean = true;
     ideasPro: Array<Idea> = new Array;
     ideas: Array<Idea> = new Array;
@@ -68,6 +68,7 @@ export class ProfileComponent implements OnInit {
     tags: Array<Tag> = new Array;
     selectedTags: any[]
     filteredTagsMultiple: any[];
+    
 
     selectedValueTipo: string;
     contenido: string;
