@@ -1,15 +1,21 @@
 <div class="modal-dialog">
     <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" (click)="close()">&times;</button>
-                <h4 class="modal-title">Comentar</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="comment">Commentario:</label>
-                    <textarea class="form-control" rows="5" id="comment" [(ngModel)] = "comentario"></textarea>
-                    <div class="form-control"><button type="button" (click)="comentar()" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment" ></i> Comentar</button></div>
+        <div class="modal-header">
+            <button type="button" class="close" (click)="close()">&times;</button>
+            <h4 class="modal-title">Comentar</h4>
+        </div>
+        <div class="modal-body">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="form-group">
+                        <label for="comment">Commentario:</label>
+                        <textarea class="form-control" rows="5" id="comment" [(ngModel)]="comentario"></textarea>
+                        <br>
+                        <button type="button" (click)="comentar()" class="btn btn-default btn-block">
+                        <i class="glyphicon glyphicon-comment" ></i> Comentar</button>
+                    </div>
                 </div>
             </div>
+        </div>
     </div>
 </div>

@@ -13,7 +13,7 @@ import { IdeaService } from '../services/idea.service';
 import { ExpirationModalComponent } from '../modals/expiration.component';
 
 export interface RequestModalDisplay {
-    idea : Idea;
+    idea: Idea;
 }
 
 @Component({
@@ -21,7 +21,7 @@ export interface RequestModalDisplay {
     templateUrl: './crear-idea.component.html',
 })
 export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
-    implements  OnInit {    
+    implements OnInit {
 
     idea: Idea = new Idea();
     selectedValueTipo: string;
@@ -29,13 +29,15 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     numeroEstudiantes: number;
     alcance: string;
     problematica: string;
-    valid : boolean = true;
+    valid: boolean = true;
     tags: Array<Tag> = new Array;
     selectedTags: any[] = new Array;
     filteredTagsMultiple: any[];
     role = localStorage.getItem('role');
     ideasPro: Array<Idea> = new Array();
     tg: TrabajoGrado = new TrabajoGrado();
+
+    errorCrearIdea: string;
 
     constructor(
         dialogService: DialogService,
@@ -48,45 +50,55 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     }
 
     ngOnInit() {
-      
+
     }
 
-   crearIdea() {
-       console.log(this.tg);
-        if(this.contenido != undefined && this.selectedValueTipo == "NU" && this.selectedTags.length > 0){
-            this.crearIdeaNorm();
-            return;
-        }else if(this.selectedValueTipo == "NU"){
-            this.valid = false;
-            return;
-        }
-        if(this.contenido != undefined && this.selectedValueTipo == "PC" && this.selectedTags.length > 0 && 
-            this.numeroEstudiantes > 0 && this.tg != undefined){
-            this.crearIdeaNorm();
-            return;
-        }else if(this.selectedValueTipo == "PC"){
-            this.valid = false;
-            return;
-        }
-        if(this.contenido != undefined && this.selectedValueTipo == "PE" && this.selectedTags.length > 0 && 
-            this.numeroEstudiantes > 0 && this.alcance!=undefined && this.problematica != undefined){
-            this.crearIdeaNorm();
-            return;
-        }else if(this.selectedValueTipo == "PE"){
-            this.valid = false;
-            return;
-        }
-        if(this.contenido != undefined && this.selectedValueTipo == "PR" && this.selectedTags.length > 0 && 
-            this.ideasPro.length > 0){
-            this.crearIdeaNorm();
-            return;
-        }else{
-            this.valid = false;
-            return;
-        } 
+    crearIdea() {
+        this.errorCrearIdea = '';
+        if (this.selectedValueTipo == "NU")
+            if (this.contenido != undefined && this.selectedTags.length > 0) {
+                this.crearIdeaNorm();
+            } else {
+                this.valid = false;
+                this.errorCrearIdea = 'Por favor, completar todos los campos.';
+            }
+        if (this.selectedValueTipo == "PC")
+            if (this.contenido != undefined && this.selectedTags.length > 0 &&
+                this.tg != undefined) {
+                if (this.numeroEstudiantes > 0 && this.numeroEstudiantes < 6)
+                    this.crearIdeaNorm();
+                else {
+                    this.valid = false;
+                    this.errorCrearIdea = 'Número de estudiantes debe ser mayor a 0 y menor a 6';
+                }
+            } else {
+                this.valid = false;
+                this.errorCrearIdea = 'Por favor, completar todos los campos.';
+            }
+        if (this.selectedValueTipo == "PE")
+            if (this.contenido != undefined && this.selectedTags.length > 0 &&
+                this.alcance != undefined && this.problematica != undefined) {
+                if (this.numeroEstudiantes > 0 && this.numeroEstudiantes < 6)
+                    this.crearIdeaNorm();
+                else {
+                    this.valid = false;
+                    this.errorCrearIdea = 'Número de estudiantes debe ser mayor a 0 y menor a 6';
+                }
+            } else {
+                this.valid = false;
+                this.errorCrearIdea = 'Por favor, completar todos los campos.';
+            }
+        if (this.selectedValueTipo == "PR")
+            if (this.contenido != undefined && this.selectedTags.length > 0 &&
+                this.ideasPro.length > 0) {
+                this.crearIdeaNorm();
+            } else {
+                this.valid = false;
+                this.errorCrearIdea = 'Por favor, completar todos los campos.';
+            }
     }
 
-    crearIdeaNorm(){
+    crearIdeaNorm() {
         let temp: Array<Idea> = new Array;
         this.idea.alcance = this.alcance;
         this.idea.tipo = this.selectedValueTipo;
@@ -95,19 +107,19 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
         this.idea.problematica = this.problematica;
         this.idea.tags = this.selectedTags;
         this.idea.ideasProyecto = this.ideasPro;
-        this.idea.tg = this.tg; 
+        this.idea.tg = this.tg;
         this.ideaService.crearIdea(this.idea)
-                .subscribe((res: Idea) => {
-                    this.result = res;
-                    super.close();
-                }, error => {
-                    let disposable;
-                    if (error == 'Error: 401')
-                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                });
+            .subscribe((res: Idea) => {
+                this.result = res;
+                super.close();
+            }, error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
     }
-    
-    
+
+
     showTags() {
         this.tagService.getAllTags()
             .subscribe((res: Array<Tag>) => {
@@ -136,9 +148,9 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
         return filtered;
     }
 
-    agregarIdeas(){
-        let disposable = this.dialogService.addDialog(IdeasProyectoModalComponent,{})
-        .subscribe(confirmed => {
+    agregarIdeas() {
+        let disposable = this.dialogService.addDialog(IdeasProyectoModalComponent, {})
+            .subscribe(confirmed => {
                 if (confirmed) {
                     this.ideasPro = confirmed;
                 } else {
@@ -146,9 +158,9 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
             });
     }
 
-    asociarTG(){
-        let disposable = this.dialogService.addDialog(AsociarTGModalComponent,{})
-        .subscribe(confirmed => {
+    asociarTG() {
+        let disposable = this.dialogService.addDialog(AsociarTGModalComponent, {})
+            .subscribe(confirmed => {
                 if (confirmed) {
                     this.tg = confirmed;
                 } else {
@@ -156,7 +168,7 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
             });
     }
 
-    close(){
+    close() {
         super.close();
     }
 }

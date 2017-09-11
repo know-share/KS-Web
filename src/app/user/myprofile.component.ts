@@ -68,7 +68,6 @@ export class ProfileComponent implements OnInit {
     tags: Array<Tag> = new Array;
     selectedTags: any[]
     filteredTagsMultiple: any[];
-    
 
     selectedValueTipo: string;
     contenido: string;
@@ -79,6 +78,8 @@ export class ProfileComponent implements OnInit {
     insgniasNoVistas = 0;
 
     editLikes: boolean = false;
+
+    errorCrearIdea: string;
 
     //---------------------------------------------
     //Gustos
@@ -315,34 +316,62 @@ export class ProfileComponent implements OnInit {
     }
 
     crearIdea() {
-        console.log(this.tg);
-        if (this.contenido != undefined && this.selectedValueTipo == "NU" && this.selectedTags.length > 0) {
-            this.crearIdeaNorm();
-        } else {
-            this.valid = false;
-        }
-        if (this.contenido != undefined && this.selectedValueTipo == "PC" && this.selectedTags.length > 0 &&
-            this.numeroEstudiantes > 0 && this.tg != undefined) {
-            this.crearIdeaNorm();
-        } else {
-            this.valid = false;
-        }
-        if (this.contenido != undefined && this.selectedValueTipo == "PE" && this.selectedTags.length > 0 &&
-            this.numeroEstudiantes > 0 && this.alcance != undefined && this.problematica != undefined) {
-            this.crearIdeaNorm();
-        } else {
-            this.valid = false;
-        }
-        if (this.contenido != undefined && this.selectedValueTipo == "PR" && this.selectedTags.length > 0 &&
-            this.ideasPro.length > 0) {
-            this.crearIdeaNorm();
-        } else {
-            this.valid = false;
-        }
+        this.errorCrearIdea = '';
+        if(this.selectedValueTipo == "NU")
+            if (this.contenido != undefined && this.selectedTags.length > 0) {
+                this.crearIdeaNorm();
+            } else {
+                this.valid = false;
+                this.errorCrearIdea = 'Por favor, completar todos los campos.';
+            }
+        if(this.selectedValueTipo == "PC")
+            if (this.contenido != undefined && this.selectedTags.length > 0 &&
+                this.tg != undefined) {
+                if (this.numeroEstudiantes > 0 && this.numeroEstudiantes < 6)
+                    this.crearIdeaNorm();
+                else {
+                    this.valid = false;
+                    this.errorCrearIdea = 'Número de estudiantes debe ser mayor a 0 y menor a 6';
+                }
+            } else {
+                this.valid = false;
+                this.errorCrearIdea = 'Por favor, completar todos los campos.';
+            }
+        if(this.selectedValueTipo == "PE")
+            if (this.contenido != undefined && this.selectedTags.length > 0 &&
+                this.alcance != undefined && this.problematica != undefined) {
+                if (this.numeroEstudiantes > 0 && this.numeroEstudiantes < 6)
+                    this.crearIdeaNorm();
+                else {
+                    this.valid = false;
+                    this.errorCrearIdea = 'Número de estudiantes debe ser mayor a 0 y menor a 6';
+                }
+            } else {
+                this.valid = false;
+                this.errorCrearIdea = 'Por favor, completar todos los campos.';
+            }
+        if(this.selectedValueTipo == "PR")
+            if (this.contenido != undefined && this.selectedTags.length > 0 &&
+                this.ideasPro.length > 0) {
+                this.crearIdeaNorm();
+            } else {
+                this.valid = false;
+                this.errorCrearIdea = 'Por favor, completar todos los campos.';
+            }
+    }
+
+    cleanFormIdea(){
+        this.contenido = '';
+        this.numeroEstudiantes = 0;
+        this.alcance = '';
+        this.problematica = '';
+        this.selectedTags = [];
+        this.ideasPro = [];
     }
 
     crearIdeaNorm() {
         let temp: Array<Idea> = new Array;
+        this.valid = true;
         this.idea.alcance = this.alcance;
         this.idea.tipo = this.selectedValueTipo;
         this.idea.contenido = this.contenido;
@@ -354,6 +383,7 @@ export class ProfileComponent implements OnInit {
         this.ideaService.crearIdea(this.idea)
             .subscribe((res: Idea) => {
                 this.ideas.push(res);
+                this.cleanFormIdea();
             }, error => {
                 let disposable;
                 if (error == 'Error: 401')

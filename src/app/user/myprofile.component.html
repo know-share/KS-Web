@@ -117,7 +117,7 @@
                     [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
                 </p-autoComplete>
                 <div class="alert alert-danger" *ngIf = "valid === false">
-                    <label> Por Favor completar el formulario.</label>
+                    <label> {{errorCrearIdea}}</label>
                 </div>
                 <br>
                 <div class="row">

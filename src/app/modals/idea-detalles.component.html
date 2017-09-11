@@ -5,84 +5,91 @@
             <h4 class="modal-title">Detalle de idea</h4>
         </div>
         <br>
+        <div class="modal-body">
             <div class="row">
                 <div class="col-xs-1"></div>
                 <div class="col-xs-10">
-                    <div class="panel panel-info">
-                        <strong>Tipo de idea: </strong>{{tipo}}
-                        <br>
-                        <strong>Estado: </strong>{{idea.estado}}
-                        <br>
-                   
-                        <div *ngIf = "idea.tipo === 'PE'">
-                            <strong>Alcance: </strong>{{idea.alcance}}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>Tipo de idea: </strong>{{tipo}}
                             <br>
-                            <strong>Problemática: </strong>{{idea.problematica}}
+                            <strong>Estado: </strong>{{idea.estado}}
                             <br>
+
+                            <div *ngIf="idea.tipo === 'PE'">
+                                <strong>Alcance: </strong>{{idea.alcance}}
+                                <br>
+                                <strong>Problemática: </strong>{{idea.problematica}}
+                                <br>
+                            </div>
+                            <div *ngIf="idea.tipo === 'PE' || idea.tipo === 'PC'">
+                                <strong>Numero de estudiantes: </strong>{{idea.numeroEstudiantes}}
+                                <br>
+                            </div>
                         </div>
-                        <div *ngIf = "idea.tipo === 'PE' || idea.tipo === 'PC'">
-                            <strong>Numero de estudiantes: </strong>{{idea.numeroEstudiantes}}
-                            <br>
+                    </div>
+
+                    <div *ngIf="idea.tipo === 'PC'">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3>Proyecto de grado</h3>
+                                <strong>Nombre: </strong>{{idea.tg.nombre}}
+                                <br>
+                                <strong>Periodo finalización: </strong>{{idea.tg.periodoFin}}
+                                <br>
+                                <strong>Resumen: </strong>{{idea.tg.resumen}}
+                                <br>
+                                <strong>Numero de estudiantes: </strong>{{idea.tg.numEstudiantes}}
+                                <br>
+                            </div>
                         </div>
-                     </div>
-                        
-                            <div *ngIf = "idea.tipo === 'PC'">
-                                <div class="panel panel-info">
-                                    <div class="panel-heading titulo">Proyecto de grado</div>
-                                    <strong>Nombre: </strong>{{idea.tg.nombre}}
+                    </div>
+                    <div *ngIf="idea.tipo === 'PR'">
+                        <h3>Ideas Asociadas</h3>
+                        <div *ngFor="let i of idea.ideasProyecto">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Tipo de idea: </strong>{{i.tipo}}
                                     <br>
-                                    <strong>Periodo finalización: </strong>{{idea.tg.periodoFin}}
+                                    <strong>Contenido: </strong>{{i.contenido}}
                                     <br>
-                                    <strong>Resumen: </strong>{{idea.tg.resumen}}
+                                    <strong>Estado: </strong>{{i.estado}}
                                     <br>
-                                    <strong>Numero de estudiantes: </strong>{{idea.tg.numEstudiantes}}
-                                    <br>
+                                    <div *ngIf="i.tipo === 'PE'">
+                                        <strong>Alcance: </strong>{{i.alcance}}
+                                        <br>
+                                        <strong>Problemática: </strong>{{i.problematica}}
+                                        <br>
+                                    </div>
+                                    <div *ngIf="i.tipo === 'PE' || i.tipo === 'PC'">
+                                        <strong>Numero de estudiantes: </strong>{{i.numeroEstudiantes}}
+                                        <br>
+                                    </div>
+                                    <div *ngIf="i.tipo === 'PC'">
+                                        <h3>Proyecto de grado</h3>
+                                        <strong>Nombre: </strong>{{i.tg.nombre}}
+                                        <br>
+                                        <strong>Periodo finalización: </strong>{{i.tg.periodoFin}}
+                                        <br>
+                                        <strong>Resumen: </strong>{{i.tg.resumen}}
+                                        <br>
+                                        <strong>Numero de estudiantes: </strong>{{i.tg.numEstudiantes}}
+                                        <br>
+                                    </div>
                                 </div>
                             </div>
-                        <div *ngIf = "idea.tipo === 'PR'">
-                            <h3>Ideas Asociadas</h3>
-                            <div *ngFor="let i of idea.ideasProyecto">
-                                    
-                                    <div class="panel panel-info">
-                                        <strong>Tipo de idea: </strong>{{i.tipo}}
-                                        <br>
-                                        <strong>Contenido: </strong>{{i.contenido}}
-                                        <br>
-                                        <strong>Estado: </strong>{{i.estado}}
-                                        <br>
-                                        <div *ngIf = "i.tipo === 'PE'">
-                                            <strong>Alcance: </strong>{{i.alcance}}
-                                            <br>
-                                            <strong>Problemática: </strong>{{i.problematica}}
-                                            <br>
-                                        </div>
-                                        <div *ngIf = "i.tipo === 'PE' || i.tipo === 'PC'">
-                                            <strong>Numero de estudiantes: </strong>{{i.numeroEstudiantes}}
-                                            <br>
-                                        </div>
-                                        <div *ngIf = "i.tipo === 'PC'">
-                                            <h3>Proyecto de grado</h3>
-                                            <strong>Nombre: </strong>{{i.tg.nombre}}
-                                            <br>
-                                            <strong>Periodo finalización: </strong>{{i.tg.periodoFin}}
-                                            <br>
-                                            <strong>Resumen: </strong>{{i.tg.resumen}}
-                                            <br>
-                                            <strong>Numero de estudiantes: </strong>{{i.tg.numEstudiantes}}
-                                            <br>
-                                        </div>
-                                    </div>
-                            </div>
                         </div>
-                    
+                    </div>
                 </div>
-                <div class="col-xs-1"></div>
             </div>
             <div class="row">
                 <div class="col-xs-1"></div>
-                <div class="col-xs-5"><button class="btn btn-primary" (click) = "aceptar()">Aceptar</button></div>
-                <div class="col-xs-5"><button class="btn btn-success " *ngIf = "usuario == idea.usuario" (click)= "cambiarEstado()">Cambiar estado</button></div>
-                <div class="col-xs-1"></div>
+                <div class="col-xs-5"><button class="btn btn-primary" (click)="aceptar()">Aceptar</button></div>
+                <div class="col-xs-5">
+                    <button class="btn btn-success " *ngIf="usuario == idea.usuario" (click)="cambiarEstado()">Cambiar estado</button>
+                </div>
             </div>
+        </div>
     </div>
 </div>
