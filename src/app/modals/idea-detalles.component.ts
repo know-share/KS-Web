@@ -22,6 +22,7 @@ export class DetalleIdeaModalComponent extends DialogComponent<RequestModalDispl
     usuario:string = localStorage.getItem('user');
     idea:Idea;
     tipo : string;
+    estado:string;
 
     constructor(
         dialogService: DialogService,
@@ -40,6 +41,11 @@ export class DetalleIdeaModalComponent extends DialogComponent<RequestModalDispl
             this.tipo = 'Para empezar';
         if(this.idea.tipo === 'PR')
             this.tipo = 'Proyecto';
+        if(this.idea.estado === 'TG')
+            this.estado = 'Trabajo de grado';
+        if(this.idea.estado === 'NOTG')
+            this.estado = 'No trabajo de grado';
+
 
 
     }

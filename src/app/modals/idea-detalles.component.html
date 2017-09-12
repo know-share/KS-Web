@@ -13,7 +13,7 @@
                         <div class="panel-heading">
                             <strong>Tipo de idea: </strong>{{tipo}}
                             <br>
-                            <strong>Estado: </strong>{{idea.estado}}
+                            <strong>Estado: </strong>{{estado}}
                             <br>
 
                             <div *ngIf="idea.tipo === 'PE'">
@@ -87,7 +87,7 @@
                 <div class="col-xs-1"></div>
                 <div class="col-xs-5"><button class="btn btn-primary" (click)="aceptar()">Aceptar</button></div>
                 <div class="col-xs-5">
-                    <button class="btn btn-success " *ngIf="usuario == idea.usuario" (click)="cambiarEstado()">Cambiar estado</button>
+                    <button class="btn btn-success " *ngIf="usuario == idea.usuario && idea.estado == 'NOTG'" (click)="cambiarEstado()">Cambiar estado</button>
                 </div>
             </div>
         </div>

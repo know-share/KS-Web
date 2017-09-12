@@ -123,7 +123,16 @@ export class SearchComponent implements OnInit {
                     });
             }
             if(this.option == 2){
-                this.ideaService.find(this.selectedTags,'/continuar ')
+                this.buscarIdeas('/continuar');
+            }
+            if(this.option == 1){
+                this.buscarIdeas('/nueva');
+            }
+        }
+    }
+
+    buscarIdeas(criterio:string){
+            this.ideaService.find(this.selectedTags,criterio)
                     .subscribe(res => {
                         this.ideas = res;
                     }, error => {
@@ -134,8 +143,7 @@ export class SearchComponent implements OnInit {
                         else
                             console.log('Error ' + error);
                     });
-            }
-        }
+
     }
 
     goToProfile(username) {
