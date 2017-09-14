@@ -21,7 +21,7 @@
                         (completeMethod)="filterTagMultiple($event)" [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true"
                         [ngModelOptions]="{standalone: true}">
                     </p-autoComplete>
-                    <input *ngIf="option!=6" [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
+                    <input *ngIf="activeTab == 'users'" [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
                     <div class="alert alert-danger" *ngIf="error">
                         Debe llenar el campo de búsqueda.
                     </div>

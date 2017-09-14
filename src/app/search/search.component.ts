@@ -60,8 +60,6 @@ export class SearchComponent implements OnInit {
                     });
             }
         });
-
-
     }
 
     moveTab(tab) {
@@ -78,6 +76,7 @@ export class SearchComponent implements OnInit {
                 return 'HABILIDAD';
         }
     }
+
     /**
      * Metodo que realiza las busquedas tanto de ideas como de usuarios
      * segun los criterios dados por el usuario
@@ -89,7 +88,7 @@ export class SearchComponent implements OnInit {
             this.error = true;
             return;
         }
-        if (this.option != 6 && this.searchAdv == "") {
+        if (this.activeTab == 'users' && this.searchAdv == "") {
             this.error = true;
             return;
         }
@@ -113,8 +112,8 @@ export class SearchComponent implements OnInit {
                 });
         }
         if (this.activeTab == 'ideas') {
-            if(this.option == 6){
-                this.ideaService.find(this.selectedTags,'/tag')
+            if (this.option == 6) {
+                this.ideaService.find(this.selectedTags, '/tag')
                     .subscribe(res => {
                         this.ideas = res;
                     }, error => {
@@ -126,16 +125,16 @@ export class SearchComponent implements OnInit {
                             console.log('Error ' + error);
                     });
             }
-            if(this.option == 2){
+            if (this.option == 2) {
                 this.buscarIdeas('/continuar');
             }
-            if(this.option == 1){
+            if (this.option == 1) {
                 this.buscarIdeas('/nueva');
             }
-            if(this.option == 5){
+            if (this.option == 5) {
                 this.buscarIdeas('/proyecto');
             }
-            if(this.option == 4){
+            if (this.option == 4) {
                 this.buscarIdeas('/empezar');
             }
         }
@@ -145,18 +144,18 @@ export class SearchComponent implements OnInit {
      * Metodo encargado de buscar las ideas segun el criterio dado
      * @param criterio tipo de busqueda de idea a realizar
      */
-    buscarIdeas(criterio:string){
-            this.ideaService.find(this.selectedTags,criterio)
-                    .subscribe(res => {
-                        this.ideas = res;
-                    }, error => {
-                        let disposable;
+    buscarIdeas(criterio: string) {
+        this.ideaService.find(this.selectedTags, criterio)
+            .subscribe(res => {
+                this.ideas = res;
+            }, error => {
+                let disposable;
 
-                        if (error == 'Error: 401')
-                            disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                        else
-                            console.log('Error ' + error);
-                    });
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                else
+                    console.log('Error ' + error);
+            });
 
     }
 
@@ -203,7 +202,7 @@ export class SearchComponent implements OnInit {
         }
         return filtered;
     }
-    
+
     /**
      * Metodo encargado de actualizar los datos de la idea modificada.
      * @param confirm idea la cual se comenta se comparte o se le hace light
