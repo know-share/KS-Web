@@ -78,7 +78,11 @@ export class SearchComponent implements OnInit {
                 return 'HABILIDAD';
         }
     }
-
+    /**
+     * Metodo que realiza las busquedas tanto de ideas como de usuarios
+     * segun los criterios dados por el usuario
+     * 
+     */
     onSearchAdv() {
         if (this.activeTab == 'ideas' && this.option == 6 &&
             this.selectedTags.length == 0) {
@@ -128,9 +132,19 @@ export class SearchComponent implements OnInit {
             if(this.option == 1){
                 this.buscarIdeas('/nueva');
             }
+            if(this.option == 5){
+                this.buscarIdeas('/proyecto');
+            }
+            if(this.option == 4){
+                this.buscarIdeas('/empezar');
+            }
         }
     }
 
+    /**
+     * Metodo encargado de buscar las ideas segun el criterio dado
+     * @param criterio tipo de busqueda de idea a realizar
+     */
     buscarIdeas(criterio:string){
             this.ideaService.find(this.selectedTags,criterio)
                     .subscribe(res => {
@@ -145,6 +159,7 @@ export class SearchComponent implements OnInit {
                     });
 
     }
+
 
     goToProfile(username) {
         this.router.navigate(["/user", username]);
@@ -189,6 +204,10 @@ export class SearchComponent implements OnInit {
         return filtered;
     }
     
+    /**
+     * Metodo encargado de actualizar los datos de la idea modificada.
+     * @param confirm idea la cual se comenta se comparte o se le hace light
+     */
     cambio(confirm: IdeaHome) {
         let temp: Array<Idea> = new Array;
         if (confirm != null) {
