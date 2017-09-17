@@ -1,7 +1,7 @@
-import { IdeaHome } from './../entities/ideaHome';
 import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
+import { NgZone } from '@angular/core';
 
 import { ExpirationModalComponent } from '../modals/expiration.component';
 
@@ -17,6 +17,8 @@ import { Habilidad } from '../entities/habilidad';
 import { AreaConocimiento } from '../entities/areaConocimiento';
 import { Idea } from '../entities/idea';
 import { URL_IMAGE_USER } from '../entities/constants';
+import { IdeaHome } from './../entities/ideaHome';
+import { Page } from '../entities/page';
 
 //primeng
 import { Message } from 'primeng/primeng';
@@ -57,6 +59,9 @@ export class UserComponent implements OnInit {
 
     msgs: Message[] = [];
 
+    pageable: Page<Idea> = null;
+    timestamp: number;
+
     constructor(
         private ideaService: IdeaService,
         private activatedRoute: ActivatedRoute,
@@ -65,7 +70,28 @@ export class UserComponent implements OnInit {
         private router: Router,
         private dialogService: DialogService,
         private ludificacionService: LudificacionService,
+        private lc: NgZone,
     ) {
+        window.onscroll = () => {
+            let status = false;
+            let windowHeight = "innerHeight" in window ? window.innerHeight
+                : document.documentElement.offsetHeight;
+            let body = document.body, html = document.documentElement;
+            let docHeight = Math.max(body.scrollHeight,
+                body.offsetHeight, html.clientHeight,
+                html.scrollHeight, html.offsetHeight);
+            let windowBottom = windowHeight + window.pageYOffset;
+            if (windowBottom >= docHeight) {
+                status = true;
+            }
+            this.lc.run(() => {
+                if (status) {
+                    if (this.pageable && !this.pageable.last)
+                        this.refreshIdeas(this.pageable.number + 1);
+                }
+            });
+        };
+        this.timestamp = (new Date).getTime();
         this.activeTab = 'ideas';
     }
 
@@ -87,6 +113,7 @@ export class UserComponent implements OnInit {
                     this.habilidadesProfesionales = [];
                     this.habilidadesProfesionalesSeg = [];
                     this.areasConocimiento = [];
+                    this.ideas = new Array;
                     this.areasConocimientoSeg = [];
                     this.usuario = usuario;
                     this.mapAreasConocimiento(usuario.areasConocimiento);
@@ -112,7 +139,7 @@ export class UserComponent implements OnInit {
                         this.botonSeguir();
                         this.botonSolicitud();
                         this.reloadImage();
-                        this.refreshIdeas();
+                        this.refreshIdeas(0);
                     }
                 }, error => {
                     let disposable;
@@ -127,10 +154,11 @@ export class UserComponent implements OnInit {
         });
     }
 
-    refreshIdeas() {
-        this.ideaService.findByUsuario(this.username)
-            .subscribe((res: any[]) => {
-                this.ideas = res;
+    refreshIdeas(page) {
+        this.ideaService.findByUsuario(this.username,page,this.timestamp)
+            .subscribe((res: Page<Idea>) => {
+                this.pageable = res;
+                this.ideas = this.ideas.concat(this.pageable.content);
             }, error => {
                 console.log('Error' + error);
             });
