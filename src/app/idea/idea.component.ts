@@ -46,7 +46,6 @@ export class IdeaComponent implements OnInit {
     }
 
     light(){
-        console.log(this.idea);
         let retorno: IdeaHome = new IdeaHome();
         this.ideaService.light(this.idea)
             .subscribe((res :Idea)=> {

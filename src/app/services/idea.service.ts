@@ -40,8 +40,8 @@ export class IdeaService{
             });
     }
 
-    findByUsuario(username : string){
-        let url = this.baseUrl + 'findByUsuario/' + username;
+    findByUsuario(username : string,page,time){
+        let url = this.baseUrl + `findByUsuario/${username}?page=${page}&timestamp=${time}`;
         let header = new Headers();
         header.append('Authorization',localStorage.getItem('token'));
         return this.http.get(url,{
@@ -88,8 +88,8 @@ export class IdeaService{
             });
     }
 
-    findRed(){
-        let url = this.baseUrl + 'findRed';
+    findRed(page){
+        let url = this.baseUrl + `findRed?page=${page}`;
         let header = new Headers();
         header.append('Authorization',localStorage.getItem('token'));
         return this.http.get(url,{

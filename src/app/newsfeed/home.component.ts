@@ -4,6 +4,7 @@ import { Component, OnInit, ElementRef, ViewChild, ViewChildren } from '@angular
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from "ng2-bootstrap-modal";
+import { NgZone } from '@angular/core';
 import { AutoCompleteModule } from 'primeng/primeng';
 
 import { RequestModalComponent } from '../modals/request.component';
@@ -16,6 +17,7 @@ import { RuleService } from '../services/rules.service';
 
 import { Idea } from '../entities/idea';
 import { Tag } from '../entities/tag';
+import { Page } from '../entities/page';
 import { Recomendacion } from '../entities/recomendacion';
 
 import { ComentarModalComponent } from '../modals/comentar.component';
@@ -49,6 +51,8 @@ export class HomeComponent implements OnInit {
 
     preferenciaDespliegue: string = "";
 
+    pageable: Page<Idea> = null;
+
     constructor(
         private fb: FormBuilder,
         private ideaService: IdeaService,
@@ -57,15 +61,35 @@ export class HomeComponent implements OnInit {
         private dialogService: DialogService,
         private tagService: TagService,
         private ruleService: RuleService,
+        private lc: NgZone,
     ) {
         this.selectedValueTipo = 'NU';
     }
 
     ngOnInit() {
+        window.onscroll = () => {
+            let status = false;
+            let windowHeight = "innerHeight" in window ? window.innerHeight
+                : document.documentElement.offsetHeight;
+            let body = document.body, html = document.documentElement;
+            let docHeight = Math.max(body.scrollHeight,
+                body.offsetHeight, html.clientHeight,
+                html.scrollHeight, html.offsetHeight);
+            let windowBottom = windowHeight + window.pageYOffset;
+            if (windowBottom >= docHeight) {
+                status = true;
+            }
+            this.lc.run(() => {
+                if (status) {
+                    if (this.pageable && !this.pageable.last)
+                        this.findRed(this.pageable.number + 1);
+                }
+            });
+        };
         this.listSolicitudes = [];
         this.cantidadSolicitudes = 0;
-
-        this.findRed();
+        this.newIdeas = new Array;
+        this.findRed(0);
     }
 
     refreshSolicitudes() {
@@ -179,7 +203,6 @@ export class HomeComponent implements OnInit {
     }
 
     filterTag(query, tags: any[]): any[] {
-        //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
         let filtered: any[] = [];
         for (let i = 0; i < tags.length; i++) {
             let tag = tags[i];
@@ -190,10 +213,11 @@ export class HomeComponent implements OnInit {
         return filtered;
     }
 
-    findRed() {
-        this.ideaService.findRed().
-            subscribe((res: Array<Idea>) => {
-                this.newIdeas = res;
+    findRed(page) {
+        this.ideaService.findRed(page).
+            subscribe((res: Page<Idea>) => {
+                this.pageable = res;
+                this.newIdeas = this.newIdeas.concat(this.pageable.content);
                 this.showTags();
             }, error => {
                 let disposable;
@@ -202,7 +226,6 @@ export class HomeComponent implements OnInit {
                 else
                     this.showTags();
             });
-
     }
 
     cambio(confirm: IdeaHome) {
