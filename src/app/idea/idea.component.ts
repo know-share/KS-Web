@@ -82,6 +82,7 @@ export class IdeaComponent implements OnInit {
             this.ideaService.compartir(this.idea)
                 .subscribe((res : Idea) =>{
                     if(res != null){
+                        console.log(res.tg.nombre); 
                         retorno.idea=res;
                         retorno.operacion="compartir";
                         this.change.emit(retorno);

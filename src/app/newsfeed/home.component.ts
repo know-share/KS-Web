@@ -212,6 +212,7 @@ export class HomeComponent implements OnInit {
             this.ideaService.findById(confirm.idea.id)
                 .subscribe((res: Idea) => {
                     if (confirm.operacion === "compartir") {
+                        console.log(res.tg.nombre);
                         temp.push(res);
                         temp = temp.concat(this.newIdeas);
                         this.newIdeas = temp;
