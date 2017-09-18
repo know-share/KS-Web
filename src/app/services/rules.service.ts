@@ -5,6 +5,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { URL_API } from '../entities/constants';
+import { Tag } from './../entities/tag';
 
 @Injectable()
 export class RuleService {
@@ -98,6 +99,54 @@ export class RuleService {
                 if(res.status == 200)
                     return res.json();
                 throw Error('Error: '+res.status);
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    findRed(page){
+        let url = this.baseUrl + `findIdeasRed?page=${page}`;
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        return this.http.get(url,{
+            headers : header
+        })
+            .map((res : Response)=>{
+                if(res.status == 200){
+                    return res.json();
+                }
+                if(res.status == 204){
+                    throw new Error('No hay ideas.');
+                }
+                if(res.status == 500){
+                    throw new Error('No se pudieron cargar las ideas.');
+                }
+            }).catch((err:Response) =>{
+                if(err.status == 401)
+                    throw new Error(err.status.toString());
+                throw Error(err.toString());
+            });
+    }
+
+    find(tags:Array<Tag>,criterio:string){
+        let url = this.baseUrl + 'buscarIdea' + criterio;
+        let header = new Headers();
+        header.append('Authorization',localStorage.getItem('token'));
+        return this.http.post(url,tags,{
+            headers : header
+        })
+            .map((res : Response)=>{
+                if(res.status == 200){
+                    return res.json();
+                }
+                if(res.status == 204){
+                    throw new Error('No hay ideas.');
+                }
+                if(res.status == 500){
+                    throw new Error('No se pudieron cargar las ideas.');
+                }
             }).catch((err:Response) =>{
                 if(err.status == 401)
                     throw new Error(err.status.toString());

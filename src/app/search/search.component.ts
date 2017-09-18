@@ -1,8 +1,3 @@
-    import { IdeaHome } from './../entities/ideaHome';
-import { Idea } from './../entities/idea';
-import { IdeaService } from './../services/idea.service';
-import { Tag } from './../entities/tag';
-import { TagService } from './../services/tag.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
@@ -11,8 +6,13 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
 
 import { Recomendacion } from '../entities/recomendacion';
 import { URL_IMAGE_USER } from '../entities/constants';
+import { IdeaHome } from './../entities/ideaHome';
+import { Idea } from './../entities/idea';
+import { Tag } from './../entities/tag';
 
 import { RuleService } from '../services/rules.service';
+import { TagService } from './../services/tag.service';
+import { IdeaService } from '../services/idea.service';
 
 @Component({
     selector: 'search',
@@ -40,7 +40,7 @@ export class SearchComponent implements OnInit {
         private ruleService: RuleService,
         private dialogService: DialogService,
         private tagService: TagService,
-        private ideaService: IdeaService
+        private ideaService: IdeaService,
     ) { }
 
     ngOnInit() {
@@ -113,7 +113,7 @@ export class SearchComponent implements OnInit {
         }
         if (this.activeTab == 'ideas') {
             if (this.option == 6) {
-                this.ideaService.find(this.selectedTags, '/tag')
+                this.ruleService.find(this.selectedTags, '/tag')
                     .subscribe(res => {
                         this.ideas = res;
                     }, error => {
@@ -145,12 +145,11 @@ export class SearchComponent implements OnInit {
      * @param criterio tipo de busqueda de idea a realizar
      */
     buscarIdeas(criterio: string) {
-        this.ideaService.find(this.selectedTags, criterio)
+        this.ruleService.find(this.selectedTags, criterio)
             .subscribe(res => {
                 this.ideas = res;
             }, error => {
                 let disposable;
-
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
                 else
@@ -158,7 +157,6 @@ export class SearchComponent implements OnInit {
             });
 
     }
-
 
     goToProfile(username) {
         this.router.navigate(["/user", username]);

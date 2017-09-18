@@ -1,5 +1,3 @@
-import { CrearIdeaModalComponent } from './../modals/crear-idea.component';
-import { IdeaHome } from './../entities/ideaHome';
 import { Component, OnInit, ElementRef, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -7,20 +5,21 @@ import { DialogService } from "ng2-bootstrap-modal";
 import { NgZone } from '@angular/core';
 import { AutoCompleteModule } from 'primeng/primeng';
 
-import { RequestModalComponent } from '../modals/request.component';
-import { ExpirationModalComponent } from '../modals/expiration.component';
-
 import { IdeaService } from '../services/idea.service';
 import { UsuarioService } from '../services/usuario.service';
 import { TagService } from '../services/tag.service';
 import { RuleService } from '../services/rules.service';
 
 import { Idea } from '../entities/idea';
+import { IdeaHome } from './../entities/ideaHome';
 import { Tag } from '../entities/tag';
 import { Page } from '../entities/page';
 import { Recomendacion } from '../entities/recomendacion';
 
 import { ComentarModalComponent } from '../modals/comentar.component';
+import { CrearIdeaModalComponent } from './../modals/crear-idea.component';
+import { RequestModalComponent } from '../modals/request.component';
+import { ExpirationModalComponent } from '../modals/expiration.component';
 
 @Component({
     selector: 'home',
@@ -214,7 +213,7 @@ export class HomeComponent implements OnInit {
     }
 
     findRed(page) {
-        this.ideaService.findRed(page).
+        this.ruleService.findRed(page).
             subscribe((res: Page<Idea>) => {
                 this.pageable = res;
                 this.newIdeas = this.newIdeas.concat(this.pageable.content);
