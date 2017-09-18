@@ -14,6 +14,7 @@ import {Comentario} from '../entities/comentario';
 export class IdeaService{
     
     baseUrl = URL_API + "/idea/";
+    baseUrlRecomendaciones = URL_API+"/rules/";
     
     constructor(
         private http: Http
@@ -89,7 +90,7 @@ export class IdeaService{
     }
 
     findRed(page){
-        let url = this.baseUrl + `findRed?page=${page}`;
+        let url = this.baseUrlRecomendaciones + `findRed?page=${page}`;
         let header = new Headers();
         header.append('Authorization',localStorage.getItem('token'));
         return this.http.get(url,{
@@ -232,7 +233,7 @@ export class IdeaService{
     }
 
     find(tags:Array<Tag>,criterio:string){
-        let url = this.baseUrl + 'find' + criterio;
+        let url = this.baseUrl + 'baseUrlRecomendaciones' + criterio;
         let header = new Headers();
         header.append('Authorization',localStorage.getItem('token'));
         return this.http.post(url,tags,{
