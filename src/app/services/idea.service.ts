@@ -63,8 +63,8 @@ export class IdeaService{
             });
     }
 
-    findByUsuarioPro(username : string){
-        let url = this.baseUrl + 'findByUsuarioPro/' + username;
+    findByUsuarioPro(username : string,timestamp,page){
+        let url = this.baseUrl + `findByUsuarioPro/${username}?page=${page}&timestamp=${timestamp}`;
         let header = new Headers();
         header.append('Authorization',localStorage.getItem('token'));
         return this.http.get(url,{
