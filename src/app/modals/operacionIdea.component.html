@@ -5,57 +5,50 @@
             <h4 class="modal-title" *ngIf="tipo === 'light'">Lights</h4>
             <h4 class="modal-title" *ngIf="tipo === 'comentarios'">Comentarios</h4>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div *ngIf="tipo === 'light'">
-                    <div *ngFor="let o of operaciones">
-                        <div class="row">
-                            <div class="col-xs-1"></div>
-                            <div class="col-xs-10">
-                                <div class="panel panel-default">
-                                    <div class="panel panel-body likes"><a (click)="goProfile(o.username)">{{o.username}}</a></div>
+        <div class="modal-body">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div *ngIf="tipo === 'light'">
+                        <div *ngFor="let o of operaciones">
+                            <div class="row">
+                                <div class="col-xs-1"></div>
+                                <div class="col-xs-10">
+                                    <div class="panel panel-default">
+                                        <div class="panel panel-body likes"><a (click)="goProfile(o.username)">{{o.username}}</a></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <div class="row">
-                            <div class="col-xs-1"></div>
-                            <button class="btn btn-primary" (click)="aceptar()">Aceptar</button>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="tipo === 'comentarios'">
-                    <div *ngFor="let o of operaciones">
-                        <div class="row">
-                            <div class="col-xs-1"></div>
-                            <div class="col-xs-10">
-                                <div class="panel panel-info">
-                                    <div class="panel panel-heading">
-                                        <div class="row">
-                                            <div class="col-xs-6">
-                                                <a (click)="goProfile(o.username)">{{o.username}}</a>
-                                            </div>
-                                            <div class="col-xs-6">
-                                                <label style=" text-align: right;">Publicada: {{o.fecha | date:"dd/MM/yyyy"}}</label>
+                    <div *ngIf="tipo === 'comentarios'">
+                        <div *ngFor="let o of operaciones">
+                            <div class="row">
+                                <div class="col-xs-1"></div>
+                                <div class="col-xs-10">
+                                    <div class="panel panel-info">
+                                        <div class="panel panel-heading">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <a (click)="goProfile(o.username)">{{o.username}}</a>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label style=" text-align: right;">Publicada: {{o.fecha | date:"dd/MM/yyyy"}}</label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="panel panel-body titulo">
-                                        {{o.contenido}}
+                                        <div class="panel panel-body titulo">
+                                            {{o.contenido}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="row">
-                            <div class="col-xs-1"></div>
-                            <button class="btn btn-primary" (click)="aceptar()">Aceptar</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" (click)="aceptar()">Aceptar</button>
         </div>
     </div>
 </div>

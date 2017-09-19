@@ -32,6 +32,10 @@ a:hover{
 .modal{
   background: rgba(1, 1, 1, 0.5);
 }
+.modal-body{
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+}
 .modal.fade .modal-dialog, .modal.in .modal-dialog{
   overflow-y: initial !important;
   position: absolute;
@@ -64,7 +68,6 @@ textarea{
 .titulo{
     text-align: left;
 }
-
 .likes{
     height: 10px;
 }

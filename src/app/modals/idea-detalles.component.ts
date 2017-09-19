@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { ExpirationModalComponent } from '../modals/expiration.component';
 
 export interface RequestModalDisplay {
-    idea : Idea;
+    idea: Idea;
 }
 
 @Component({
@@ -17,57 +17,52 @@ export interface RequestModalDisplay {
     templateUrl: './idea-detalles.component.html',
 })
 export class DetalleIdeaModalComponent extends DialogComponent<RequestModalDisplay, Idea>
-    implements  OnInit {
-    
-    usuario:string = localStorage.getItem('user');
-    idea:Idea;
-    tipo : string;
-    estado:string;
+    implements OnInit {
+
+    usuario: string = localStorage.getItem('user');
+    idea: Idea;
+    tipo: string;
+    estado: string;
 
     constructor(
         dialogService: DialogService,
         private ideaService: IdeaService
-    ){
+    ) {
         super(dialogService);
-        
+
     }
 
-    ngOnInit(){
-        if(this.idea.tipo === 'NU')
+    ngOnInit() {
+        if (this.idea.tipo === 'NU')
             this.tipo = 'Nueva';
-        if(this.idea.tipo === 'PC')
-           this.tipo = 'Para continuar';
-        if(this.idea.tipo === 'PE')
+        if (this.idea.tipo === 'PC')
+            this.tipo = 'Para continuar';
+        if (this.idea.tipo === 'PE')
             this.tipo = 'Para empezar';
-        if(this.idea.tipo === 'PR')
+        if (this.idea.tipo === 'PR')
             this.tipo = 'Proyecto';
-        if(this.idea.estado === 'TG')
+        if (this.idea.estado === 'TG')
             this.estado = 'Trabajo de grado';
-        if(this.idea.estado === 'NOTG')
+        if (this.idea.estado === 'NOTG')
             this.estado = 'No trabajo de grado';
-
-
-
     }
 
-    aceptar(){
+    aceptar() {
         this.result = this.idea;
         super.close();
     }
 
-    cambiarEstado(){
+    cambiarEstado() {
         let estado;
-        if(this.idea.estado === "TG"){
+        if (this.idea.estado === "TG") {
             this.idea.estado = "NOTG";
-        }else{
+        } else {
             this.idea.estado = "TG";
         }
         this.ideaService.cambiarEstado(this.idea)
-            .subscribe(res =>{
+            .subscribe(res => {
                 this.result = res;
                 super.close()
-            });            
+            });
     }
-
-    
 }

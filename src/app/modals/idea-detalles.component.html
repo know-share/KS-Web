@@ -83,13 +83,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-1"></div>
-                <div class="col-xs-5"><button class="btn btn-primary" (click)="aceptar()">Aceptar</button></div>
-                <div class="col-xs-5">
-                    <button class="btn btn-success " *ngIf="usuario == idea.usuario && idea.estado == 'NOTG'" (click)="cambiarEstado()">Cambiar estado</button>
-                </div>
-            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" (click)="aceptar()">Aceptar</button>
+            <button class="btn btn-success" *ngIf="usuario.toLowerCase() === idea.usuario.toLowerCase() && idea.estado == 'NOTG'" (click)="cambiarEstado()">Cambiar estado</button>
         </div>
     </div>
 </div>
