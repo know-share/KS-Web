@@ -1,11 +1,11 @@
 <div class="panel panel-info">
     <div class="panel-heading titulo">
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-8">
                 <a *ngIf="idea.compartida === false" (click)="goProfile(idea.usuario)">{{idea.usuario}}</a>
                 <span *ngIf="idea.compartida === true"><a (click) = "goProfile(idea.usuario)">{{idea.usuario}}</a> compartida de: <a (click) = "goProfile(idea.usuarioOriginal)">{{idea.usuarioOriginal}}</a></span>
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-4">
                 <label style=" text-align: right;">Publicada: {{idea.fechaCreacion | date:"dd/MM/yyyy"}}</label>
             </div>
         </div>
@@ -28,7 +28,8 @@
         <div class="col-xs-4"><button type="button" (click)="comentar()" class="btn btn-default btn-block"><i class="glyphicon glyphicon-comment" >
                 </i> Comentar</button>
         </div>
-        <div class="col-xs-4"><button type="button" [disabled]="username.toLowerCase() == idea.usuario.toLowerCase() || idea.tipo == 'PR'" 
+        <div class="col-xs-4"><button type="button" [disabled]="username.toLowerCase() == idea.usuario.toLowerCase() || idea.tipo == 'PR' 
+                || (idea.usuarioOriginal && idea.usuarioOriginal.toLowerCase() == username.toLowerCase())"
                 class="btn btn-default btn-block" (click)="compartir()">
                 <i class="glyphicon glyphicon-share"></i> Compartir</button>
         </div>

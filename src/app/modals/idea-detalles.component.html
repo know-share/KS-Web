@@ -11,9 +11,9 @@
                 <div class="col-xs-10">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <strong>Tipo de idea: </strong>{{tipo}}
+                            <strong>Tipo de idea: </strong>{{getTipo(idea)}}
                             <br>
-                            <strong>Estado: </strong>{{estado}}
+                            <strong>Estado: </strong>{{getEstado(idea)}}
                             <br>
 
                             <div *ngIf="idea.tipo === 'PE'">
@@ -50,11 +50,11 @@
 
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <strong>Tipo de idea: </strong>{{i.tipo}}
+                                    <strong>Tipo de idea: </strong>{{getTipo(i)}}
                                     <br>
                                     <strong>Contenido: </strong>{{i.contenido}}
                                     <br>
-                                    <strong>Estado: </strong>{{i.estado}}
+                                    <strong>Estado: </strong>{{getEstado(i)}}
                                     <br>
                                     <div *ngIf="i.tipo === 'PE'">
                                         <strong>Alcance: </strong>{{i.alcance}}

@@ -21,8 +21,6 @@ export class DetalleIdeaModalComponent extends DialogComponent<RequestModalDispl
 
     usuario: string = localStorage.getItem('user');
     idea: Idea;
-    tipo: string;
-    estado: string;
 
     constructor(
         dialogService: DialogService,
@@ -33,18 +31,24 @@ export class DetalleIdeaModalComponent extends DialogComponent<RequestModalDispl
     }
 
     ngOnInit() {
-        if (this.idea.tipo === 'NU')
-            this.tipo = 'Nueva';
-        if (this.idea.tipo === 'PC')
-            this.tipo = 'Para continuar';
-        if (this.idea.tipo === 'PE')
-            this.tipo = 'Para empezar';
-        if (this.idea.tipo === 'PR')
-            this.tipo = 'Proyecto';
-        if (this.idea.estado === 'TG')
-            this.estado = 'Trabajo de grado';
-        if (this.idea.estado === 'NOTG')
-            this.estado = 'No trabajo de grado';
+    }
+
+    getEstado(idea){
+        if (idea.estado === 'TG')
+            return 'Trabajo de grado';
+        if (idea.estado === 'NOTG')
+            return 'No trabajo de grado';
+    }
+
+    getTipo(idea){
+        if (idea.tipo === 'NU')
+            return 'Nueva';
+        if (idea.tipo === 'PC')
+            return 'Para continuar';
+        if (idea.tipo === 'PE')
+            return 'Para empezar';
+        if (idea.tipo === 'PR')
+            return 'Proyecto';
     }
 
     aceptar() {

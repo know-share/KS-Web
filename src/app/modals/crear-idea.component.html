@@ -7,6 +7,9 @@
         <div class="modal-body">
             <div class="panel panel-default">
                 <div class="panel-heading">
+                    <div class="alert alert-danger" *ngIf="valid === false">
+                        <label> {{errorCrearIdea}}</label>
+                    </div>
                     <form>
                         <div class="form-group">
                             <label for="sel1">Seleccione el tipo de idea:</label>
@@ -33,33 +36,29 @@
                             <label for="problematica">Problematica: </label>
                             <textarea class="form-control" type="text" [(ngModel)]="problematica" rows='5' name="problem"></textarea>
                         </div>
-                        <div class="form-group" *ngIf="selectedValueTipo == 'PR'">
-                            <button type="button" class="btn" (click)="agregarIdeas()">Agregar ideas</button>
-                        </div>
-
-                        <div class="form-group" *ngIf="selectedValueTipo == 'PC'">
-                            <button type="button" class="btn" (click)="asociarTG()">Asociar tg</button>
-                        </div>
-
-                        <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
-                            [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
-                        </p-autoComplete>
-                        <div class="alert alert-danger" *ngIf="valid === false">
-                            <label> {{errorCrearIdea}}</label>
-                        </div>
-                        <br>
                         <div class="row">
-                            <div class="col-xs-5">
-                                <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
+                            <div class="col-xs-4">
+                                <div class="form-group" *ngIf="selectedValueTipo == 'PR'">
+                                    <button type="button" class="btn" (click)="agregarIdeas()">Agregar ideas</button>
+                                </div>
+                                <div class="form-group" *ngIf="selectedValueTipo == 'PC'">
+                                    <button type="button" class="btn" (click)="asociarTG()">Asociar tg</button>
+                                </div>
                             </div>
-                            <div class="col-xs-7">
+                            <div class="col-xs-8">
                                 <label *ngIf="selectedValueTipo == 'PR'">Número de ideas: {{ideasPro.length}}</label>
                                 <label *ngIf="selectedValueTipo == 'PC'">Trabajo de grado asociado: {{tg.nombre}}</label>
                             </div>
                         </div>
+                        <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
+                            [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
+                        </p-autoComplete>
                     </form>
                 </div>
             </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
         </div>
     </div>
 </div>

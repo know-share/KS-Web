@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from "ng2-bootstrap-modal";
 import { NgZone } from '@angular/core';
+
+//primeng
+import { Message } from 'primeng/primeng';
 import { AutoCompleteModule } from 'primeng/primeng';
 
 import { IdeaService } from '../services/idea.service';
@@ -24,7 +27,7 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
 @Component({
     selector: 'home',
     templateUrl: './home.component.html',
-    //styleUrls: ['']
+    styleUrls: ['home.component.css']
 })
 export class HomeComponent implements OnInit {
 
@@ -51,6 +54,8 @@ export class HomeComponent implements OnInit {
     preferenciaDespliegue: string = "";
 
     pageable: Page<Idea> = null;
+
+    msgs: Message[] = [];
 
     constructor(
         private fb: FormBuilder,
@@ -249,7 +254,6 @@ export class HomeComponent implements OnInit {
         } else {
             //pop up con error
         }
-
     }
 
     crearIdea() {
@@ -257,6 +261,8 @@ export class HomeComponent implements OnInit {
         let disposable = this.dialogService.addDialog(CrearIdeaModalComponent, {})
             .subscribe(confirmed => {
                 if (confirmed) {
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'success', summary: 'Idea publicada', detail: 'Tu idea ha sido publicada exitosamente.' });
                     temp.push(confirmed);
                     temp = temp.concat(this.newIdeas);
                     this.newIdeas = temp;

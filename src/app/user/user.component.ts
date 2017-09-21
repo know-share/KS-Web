@@ -72,25 +72,6 @@ export class UserComponent implements OnInit {
         private ludificacionService: LudificacionService,
         private lc: NgZone,
     ) {
-        window.onscroll = () => {
-            let status = false;
-            let windowHeight = "innerHeight" in window ? window.innerHeight
-                : document.documentElement.offsetHeight;
-            let body = document.body, html = document.documentElement;
-            let docHeight = Math.max(body.scrollHeight,
-                body.offsetHeight, html.clientHeight,
-                html.scrollHeight, html.offsetHeight);
-            let windowBottom = windowHeight + window.pageYOffset;
-            if (windowBottom >= docHeight) {
-                status = true;
-            }
-            this.lc.run(() => {
-                if (status) {
-                    if (this.pageable && !this.pageable.last)
-                        this.refreshIdeas(this.pageable.number + 1);
-                }
-            });
-        };
         this.timestamp = (new Date).getTime();
         this.activeTab = 'ideas';
     }
@@ -98,6 +79,26 @@ export class UserComponent implements OnInit {
     ngOnInit() {
         this.usuario = null;
         this.activatedRoute.params.subscribe((params: Params) => {
+            window.scrollTo(0, 0);
+            window.onscroll = () => {
+                let status = false;
+                let windowHeight = "innerHeight" in window ? window.innerHeight
+                    : document.documentElement.offsetHeight;
+                let body = document.body, html = document.documentElement;
+                let docHeight = Math.max(body.scrollHeight,
+                    body.offsetHeight, html.clientHeight,
+                    html.scrollHeight, html.offsetHeight);
+                let windowBottom = windowHeight + window.pageYOffset;
+                if (windowBottom >= docHeight) {
+                    status = true;
+                }
+                this.lc.run(() => {
+                    if (status) {
+                        if (this.pageable && !this.pageable.last)
+                            this.refreshIdeas(this.pageable.number + 1);
+                    }
+                });
+            };
             this.isMyProfile = false;
             this.isFollowing = false;
             this.isFriend = false;
@@ -155,7 +156,7 @@ export class UserComponent implements OnInit {
     }
 
     refreshIdeas(page) {
-        this.ideaService.findByUsuario(this.username,page,this.timestamp)
+        this.ideaService.findByUsuario(this.username, page, this.timestamp)
             .subscribe((res: Page<Idea>) => {
                 this.pageable = res;
                 this.ideas = this.ideas.concat(this.pageable.content);
@@ -326,11 +327,7 @@ export class UserComponent implements OnInit {
             let i = this.ideas.indexOf(confirm.idea);
             this.ideaService.findById(confirm.idea.id)
                 .subscribe((res: Idea) => {
-                    if (confirm.operacion === "compartir") {
-                        temp.push(res);
-                        temp = temp.concat(this.ideas);
-                        this.ideas = temp;
-                    } else {
+                    if (confirm.operacion !== "compartir") {
                         this.ideas.splice(i, 1, res);
                     }
                 }, error => {
@@ -354,7 +351,7 @@ export class UserComponent implements OnInit {
                 let disposable;
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                else{
+                else {
                     this.msgs = [];
                     this.msgs.push({ severity: 'error', summary: 'Operación no completada', detail: 'Solo puedes dar un aval por cualidad/habilidad.' });
                 }
