@@ -21,7 +21,7 @@
                         (completeMethod)="filterTagMultiple($event)" [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true"
                         [ngModelOptions]="{standalone: true}">
                     </p-autoComplete>
-                    <input *ngIf="option!=6" [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
+                    <input *ngIf="activeTab == 'users'" [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
                     <div class="alert alert-danger" *ngIf="error">
                         Debe llenar el campo de búsqueda.
                     </div>
@@ -67,7 +67,7 @@
                             <img class="icon_user" src="images/icons/graduate.png" />
                         </div>
                         <div class="media-body">
-                            <h4 class="media-heading">Profesor</h4>
+                            <h4 class="media-heading">Egresado</h4>
                             <p>Representa a un usuario que es egresado dentro del sistema</p>
                         </div>
                     </div>
@@ -110,6 +110,9 @@
                 </ng-template>
             </p-dataList>
             <div *ngIf="activeTab != 'users'">
+                <div class="panel panel-default center" *ngIf="!ideas?.length">
+                    <p>No se encontraron resultados</p>
+                </div>
                 <div class="panel panel-default center" *ngFor="let idea of ideas; index as indice">
                     <idea [idea]="idea" (change)="cambio($event)"></idea>
                 </div>

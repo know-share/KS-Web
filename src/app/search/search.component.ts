@@ -1,7 +1,3 @@
-import { Idea } from './../entities/idea';
-import { IdeaService } from './../services/idea.service';
-import { Tag } from './../entities/tag';
-import { TagService } from './../services/tag.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
@@ -10,8 +6,13 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
 
 import { Recomendacion } from '../entities/recomendacion';
 import { URL_IMAGE_USER } from '../entities/constants';
+import { IdeaHome } from './../entities/ideaHome';
+import { Idea } from './../entities/idea';
+import { Tag } from './../entities/tag';
 
 import { RuleService } from '../services/rules.service';
+import { TagService } from './../services/tag.service';
+import { IdeaService } from '../services/idea.service';
 
 @Component({
     selector: 'search',
@@ -39,7 +40,7 @@ export class SearchComponent implements OnInit {
         private ruleService: RuleService,
         private dialogService: DialogService,
         private tagService: TagService,
-        private ideaService: IdeaService
+        private ideaService: IdeaService,
     ) { }
 
     ngOnInit() {
@@ -59,8 +60,6 @@ export class SearchComponent implements OnInit {
                     });
             }
         });
-
-
     }
 
     moveTab(tab) {
@@ -78,13 +77,18 @@ export class SearchComponent implements OnInit {
         }
     }
 
+    /**
+     * Metodo que realiza las busquedas tanto de ideas como de usuarios
+     * segun los criterios dados por el usuario
+     * 
+     */
     onSearchAdv() {
         if (this.activeTab == 'ideas' && this.option == 6 &&
             this.selectedTags.length == 0) {
             this.error = true;
             return;
         }
-        if (this.option != 6 && this.searchAdv == "") {
+        if (this.activeTab == 'users' && this.searchAdv == "") {
             this.error = true;
             return;
         }
@@ -108,18 +112,50 @@ export class SearchComponent implements OnInit {
                 });
         }
         if (this.activeTab == 'ideas') {
-            this.ideaService.findByTags(this.selectedTags)
-                .subscribe(res => {
-                    this.ideas = res;
-                }, error => {
-                    let disposable;
+            if (this.option == 6) {
+                this.ruleService.find(this.selectedTags, '/tag')
+                    .subscribe(res => {
+                        this.ideas = res;
+                    }, error => {
+                        let disposable;
 
-                    if (error == 'Error: 401')
-                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                    else
-                        console.log('Error ' + error);
-                });
+                        if (error == 'Error: 401')
+                            disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                        else
+                            console.log('Error ' + error);
+                    });
+            }
+            if (this.option == 2) {
+                this.buscarIdeas('/continuar');
+            }
+            if (this.option == 1) {
+                this.buscarIdeas('/nueva');
+            }
+            if (this.option == 5) {
+                this.buscarIdeas('/proyecto');
+            }
+            if (this.option == 4) {
+                this.buscarIdeas('/empezar');
+            }
         }
+    }
+
+    /**
+     * Metodo encargado de buscar las ideas segun el criterio dado
+     * @param criterio tipo de busqueda de idea a realizar
+     */
+    buscarIdeas(criterio: string) {
+        this.ruleService.find(this.selectedTags, criterio)
+            .subscribe(res => {
+                this.ideas = res;
+            }, error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                else
+                    console.log('Error ' + error);
+            });
+
     }
 
     goToProfile(username) {
@@ -163,5 +199,33 @@ export class SearchComponent implements OnInit {
             }
         }
         return filtered;
+    }
+
+    /**
+     * Metodo encargado de actualizar los datos de la idea modificada.
+     * @param confirm idea la cual se comenta se comparte o se le hace light
+     */
+    cambio(confirm: IdeaHome) {
+        let temp: Array<Idea> = new Array;
+        if (confirm != null) {
+            let i = this.ideas.indexOf(confirm.idea);
+            this.ideaService.findById(confirm.idea.id)
+                .subscribe((res: Idea) => {
+                    if (confirm.operacion === "compartir") {
+                        temp.push(res);
+                        temp = temp.concat(this.ideas);
+                        this.ideas = temp;
+                    } else {
+                        this.ideas.splice(i, 1, res);
+                    }
+                }, error => {
+                    let disposable;
+                    if (error == 'Error: 401')
+                        disposable = this.dialogService.addDialog(ExpirationModalComponent);
+                });
+        } else {
+            //pop up con error
+        }
+
     }
 }

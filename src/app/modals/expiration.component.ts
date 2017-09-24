@@ -20,7 +20,8 @@ import { AuthService } from '../services/auth.service';
                      <button type="button" class="btn btn-primary" (click)="confirm()">OK</button>
                    </div>
                  </div>
-              </div>`
+              </div>`,
+    styleUrls: ['expiration.component.css']
 })
 export class ExpirationModalComponent extends DialogComponent<void, boolean>{
 

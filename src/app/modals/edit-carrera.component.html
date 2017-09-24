@@ -13,13 +13,13 @@
                 <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
             </select>
             <label>Enfasis principal</label>
-            <select [(ngModel)]="enfasisPrincipal" class="form-control" name="carrera">
+            <select (change)="updateCopyEnfasis($event)" [(ngModel)]="enfasisPrincipal" class="form-control" name="carrera">
                 <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
             </select>
             <label>Enfasis secundario</label>
             <select [(ngModel)]="enfasisSecundario" class="form-control" name="carrera">
                 <option [ngValue]=null>Ninguna</option>
-                <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
+                <option *ngFor="let e of copyEnfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
             </select>
             <label>Áreas de conocimiento</label>
             <div *ngFor="let ac of areasConocimiento">

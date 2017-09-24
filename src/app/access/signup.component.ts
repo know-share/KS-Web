@@ -44,11 +44,14 @@ export class SignUpComponent implements OnInit {
     //Info retrieve of server
     personalidades: Personalidad[] = [];
     carreras: Carrera[] = [];
+    copyCarreras: Carrera[] = [];
     gustosGenerales: Gusto[] = [];
     gustosDeportes: Gusto[] = [];
     gustosArtes: Gusto[] = [];
     enfasisCarrera: Enfasis[] = [];
+    copyEnfasisCarrera: Enfasis[] = [];
     enfasisSegundaCarrera: Enfasis[] = [];
+    copyEnfasisSegundaCarrera: Enfasis[] = [];
     ACCarrera: AreaConocimiento[] = [];
     ACSegundaCarrera: AreaConocimiento[] = [];
     habilidadesPersonales: Habilidad[] = [];
@@ -133,6 +136,7 @@ export class SignUpComponent implements OnInit {
             carreras => {
                 this.carreras = carreras;
                 this.carrera = this.carreras[0];
+                this.copyCarreras = this.carreras.filter(c => c.id != this.carrera.id);
             },
             error => console.log("error: " + error)
             );
@@ -221,6 +225,7 @@ export class SignUpComponent implements OnInit {
                 }
 
                 this.enfasisPrincipal = this.enfasisCarrera[0];
+                this.copyEnfasisCarrera = this.enfasisCarrera.filter(e => e.nombre != this.enfasisPrincipal.nombre);
             }, error => console.log('error: ' + error)
             );
         if (this.segundaCarrera != null) {
@@ -243,6 +248,8 @@ export class SignUpComponent implements OnInit {
                     }
 
                     this.enfasisPrincipalSegundaCarrera = this.enfasisSegundaCarrera[0];
+                    this.copyEnfasisSegundaCarrera = this.enfasisSegundaCarrera
+                        .filter(e => e.nombre != this.enfasisPrincipalSegundaCarrera.nombre);
                 }, error => console.log('error: ' + error)
                 );
         }
@@ -466,5 +473,25 @@ export class SignUpComponent implements OnInit {
         if (where == 'cualidades') {
             this.activeTabCualidades = location;
         }
+    }
+
+    updateCopyCarreras(event){
+        if(this.segundaCarrera && this.carrera.id == this.segundaCarrera.id)
+            this.segundaCarrera = null;
+        this.copyCarreras = this.carreras.filter(c => c.id != this.carrera.id);
+    }
+
+    updateCopyEnfasis(event){
+        if(this.enfasisSecundario && this.enfasisPrincipal.nombre == this.enfasisSecundario.nombre)
+            this.enfasisSecundario = null;
+        this.copyEnfasisCarrera = this.enfasisCarrera.filter(e => e.nombre != this.enfasisPrincipal.nombre);
+    }
+
+    updateCopySegundoEnfasis(event){
+        if(this.enfasisSecundarioSegundaCarrera && 
+            this.enfasisPrincipalSegundaCarrera.nombre == this.enfasisSecundarioSegundaCarrera.nombre)
+            this.enfasisSecundarioSegundaCarrera = null;
+        this.copyEnfasisSegundaCarrera = this.enfasisSegundaCarrera
+            .filter(e => e.nombre != this.enfasisPrincipalSegundaCarrera.nombre);
     }
 }

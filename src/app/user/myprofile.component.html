@@ -37,6 +37,7 @@
             <li [ngClass]="{ 'active': activeTab == 'followers' }"><a (click)="moveTab('followers')" class="links">Seguidores</a></li>
             <li [ngClass]="{ 'active': activeTab == 'badges' }"><a (click)="moveTab('badges')" class="links">Insignias <span *ngIf="insgniasNoVistas > 0" class="badge">{{insgniasNoVistas}}</span></a></li>
             <li *ngIf="usuario.tipoUsuario == 'PROFESOR'" [ngClass]="{ 'active': activeTab == 'tg' }"><a (click)="moveTab('tg')" class="links">TG Dirigidos</a></li>
+            <li *ngIf="usuario.tipoUsuario == 'EGRESADO'" [ngClass]="{ 'active': activeTab == 'tg' }"><a (click)="moveTab('tg')" class="links">Trabajos de grado</a></li>
             <li *ngIf="usuario.tipoUsuario != 'ESTUDIANTE'" [ngClass]="{ 'active': activeTab == 'career' }"><a (click)="moveTab('career')" class="links">Formación académica</a></li>
             <li *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'" [ngClass]="{ 'active': activeTab == 'likes' }"><a (click)="moveTab('likes')" class="links">Gustos</a></li>
         </ul>
@@ -70,57 +71,67 @@
                     <span *ngIf="!usuario.disponible">No</span>
                 </p>
                 <p><strong>Tipo usuario: </strong>{{usuario.tipoUsuario}}</p>
+                <button *ngIf="usuario.tipoUsuario == 'ESTUDIANTE'" (click)="promote()" type="button" class="btn btn-success btn-block"
+                        title="Promover a egresado">Promover</button>
             </div>
         </div>
     </div>
     <div class="col-xs-7">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <form>
-                    <div class="form-group">
-                        <label for="sel1">Seleccione el tipo de idea:</label>
-                        <select class="form-control" id="sel1" [(ngModel)]="selectedValueTipo" name="tipoIdea" [ngModelOptions]="{standalone: true}">
+        <div class="panel panel-default"> 
+        <div class="panel-heading">
+            <form>
+                <div class="form-group">
+                    <label for="sel1">Seleccione el tipo de idea:</label>
+                    <select class="form-control" id="sel1" [(ngModel)]="selectedValueTipo" name="tipoIdea" [ngModelOptions]="{standalone: true}">
                         <option value="NU">Nueva</option>
                         <option value="PC">Para continuar</option>
                         <option value="PE">Para empezar</option>
                         <option value="PR">Proyecto</option>
                     </select>
-                    </div>
-                    <div class="form-group">
-                        <h4>Contenido</h4>
-                        <textarea class="form-control" rows="5" [(ngModel)]="contenido" name="content"></textarea>
-                    </div>
+                </div>
+                <div class="form-group">
+                    <h4>Contenido</h4>
+                    <textarea class="form-control" rows="5" [(ngModel)]="contenido" name="content"></textarea>
+                </div>
 
-                    <div class="form-group" *ngIf="selectedValueTipo == 'PC' || selectedValueTipo == 'PE'">
-                        <label for="numeroest">Numero de estudiantes: </label>
-                        <input class="form-control" type="number" [(ngModel)]="numeroEstudiantes" name="numero">
-                    </div>
+                <div class="form-group" *ngIf="selectedValueTipo == 'PC' || selectedValueTipo == 'PE'">
+                    <label for="numeroest">Numero de estudiantes: </label>
+                    <input class="form-control" type="number" [(ngModel)]="numeroEstudiantes" name="numero">
+                </div>
 
-                    <div class="form-group" *ngIf="selectedValueTipo == 'PE'">
-                        <label for="alcance">Alcance: </label>
-                        <input class="form-control" type="text" [(ngModel)]="alcance" name="alc">
-                        <label for="problematica">Problematica: </label>
-                        <textarea class="form-control" type="text" [(ngModel)]="problematica" rows='5' name="problem"></textarea>
-                    </div>
-                    <div class="form-group" *ngIf="selectedValueTipo == 'PR'">
-                        <button type="button" class="btn" (click)="agregarIdeas()">Agregar ideas</button>
-                    </div>
+                <div class="form-group" *ngIf="selectedValueTipo == 'PE'">
+                    <label for="alcance">Alcance: </label>
+                    <input class="form-control" type="text" [(ngModel)]="alcance" name="alc">
+                    <label for="problematica">Problematica: </label>
+                    <textarea class="form-control" type="text" [(ngModel)]="problematica" rows = '5' name="problem"></textarea>
+                </div>
+                <div class="form-group" *ngIf="selectedValueTipo == 'PR'">
+                    <button type="button" class="btn" (click) = "agregarIdeas()">Agregar ideas</button>
+                </div>
 
-                    <div class="form-group" *ngIf="selectedValueTipo == 'PC'">
-                        <button type="button" class="btn" (click)="asociarTG()">Asociar tg</button>
-                    </div>
+                <div class="form-group" *ngIf="selectedValueTipo == 'PC'">
+                    <button type="button" class="btn" (click) = "asociarTG()">Asociar tg</button>
+                </div>
 
-                    <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
-                        [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
-                    </p-autoComplete>
-                    <div class="alert alert-danger" *ngIf="valid === false">
-                        <label> Por Favor completar el formulario.</label>
+                <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
+                    [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
+                </p-autoComplete>
+                <div class="alert alert-danger" *ngIf = "valid === false">
+                    <label> {{errorCrearIdea}}</label>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
                     </div>
-                    <br>
-                    <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
-                </form>
-            </div>
+                    <div class="col-xs-7">
+                        <label *ngIf="selectedValueTipo == 'PR'">Número de ideas: {{ideasPro.length}}</label>
+                        <label *ngIf="selectedValueTipo == 'PC'">Trabajo de grado asociado: {{tg.nombre}}</label>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div> 
         <div class="panel panel-default center" *ngFor="let idea of ideas; index as indice">
             <idea [idea]="idea" (change)="cambio($event)"></idea>
         </div>
@@ -316,7 +327,7 @@
                     <div class="panel-heading">
                         <div class="media">
                             <div class="media-left">
-                                <img src="images/motor.png" class="media-object" style="width:60px">
+                                <img src="images/insignias/{{a.iconoRef}}" class="media-object" style="width:60px">
                             </div>
                             <div class="media-body">
                                 <h4 class="media-heading">{{a.nombre}}</h4>
@@ -335,13 +346,21 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <button type="button" (click)="addTG()" class="btn btn-success btn-circle right"><i class="glyphicon glyphicon-plus"></i></button>
-                <h2 class="center">Trabajos de grado dirigidos</h2>
-                <p *ngIf="!usuario.tgDirigidos || usuario.tgDirigidos?.length == 0">No tiene trabajos de grado dirigidos asociados</p>
+                <h2 *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="center">Trabajos de grado dirigidos</h2>
+                <h2 *ngIf="usuario.tipoUsuario == 'EGRESADO'" class="center">Trabajos de grado</h2>
+                <div *ngIf="!usuario.tgDirigidos || usuario.tgDirigidos?.length == 0">
+                    <p *ngIf="usuario.tipoUsuario == 'PROFESOR'">
+                        No tiene trabajos de grado dirigidos asociados
+                    </p>
+                    <p *ngIf="usuario.tipoUsuario == 'EGRESADO'">
+                        No tiene trabajos de grado asociados
+                    </p>
+                </div>
                 <div class="panel panel-default" *ngFor="let tg of usuario.tgDirigidos">
                     <div class="panel-body">
                         <p><strong>Título: </strong>{{tg.nombre}}</p>
                         <p><strong>Periodo fin: </strong>{{tg.periodoFin}}</p>
-                        <p><strong>Número de estudiantes: </strong>{{tg.numEstudiantes}}</p>
+                        <p *ngIf="usuario.tipoUsuario == 'PROFESOR'"><strong>Número de estudiantes: </strong>{{tg.numEstudiantes}}</p>
                         <p><strong>Resumen: </strong>{{tg.resumen}}</p>
                     </div>
                 </div>

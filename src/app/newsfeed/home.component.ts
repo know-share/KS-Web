@@ -1,13 +1,12 @@
-import { CrearIdeaModalComponent } from './../modals/crear-idea.component';
-import { IdeaHome } from './../entities/ideaHome';
 import { Component, OnInit, ElementRef, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from "ng2-bootstrap-modal";
-import { AutoCompleteModule } from 'primeng/primeng';
+import { NgZone } from '@angular/core';
 
-import { RequestModalComponent } from '../modals/request.component';
-import { ExpirationModalComponent } from '../modals/expiration.component';
+//primeng
+import { Message } from 'primeng/primeng';
+import { AutoCompleteModule } from 'primeng/primeng';
 
 import { IdeaService } from '../services/idea.service';
 import { UsuarioService } from '../services/usuario.service';
@@ -15,15 +14,20 @@ import { TagService } from '../services/tag.service';
 import { RuleService } from '../services/rules.service';
 
 import { Idea } from '../entities/idea';
+import { IdeaHome } from './../entities/ideaHome';
 import { Tag } from '../entities/tag';
+import { Page } from '../entities/page';
 import { Recomendacion } from '../entities/recomendacion';
 
 import { ComentarModalComponent } from '../modals/comentar.component';
+import { CrearIdeaModalComponent } from './../modals/crear-idea.component';
+import { RequestModalComponent } from '../modals/request.component';
+import { ExpirationModalComponent } from '../modals/expiration.component';
 
 @Component({
     selector: 'home',
     templateUrl: './home.component.html',
-    //styleUrls: ['']
+    styleUrls: ['home.component.css']
 })
 export class HomeComponent implements OnInit {
 
@@ -49,6 +53,10 @@ export class HomeComponent implements OnInit {
 
     preferenciaDespliegue: string = "";
 
+    pageable: Page<Idea> = null;
+
+    msgs: Message[] = [];
+
     constructor(
         private fb: FormBuilder,
         private ideaService: IdeaService,
@@ -57,15 +65,35 @@ export class HomeComponent implements OnInit {
         private dialogService: DialogService,
         private tagService: TagService,
         private ruleService: RuleService,
+        private lc: NgZone,
     ) {
         this.selectedValueTipo = 'NU';
     }
 
     ngOnInit() {
+        window.onscroll = () => {
+            let status = false;
+            let windowHeight = "innerHeight" in window ? window.innerHeight
+                : document.documentElement.offsetHeight;
+            let body = document.body, html = document.documentElement;
+            let docHeight = Math.max(body.scrollHeight,
+                body.offsetHeight, html.clientHeight,
+                html.scrollHeight, html.offsetHeight);
+            let windowBottom = windowHeight + window.pageYOffset;
+            if (windowBottom >= docHeight) {
+                status = true;
+            }
+            this.lc.run(() => {
+                if (status) {
+                    if (this.pageable && !this.pageable.last)
+                        this.findRed(this.pageable.number + 1);
+                }
+            });
+        };
         this.listSolicitudes = [];
         this.cantidadSolicitudes = 0;
-
-        this.findRed();
+        this.newIdeas = new Array;
+        this.findRed(0);
     }
 
     refreshSolicitudes() {
@@ -179,7 +207,6 @@ export class HomeComponent implements OnInit {
     }
 
     filterTag(query, tags: any[]): any[] {
-        //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
         let filtered: any[] = [];
         for (let i = 0; i < tags.length; i++) {
             let tag = tags[i];
@@ -190,10 +217,11 @@ export class HomeComponent implements OnInit {
         return filtered;
     }
 
-    findRed() {
-        this.ideaService.findRed().
-            subscribe((res: Array<Idea>) => {
-                this.newIdeas = res;
+    findRed(page) {
+        this.ruleService.findRed(page).
+            subscribe((res: Page<Idea>) => {
+                this.pageable = res;
+                this.newIdeas = this.newIdeas.concat(this.pageable.content);
                 this.showTags();
             }, error => {
                 let disposable;
@@ -202,7 +230,6 @@ export class HomeComponent implements OnInit {
                 else
                     this.showTags();
             });
-
     }
 
     cambio(confirm: IdeaHome) {
@@ -212,6 +239,7 @@ export class HomeComponent implements OnInit {
             this.ideaService.findById(confirm.idea.id)
                 .subscribe((res: Idea) => {
                     if (confirm.operacion === "compartir") {
+                        console.log(res.tg.nombre);
                         temp.push(res);
                         temp = temp.concat(this.newIdeas);
                         this.newIdeas = temp;
@@ -226,7 +254,6 @@ export class HomeComponent implements OnInit {
         } else {
             //pop up con error
         }
-
     }
 
     crearIdea() {
@@ -234,6 +261,8 @@ export class HomeComponent implements OnInit {
         let disposable = this.dialogService.addDialog(CrearIdeaModalComponent, {})
             .subscribe(confirmed => {
                 if (confirmed) {
+                    this.msgs = [];
+                    this.msgs.push({ severity: 'success', summary: 'Idea publicada', detail: 'Tu idea ha sido publicada exitosamente.' });
                     temp.push(confirmed);
                     temp = temp.concat(this.newIdeas);
                     this.newIdeas = temp;
@@ -247,7 +276,8 @@ export class HomeComponent implements OnInit {
         this.usuarioService.updatePreferencia(this.preferenciaDespliegue)
             .subscribe(
             res => {
-                return null;
+                this.newIdeas = [];
+                this.findRed(0);
             }, error => {
                 let disposable;
                 if (error == 'Error: 401')

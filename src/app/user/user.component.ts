@@ -1,7 +1,7 @@
-import { IdeaHome } from './../entities/ideaHome';
 import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
+import { NgZone } from '@angular/core';
 
 import { ExpirationModalComponent } from '../modals/expiration.component';
 
@@ -17,6 +17,8 @@ import { Habilidad } from '../entities/habilidad';
 import { AreaConocimiento } from '../entities/areaConocimiento';
 import { Idea } from '../entities/idea';
 import { URL_IMAGE_USER } from '../entities/constants';
+import { IdeaHome } from './../entities/ideaHome';
+import { Page } from '../entities/page';
 
 //primeng
 import { Message } from 'primeng/primeng';
@@ -47,8 +49,6 @@ export class UserComponent implements OnInit {
     usuario: Usuario;
     isMyProfile: boolean = false;
 
-    role: string = "";
-
     //buttons for friendship and follower
     isEnableRequest = true;
     isFollowing = false;
@@ -59,6 +59,9 @@ export class UserComponent implements OnInit {
 
     msgs: Message[] = [];
 
+    pageable: Page<Idea> = null;
+    timestamp: number;
+
     constructor(
         private ideaService: IdeaService,
         private activatedRoute: ActivatedRoute,
@@ -67,14 +70,35 @@ export class UserComponent implements OnInit {
         private router: Router,
         private dialogService: DialogService,
         private ludificacionService: LudificacionService,
+        private lc: NgZone,
     ) {
+        this.timestamp = (new Date).getTime();
         this.activeTab = 'ideas';
     }
 
     ngOnInit() {
-        this.role = localStorage.getItem('role');
         this.usuario = null;
         this.activatedRoute.params.subscribe((params: Params) => {
+            window.scrollTo(0, 0);
+            window.onscroll = () => {
+                let status = false;
+                let windowHeight = "innerHeight" in window ? window.innerHeight
+                    : document.documentElement.offsetHeight;
+                let body = document.body, html = document.documentElement;
+                let docHeight = Math.max(body.scrollHeight,
+                    body.offsetHeight, html.clientHeight,
+                    html.scrollHeight, html.offsetHeight);
+                let windowBottom = windowHeight + window.pageYOffset;
+                if (windowBottom >= docHeight) {
+                    status = true;
+                }
+                this.lc.run(() => {
+                    if (status) {
+                        if (this.pageable && !this.pageable.last)
+                            this.refreshIdeas(this.pageable.number + 1);
+                    }
+                });
+            };
             this.isMyProfile = false;
             this.isFollowing = false;
             this.isFriend = false;
@@ -90,6 +114,7 @@ export class UserComponent implements OnInit {
                     this.habilidadesProfesionales = [];
                     this.habilidadesProfesionalesSeg = [];
                     this.areasConocimiento = [];
+                    this.ideas = new Array;
                     this.areasConocimientoSeg = [];
                     this.usuario = usuario;
                     this.mapAreasConocimiento(usuario.areasConocimiento);
@@ -115,7 +140,7 @@ export class UserComponent implements OnInit {
                         this.botonSeguir();
                         this.botonSolicitud();
                         this.reloadImage();
-                        this.refreshIdeas();
+                        this.refreshIdeas(0);
                     }
                 }, error => {
                     let disposable;
@@ -130,10 +155,11 @@ export class UserComponent implements OnInit {
         });
     }
 
-    refreshIdeas() {
-        this.ideaService.findByUsuario(this.username)
-            .subscribe((res: any[]) => {
-                this.ideas = res;
+    refreshIdeas(page) {
+        this.ideaService.findByUsuario(this.username, page, this.timestamp)
+            .subscribe((res: Page<Idea>) => {
+                this.pageable = res;
+                this.ideas = this.ideas.concat(this.pageable.content);
             }, error => {
                 console.log('Error' + error);
             });
@@ -301,11 +327,7 @@ export class UserComponent implements OnInit {
             let i = this.ideas.indexOf(confirm.idea);
             this.ideaService.findById(confirm.idea.id)
                 .subscribe((res: Idea) => {
-                    if (confirm.operacion === "compartir") {
-                        temp.push(res);
-                        temp = temp.concat(this.ideas);
-                        this.ideas = temp;
-                    } else {
+                    if (confirm.operacion !== "compartir") {
                         this.ideas.splice(i, 1, res);
                     }
                 }, error => {
@@ -316,17 +338,6 @@ export class UserComponent implements OnInit {
         } else {
             //pop up con error
         }
-    }
-
-    promote() {
-        this.usuarioService.promote(this.username)
-            .subscribe(
-            ok => this.refreshUsuario(),
-            error => {
-                let disposable;
-                if (error == 'Error: 401')
-                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
-            });
     }
 
     avalar(id, tipo) {
@@ -340,7 +351,7 @@ export class UserComponent implements OnInit {
                 let disposable;
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                else{
+                else {
                     this.msgs = [];
                     this.msgs.push({ severity: 'error', summary: 'Operación no completada', detail: 'Solo puedes dar un aval por cualidad/habilidad.' });
                 }

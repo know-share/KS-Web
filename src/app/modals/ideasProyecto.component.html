@@ -4,21 +4,24 @@
             <button type="button" class="close" (click)="close()">&times;</button>
             <h4 class="modal-title">Agregar Ideas</h4>
         </div>
-        <div class="panel panel-info" *ngFor = "let i of ideas">
-            <div class="panel-heading titulo">
-                <div class="row" >
-                <div class="col-xs-6">
-                    <label>{{i.usuario}}</label>
+        <div id="ideas-proyecto" class="modal-body">
+            <div class="panel panel-info" *ngFor="let i of ideas">
+                <div class="panel-heading titulo">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label>{{i.usuario}}</label>
+                        </div>
+                        <div class="col-xs-6">
+                            <label style=" text-align: right;">Publicada: {{i.fechaCreacion | date:"dd/MM/yyyy"}}</label>
+                        </div>
+                    </div>
                 </div>
-            <div class="col-xs-6">
-                <label style=" text-align: right;">Publicada: {{i.fechaCreacion | date:"dd/MM/yyyy"}}</label>
+                <div class="panel-body titulo">{{i.contenido}}</div>
+                <div class="panel-body "> <button class="btn btn-primary" (click)="agregar(i)"> Agregar </button></div>
             </div>
         </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" (click)="finalizar()"> Finalizar </button>
         </div>
-            <div class="panel-body titulo">{{i.contenido}}</div>
-            <div class="panel-body "> <button class="btn btn-primary" (click) = "agregar(i)"> Agregar </button></div>
-        </div>
-        <button class="btn btn-primary" (click) = "finalizar()"> Finalizar </button>
-        </div>
-                
-</div> 
+    </div>
+</div>

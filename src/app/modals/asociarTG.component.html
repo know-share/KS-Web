@@ -4,21 +4,22 @@
             <button type="button" class="close" (click)="close()">&times;</button>
             <h4 class="modal-title">Asociar Trabajo de Grado</h4>
         </div>
-        <div class="panel panel-info" *ngFor = "let t of tgs">
-            <div class="panel-heading titulo">
-                <div class="row" >
-                <div class="col-xs-6">
-                    <label>{{t.nombre}}</label>
+        <div class="modal-body">
+            <div class="panel panel-info" *ngFor="let t of tgs">
+                <div class="panel-heading titulo">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label>{{t.nombre}}</label>
+                        </div>
+                        <div class="col-xs-6">
+                            <label style=" text-align: right;">Periodo de finalizacion: {{t.periodoFin}}</label>
+                        </div>
+                    </div>
                 </div>
-            <div class="col-xs-6">
-                <label style=" text-align: right;">Periodo de finalizacion: {{t.periodoFin}}</label>
+                <div class="panel-body titulo">{{t.resumen}}</div>
+                <div class="panel-body titulo">Numero de estudiantes: {{t.numEstudiantes}}</div>
+                <div class="panel-body "> <button class="btn btn-primary" (click)="agregar(t)"> Agregar </button></div>
             </div>
         </div>
-        </div>
-            <div class="panel-body titulo">{{t.resumen}}</div>
-            <div class="panel-body titulo">Numero de estudiantes: {{t.numEstudiantes}}</div>
-            <div class="panel-body "> <button class="btn btn-primary" (click) = "agregar(t)"> Agregar </button></div>
-        </div>
-        
-        </div>         
-</div> 
+    </div>
+</div>

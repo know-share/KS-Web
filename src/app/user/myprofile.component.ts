@@ -1,10 +1,7 @@
-import { AsociarTGModalComponent } from './../modals/asociarTG.component';
-import { IdeasProyectoModalComponent } from './../modals/ideasProyecto.component';
-import { TrabajoGrado } from './../entities/trabajoGrado';
-import { IdeaHome } from './../entities/ideaHome';
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Router } from '@angular/router';
+import { NgZone } from '@angular/core';
 import { DialogService } from "ng2-bootstrap-modal";
 
 //primeng
@@ -26,9 +23,14 @@ import { Tag } from '../entities/tag';
 import { URL_IMAGE_USER } from '../entities/constants';
 import { Enfasis } from '../entities/enfasis';
 import { Gusto } from '../entities/gusto';
+import { TrabajoGrado } from './../entities/trabajoGrado';
+import { IdeaHome } from './../entities/ideaHome';
+import { Page } from '../entities/page';
 
 import { EditCarreraModalComponent } from '../modals/edit-carrera.component';
 import { AddTGModalComponent } from '../modals/add-tg.component';
+import { AsociarTGModalComponent } from './../modals/asociarTG.component';
+import { IdeasProyectoModalComponent } from './../modals/ideasProyecto.component';
 import { AddFAModalComponent } from '../modals/add-fa.component';
 import { ExpirationModalComponent } from '../modals/expiration.component';
 import { EditHabilidadModalComponent } from '../modals/edit-habilidad.component';
@@ -57,7 +59,7 @@ export class ProfileComponent implements OnInit {
     areasConocimientoSeg: AreaConocimiento[] = [];
 
     idea: Idea = new Idea;
-    tg: TrabajoGrado;
+    tg: TrabajoGrado = new TrabajoGrado();
     valid: boolean = true;
     ideasPro: Array<Idea> = new Array;
     ideas: Array<Idea> = new Array;
@@ -79,6 +81,8 @@ export class ProfileComponent implements OnInit {
 
     editLikes: boolean = false;
 
+    errorCrearIdea: string;
+
     //---------------------------------------------
     //Gustos
     //---------------------------------------------
@@ -89,6 +93,9 @@ export class ProfileComponent implements OnInit {
     gustosDeportes: Gusto[] = [];
     gustosArtes: Gusto[] = [];
     gustos: Gusto[] = []; // Just for student
+
+    pageable: Page<Idea> = null;
+    timestamp: number;
 
     showDialog() {
         this.display = true;
@@ -101,7 +108,28 @@ export class ProfileComponent implements OnInit {
         private router: Router,
         private tagService: TagService,
         private gustoService: GustoService,
+        private lc: NgZone,
     ) {
+        window.onscroll = () => {
+            let status = false;
+            let windowHeight = "innerHeight" in window ? window.innerHeight
+                : document.documentElement.offsetHeight;
+            let body = document.body, html = document.documentElement;
+            let docHeight = Math.max(body.scrollHeight,
+                body.offsetHeight, html.clientHeight,
+                html.scrollHeight, html.offsetHeight);
+            let windowBottom = windowHeight + window.pageYOffset;
+            if (windowBottom >= docHeight) {
+                status = true;
+            }
+            this.lc.run(() => {
+                if (status) {
+                    if (this.pageable && !this.pageable.last)
+                        this.findIdeas(this.pageable.number + 1);
+                }
+            });
+        };
+        this.timestamp = (new Date).getTime();
         this.selectedValueTipo = 'NU';
     }
 
@@ -112,6 +140,7 @@ export class ProfileComponent implements OnInit {
         this.habilidadesProfesionales = [];
         this.habilidadesProfesionalesSeg = [];
         this.areasConocimiento = [];
+        this.ideas = new Array;
         this.areasConocimientoSeg = [];
         this.mapAreasConocimiento(this.usuario.areasConocimiento);
         for (let h of this.usuario.habilidades) {
@@ -125,14 +154,19 @@ export class ProfileComponent implements OnInit {
                 this.habilidadesProfesionalesSeg.push(h);
             }
         }
-        this.ideaService.findByUsuario(localStorage.getItem('user'))
-            .subscribe((res: any[]) => {
-                this.ideas = res;
+        this.findIdeas(0);
+        this.reloadImage();
+        this.totalInsigniasNoVistas();
+    }
+
+    findIdeas(page) {
+        this.ideaService.findByUsuario(localStorage.getItem('user'),page,this.timestamp)
+            .subscribe((res: Page<Idea>) => {
+                this.pageable = res;
+                this.ideas = this.ideas.concat(this.pageable.content);
             }, error => {
                 console.log('Error' + error);
             });
-        this.reloadImage();
-        this.totalInsigniasNoVistas();
     }
 
     totalInsigniasNoVistas() {
@@ -314,34 +348,62 @@ export class ProfileComponent implements OnInit {
     }
 
     crearIdea() {
-        console.log(this.tg);
-        if (this.contenido != undefined && this.selectedValueTipo == "NU" && this.selectedTags.length > 0) {
-            this.crearIdeaNorm();
-        } else {
-            this.valid = false;
-        }
-        if (this.contenido != undefined && this.selectedValueTipo == "PC" && this.selectedTags.length > 0 &&
-            this.numeroEstudiantes > 0 && this.tg != undefined) {
-            this.crearIdeaNorm();
-        } else {
-            this.valid = false;
-        }
-        if (this.contenido != undefined && this.selectedValueTipo == "PE" && this.selectedTags.length > 0 &&
-            this.numeroEstudiantes > 0 && this.alcance != undefined && this.problematica != undefined) {
-            this.crearIdeaNorm();
-        } else {
-            this.valid = false;
-        }
-        if (this.contenido != undefined && this.selectedValueTipo == "PR" && this.selectedTags.length > 0 &&
-            this.ideasPro.length > 0) {
-            this.crearIdeaNorm();
-        } else {
-            this.valid = false;
-        }
+        this.errorCrearIdea = '';
+        if (this.selectedValueTipo == "NU")
+            if (this.contenido != undefined && this.selectedTags.length > 0) {
+                this.crearIdeaNorm();
+            } else {
+                this.valid = false;
+                this.errorCrearIdea = 'Por favor, completar todos los campos.';
+            }
+        if (this.selectedValueTipo == "PC")
+            if (this.contenido != undefined && this.selectedTags.length > 0 &&
+                this.tg != undefined) {
+                if (this.numeroEstudiantes > 0 && this.numeroEstudiantes < 6)
+                    this.crearIdeaNorm();
+                else {
+                    this.valid = false;
+                    this.errorCrearIdea = 'Número de estudiantes debe ser mayor a 0 y menor a 6';
+                }
+            } else {
+                this.valid = false;
+                this.errorCrearIdea = 'Por favor, completar todos los campos.';
+            }
+        if (this.selectedValueTipo == "PE")
+            if (this.contenido != undefined && this.selectedTags.length > 0 &&
+                this.alcance != undefined && this.problematica != undefined) {
+                if (this.numeroEstudiantes > 0 && this.numeroEstudiantes < 6)
+                    this.crearIdeaNorm();
+                else {
+                    this.valid = false;
+                    this.errorCrearIdea = 'Número de estudiantes debe ser mayor a 0 y menor a 6';
+                }
+            } else {
+                this.valid = false;
+                this.errorCrearIdea = 'Por favor, completar todos los campos.';
+            }
+        if (this.selectedValueTipo == "PR")
+            if (this.contenido != undefined && this.selectedTags.length > 0 &&
+                this.ideasPro.length > 0) {
+                this.crearIdeaNorm();
+            } else {
+                this.valid = false;
+                this.errorCrearIdea = 'Por favor, completar todos los campos.';
+            }
+    }
+
+    cleanFormIdea() {
+        this.contenido = '';
+        this.numeroEstudiantes = 0;
+        this.alcance = '';
+        this.problematica = '';
+        this.selectedTags = [];
+        this.ideasPro = [];
     }
 
     crearIdeaNorm() {
         let temp: Array<Idea> = new Array;
+        this.valid = true;
         this.idea.alcance = this.alcance;
         this.idea.tipo = this.selectedValueTipo;
         this.idea.contenido = this.contenido;
@@ -352,7 +414,10 @@ export class ProfileComponent implements OnInit {
         this.idea.tg = this.tg;
         this.ideaService.crearIdea(this.idea)
             .subscribe((res: Idea) => {
-                this.ideas.push(res);
+                this.msgs = [];
+                this.msgs.push({ severity: 'success', summary: 'Idea publicada', detail: 'Tu idea ha sido publicada exitosamente.' });
+                this.ideas.splice(0, 0, res);
+                this.cleanFormIdea();
             }, error => {
                 let disposable;
                 if (error == 'Error: 401')
@@ -523,5 +588,16 @@ export class ProfileComponent implements OnInit {
                 }
                 )
         }
+    }
+
+    promote() {
+        this.usuarioService.promote(this.usuario.username)
+            .subscribe(
+            ok => this.refreshUsuario(),
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
     }
 }

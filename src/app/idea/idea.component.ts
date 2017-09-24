@@ -1,7 +1,7 @@
 import { CompartirIdeaModalComponent } from './../modals/compartit-idea.component';
 import { OperacionIdeaModalComponent } from './../modals/operacionIdea.component';
 import { DetalleIdeaModalComponent } from './../modals/idea-detalles.component';
-import { Component, OnInit, ElementRef, ViewChild, Input ,Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -22,22 +22,22 @@ import { ComentarModalComponent } from '../modals/comentar.component';
     //styleUrls: ['']
 })
 export class IdeaComponent implements OnInit {
-    @Input("idea") idea:Idea;
+    @Input("idea") idea: Idea;
     @Output() change = new EventEmitter();
 
-    tags:string = '';
+    tags: string = '';
 
     username: string = '';
 
     constructor(
-        private ideaService:IdeaService,
-        private dialogService : DialogService,
+        private ideaService: IdeaService,
+        private dialogService: DialogService,
         private router: Router
-    ){  }
+    ) { }
 
-    ngOnInit(){
-        if(this.idea.tags != null){
-            for(var item of this.idea.tags){
+    ngOnInit() {
+        if (this.idea.tags != null) {
+            for (var item of this.idea.tags) {
                 this.tags = this.tags + ' ' + item.nombre + ' ';
             }
             //console.log(this.tags);
@@ -45,20 +45,19 @@ export class IdeaComponent implements OnInit {
         this.username = localStorage.getItem('user');
     }
 
-    light(){
-        console.log(this.idea);
+    light() {
         let retorno: IdeaHome = new IdeaHome();
         this.ideaService.light(this.idea)
-            .subscribe((res :Idea)=> {
+            .subscribe((res: Idea) => {
                 if (res != null) {
-                    retorno.idea=this.idea;
-                    retorno.operacion="otro";
+                    retorno.idea = this.idea;
+                    retorno.operacion = "otro";
                     this.change.emit(retorno);
                 }
             }, error => {
                 this.change.emit(null);
                 //console.log("error" + error);
-        });
+            });
     }
 
     comentar() {
@@ -66,47 +65,42 @@ export class IdeaComponent implements OnInit {
         let disposable = this.dialogService.addDialog(ComentarModalComponent, {
             idea: this.idea
         }).subscribe(confirmed => {
-                if (confirmed) {
-                    retorno.idea=this.idea;
-                    retorno.operacion="comentar";
-                    this.change.emit(retorno);
-                } else {
-                    this.change.emit(null);
-                }
-            });
+            if (confirmed) {
+                retorno.idea = this.idea;
+                retorno.operacion = "comentar";
+                this.change.emit(retorno);
+            } else {
+                this.change.emit(null);
+            }
+        });
     }
 
-    compartir(){
+    compartir() {
         let retorno: IdeaHome = new IdeaHome();
-        if(this.idea.usuario != localStorage.getItem('user')){
+        if (this.idea.usuario != localStorage.getItem('user')) {
             this.ideaService.compartir(this.idea)
-                .subscribe((res : Idea) =>{
-                    if(res != null){
-                        retorno.idea=res;
-                        retorno.operacion="compartir";
+                .subscribe((res: Idea) => {
+                    if (res != null) {
+                        retorno.idea = res;
+                        retorno.operacion = "compartir";
                         this.change.emit(retorno);
                         let disposable = this.dialogService.addDialog(CompartirIdeaModalComponent, {
                             mensaje: "Idea compartida exitosamente."
                         }).subscribe(
-                            confirmed => {
-                                if (confirmed) {
-                                    
-                                }
-                            });
-                    }else{
+                            confirmed => true);
+                    } else {
                         this.change.emit(null);
                     }
                 });
-        }else{
-            console.log('no puede compartir su propia idea');
+        } else {
             let disposable = this.dialogService.addDialog(CompartirIdeaModalComponent, {
-                            mensaje: "No puede compartir su propia idea."
-                        }).subscribe(
-                            confirmed => {
-                                if (confirmed) {
-                                    
-                                }
-                            });
+                mensaje: "No puede compartir su propia idea."
+            }).subscribe(
+                confirmed => {
+                    if (confirmed) {
+
+                    }
+                });
         }
     }
 
@@ -114,29 +108,29 @@ export class IdeaComponent implements OnInit {
         this.router.navigate(['/user', username]);
     }
 
-    detalles(){
-        let disposable = this.dialogService.addDialog(DetalleIdeaModalComponent,{
+    detalles() {
+        let disposable = this.dialogService.addDialog(DetalleIdeaModalComponent, {
             idea: this.idea
         }).subscribe(confirmed => {
             this.idea = confirmed;
         });
     }
 
-    detallesLight(){
-        let disposable = this.dialogService.addDialog(OperacionIdeaModalComponent,{
+    detallesLight() {
+        let disposable = this.dialogService.addDialog(OperacionIdeaModalComponent, {
             ideaId: this.idea.id,
             tipo: 'light'
         }).subscribe(confirmed => {
-        
+
         });
     }
 
-    detallesComentarios(){
-        let disposable = this.dialogService.addDialog(OperacionIdeaModalComponent,{
+    detallesComentarios() {
+        let disposable = this.dialogService.addDialog(OperacionIdeaModalComponent, {
             ideaId: this.idea.id,
             tipo: 'comentarios'
         }).subscribe(confirmed => {
-            
+
         });
     }
 }

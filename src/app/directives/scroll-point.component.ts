@@ -19,7 +19,8 @@ export class ScrollPointDirective {
 
     @HostListener('window:scroll', [])
     onWindowScroll() {
-        const windowScroll = this.document.body.scrollTop;
+        // const windowScroll = this.document.body.scrollTop;
+        const windowScroll = window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0
         let topLimit = this.el.nativeElement.getBoundingClientRect().top;
         // if (windowScroll > this.scrollPoint) {
         if(topLimit <= (60+this.scrollPoint) && !this.active){

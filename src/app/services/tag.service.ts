@@ -25,7 +25,7 @@ export class TagService{
                     return res.json();
                 }
                 if(res.status == 204){
-                    throw new Error('No hay tags.');
+                    return [];
                 }
                 if(res.status == 500){
                     throw new Error('No se pudieron cargar los tags.');

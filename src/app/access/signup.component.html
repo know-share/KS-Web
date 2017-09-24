@@ -131,7 +131,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Carrera</label>
                 <div class="col-sm-10">
-                    <select [(ngModel)]="carrera" class="form-control" name="carrera">
+                    <select [(ngModel)]="carrera" class="form-control" name="carrera" (change)="updateCopyCarreras($event)">
                         <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
                     </select>
                 </div>
@@ -147,7 +147,7 @@
                 <div class="col-sm-10">
                     <select [(ngModel)]="segundaCarrera" class="form-control" name="segundaCarrera">
                         <option [ngValue]=null>Ninguna</option>
-                        <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
+                        <option *ngFor="let c of copyCarreras" [ngValue]="c" >{{c.nombre}}</option>
                     </select>
                 </div>
             </div>
@@ -260,18 +260,18 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Énfasis principal</label>
                         <div class="col-sm-10">
-                            <select [(ngModel)]="enfasisPrincipal" class="form-control" name="enfasisPrincipal">
-                            <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
-                        </select>
+                            <select [(ngModel)]="enfasisPrincipal" class="form-control" name="enfasisPrincipal" (change)="updateCopyEnfasis($event)">
+                                <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Énfasis Secundario</label>
                         <div class="col-sm-10">
                             <select [(ngModel)]="enfasisSecundario" class="form-control" name="enfasisSecundario">
-                            <option [ngValue]=null>Ninguna</option>
-                            <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
-                        </select>
+                                <option [ngValue]=null>Ninguna</option>
+                                <option *ngFor="let e of copyEnfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
+                            </select>
                         </div>
                     </div>
                     <div *ngIf="segundaCarrera">
@@ -279,9 +279,9 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Énfasis principal</label>
                             <div class="col-sm-10">
-                                <select [(ngModel)]="enfasisPrincipalSegundaCarrera" class="form-control" name="enfasisPrincipalSegundaCarrera">
-                                <option *ngFor="let e of enfasisSegundaCarrera" [ngValue]="e" >{{e.nombre}}</option>
-                            </select>
+                                <select (change)="updateCopySegundoEnfasis($event)" [(ngModel)]="enfasisPrincipalSegundaCarrera" class="form-control" name="enfasisPrincipalSegundaCarrera">
+                                    <option *ngFor="let e of enfasisSegundaCarrera" [ngValue]="e" >{{e.nombre}}</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -289,7 +289,7 @@
                             <div class="col-sm-10">
                                 <select [(ngModel)]="enfasisSecundarioSegundaCarrera" class="form-control" name="enfasisSecundarioSegundaCarrera">
                                     <option [ngValue]=null>Ninguna</option>
-                                    <option *ngFor="let e of enfasisSegundaCarrera" [ngValue]="e" >{{e.nombre}}</option>
+                                    <option *ngFor="let e of copyEnfasisSegundaCarrera" [ngValue]="e" >{{e.nombre}}</option>
                                 </select>
                             </div>
                         </div>
