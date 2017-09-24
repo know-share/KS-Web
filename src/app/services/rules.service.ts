@@ -142,7 +142,7 @@ export class RuleService {
                     return res.json();
                 }
                 if(res.status == 204){
-                    throw new Error('No hay ideas.');
+                    return [];
                 }
                 if(res.status == 500){
                     throw new Error('No se pudieron cargar las ideas.');

@@ -276,7 +276,8 @@ export class HomeComponent implements OnInit {
         this.usuarioService.updatePreferencia(this.preferenciaDespliegue)
             .subscribe(
             res => {
-                return null;
+                this.newIdeas = [];
+                this.findRed(0);
             }, error => {
                 let disposable;
                 if (error == 'Error: 401')

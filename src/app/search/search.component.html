@@ -110,6 +110,9 @@
                 </ng-template>
             </p-dataList>
             <div *ngIf="activeTab != 'users'">
+                <div class="panel panel-default center" *ngIf="!ideas?.length">
+                    <p>No se encontraron resultados</p>
+                </div>
                 <div class="panel panel-default center" *ngFor="let idea of ideas; index as indice">
                     <idea [idea]="idea" (change)="cambio($event)"></idea>
                 </div>
