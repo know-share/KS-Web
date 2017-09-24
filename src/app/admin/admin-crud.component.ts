@@ -128,8 +128,6 @@ export class AdminCrudComponent implements OnInit {
                     this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Carrera fue creada.' });
                 } else {
                     this.msgs = [];
-                    this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear carrera" });
-
                 }
             });
     }
@@ -178,8 +176,6 @@ createTag() {
             }
             else {
                 this.msgs = [];
-                this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear Tag" });
-
             }
         });
 }
@@ -234,8 +230,6 @@ createHabilidad() {
             }
             else {
                 this.msgs = [];
-                this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear Habilidad" });
-
             }
         });
 }
@@ -289,8 +283,6 @@ createEnfasis() {
                 this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Énfasis fue creado' });
             } else {
                 this.msgs = [];
-                this.msgs.push({ severity: 'fail', summary: 'Error creando', detail: "No se pudo crear énfasis" });
-
             }
         });
 }
