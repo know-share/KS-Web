@@ -163,9 +163,9 @@
     </div>
 
     <div class="row">
-        <div *ngIf="!usuario.segundaCarrera" class="col-xs-2">
-        </div>
-        <div [ngClass]="usuario.segundaCarrera ? 'col-xs-6':'col-xs-8'">
+        <!-- <div *ngIf="!usuario.segundaCarrera" class="col-xs-2">
+        </div> -->
+        <div [ngClass]="usuario.segundaCarrera ? 'col-xs-6':'col-xs-12'">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <button type="button" (click)="editCarrera(true,false)" class="btn btn-success btn-circle btn-aval right"><i class="glyphicon glyphicon-pencil"></i></button>
