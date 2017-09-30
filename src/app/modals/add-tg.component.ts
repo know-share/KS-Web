@@ -29,7 +29,7 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
                                     || formGroup.get('resumen').touched && formGroup.get('resumen').hasError('required')">
                                     Todos los campos son requeridos.
                                 </div>
-                                <div class="alert alert-danger" *ngIf="formGroup.get('numEstudiantes').touched || formGroup.controls.numEstudiantes.errors?.NumMissed">
+                                <div class="alert alert-danger" *ngIf="formGroup.get('numEstudiantes').touched && formGroup.controls.numEstudiantes.errors?.NumMissed">
                                     El número de estudiantes ingresado es inválido.
                                 </div>
                                 <div class="form-group">
@@ -58,7 +58,8 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
                                     </div>
                                 </div>
                                 <div *ngIf="tipoUsuario == 'PROFESOR'" class="form-group">
-                                    <input min=1 placeholder="Número de estudiantes" [(ngModel)]="numEstudiantes" type="number" name="numEstudiantes" class="form-control"
+                                    <label for="numEstudiantes">Número de estudiantes</label>
+                                    <input min=1 placeholder="Número de estudiantes" [(ngModel)]="numEstudiantes" type="number" id="numEstudiantes" name="numEstudiantes" class="form-control"
                                         formControlName="numEstudiantes"/>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-block" [disabled]="formGroup.invalid">Agregar</button>
@@ -93,6 +94,8 @@ export class AddTGModalComponent extends DialogComponent<void, boolean>
     ) {
         super(dialogService);
         this.tipoUsuario = localStorage.getItem('role');
+        if(this.tipoUsuario == 'PROFESOR')
+            this.numEstudiantes = 1;
     }
 
     ngOnInit(){

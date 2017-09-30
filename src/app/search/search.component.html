@@ -7,8 +7,8 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <ul class="nav navbar-nav">
-                <li [ngClass]="{ 'active': activeTab == 'users' }"><a (click)="moveTab('users')" class="links">Usuarios</a></li>
-                <li [ngClass]="{ 'active': activeTab == 'ideas' }"><a (click)="moveTab('ideas')" class="links">Ideas</a></li>
+                <li [ngClass]="{ 'active_tab': activeTab == 'users' }"><a (click)="moveTab('users')" class="links">Usuarios</a></li>
+                <li [ngClass]="{ 'active_tab': activeTab == 'ideas' }"><a (click)="moveTab('ideas')" class="links">Ideas</a></li>
             </ul>
         </div>
     </nav>

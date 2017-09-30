@@ -38,7 +38,8 @@
                                 <div class="panel panel-default center">
                                     <div class="panel-heading">Solicitudes de amistad</div>
                                     <div class="panel-body center">
-                                        <button (click)="showRequests()" type="button" class="btn btn-primary">Pendientes <span class="badge">{{cantidadSolicitudes}}</span></button>
+                                        <button *ngIf="cantidadSolicitudes" (click)="showRequests()" type="button" class="btn btn-primary">Pendientes <span class="badge">{{cantidadSolicitudes}}</span></button>
+                                        <button *ngIf="!cantidadSolicitudes" (click)="showRequests()" type="button" class="btn btn-default">Pendientes <span class="badge">{{cantidadSolicitudes}}</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -50,9 +51,15 @@
                                         <button type="button" class="close" (click)="removeRecomendacion(r.username)">&times;</button>
                                     </div>
                                     <div class="panel-body center">
-                                        <button #friendButton *ngIf="r.conexion == 'CONFIANZA'" (click)="agregarAmigo(r.username,i)" type="button" class="btn btn-danger">
+                                        <button #acceptButton *ngIf="existRequest(r.username)" (click)="accept(r.username,i)"
+                                            type="button" class="btn btn-primary">Aceptar</button>
+                                        <button #rejectButton *ngIf="existRequest(r.username)" (click)="reject(r.username,i)"
+                                            type="button" class="btn btn-danger">Rechazar</button>
+                                        <button #friendButton *ngIf="r.conexion == 'CONFIANZA' && !existRequest(r.username)" (click)="agregarAmigo(r.username,i)"
+                                            type="button" class="btn btn-danger">
                                             <span class="glyphicon glyphicon-user"></span> Agregar como amigo</button>
-                                        <button #friendButton *ngIf="r.conexion != 'CONFIANZA'" (click)="seguirUsuario(r.username,i)" type="button" class="btn btn-danger">
+                                        <button #friendButton *ngIf="r.conexion != 'CONFIANZA' && !existRequest(r.username)" (click)="seguirUsuario(r.username,i)"
+                                            type="button" class="btn btn-danger">
                                             <span class="glyphicon glyphicon-eye-open"></span> Seguir</button>
                                         <img *ngIf="r.conexion == 'NO_RECOMENDAR'" src="images/icons/lightbulb_on.png" />
                                     </div>
