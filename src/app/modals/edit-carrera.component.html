@@ -51,21 +51,18 @@
             <select [(ngModel)]="carrera" (ngModelChange)="onChangeCarrera()" class="form-control" name="carrera">
                 <option *ngFor="let c of carreras" [ngValue]="c" >{{c.nombre}}</option>
             </select>
-            <label>Enfasis principal</label>
+            <label>Énfasis principal</label>
             <select [(ngModel)]="enfasisPrincipal" class="form-control" name="carrera">
                 <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
             </select>
-            <label>Enfasis secundario</label>
+            <label>Énfasis secundario</label>
             <select [(ngModel)]="enfasisSecundario" class="form-control" name="carrera">
                 <option [ngValue]=null>Ninguna</option>
                 <option *ngFor="let e of enfasisCarrera" [ngValue]="e" >{{e.nombre}}</option>
             </select>
             <label>Áreas de conocimiento</label>
-            <div class="form-group" *ngFor="let ac of areasConocimiento">
-                <!--<div [ngClass]="isCheck(ac,acSelected) ? 'thumbnail check':'thumbnail'" (click)="checkAC(ac)">{{ac.nombre}}</div>-->
-                <div class="col-sm-9 aconocimiento">
-                    <label><input [checked]="isCheck(ac,acSelected)" type="checkbox" (click)="checkAC(ac)"/>  {{ac.nombre}}</label>
-                </div>
+            <div class="form-horizontal" *ngFor="let ac of areasConocimiento">
+                <label class="control-label col-sm-9 aconocimiento"><input [checked]="isCheck(ac,acSelected)" type="checkbox" (click)="checkAC(ac)"/>  {{ac.nombre}}</label>
                 <div class="col-sm-3">
                     <select [(ngModel)]="ac.porcentaje" class="form-control">
                         <option [ngValue]=0>0%</option>

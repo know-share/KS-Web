@@ -65,6 +65,8 @@ export class ProfileComponent implements OnInit {
     ideas: Array<Idea> = new Array;
     msgs: Message[] = [];
 
+    role = localStorage.getItem('role');
+
     display: boolean = false;
 
     tags: Array<Tag> = new Array;

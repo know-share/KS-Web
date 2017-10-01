@@ -44,11 +44,11 @@ export interface RequestModalDisplay {
                         <div *ngIf="usuario.tipoUsuario=='PROFESOR'" class="form-group">
                             <label class="col-sm-2 control-label">Grupo de investigación</label>
                             <div class="col-sm-10">
-                                <input [(ngModel)]="grupo" class="form-control" type="text" [ngModelOptions]="{standalone: true}">
+                                <input placeholder="Opcional" [(ngModel)]="grupo" class="form-control" type="text" [ngModelOptions]="{standalone: true}">
                             </div>
                         </div>
                         <div *ngIf="usuario.tipoUsuario=='PROFESOR'" class="form-group">
-                            <label class="col-sm-2 control-label">Disponible semestre actual</label>
+                            <label class="control-label col-sm-2">Disponible semestre actual</label>
                             <div class="col-sm-10">
                                 <select [(ngModel)]="disponible" class="form-control" name="disponible" [ngModelOptions]="{standalone: true}">
                                     <option [ngValue]=true>Si</option>

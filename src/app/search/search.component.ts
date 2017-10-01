@@ -118,24 +118,32 @@ export class SearchComponent implements OnInit {
                         this.ideas = res;
                     }, error => {
                         let disposable;
-
                         if (error == 'Error: 401')
                             disposable = this.dialogService.addDialog(ExpirationModalComponent);
                         else
                             console.log('Error ' + error);
                     });
+                let tagsDisplay = [];
+                this.selectedTags.forEach(element => {
+                    tagsDisplay.push(element.nombre);
+                });
+                this.search = 'ideas con tags: ' + tagsDisplay;
             }
             if (this.option == 2) {
                 this.buscarIdeas('/continuar');
+                this.search = 'ideas para continuar';
             }
             if (this.option == 1) {
                 this.buscarIdeas('/nueva');
+                this.search = 'ideas nuevas';
             }
             if (this.option == 5) {
                 this.buscarIdeas('/proyecto');
+                this.search = 'ideas de proyecto';
             }
             if (this.option == 4) {
                 this.buscarIdeas('/empezar');
+                this.search = 'ideas para empezar';
             }
         }
     }

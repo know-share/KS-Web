@@ -17,7 +17,7 @@
                             <option value="NU">Nueva</option>
                             <option value="PC">Para continuar</option>
                             <option value="PE">Para empezar</option>
-                            <option value="PR">Proyecto</option>
+                            <option *ngIf="role == 'PROFESOR'" value="PR">Proyecto</option>
                         </select>
                         </div>
                         <div class="form-group">
@@ -26,14 +26,14 @@
                         </div>
 
                         <div class="form-group" *ngIf="selectedValueTipo == 'PC' || selectedValueTipo == 'PE'">
-                            <label for="numeroest">Numero de estudiantes: </label>
-                            <input class="form-control" type="number" [(ngModel)]="numeroEstudiantes" name="numero">
+                            <label for="numeroest">Número de estudiantes: </label>
+                            <input min="1" max="5" class="form-control" type="number" [(ngModel)]="numeroEstudiantes" name="numero">
                         </div>
 
                         <div class="form-group" *ngIf="selectedValueTipo == 'PE'">
                             <label for="alcance">Alcance: </label>
                             <input class="form-control" type="text" [(ngModel)]="alcance" name="alc">
-                            <label for="problematica">Problematica: </label>
+                            <label for="problematica">Problemática: </label>
                             <textarea class="form-control" type="text" [(ngModel)]="problematica" rows='5' name="problem"></textarea>
                         </div>
                         <div class="row">
