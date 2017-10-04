@@ -1,89 +1,99 @@
-<div class="container">
+<!--<div class="container">        
     <div class="row">
         <div class="col-xs-8">
-            <h2>¿Todavía no sabes qué tema de trabajo de grado desarrollar?</h2>
-            <br>
-            <div align="center" class="col-xs-6">
-                <div class="media-left">
-                    <img src="images/busca.png" class="media-object" style="width:100px">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">
-                        <FONT COLOR="red"><b>BUSCA</b></FONT>
-                    </h4>
-                    <b><FONT SIZE=4>Know&Share te permite buscar ideas de trabajo de grado e interactuar con personas como tú.</FONT></b>
-                </div>
-                <br>
-                <br>
-                <br>
-                <br>
-                <div class="media-left">
-                    <img src="images/idea.png" class="media-object" style="width:70px">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">
-                        <FONT COLOR="red"><b>IDEAS</b></FONT>
-                    </h4>
-                    <b><FONT SIZE=4>Know&Share te ofrece 4 tipos de ideas: Nueva, Para Empezar, Para Continuar y Proyecto... ¡Pruébalas todas! </FONT></b>
+            <div class="containerr">
+                <img src="images/back.jpg" alt="Norway" style="width:100%;">
+                <div class="bottom-left"><FONT SIZE=4>Avala a tus profesores y compañeros. ¡Demuestra quien es el mejor!</FONT></div>
+                <div class="top-left"><FONT SIZE=4>Busca ideas de trabajo de grado e interactuar con personas como tú.</FONT></div>
+                <div class="top-right"><FONT SIZE=4>Crea ideas: Nueva, Para Empezar, Para Continuar y Proyecto... ¡Pruébalas todas! </FONT></div>
+                <div class="bottom-right"><FONT SIZE=4>Conéctate y conoce personas de tu interés. ¡No sabes a quien puedes conocer!</FONT></div>
+                <div class="centered"><h2>¿Todavía no sabes qué tema de trabajo de grado desarrollar?</h2>
                 </div>
             </div>
-
-            <div align="center" class="col-xs-6">
-                <div class="media-left">
-                    <img src="images/conectate.png" class="media-object" style="width:120px">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">
-                        <FONT COLOR="red"><b>CONÉCTATE</b></FONT>
-                    </h4>
-                    <b><FONT SIZE=4>Conéctate con tus amigos y personas de tu interés. ¡No sabes a quien puedes conocer!</FONT></b>
-                </div>
-                <br>
-                <br>
-                <br>
-                <br>
-                <div class="media-left">
-                    <img src="images/avala.png" class="media-object" style="width:160px">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">
-                        <FONT COLOR="red"><b>AVALA</b></FONT>
-                    </h4>
-                    <b><FONT SIZE=4>Avala a tus profesores y compañeros. ¡Demuestra quien es el mejor!</FONT></b>
-                </div>
-            </div>
-
         </div>
         <div class="col-xs-4">
-            <div class="well">
-                <form novalidate (ngSubmit)="login()" [formGroup]="loginForm">
-                    <div class="alert alert-danger" *ngIf="errorLogin">
-                        Credenciales incorrectas.
-                    </div>
-                    <div class="form-group">
-                        <label for="username" class="control-label">Nombre de usuario:</label>
-                        <input [(ngModel)]="username" type="text" class="form-control" id="username" name="username" formControlName="username">
-                        <div class="alert alert-danger" *ngIf="loginForm.get('username').touched && loginForm.get('username').hasError('required')">
-                            Nombre de usuario es requerido.
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="password" class="control-label">Contraseña:</label>
-                        <input [(ngModel)]="password" type="password" class="form-control" id="password" name="password" formControlName="pass">
-                        <div class="alert alert-danger" *ngIf="loginForm.get('pass').touched && loginForm.get('pass').hasError('required')">
-                            Contraseña es requerido.
-                        </div>
-                    </div>
-                    <!-- <div class="checkbox">
-                        <label><input type="checkbox" name="remember" id="remember"> Remember login</label>
-                    </div> -->
-                    <button [disabled]="loginForm.invalid" type="submit" class="btn btn-success btn-block">Ingresar</button>
-                    <!--<a href="/forgot/" class="btn btn-default btn-block">¿Olvidó su Contraseña?</a>-->
-                </form>
-            </div>
+            
         </div>
         <div align="center">
             <img src="images/Grado.jpg" class="media-object" style="width:250px">
         </div>
     </div>
-</div>
+    <br>
+    <br>
+    <div class="row">
+        <div class= "col-xs-3">
+            <div class="media-left">
+                <img src="images/busca.png" class="media-object" style="width:100px">
+            </div>
+        </div>
+        <div class= "col-xs-3">
+                <div class="media-left">
+                    <img src="images/idea.png" class="media-object" style="width:70px">
+                </div>
+        </div>
+        <div class= "col-xs-3">
+                <div class="media-left">
+                    <img src="images/conectate.png" class="media-object" style="width:120px">
+                </div>
+        </div>
+        <div class= "col-xs-3">
+                <div class="media-left">
+                    <img src="images/avala.png" class="media-object" style="width:160px">
+                </div>
+        </div>
+    </div>
+</div>-->
+
+<div class="hero">
+    <video autoplay loop class="video-area" muted plays-inline>
+         <source src="images/login.mp4" type="video/mp4">
+    </video>      
+</div> 
+<div class="container">
+        <h1 class="hero-title">¿Todavía no sabes qué tema de trabajo de grado desarrollar?</h1>
+        <div class="col-xs-8">
+            <div class ="sub">
+                <FONT SIZE=4><b><u>Avala</u></b> a tus profesores y compañeros. ¡Demuestra quien es el mejor!</FONT>
+            </div>
+            <div class ="sub">
+                <FONT SIZE=4><b><u>Busca ideas</u></b> de trabajo de grado e interactuar con personas como tú.</FONT>
+            </div>
+            <div class ="sub">
+                <FONT SIZE=4><b><u>Crea ideas:</u></b> Nueva, Para Empezar, Para Continuar y Proyecto... ¡Pruébalas todas! </FONT>
+            </div>
+            <div class ="sub">
+                <FONT SIZE=4><b><u>Conéctate y conoce</u></b> personas de tu interés. ¡No sabes a quien puedes conocer!</FONT>
+            </div>
+        </div>
+        <div class="col-xs-4"> 
+            <div class="create-account">
+                <div class="well">
+                    <h1 align= "center" class="login-title">LOGIN</h1>
+                    <form novalidate (ngSubmit)="login()" [formGroup]="loginForm">
+                        <div class="alert alert-danger" *ngIf="errorLogin">
+                            Credenciales incorrectas.
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="control-label">Nombre de usuario:</label>
+                            <input [(ngModel)]="username" type="text" class="form-control" id="username" name="username" formControlName="username">
+                            <div class="alert alert-danger" *ngIf="loginForm.get('username').touched && loginForm.get('username').hasError('required')">
+                                Nombre de usuario es requerido.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="control-label">Contraseña:</label>
+                            <input [(ngModel)]="password" type="password" class="form-control" id="password" name="password" formControlName="pass">
+                            <div class="alert alert-danger" *ngIf="loginForm.get('pass').touched && loginForm.get('pass').hasError('required')">
+                                Contraseña es requerido.
+                            </div>
+                        </div>
+                            <!-- <div class="checkbox">
+                                <label><input type="checkbox" name="remember" id="remember"> Remember login</label>
+                            </div> -->
+                        <button [disabled]="loginForm.invalid" type="submit" class="btn btn-success btn-block">Ingresar</button>
+                            <!--<a href="/forgot/" class="btn btn-default btn-block">¿Olvidó su Contraseña?</a>-->
+                    </form>
+                </div>
+            </div> 
+        </div>       
+</div> 

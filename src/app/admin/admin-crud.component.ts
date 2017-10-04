@@ -98,7 +98,6 @@ export class AdminCrudComponent implements OnInit {
                     this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Carrera fue actualizada.' });
                 } else {
                     this.msgs = [];
-                    this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar carrera" });
                 }
             });
     }
@@ -148,7 +147,6 @@ export class AdminCrudComponent implements OnInit {
                     this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Tag fue actualizado.' });
                 } else {
                     this.msgs = [];
-                    this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar Tag" });
                 }
             });
     }
@@ -195,7 +193,6 @@ onRowSelectHabilidad(event) {
             }
             else {
                 this.msgs = [];
-                this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar Habilidad" });
             }
         });
 }
@@ -250,7 +247,6 @@ onRowSelectEnfasis(event) {
                 this.msgs.push({ severity: 'success', summary: 'Operación exitosa', detail: 'Énfasis fue actualizada.' });
             } else {
                 this.msgs = [];
-                this.msgs.push({ severity: 'fail', summary: 'Error actualizando', detail: "No se pudo actualizar Énfasis" });
             }
         });
 }
