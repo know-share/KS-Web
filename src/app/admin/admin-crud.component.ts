@@ -29,6 +29,11 @@ import { CrudEnfasisModalComponent } from '../modals/crud-enfasis.component';
     templateUrl: './admin-crud.component.html',
     styleUrls: ['../user/user.component.css']
 })
+
+/**
+ * Permite el manejo del crud 
+ * para el administrador.
+ */
 export class AdminCrudComponent implements OnInit {
 
     activeTab: string;
@@ -64,6 +69,11 @@ export class AdminCrudComponent implements OnInit {
         this.refreshTag();
     }
 
+    /**
+	 * Mueve la tabla de vista
+	 * @param String tab
+	 * @return 
+	 */
     moveTab(tab) {
         this.activeTab = tab;
         if (this.activeTab == "carreras") {
@@ -86,6 +96,11 @@ export class AdminCrudComponent implements OnInit {
 
     //----------------------------  CARRERA --------------------------------
 
+    /**
+	 * Modifica una carrera seleccionada.
+	 * @param Event evento
+	 * @return Si se modificó correctamente actualiza las carreras.
+	 */
     onRowSelect(event) {
         let disposable = this.dialogService.addDialog(CrudCarreraModalComponent, {
             carrera: this.selectedcarrera,
@@ -102,6 +117,11 @@ export class AdminCrudComponent implements OnInit {
             });
     }
 
+    /**
+	 * Actualiza las carreras.
+	 * @param 
+	 * @return actualiza las carrera, de lo contrario las deja vacias.
+	 */
     refreshCarrera() {
         this.carreraService.getAllCarreras()
             .subscribe(
@@ -115,6 +135,11 @@ export class AdminCrudComponent implements OnInit {
             });
     }
 
+    /**
+	 * Crea una carrera.
+	 * @param 
+	 * @return actualiza las carrera, de lo contrario las deja vacias.
+	 */
     createCarrera() {
         let disposable = this.dialogService.addDialog(CrudCarreraModalComponent, {
             carrera: new Carrera(),
@@ -134,6 +159,11 @@ export class AdminCrudComponent implements OnInit {
 
     //----------------------------  TAG --------------------------------
 
+    /**
+	 * Modifica un tag seleccionado.
+	 * @param Event evento
+	 * @return Si se modificó correctamente actualiza los tags.
+	 */
     onRowSelectTag(event) {
         let disposable = this.dialogService.addDialog(CrudTagModalComponent, {
             tag: this.selectedTag,
@@ -151,6 +181,11 @@ export class AdminCrudComponent implements OnInit {
             });
     }
 
+    /**
+	 * Actualiza los tags.
+	 * @param 
+	 * @return actualiza los tags, de lo contrario los deja vacios.
+	 */
     refreshTag() {
         this.tagService.getAllTags()
             .subscribe(
@@ -161,6 +196,11 @@ export class AdminCrudComponent implements OnInit {
             });
 }
 
+/**
+	 * Crea un tag.
+	 * @param 
+	 * @return actualiza los tags, de lo contrario los deja vacios.
+	 */
 createTag() {
     let disposable = this.dialogService.addDialog(CrudTagModalComponent, {
         tag: new Tag(),
@@ -180,6 +220,11 @@ createTag() {
 
 //----------------------------  Habilidades --------------------------------
 
+/**
+	 * Modifica una habilidad seleccionada.
+	 * @param Event evento
+	 * @return Si se modificó correctamente actualiza las habilidad.
+	 */
 onRowSelectHabilidad(event) {
     let disposable = this.dialogService.addDialog(CrudHabilidadModalComponent, {
         habilidad: this.selectedHabilidad,
@@ -197,6 +242,11 @@ onRowSelectHabilidad(event) {
         });
 }
 
+/**
+	 * Actualiza las habilidades.
+	 * @param 
+	 * @return actualiza las habilidades, de lo contrario las deja vacias.
+	 */
 refreshHabilidad() {
     this.habilidadService.getAll()
         .subscribe(
@@ -214,6 +264,11 @@ refreshHabilidad() {
         );
 }
 
+/**
+	 * Crea una habilidad.
+	 * @param 
+	 * @return actualiza las habilidades, de lo contrario las deja vacias.
+	 */
 createHabilidad() {
     let disposable = this.dialogService.addDialog(CrudHabilidadModalComponent, {
         habilidad: new Habilidad(),
@@ -234,6 +289,11 @@ createHabilidad() {
 
 //----------------------------  ÉNFASIS --------------------------------
 
+/**
+	 * Modifica un énfasis seleccionado.
+	 * @param Event evento
+	 * @return Si se modificó correctamente actualiza las carreras y énfasis.
+	 */
 onRowSelectEnfasis(event) {
     let disposable = this.dialogService.addDialog(CrudEnfasisModalComponent, {
         enfasis: this.selectedEnfasis,
@@ -251,6 +311,11 @@ onRowSelectEnfasis(event) {
         });
 }
 
+/**
+	 * Actualiza los énfasís.
+	 * @param 
+	 * @return actualiza los énfasis, de lo contrario los deja vacios.
+	 */
 refreshEnfasis() {
     let enfasislist: Enfasis[] = [];
     for (let cr of this.carreras) {
@@ -266,6 +331,11 @@ refreshEnfasis() {
     this.enfasisList = enfasislist;
 }
 
+/**
+	 * Crea un énfasis.
+	 * @param 
+	 * @return actualiza los énfasis, de lo contrario los deja vacios.
+	 */
 createEnfasis() {
     let disposable = this.dialogService.addDialog(CrudEnfasisModalComponent, {
         enfasis: new Enfasis(),

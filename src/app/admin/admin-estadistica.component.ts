@@ -15,6 +15,11 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
     templateUrl: './admin-estadistica.component.html',
     styleUrls: ['../user/user.component.css']
 })
+
+/**
+ * Permite ver las estadísticas 
+ * del sistema.
+ */
 export class AdminEstadisticaComponent implements OnInit {
 
     selectedcarrera: Carrera;
@@ -37,7 +42,11 @@ export class AdminEstadisticaComponent implements OnInit {
         this.refreshTags();
     }
 
-
+    /**
+	 * Actualiza y carga las carreras.
+	 * @param 
+	 * @return actualiza las carrera, de lo contrario informa.
+	 */
     refreshCarrera() {
         this.carreraService.getAllCarreras()
             .subscribe(
@@ -52,6 +61,11 @@ export class AdminEstadisticaComponent implements OnInit {
             });
     }
 
+    /**
+	 * Actualiza y carga los tags.
+	 * @param 
+	 * @return actualiza los tags, de lo contrario informa.
+	 */
     refreshTags() {
         this.adminService.getTags()
             .subscribe(
@@ -65,6 +79,13 @@ export class AdminEstadisticaComponent implements OnInit {
             });
     }
 
+    /**
+	 * Carga la cantidad de usuarios en una
+     * carrera seleccionada.
+	 * @param 
+	 * @return Si no hay usuarios informa, de lo contrario
+     * los carga.
+	 */
     mostrardatos(){
         this.adminService.getAllUsuarios(this.selectedcarrera.nombre)
         .subscribe(
@@ -89,6 +110,12 @@ export class AdminEstadisticaComponent implements OnInit {
         });
     }
 
+    /**
+	 * Muestra la cantidad de usuarios en una
+     * carrera seleccionada.
+	 * @param 
+	 * @return Muestra cantidad hombres y mujeres.
+	 */
     refreshEstadistica(m,f){
         this.data = {
             labels: ['Masculino','Femenino'],
@@ -108,6 +135,12 @@ export class AdminEstadisticaComponent implements OnInit {
             };
     }
 
+    /**
+	 * Muestra la cantidad de de veces
+     * que son usados los tags.
+	 * @param 
+	 * @return Muestra cantidad hombres y mujeres.
+	 */
     refreshEstadisticaTags(){
         let l: string[] = [];
         let d: number[] = [];
