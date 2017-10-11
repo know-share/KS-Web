@@ -6,6 +6,10 @@ import 'rxjs/add/operator/map';
 
 import { URL_API } from '../entities/constants';
 
+/**
+ * Clase servicio de gustos
+ * que se conecta con el api.
+ */
 @Injectable()
 export class GustoService{
     
@@ -15,6 +19,11 @@ export class GustoService{
         private http:Http
     ){}
 
+    /**
+	 * Trae todos los gustos
+	 * @param 
+	 * @return Lista con los gustos.
+	 */
     getAllGustos(){
         let url = this.baseUrl + "findAll";
         return this.http.get(url)

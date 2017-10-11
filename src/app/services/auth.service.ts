@@ -6,6 +6,10 @@ import 'rxjs/add/operator/map';
 
 import { URL_API } from '../entities/constants';
 
+/**
+ * Clase servicio de autenticación
+ * que se conecta con el api.
+ */
 @Injectable()
 export class AuthService {
 
@@ -20,6 +24,11 @@ export class AuthService {
         private http: Http
     ) { }
 
+    /**
+	 * Login de un usuario en el servidor
+	 * @param Auth auth
+	 * @return true o false según éxito de operación.
+	 */
     login(auth) {
         let url = this.baseUrl + "login";
         return this.http.post(url, auth)
@@ -37,14 +46,29 @@ export class AuthService {
             });
     }
 
+    /**
+	 * Revisa si existe una sesión valida
+	 * @param 
+	 * @return true o false según validez.
+	 */
     isLoggedIn(): Observable<boolean> {
         return this.logger.asObservable();
     }
 
+    /**
+	 * Revisa si la sesión es de tipo admin
+	 * @param 
+	 * @return true o false según tipo.
+	 */
     isAdmin(): Observable<boolean> {
         return this.loggerAdmin.asObservable();
     }
 
+    /**
+	 * Cierra la sesión de un usuario
+	 * @param 
+	 * @return true o false según éxito de operación.
+	 */
     logout() {
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));

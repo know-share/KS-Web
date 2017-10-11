@@ -6,6 +6,10 @@ import 'rxjs/add/operator/map';
 
 import { URL_API } from '../entities/constants';
 
+/**
+ * Clase servicio de personalidad
+ * que se conecta con el api.
+ */
 @Injectable()
 export class PersonalidadService{
     
@@ -15,6 +19,11 @@ export class PersonalidadService{
         private http:Http
     ){}
 
+    /**
+	 * Trae todas las personalidades existentes
+	 * @param 
+	 * @return Lista con las personalidades.
+	 */
     getAllPersonalidades(){
         let url = this.baseUrl + "findAll";
         return this.http.get(url)

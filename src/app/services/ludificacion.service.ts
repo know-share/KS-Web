@@ -6,6 +6,10 @@ import 'rxjs/add/operator/map';
 
 import { URL_API } from '../entities/constants';
 
+/**
+ * Clase servicio de ludificación
+ * que se conecta con el api.
+ */
 @Injectable()
 export class LudificacionService{
     
@@ -15,6 +19,14 @@ export class LudificacionService{
         private http:Http
     ){}
 
+    /**
+	 * Guarda el aval de un usuario a otro.
+     * envía el nombre de usuario avalado, el tipo
+     * de usuario que habala y el id de la cualidad o
+     * habilidad.
+	 * @param String username, String tipo, String id
+	 * @return true o false según el éxito de la operación.
+	 */
     avalar(username,tipo,id){
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
@@ -33,6 +45,12 @@ export class LudificacionService{
             });
     }
 
+    /**
+	 * Trae todas las carreras existentes
+     * y su cantidad de estudiantes
+	 * @param 
+	 * @return Lista con las carreras.
+	 */
     getAllCarreras() {
         let url = this.baseUrl + "leaderCarreras";
         let header = new Headers();
@@ -49,6 +67,12 @@ export class LudificacionService{
             });
     }
 
+    /**
+	 * Trae todos los usuarios según su tipo,
+     * para una carrera especifica
+	 * @param String carrera, String tipo
+	 * @return true o false según el éxito de la operación.
+	 */
     getAllEstudiantes(carrera,tipo ) {
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));

@@ -6,6 +6,10 @@ import 'rxjs/add/operator/map';
 
 import { URL_API } from '../entities/constants';
 
+/**
+ * Clase servicio de cualidades
+ * que se conecta con el api.
+ */
 @Injectable()
 export class CualidadService{
     
@@ -15,6 +19,11 @@ export class CualidadService{
         private http:Http
     ){}
 
+    /**
+	 * Trae todas las cualidades
+	 * @param 
+	 * @return Lista con las cualidades.
+	 */
     getAllCualidades(){
         let url = this.baseUrl + "findAll";
         return this.http.get(url)

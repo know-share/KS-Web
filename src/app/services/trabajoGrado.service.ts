@@ -7,6 +7,10 @@ import 'rxjs/add/operator/map';
 
 import { URL_API } from '../entities/constants';
 
+/**
+ * Clase servicio de trabajo de grado
+ * que se conecta con el api.
+ */
 @Injectable()
 export class TrabajoGradoService {
 
@@ -16,6 +20,12 @@ export class TrabajoGradoService {
         private http: Http
     ) {}
 
+    /**
+	 * Trae todas los trabajos de grado 
+     * existentes.
+	 * @param 
+	 * @return Lista con los trabajos de grado.
+	 */
     findAll(){
         let url = this.baseUrl + "findAll";
         return this.http.get(url)
