@@ -81,8 +81,9 @@
         <div class="panel-heading">
             <form>
                 <div class="form-group">
-                    <label for="sel1">Seleccione el tipo de idea:</label>
-                    <select class="form-control" id="sel1" [(ngModel)]="selectedValueTipo" name="tipoIdea" [ngModelOptions]="{standalone: true}">
+                    <label for="sel1">Seleccione el tipo de idea </label> <a data-toggle="tooltip" title="{{help_idea}}"><span class="label label-default">?</span></a>
+                    <select class="form-control" id="sel1" [(ngModel)]="selectedValueTipo" name="tipoIdea" [ngModelOptions]="{standalone: true}"
+                        (onChange)="onChangeTipoIdea()">
                         <option value="NU">Nueva</option>
                         <option value="PC">Para continuar</option>
                         <option value="PE">Para empezar</option>

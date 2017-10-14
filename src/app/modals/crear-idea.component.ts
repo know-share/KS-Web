@@ -37,6 +37,8 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     ideasPro: Array<Idea> = new Array();
     tg: TrabajoGrado = new TrabajoGrado();
 
+    help_idea = '';
+
     errorCrearIdea: string;
 
     constructor(
@@ -47,6 +49,7 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     ) {
         super(dialogService);
         this.selectedValueTipo = 'NU';
+        this.help_idea = 'Ideas nuevas son ideas que no tienen un soporte académico aún. Se suelen crear de manera espontánea.';
     }
 
     ngOnInit() {
@@ -170,5 +173,16 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
 
     close() {
         super.close();
+    }
+
+    onChange(){
+        if(this.selectedValueTipo === 'NU')
+            this.help_idea = 'Ideas nuevas son ideas que no tienen un soporte académico aún. Se suelen crear de manera espontánea.';
+        if(this.selectedValueTipo === 'PE')
+            this.help_idea = 'Ideas para empezar se caracterizan por tener ya la problemática, alcance y cantidad de estudiantes definidas.';
+        if(this.selectedValueTipo === 'PC')
+            this.help_idea = 'Ideas para continuar son aquellas que tienen un trabajo anterior ya realizado y tienen como propósito continuarlo.';
+        if(this.selectedValueTipo === 'PR')
+            this.help_idea = 'Los proyectos solamente pueden ser creadas por profesores y su propósito es indicar que el profesor posee una suite de ideas con objetivos similares.';
     }
 }

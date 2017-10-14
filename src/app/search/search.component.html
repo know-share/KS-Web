@@ -73,6 +73,15 @@
                     </div>
                 </div>
             </div>
+            <div *ngIf="activeTab == 'ideas'" class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="center">Tipos de ideas</h3>
+                    <p><strong>Idea nueva: </strong>Ideas nuevas son ideas que no tienen un soporte académico aún. Se suelen crear de manera espontánea.</p>
+                    <p><strong>Idea para continuar: </strong>Ideas para continuar son aquellas que tienen un trabajo anterior ya realizado y tienen como propósito continuarlo.</p>
+                    <p><strong>Idea para empezar: </strong>Ideas para empezar se caracterizan por tener ya la problemática, alcance y cantidad de estudiantes definidas.</p>
+                    <p><strong>Proyectos: </strong>Los proyectos solamente pueden ser creadas por profesores y su propósito es indicar que el profesor posee una suite de ideas con objetivos similares.</p>
+                </div>
+            </div>
         </div>
         <div class="col-xs-8">
             <p-dataList *ngIf="activeTab == 'users'" [value]="listUsers" [paginator]="true" [rows]="5" emptyMessage="No se encontraron resultados">
