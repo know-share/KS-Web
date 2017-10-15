@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit {
                 status = true;
             }
             this.lc.run(() => {
-                if (status && localStorage.length) {
+                if (status && localStorage.length && localStorage.getItem('role') !== 'ADMIN') {
                     if (this.pageable && !this.pageable.last)
                         this.findRed(this.pageable.number + 1);
                 }
