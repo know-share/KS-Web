@@ -8,7 +8,7 @@
 .hero .video-area{
     background:url(images/login.mp4) no-repeat;
     background-size:cover;
-    height:480px;
+    height:600px;
     overflow:hidden;
     position:relative;
     top:0;
@@ -23,11 +23,13 @@
     min-height:300px;
     text-align:center;
     padding:1em;
-    transition:opacity 2s ease
-}.hero-title{
+    transition:opacity 2s ease;
+    margin-top:30px;
+}
+/*.hero-title{
     font-family: 'Lucida Console', Monaco, monospace;
     margin-bottom:60px;
-}
+}*/
 .login-title{
     font-family: 'Lucida Console', Monaco, monospace;
     margin-bottom:15px;
