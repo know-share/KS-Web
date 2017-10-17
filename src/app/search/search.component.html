@@ -7,8 +7,8 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <ul class="nav navbar-nav">
-                <li [ngClass]="{ 'active': activeTab == 'users' }"><a (click)="moveTab('users')" class="links">Usuarios</a></li>
-                <li [ngClass]="{ 'active': activeTab == 'ideas' }"><a (click)="moveTab('ideas')" class="links">Ideas</a></li>
+                <li [ngClass]="{ 'active_tab': activeTab == 'users' }"><a (click)="moveTab('users')" class="links">Usuarios</a></li>
+                <li [ngClass]="{ 'active_tab': activeTab == 'ideas' }"><a (click)="moveTab('ideas')" class="links">Ideas</a></li>
             </ul>
         </div>
     </nav>
@@ -73,6 +73,15 @@
                     </div>
                 </div>
             </div>
+            <div *ngIf="activeTab == 'ideas'" class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="center">Tipos de ideas</h3>
+                    <p><strong>Idea nueva: </strong>Ideas nuevas son ideas que no tienen un soporte académico aún. Se suelen crear de manera espontánea.</p>
+                    <p><strong>Idea para continuar: </strong>Ideas para continuar son aquellas que tienen un trabajo anterior ya realizado y tienen como propósito continuarlo.</p>
+                    <p><strong>Idea para empezar: </strong>Ideas para empezar se caracterizan por tener ya la problemática, alcance y cantidad de estudiantes definidas.</p>
+                    <p><strong>Proyectos: </strong>Los proyectos solamente pueden ser creadas por profesores y su propósito es indicar que el profesor posee una suite de ideas con objetivos similares.</p>
+                </div>
+            </div>
         </div>
         <div class="col-xs-8">
             <p-dataList *ngIf="activeTab == 'users'" [value]="listUsers" [paginator]="true" [rows]="5" emptyMessage="No se encontraron resultados">
@@ -113,7 +122,7 @@
                 <div class="panel panel-default center" *ngIf="!ideas?.length">
                     <p>No se encontraron resultados</p>
                 </div>
-                <div class="panel panel-default center" *ngFor="let idea of ideas; index as indice">
+                <div class="center" *ngFor="let idea of ideas; index as indice">
                     <idea [idea]="idea" (change)="cambio($event)"></idea>
                 </div>
             </div>

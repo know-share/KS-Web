@@ -20,6 +20,9 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
     templateUrl: './leader.component.html',
 })
 
+/**
+ * Permite manejar el LeaderBoard.
+ */
 export class LeaderBoardComponent implements OnInit {
 
     carreras: CarreraLeader[] = [];
@@ -43,6 +46,13 @@ export class LeaderBoardComponent implements OnInit {
         this.refreshCarrerasLeader();
     }
 
+    /**
+	 * Carga las carreras con su respectiva cantidad de 
+     * estudiantes por cada una y la muestra según selecciona
+     * el usuario.
+	 * @param 
+	 * @return Lista de carreras con su cantidad de usuarios..
+	 */
     refreshCarrerasLeader() {
         this.ludificacionService.getAllCarreras()
             .subscribe(
@@ -70,6 +80,13 @@ export class LeaderBoardComponent implements OnInit {
             });
     }
 
+    /**
+	 * Carga los usuarios con más avales
+     * de una carrera seleccionada por usuario 
+     * y según su tipo.
+	 * @param 
+	 * @return Lista con los estudiantes.
+	 */
     refreshUserLeader() {
         this.ludificacionService.getAllEstudiantes(this.selectedcarrera.id, this.tipo)
             .subscribe(

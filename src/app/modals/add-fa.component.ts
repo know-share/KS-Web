@@ -31,11 +31,11 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
                                     Todos los campos son requeridos.
                                 </div>
                                 <div class="form-group">
-                                    <input placeholder="Título" [(ngModel)]="titulo" type="text" name="titulo" class="form-control" 
+                                    <input placeholder="Título recibido" [(ngModel)]="titulo" type="text" name="titulo" class="form-control" 
                                         formControlName="titulo"/>
                                 </div>
                                 <div class="form-group">
-                                    <input placeholder="Año" [(ngModel)]="anio" min=1950 type="number" name="anio" class="form-control"
+                                    <input placeholder="Año de grado" [(ngModel)]="anio" min=1950 type="number" name="anio" class="form-control"
                                         formControlName="anio"/>
                                 </div>
                                 <div class="form-group">

@@ -1,0 +1,54 @@
+.hero{
+    min-width:100%;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center center;
+    position:relative;
+}
+.hero .video-area{
+    background:url(images/login.mp4) no-repeat;
+    background-size:cover;
+    height:600px;
+    overflow:hidden;
+    position:relative;
+    top:0;
+    right:0;
+    left:0;
+    width:100%;
+    z-index:-100;
+    
+}
+.container{
+    color: black;
+    min-height:300px;
+    text-align:center;
+    padding:1em;
+    transition:opacity 2s ease;
+    margin-top:30px;
+}
+/*.hero-title{
+    font-family: 'Lucida Console', Monaco, monospace;
+    margin-bottom:60px;
+}*/
+.login-title{
+    font-family: 'Lucida Console', Monaco, monospace;
+    margin-bottom:15px;
+    margin-top: 5px;
+}
+/*.create-account{
+    margin:0 auto;
+    max-width:520px;
+    padding: 80px;
+}
+.well{
+    border:2px solid red;
+}*/
+.sub{
+    font-family: 'Lucida Console', Monaco, monospace;
+    margin-bottom:30px;
+}
+.control-label{
+    font-family: 'Lucida Console', Monaco, monospace;
+}
+   
+

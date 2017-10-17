@@ -1,8 +1,10 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
 import { Router } from '@angular/router';
 
 import { UsuarioService } from '../services/usuario.service';
+
+import { ExpirationModalComponent } from '../modals/expiration.component';
 
 export interface RequestModalDisplay {
     listSolicitudes: string[];
@@ -32,80 +34,86 @@ export interface RequestModalDisplay {
                    </div>
                  </div>
               </div>`,
-    styleUrls: ['../user/user.component.css','../access/signup.component.css']
+    styleUrls: ['../user/user.component.css', '../access/signup.component.css']
 })
 export class RequestModalComponent extends DialogComponent<RequestModalDisplay, boolean>
-    implements RequestModalDisplay,OnInit{
+    implements RequestModalDisplay, OnInit {
 
     listSolicitudes: string[];
-    listToShow:string[]=[];
-    listPages:number[] = [];
+    listToShow: string[] = [];
+    listPages: number[] = [];
     page: number = 1;
 
     constructor(
         dialogService: DialogService,
         private router: Router,
-        private usuarioService:UsuarioService,
+        private usuarioService: UsuarioService,
     ) {
         super(dialogService);
     }
 
-    ngOnInit(){
+    ngOnInit() {
         this.page = 1;
         this.listPages = [];
         this.listToShow = [];
-        let pages = Math.ceil(this.listSolicitudes.length/5);
-        for(let i = 1 ; i <= pages;i++)
+        let pages = Math.ceil(this.listSolicitudes.length / 5);
+        for (let i = 1; i <= pages; i++)
             this.listPages.push(i);
-        for(let i = 0;i< this.listSolicitudes.length && i < 5;i++){
+        for (let i = 0; i < this.listSolicitudes.length && i < 5; i++) {
             this.listToShow.push(this.listSolicitudes[i]);
         }
     }
 
-    loadPage(p){
-        this.page = p+1;
-        this.listToShow=[];
+    loadPage(p) {
+        this.page = p + 1;
+        this.listToShow = [];
         this.listPages = [];
-        for(let i = (p*5);i<((p*5)+5) && i<this.listSolicitudes.length;i++){
+        for (let i = (p * 5); i < ((p * 5) + 5) && i < this.listSolicitudes.length; i++) {
             this.listToShow.push(this.listSolicitudes[i]);
         }
-        let pages = Math.ceil(this.listSolicitudes.length/5);
-        for(let i = 1 ; i <= pages;i++)
+        let pages = Math.ceil(this.listSolicitudes.length / 5);
+        for (let i = 1; i <= pages; i++)
             this.listPages.push(i);
-        if(this.listToShow.length == 0 && this.listSolicitudes.length > 0)
-            this.loadPage(p-1);
+        if (this.listToShow.length == 0 && this.listSolicitudes.length > 0)
+            this.loadPage(p - 1);
     }
 
-    profile(username){
+    profile(username) {
         this.close();
         this.router.navigate(['/user', username]);
     }
 
-    accept(username){
-        this.usuarioService.accionSobreSolicitud(username,'accept')
+    accept(username) {
+        this.usuarioService.accionSobreSolicitud(username, 'accept')
             .subscribe(
-                res => {
-                    this.listSolicitudes = this.listSolicitudes.filter(user => user != username);
-                    this.listToShow = this.listToShow.filter(user => user != username);
-                    this.loadPage(this.page-1);
-                },
-                error => console.log()
-            );
+            res => {
+                this.listSolicitudes = this.listSolicitudes.filter(user => user != username);
+                this.listToShow = this.listToShow.filter(user => user != username);
+                this.loadPage(this.page - 1);
+            },
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
     }
 
-    reject(username){
-        this.usuarioService.accionSobreSolicitud(username,'reject')
+    reject(username) {
+        this.usuarioService.accionSobreSolicitud(username, 'reject')
             .subscribe(
-                res => {
-                    this.listSolicitudes = this.listSolicitudes.filter(user => user != username);
-                    this.listToShow = this.listToShow.filter(user => user != username);
-                    this.loadPage(this.page-1);
-                },
-                error => console.log()
-            );
+            res => {
+                this.listSolicitudes = this.listSolicitudes.filter(user => user != username);
+                this.listToShow = this.listToShow.filter(user => user != username);
+                this.loadPage(this.page - 1);
+            },
+            error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
     }
 
-    close(){
+    close() {
         this.result = true;
         super.close();
     }

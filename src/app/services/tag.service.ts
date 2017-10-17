@@ -6,6 +6,10 @@ import 'rxjs/add/operator/map';
 
 import { URL_API } from '../entities/constants';
 
+/**
+ * Clase servicio de tag
+ * que se conecta con el api.
+ */
 @Injectable()
 export class TagService{
     
@@ -15,6 +19,11 @@ export class TagService{
         private http:Http
     ){}
 
+    /**
+	 * Trae todos los tags existentes
+	 * @param 
+	 * @return Lista con los tags.
+	 */
     getAllTags(){
         let url = this.baseUrl + "findAll";
         let header = new Headers();
@@ -37,6 +46,11 @@ export class TagService{
             });
     }
 
+    /**
+	 * Crea un tag
+	 * @param Tag tag
+	 * @return true o false según el éxito de la operación.
+	 */
      crear(tag) {
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
@@ -55,6 +69,11 @@ export class TagService{
             });
     }
 
+    /**
+	 * Actualiza un tag
+	 * @param Tag tag
+	 * @return true o false según el éxito de la operación.
+	 */
     actualizar(tag){
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
@@ -72,6 +91,11 @@ export class TagService{
             });
     }
 
+    /**
+	 * Elimina un tag
+	 * @param Tag tag
+	 * @return true o false según el éxito de la operación.
+	 */
     eliminar(tag){
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));

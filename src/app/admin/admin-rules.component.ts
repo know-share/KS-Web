@@ -14,6 +14,10 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
     templateUrl: './admin-rules.component.html',
     styleUrls: ['./admin-rules.component.css', '../user/user.component.css']
 })
+
+/**
+ * Permite manejar el motor de reglas.
+ */
 export class AdminRulesComponent implements OnInit {
 
     checked: boolean;
@@ -26,6 +30,7 @@ export class AdminRulesComponent implements OnInit {
         private dialogService: DialogService,
     ) { }
 
+    
     ngOnInit() {
         this.ruleService.getRulesPreferences()
             .subscribe(
@@ -37,6 +42,12 @@ export class AdminRulesComponent implements OnInit {
             });
     }
 
+    /**
+	 * Llama el servicio de reglas
+     * para cargar y actualizar las mismas.
+	 * @param 
+	 * @return Las reglas actualizadas o un mensaje de error.
+	 */
     updateRules() {
         this.ruleService.update()
             .subscribe(
@@ -55,6 +66,13 @@ export class AdminRulesComponent implements OnInit {
             });
     }
 
+    /**
+	 * Habilida y deshabilita las reglas
+     * en el sistema.
+	 * @param 
+	 * @return Habilitado/deshabilitado, en caso de
+     * error un mensaje.
+	 */
     handleChange(event) {
         let state = this.checked ? 1 : 0;
         let msg = this.checked ? 'habilitadas' : 'deshabilitadas';

@@ -11,12 +11,14 @@
                             <div class="col-xs-4">
                                 <button class="btn btn-primary" (click)="crearIdea()">Crear Idea</button>
                             </div>
-                            <div class="col-xs-3">Ordenar por:</div>
-                            <div class="col-xs-5">
-                                <select [(ngModel)]="preferenciaDespliegue" class="form-control btn btn-primary" (change)="updatePreferencia($event)">
-                                    <option value="ORDEN_CRONOLOGICO">Fecha</option>
-                                    <option value="POR_RELEVANCIA">Relevancia</option>
-                                </select>
+                            <div class="form-horizontal">
+                                <label for="preferences" class="control-label col-xs-3">Ordenar por:</label>
+                                <div class="col-xs-5">
+                                    <select id="preferences" [(ngModel)]="preferenciaDespliegue" class="form-control btn btn-primary" (change)="updatePreferencia($event)">
+                                        <option value="ORDEN_CRONOLOGICO">Fecha</option>
+                                        <option value="POR_RELEVANCIA">Relevancia</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <br>
@@ -26,7 +28,7 @@
                                 <h3>Conecta con personas para ver sus ideas.</h3>
                             </div>
                         </div>
-                        <div class="panel panel-default center" *ngFor="let idea of newIdeas; index as indice">
+                        <div class="center" *ngFor="let idea of newIdeas; index as indice">
                             <idea [idea]="idea" (change)="cambio($event)"></idea>
                         </div>
                     </div>
@@ -38,7 +40,7 @@
                                 <div class="panel panel-default center">
                                     <div class="panel-heading">Solicitudes de amistad</div>
                                     <div class="panel-body center">
-                                        <button (click)="showRequests()" type="button" class="btn btn-primary">Pendientes <span class="badge">{{cantidadSolicitudes}}</span></button>
+                                        <button (click)="showRequests()" type="button" [ngClass]="cantidadSolicitudes ? 'btn btn-primary':'btn btn-default'">Pendientes <span class="badge">{{cantidadSolicitudes}}</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -50,9 +52,13 @@
                                         <button type="button" class="close" (click)="removeRecomendacion(r.username)">&times;</button>
                                     </div>
                                     <div class="panel-body center">
-                                        <button #friendButton *ngIf="r.conexion == 'CONFIANZA'" (click)="agregarAmigo(r.username,i)" type="button" class="btn btn-danger">
+                                        <button #acceptButton *ngIf="existRequest(r.username)" (click)="accept(r.username,i)" type="button" class="btn btn-primary">Aceptar</button>
+                                        <button #rejectButton *ngIf="existRequest(r.username)" (click)="reject(r.username,i)" type="button" class="btn btn-danger">Rechazar</button>
+                                        <button #friendButton *ngIf="r.conexion == 'CONFIANZA' && !existRequest(r.username)" (click)="agregarAmigo(r.username,i)"
+                                            type="button" class="btn btn-danger">
                                             <span class="glyphicon glyphicon-user"></span> Agregar como amigo</button>
-                                        <button #friendButton *ngIf="r.conexion != 'CONFIANZA'" (click)="seguirUsuario(r.username,i)" type="button" class="btn btn-danger">
+                                        <button #friendButton *ngIf="r.conexion != 'CONFIANZA' && !existRequest(r.username)" (click)="seguirUsuario(r.username,i)"
+                                            type="button" class="btn btn-danger">
                                             <span class="glyphicon glyphicon-eye-open"></span> Seguir</button>
                                         <img *ngIf="r.conexion == 'NO_RECOMENDAR'" src="images/icons/lightbulb_on.png" />
                                     </div>

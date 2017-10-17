@@ -6,6 +6,10 @@ import 'rxjs/add/operator/map';
 
 import { URL_API } from '../entities/constants';
 
+/**
+ * Clase servicio de carrera
+ * que se conecta con el api.
+ */
 @Injectable()
 export class CarreraService {
 
@@ -15,6 +19,11 @@ export class CarreraService {
         private http: Http
     ) { }
 
+    /**
+	 * Trae todas las carreras existentes
+	 * @param 
+	 * @return Lista con las carreras.
+	 */
     getAllCarreras() {
         let url = this.baseUrl + "findAll";
         return this.http.get(url)
@@ -25,6 +34,12 @@ export class CarreraService {
             });
     }
 
+    /**
+	 * Trae todos los énfasis 
+     * asociados a un carrera
+	 * @param String carrera
+	 * @return Lista con los énfasis.
+	 */
     getEnfasisAreaConocimiento(carrera: string) {
         let url = this.baseUrl + `getEnfasisAreaConocimiento?carrera=${carrera}`;
         return this.http.get(url)
@@ -33,6 +48,11 @@ export class CarreraService {
             });
     }
 
+    /**
+	 * Actualiza datos de una carrera
+	 * @param Carrera carrera
+	 * @return true o false según el éxito de la operación.
+	 */
     actualizar(carrera) {
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
@@ -50,6 +70,11 @@ export class CarreraService {
             });
     }
 
+    /**
+	 * Actualiza los énfasis de una carrera
+	 * @param Carrera carrera
+	 * @return true o false según el éxito de la operación.
+	 */
     actualizarEnfasis(carrera) {
         let url = this.baseUrl + `updateEnfasis`;
         let header = new Headers();
@@ -68,6 +93,11 @@ export class CarreraService {
             });
     }
 
+    /**
+	 * Elimina una carrera del sistema
+	 * @param Carrera carrera
+	 * @return true o false según el éxito de la operación.
+	 */
     eliminar(carrera){
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
@@ -86,6 +116,11 @@ export class CarreraService {
             });
     }
     
+    /**
+	 * Crea una carrera
+	 * @param Carrera carrera
+	 * @return true o false según el éxito de la operación.
+	 */
     crear(carrera) {
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));

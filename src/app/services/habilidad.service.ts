@@ -6,6 +6,10 @@ import 'rxjs/add/operator/map';
 
 import { URL_API } from '../entities/constants';
 
+/**
+ * Clase servicio de habilidad
+ * que se conecta con el api.
+ */
 @Injectable()
 export class HabilidadService{
     
@@ -15,6 +19,12 @@ export class HabilidadService{
         private http:Http
     ){}
 
+    /**
+	 * Trae todas las habilidades personales
+     * existentes
+	 * @param String carrera
+	 * @return Lista con las habilidades.
+	 */
     getHabilidades(carrera:string){
         let url = this.baseUrl + `getHabilidades?carrera=${carrera}`;
         return this.http.get(url)
@@ -23,6 +33,12 @@ export class HabilidadService{
             });
     }
 
+    /**
+	 * Trae todas las habilidades 
+     * profesionales asociadas a un carrera
+	 * @param String carrera
+	 * @return Lista con las habilidades.
+	 */
     getHabilidadesProfesionales(carrera:string){
         let url = this.baseUrl + `getHabilidadesProfesionales?carrera=${carrera}`;
         return this.http.get(url)
@@ -31,6 +47,11 @@ export class HabilidadService{
             });
     }
     
+    /**
+	 * Trae todas las habilidades 
+	 * @param 
+	 * @return Lista con las habilidades.
+	 */
     getAll(){
         let url = this.baseUrl + "getAll";
         return this.http.get(url)
@@ -41,6 +62,11 @@ export class HabilidadService{
             });
     }
 
+    /**
+	 * Actualiza datos de una habilidad
+	 * @param Habilidad habilidad
+	 * @return true o false según el éxito de la operación.
+	 */
     actualizar(habilidad) {
        let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
@@ -58,6 +84,11 @@ export class HabilidadService{
             });
     }
 
+    /**
+	 * Crea una habilidad
+	 * @param Habilidad habilidad
+	 * @return true o false según el éxito de la operación.
+	 */
     crear(habilidad) {
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
@@ -76,6 +107,11 @@ export class HabilidadService{
             });
     }
 
+    /**
+	 * Elimina una habilidad
+	 * @param Habilidad habilidad
+	 * @return true o false según el éxito de la operación.
+	 */
     eliminar(habilidad){
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));

@@ -23,7 +23,8 @@ import { ExpirationModalComponent } from './expiration.component';
                     <button [disabled]="!valid" (click)="upload()" class="btn btn-primary btn-block" >Actualizar imagen</button>
                    </div>
                  </div>
-              </div>`
+              </div>`,
+    styleUrls: ['./upload-image.component.css']
 })
 export class UploadImageModalComponent extends DialogComponent<void, boolean>
     implements OnInit {

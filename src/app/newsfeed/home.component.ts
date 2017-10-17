@@ -32,6 +32,8 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
 export class HomeComponent implements OnInit {
 
     @ViewChildren('friendButton') friendButton;
+    @ViewChildren('acceptButton') acceptButton;
+    @ViewChildren('rejectButton') rejectButton;
 
     ideaForm: FormGroup;
     newIdeas: Array<Idea> = new Array;
@@ -84,7 +86,7 @@ export class HomeComponent implements OnInit {
                 status = true;
             }
             this.lc.run(() => {
-                if (status) {
+                if (status && localStorage.length && localStorage.getItem('role') !== 'ADMIN') {
                     if (this.pageable && !this.pageable.last)
                         this.findRed(this.pageable.number + 1);
                 }
@@ -110,9 +112,8 @@ export class HomeComponent implements OnInit {
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
                 else
-                    console.log('Error ' + error);
-            }
-            );
+                    this.getRecomendaciones();
+            });
     }
 
     getRecomendaciones() {
@@ -123,8 +124,6 @@ export class HomeComponent implements OnInit {
                 let disposable;
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
-                else
-                    console.log('Error ' + error);
             });
     }
 
@@ -148,8 +147,7 @@ export class HomeComponent implements OnInit {
                 let disposable;
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
-            }
-            );
+            });
     }
 
     seguirUsuario(username, i) {
@@ -164,12 +162,47 @@ export class HomeComponent implements OnInit {
                 let disposable;
                 if (error == 'Error: 401')
                     disposable = this.dialogService.addDialog(ExpirationModalComponent);
-            }
-            );
+            });
     }
 
-    operacion(ide: Idea) {
-        console.log(ide.contenido);
+    accept(username, i) {
+        this.usuarioService.accionSobreSolicitud(username, 'accept')
+            .subscribe(
+            res => {
+                this.rejectButton.toArray()[i].nativeElement.disabled = true;
+                this.acceptButton.toArray()[i].nativeElement.innerHTML = 'Agregado';
+                this.acceptButton.toArray()[i].nativeElement.disabled = true;
+                setTimeout(() => {
+                    this.removeRecomendacion(username);
+                    this.refreshSolicitudes();
+                }, 2000);
+            }, error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
+    }
+
+    reject(username, i) {
+        this.usuarioService.accionSobreSolicitud(username, 'reject')
+            .subscribe(
+            res => {
+                this.acceptButton.toArray()[i].nativeElement.disabled = true;
+                this.rejectButton.toArray()[i].nativeElement.innerHTML = 'Rechazado';
+                this.rejectButton.toArray()[i].nativeElement.disabled = true;
+                setTimeout(() => {
+                    this.removeRecomendacion(username);
+                    this.refreshSolicitudes();
+                }, 2000);
+            }, error => {
+                let disposable;
+                if (error == 'Error: 401')
+                    disposable = this.dialogService.addDialog(ExpirationModalComponent);
+            });
+    }
+
+    existRequest(username) {
+        return this.listSolicitudes.find(r => r.toLowerCase() === username.toLowerCase());
     }
 
     showRequests() {

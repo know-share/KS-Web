@@ -6,6 +6,10 @@ import 'rxjs/add/operator/map';
 
 import { URL_API } from '../entities/constants';
 
+/**
+ * Clase servicio para estadísticas
+ * que se conecta con el api.
+ */
 @Injectable()
 export class AdminService{
     
@@ -15,7 +19,12 @@ export class AdminService{
         private http:Http
     ){}
 
-
+    /**
+	 * Trae todos los usuarios asociados 
+     * a una carrera.
+	 * @param String carrera
+	 * @return Lista con cantidad de hombres y mujeres.
+	 */
     getAllUsuarios(carrera ) {
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
@@ -32,6 +41,12 @@ export class AdminService{
             });
     }
 
+    /**
+	 * Trae la cantidad de veces que se usa
+     * cada tag.
+	 * @param 
+	 * @return Mapa con tag y cantidad.
+	 */
     getTags() {
         let header = new Headers();
         header.append('Authorization', localStorage.getItem('token'));
