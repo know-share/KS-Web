@@ -30,6 +30,10 @@ import { AuthService } from '../services/auth.service';
     templateUrl: './signup.component.html',
     styleUrls: ['./signup.component.css']
 })
+/**
+ * Componente que maneja las diferentes pestañas
+ * para el registro a la aplicacion.
+ */
 export class SignUpComponent implements OnInit {
 
     currentStep: number;
@@ -167,7 +171,10 @@ export class SignUpComponent implements OnInit {
                 validator: SignUpValidation.Validate // UsernameValidation.UsernameTaken
             });
     }
-
+    /**
+     * Verifica que la informacion requerida en el
+     * paso 1 este completa para el registro.
+     */
     verifyStep1() {
         this.usuarioService.isCorreoTaken(this.email)
             .subscribe(
@@ -187,7 +194,10 @@ export class SignUpComponent implements OnInit {
             });
 
     }
-
+    /**
+     * Verifica que la informacion requerida en el
+     * paso 2 este completa para el registro.
+     */
     verifyStep2() {
         this.gustosGenerales = []; this.gustosDeportes = []; this.gustosArtes = [];
         if (this.tipoUsuario == 'ESTUDIANTE') {
@@ -256,6 +266,12 @@ export class SignUpComponent implements OnInit {
         this.currentStep = 3;
     }
 
+    /**
+     * Verifica que la informacion requerida en el
+     * paso 3 este completa para el registro y asigna
+     * la personalidad del usuario.
+     * @param p personalidad seleccionada
+     */
     verifyStep3(p: Personalidad) {
         this.habilidadProfesionalesPrimera = [];
         this.habilidadProfesionalesSegunda = [];
@@ -294,6 +310,10 @@ export class SignUpComponent implements OnInit {
         this.currentStep = 4;
     }
 
+    /**
+     * Avanza al siguiente paso dependiendo del 
+     * tipo de usuario.
+     */
     next() {
         //this.currentStep += 1;
         if (this.tipoUsuario == "ESTUDIANTE") {
@@ -328,14 +348,31 @@ export class SignUpComponent implements OnInit {
         this.currentStep += 1;
     }
 
+    /**
+     * Agrega o elimina a la lista list elementos
+     * marcados por id.
+     * @param item item a agregar o eliminar
+     * @param list lista a la que se agrean los items 
+     */
     isCheckWithId(item, list) {
         return list.find(obj => obj.id == item.id) == null ? false : true;
     }
 
+    /**
+     * Agrega o elimina a la lista list elementos
+     * marcados por nombre. 
+     * @param item item a agregar o eliminar
+     * @param list lista a la que se agrean los items
+     */
     isCheckWithName(item, list) {
         return list.find(obj => obj.nombre == item.nombre) == null ? false : true;
     }
 
+    /**
+     * Agrega o elimina a la lista de gustos
+     * un gusto seleccionado.
+     * @param object gusto a agregar o eliminar
+     */
     checkGusto(object) {
         if (this.gustos.find(obj => obj.id == object.id) == null)
             this.gustos.push(object);
@@ -343,6 +380,11 @@ export class SignUpComponent implements OnInit {
             this.gustos = this.gustos.filter(obj => obj.id != object.id);
     }
 
+    /**
+     * Agrega o elimina a la lista de areas de conocimiento
+     * principales un area de conocimiento
+     * @param ac area de conocimiento a agregar o eliminar
+     */
     checkACPrincipal(ac) {
         if (this.ACSelected.find(obj => obj == ac) == null)
             this.ACSelected.push(ac);
@@ -350,6 +392,11 @@ export class SignUpComponent implements OnInit {
             this.ACSelected = this.ACSelected.filter(obj => obj != ac);
     }
 
+    /**
+     * Agrega o elimina a la lista de areas de conocimiento
+     * secundarias un area de conocimiento
+     * @param ac area de conocimiento a agregar o eliminar
+     */
     checkACSecundario(ac) {
         if (this.ACSelectedSegunda.find(obj => obj == ac) == null)
             this.ACSelectedSegunda.push(ac);
@@ -357,6 +404,11 @@ export class SignUpComponent implements OnInit {
             this.ACSelectedSegunda = this.ACSelectedSegunda.filter(obj => obj != ac);
     }
 
+    /**
+     * Agrega o elimina una habilidad personal
+     * a una lista de habilidades
+     * @param h habilidad personal a agregar o eliminar
+     */
     checkHabilidadesPerSelected(h) {
         if (this.habilidadesPerSelected.find(obj => obj == h) == null)
             this.habilidadesPerSelected.push(h);
@@ -364,6 +416,11 @@ export class SignUpComponent implements OnInit {
             this.habilidadesPerSelected = this.habilidadesPerSelected.filter(obj => obj != h);
     }
 
+    /**
+     * Agrega o elimina una habilidade profesional
+     * a una lista de habilidades
+     * @param h habilidad personal a agregar o eliminar
+     */ 
     checkHabilidadesProSelected(h) {
         if (this.habilidadesProSelected.find(obj => obj == h) == null)
             this.habilidadesProSelected.push(h);
@@ -371,6 +428,11 @@ export class SignUpComponent implements OnInit {
             this.habilidadesProSelected = this.habilidadesProSelected.filter(obj => obj != h);
     }
 
+    /**
+     * Agrega o elimina una habilidad profesional secundaria
+     * a una lista de habilidades
+     * @param h habilidad personal a agregar o eliminar
+     */
     checkHabilidadesProSegSelected(h) {
         if (this.habilidadesProSegSelected.find(obj => obj == h) == null)
             this.habilidadesProSegSelected.push(h);
@@ -378,6 +440,11 @@ export class SignUpComponent implements OnInit {
             this.habilidadesProSegSelected = this.habilidadesProSegSelected.filter(obj => obj != h);
     }
 
+    /**
+     * Agrega o elimina una habilidad profesional secundaria
+     * a una lista de habilidades
+     * @param c habilidad personal a agregar o eliminar
+     */
     checkCualidadesProfesor(c) {
         if (this.cualidadesProfesor.find(obj => obj == c) == null)
             this.cualidadesProfesor.push(c);
@@ -385,6 +452,9 @@ export class SignUpComponent implements OnInit {
             this.cualidadesProfesor = this.cualidadesProfesor.filter(obj => obj != c);
     }
 
+    /**
+     * Regista el usuario en el sistema
+     */
     sendRequestSignUp() {
         if ((this.currentStep == 6 || (this.tipoUsuario == "EGRESADO" && this.currentStep == 5))
             && this.activeTabHabilidades == "personales") {
@@ -462,6 +532,11 @@ export class SignUpComponent implements OnInit {
             );
     }
 
+    /**
+     * Navega entre pestañas del registro
+     * @param location nueva pestaña
+     * @param where pestaña actual
+     */
     goTo(location, where) {
         if (where == 'enfasis')
             this.activeTabEnfasis = location;
@@ -475,18 +550,31 @@ export class SignUpComponent implements OnInit {
         }
     }
 
+    /**
+     * Hace una copia de las carreras con excepcion
+     * de la seleccionada.
+     * @param event 
+     */
     updateCopyCarreras(event){
         if(this.segundaCarrera && this.carrera.id == this.segundaCarrera.id)
             this.segundaCarrera = null;
         this.copyCarreras = this.carreras.filter(c => c.id != this.carrera.id);
     }
 
+    /**
+     * Hace una copia de los enfasis
+     * @param event 
+     */
     updateCopyEnfasis(event){
         if(this.enfasisSecundario && this.enfasisPrincipal.nombre == this.enfasisSecundario.nombre)
             this.enfasisSecundario = null;
         this.copyEnfasisCarrera = this.enfasisCarrera.filter(e => e.nombre != this.enfasisPrincipal.nombre);
     }
 
+    /**
+     * Hace una copia de los enfasis secundarios
+     * @param event 
+     */
     updateCopySegundoEnfasis(event){
         if(this.enfasisSecundarioSegundaCarrera && 
             this.enfasisPrincipalSegundaCarrera.nombre == this.enfasisSecundarioSegundaCarrera.nombre)

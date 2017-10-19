@@ -13,6 +13,10 @@ import { Auth } from '../entities/auth'
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
+/**
+ * Componente que captura los datos para el 
+ * inicio de sesion de un usuario.
+ */
 export class LoginComponent implements OnInit{
 
     loginForm: FormGroup;
@@ -35,6 +39,11 @@ export class LoginComponent implements OnInit{
         });
     }
 
+    /**
+     * Valida las credenciales del usuario y lo redirige
+     * a la pagina de inicio si sus credenciales son 
+     * correctas.
+     */
     login(){
         let auth : Auth = new Auth();
         auth.password = this.password;
