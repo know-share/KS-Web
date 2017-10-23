@@ -11,6 +11,7 @@ import { Carrera } from '../entities/carrera';
 
 import { Message } from 'primeng/primeng';
 
+
 export interface RequestModalDisplay {
     carrera: Carrera;
     tipo: string;
@@ -53,6 +54,11 @@ export interface RequestModalDisplay {
         </div>`,
     styleUrls: ['../access/signup.component.css', './edit-carrera.component.css']
 })
+
+/**
+ * Modal que permite el crud
+ * de una carrera.
+ */
 export class CrudCarreraModalComponent extends DialogComponent<RequestModalDisplay, boolean>
     implements RequestModalDisplay, OnInit {
 
@@ -71,6 +77,13 @@ export class CrudCarreraModalComponent extends DialogComponent<RequestModalDispl
         super(dialogService);
     }
 
+    /**
+	 * Carga los datos de la carrera
+     * seleccionada, y revisa 
+     * que los datos cumpla el formato.
+	 * @param 
+	 * @return 
+	 */
     ngOnInit() {
         this.nombre = this.carrera.nombre;
         this.facultad = this.carrera.facultad;
@@ -81,6 +94,13 @@ export class CrudCarreraModalComponent extends DialogComponent<RequestModalDispl
     }
 
 
+    /**
+	 * Guarda los cambios de una carrera,
+     * o permite la creación de una nueva
+     * siempre y cuando cumplan con el formato.
+	 * @param 
+	 * @return 
+	 */
     save() {
         let carrera: Carrera = new Carrera();
         carrera.nombre = this.nombre;
@@ -132,6 +152,12 @@ export class CrudCarreraModalComponent extends DialogComponent<RequestModalDispl
         }
     }
 
+    /**
+	 * Elimina una carrera
+     * seleccionada.
+	 * @param 
+	 * @return 
+	 */
     delete() {
         let carrera: Carrera = new Carrera();
         carrera.nombre = this.nombre;
@@ -159,6 +185,11 @@ export class CrudCarreraModalComponent extends DialogComponent<RequestModalDispl
         }
     }
 
+    /**
+	 * Cierra el modal.
+	 * @param 
+	 * @return 
+	 */
     close() {
         this.result = false;
         super.close();

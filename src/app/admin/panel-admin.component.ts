@@ -6,6 +6,10 @@ import { Router } from '@angular/router';
     templateUrl: './panel-admin.component.html',
     //styleUrls: ['']
 })
+/**
+ * Permite manejar el panel de
+ * administración.
+ */
 export class PanelAdminComponent implements OnInit {
 
     constructor(
@@ -17,12 +21,32 @@ export class PanelAdminComponent implements OnInit {
 
     }
 
+    /**
+	 * Dirige al administrador
+     * hacia el crud.
+	 * @param 
+	 * @return 
+	 */
     onclickCrud(){
         this.router.navigate(['/admin/crud']);
     }
+
+    /**
+	 * Dirige al administrador
+     * hacia las estadísticas.
+	 * @param 
+	 * @return 
+	 */
     onclickEstadistica(){
         this.router.navigate(['/admin/estadistica']);
     }
+
+    /**
+	 * Dirige al administrador
+     * hacia las reglas.
+	 * @param 
+	 * @return 
+	 */
     onclickMotor(){
         this.router.navigate(['/admin/rules']);
     }

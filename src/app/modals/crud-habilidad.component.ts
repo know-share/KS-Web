@@ -60,6 +60,11 @@ export interface RequestModalDisplay {
         </div>`,
     styleUrls: ['../access/signup.component.css', './edit-carrera.component.css']
 })
+
+/**
+ * Modal que permite el crud
+ * de una habilidad.
+ */
 export class CrudHabilidadModalComponent extends DialogComponent<RequestModalDisplay, boolean>
     implements RequestModalDisplay, OnInit {
 
@@ -82,6 +87,13 @@ export class CrudHabilidadModalComponent extends DialogComponent<RequestModalDis
         super(dialogService);
     }
 
+    /**
+	 * Carga los datos de la habilidad
+     * seleccionada, y revisa 
+     * que los datos cumpla el formato.
+	 * @param 
+	 * @return 
+	 */
     ngOnInit() {
         if(this.tipo=="create"){
             this.refreshCarrera();
@@ -96,7 +108,13 @@ export class CrudHabilidadModalComponent extends DialogComponent<RequestModalDis
        
     }
 
-
+    /**
+	 * Guarda los cambios de una habilidad,
+     * o permite la creación de una nueva
+     * siempre y cuando cumplan con el formato.
+	 * @param 
+	 * @return 
+	 */
     save() {
         let habilidad: Habilidad = new Habilidad();
         habilidad.nombre = this.nombre;
@@ -158,6 +176,12 @@ export class CrudHabilidadModalComponent extends DialogComponent<RequestModalDis
         }
     }
 
+    /**
+	 * Elimina una habilidad
+     * seleccionada.
+	 * @param 
+	 * @return 
+	 */
     delete() {
         let habilidad: Habilidad = new Habilidad();
         habilidad.nombre = this.nombre;
@@ -188,11 +212,21 @@ export class CrudHabilidadModalComponent extends DialogComponent<RequestModalDis
         }
     }
 
+    /**
+	 * Cierra el modal.
+	 * @param 
+	 * @return 
+	 */
     close() {
         this.result = false;
         super.close();
     }
 
+    /**
+	 * Actualiza las carreras.
+	 * @param 
+	 * @return 
+	 */
       refreshCarrera() {
         this.carreraService.getAllCarreras()
             .subscribe(

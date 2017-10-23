@@ -1,3 +1,8 @@
+/**
+ * Clase que representa 
+ * una recomendación
+ * en el front-end
+ */
 export class Recomendacion{
 
     username: string;

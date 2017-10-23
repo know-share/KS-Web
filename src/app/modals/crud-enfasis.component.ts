@@ -51,6 +51,11 @@ export interface RequestModalDisplay {
         </div>`,
     styleUrls: ['../access/signup.component.css', './edit-carrera.component.css']
 })
+
+/**
+ * Modal que permite el crud
+ * de un énfasis.
+ */
 export class CrudEnfasisModalComponent extends DialogComponent<RequestModalDisplay, boolean>
     implements RequestModalDisplay, OnInit {
 
@@ -69,6 +74,13 @@ export class CrudEnfasisModalComponent extends DialogComponent<RequestModalDispl
         super(dialogService);
     }
 
+    /**
+	 * Carga los datos del énfasis
+     * seleccionado asociado a una carrera,
+     *  y revisa que los datos cumpla el formato.
+	 * @param 
+	 * @return 
+	 */
     ngOnInit() {
         this.nombre = this.enfasis.nombre;
         this.update = this.fb.group({
@@ -78,6 +90,14 @@ export class CrudEnfasisModalComponent extends DialogComponent<RequestModalDispl
     }
 
 
+    /**
+	 * Guarda los en un énfasis
+     * o crea un nuevo énfasis, 
+     * siempre y cuando cumpla
+     * el formato.
+	 * @param 
+	 * @return 
+	 */
     save() {
         if (this.tipo == "update") {
             let lista: string[] = [];
@@ -146,6 +166,12 @@ export class CrudEnfasisModalComponent extends DialogComponent<RequestModalDispl
         }
     }
 
+    /**
+	 * Elimina un énfasis
+     * seleccionado.
+	 * @param 
+	 * @return 
+	 */
     delete() {
         if (this.tipo == "update") {
             let lista: string[] = [];
@@ -183,6 +209,11 @@ export class CrudEnfasisModalComponent extends DialogComponent<RequestModalDispl
         }
     }
 
+    /**
+	 * Cierra el modal.
+	 * @param 
+	 * @return 
+	 */
     close() {
         this.result = false;
         super.close();

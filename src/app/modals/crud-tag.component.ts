@@ -42,6 +42,11 @@ export interface RequestModalDisplay {
         </div>`,
     styleUrls: ['../access/signup.component.css', './edit-carrera.component.css']
 })
+
+/**
+ * Modal que permite el crud
+ * de un tag.
+ */
 export class CrudTagModalComponent extends DialogComponent<RequestModalDisplay, boolean>
     implements RequestModalDisplay, OnInit {
 
@@ -60,6 +65,13 @@ export class CrudTagModalComponent extends DialogComponent<RequestModalDisplay, 
         super(dialogService);
     }
 
+    /**
+	 * Carga los datos del tag
+     * seleccionado, y revisa 
+     * que los datos cumpla el formato.
+	 * @param 
+	 * @return 
+	 */
     ngOnInit() {
         this.nombre = this.tag.nombre;
         this.update = this.fb.group({
@@ -67,7 +79,13 @@ export class CrudTagModalComponent extends DialogComponent<RequestModalDisplay, 
         });
     }
 
-
+    /**
+	 * Guarda los cambios de un tag,
+     * o permite la creación de uno nuevo
+     * siempre y cuando cumplan con el formato.
+	 * @param 
+	 * @return 
+	 */
     save() {
         let tag: Tag = new Tag();
         tag.nombre = this.nombre;
@@ -120,6 +138,12 @@ export class CrudTagModalComponent extends DialogComponent<RequestModalDisplay, 
         }
     }
 
+    /**
+	 * Elimina un tag
+     * seleccionado.
+	 * @param 
+	 * @return 
+	 */
     delete() {
         let tag: Tag = new Tag();
         tag.nombre = this.nombre;
@@ -148,6 +172,11 @@ export class CrudTagModalComponent extends DialogComponent<RequestModalDisplay, 
         }
     }
 
+    /**
+	 * Cierra el modal.
+	 * @param 
+	 * @return 
+	 */
     close() {
         this.result = false;
         super.close();

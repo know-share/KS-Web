@@ -6,6 +6,11 @@ import { Subscription } from 'rxjs/Subscription';
     templateUrl: './error.component.html',
     styleUrls: ['./error.component.css']
 })
+
+/**
+ * Maneja el mensaje de error
+ * y lo muestra.
+ */
 export class ErrorComponent implements OnDestroy {
 
     message: string = '';
@@ -18,6 +23,12 @@ export class ErrorComponent implements OnDestroy {
             });
     }
 
+    /**
+	 * Elimina la suscripción 
+     * al servicio de error.
+	 * @param 
+	 * @return 
+	 */
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }

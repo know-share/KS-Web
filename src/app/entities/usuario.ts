@@ -14,6 +14,10 @@ class InfoUsuario{
     nombre:string;
 }
 
+/**
+ * Clase que representa 
+ * un usuario en el front-end
+ */
 export class Usuario {
 
     id: Object;
