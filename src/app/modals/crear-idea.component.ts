@@ -4,7 +4,7 @@ import { IdeasProyectoModalComponent } from './ideasProyecto.component';
 import { TagService } from './../services/tag.service';
 import { Tag } from './../entities/tag';
 import { Idea } from './../entities/idea';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
 import { Router } from '@angular/router';
 
@@ -22,6 +22,8 @@ export interface RequestModalDisplay {
 })
 export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     implements OnInit {
+
+    @ViewChild('publishButton') publishButton;
 
     idea: Idea = new Idea();
     selectedValueTipo: string;
@@ -102,6 +104,7 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     }
 
     crearIdeaNorm() {
+        this.publishButton.nativeElement.disabled = true;
         let temp: Array<Idea> = new Array;
         this.idea.alcance = this.alcance;
         this.idea.tipo = this.selectedValueTipo;

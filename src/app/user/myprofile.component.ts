@@ -47,6 +47,8 @@ export class ProfileComponent implements OnInit {
     @ViewChild('profileImage') profileImage: ElementRef;
     serverUri = URL_IMAGE_USER;
 
+    @ViewChild('publishButton') publishButton;
+
     @Input() usuario: Usuario;
     activeTab: string;
 
@@ -398,6 +400,7 @@ export class ProfileComponent implements OnInit {
     }
 
     cleanFormIdea() {
+        this.publishButton.nativeElement.disabled = false;
         this.contenido = '';
         this.numeroEstudiantes = 0;
         this.alcance = '';
@@ -407,6 +410,7 @@ export class ProfileComponent implements OnInit {
     }
 
     crearIdeaNorm() {
+        this.publishButton.nativeElement.disabled = true;
         let temp: Array<Idea> = new Array;
         this.valid = true;
         this.idea.alcance = this.alcance;

@@ -123,7 +123,7 @@
                 <br><br>
                 <div class="row">
                     <div class="col-xs-5">
-                        <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
+                        <button #publishButton type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
                     </div>
                     <div class="col-xs-7">
                         <label *ngIf="selectedValueTipo == 'PR'">Número de ideas: {{ideasPro.length}}</label>
