@@ -30,11 +30,6 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
     styleUrls: ['home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-    @ViewChildren('friendButton') friendButton;
-    @ViewChildren('acceptButton') acceptButton;
-    @ViewChildren('rejectButton') rejectButton;
-
     ideaForm: FormGroup;
     newIdeas: Array<Idea> = new Array;
     idea: Idea = new Idea;
@@ -139,8 +134,8 @@ export class HomeComponent implements OnInit {
         this.usuarioService.agregar(username)
             .subscribe(
             res => {
-                this.friendButton.toArray()[i].nativeElement.innerHTML = 'Petición enviada';
-                this.friendButton.toArray()[i].nativeElement.disabled = true;
+                (<HTMLInputElement>document.getElementById('friend_button_'+i)).innerHTML = 'Petición enviada';
+                (<HTMLInputElement>document.getElementById('friend_button_'+i)).disabled = true;
                 setTimeout(() => this.removeRecomendacion(username), 2000);
             },
             error => {
@@ -154,8 +149,8 @@ export class HomeComponent implements OnInit {
         this.usuarioService.seguir(username)
             .subscribe(
             res => {
-                this.friendButton.toArray()[i].nativeElement.innerHTML = 'Siguiendo';
-                this.friendButton.toArray()[i].nativeElement.disabled = true;
+                (<HTMLInputElement>document.getElementById('friend_button_'+i)).innerHTML = 'Siguiendo';
+                (<HTMLInputElement>document.getElementById('friend_button_'+i)).disabled = true;
                 setTimeout(() => this.removeRecomendacion(username), 2000);
             },
             error => {
@@ -169,9 +164,9 @@ export class HomeComponent implements OnInit {
         this.usuarioService.accionSobreSolicitud(username, 'accept')
             .subscribe(
             res => {
-                this.rejectButton.toArray()[i].nativeElement.disabled = true;
-                this.acceptButton.toArray()[i].nativeElement.innerHTML = 'Agregado';
-                this.acceptButton.toArray()[i].nativeElement.disabled = true;
+                (<HTMLInputElement>document.getElementById('del_button_'+i)).disabled = true;
+                (<HTMLInputElement>document.getElementById('add_button_'+i)).innerHTML = 'Agregado';
+                (<HTMLInputElement>document.getElementById('add_button_'+i)).disabled = true;
                 setTimeout(() => {
                     this.removeRecomendacion(username);
                     this.refreshSolicitudes();
@@ -187,9 +182,9 @@ export class HomeComponent implements OnInit {
         this.usuarioService.accionSobreSolicitud(username, 'reject')
             .subscribe(
             res => {
-                this.acceptButton.toArray()[i].nativeElement.disabled = true;
-                this.rejectButton.toArray()[i].nativeElement.innerHTML = 'Rechazado';
-                this.rejectButton.toArray()[i].nativeElement.disabled = true;
+                (<HTMLInputElement>document.getElementById('add_button_'+i)).disabled = true;
+                (<HTMLInputElement>document.getElementById('del_button_'+i)).innerHTML = 'Rechazado';
+                (<HTMLInputElement>document.getElementById('del_button_'+i)).disabled = true;
                 setTimeout(() => {
                     this.removeRecomendacion(username);
                     this.refreshSolicitudes();
