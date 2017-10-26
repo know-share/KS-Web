@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@ang
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
 import { NgZone } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { ExpirationModalComponent } from '../modals/expiration.component';
 
@@ -29,6 +30,8 @@ import { Message } from 'primeng/primeng';
     styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+
+    avalesBusy: Subscription;
 
     imagePath: string;
 
@@ -341,7 +344,7 @@ export class UserComponent implements OnInit {
     }
 
     avalar(id, tipo) {
-        this.ludificacionService.avalar(this.username, tipo, id)
+        this.avalesBusy = this.ludificacionService.avalar(this.username, tipo, id)
             .subscribe(
             ok => {
                 this.msgs = [];

@@ -15,6 +15,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
+import {BusyModule} from 'angular2-busy';
 import {ScrollPointDirective} from './directives/scroll-point.component';
 
 //primeng
@@ -24,7 +25,6 @@ import {DataListModule} from 'primeng/primeng';
 import {DataTableModule,SharedModule} from 'primeng/primeng';
 import {InputSwitchModule} from 'primeng/primeng';
 import {ChartModule} from 'primeng/primeng';
-
 
 // Components
 import { AppComponent } from './app.component';
@@ -47,7 +47,6 @@ import { IdeaComponent } from './idea/idea.component';
 import { UploadImageModalComponent } from './modals/upload-image.component';
 import { LeaderBoardComponent } from './leaderBoard/leader.component';
 
-
 // Components - Admin
 import { PanelAdminComponent } from './admin/panel-admin.component';
 import { AdminCrudComponent } from './admin/admin-crud.component';
@@ -57,7 +56,6 @@ import { CrudHabilidadModalComponent } from './modals/crud-habilidad.component';
 import { CrudEnfasisModalComponent } from './modals/crud-enfasis.component';
 import { AdminRulesComponent } from './admin/admin-rules.component';
 import { AdminEstadisticaComponent } from './admin/admin-estadistica.component';
-
 
 //Services
 import { PersonalidadService } from './services/personalidad.service';
@@ -73,7 +71,6 @@ import { TagService } from './services/tag.service';
 import { RuleService } from './services/rules.service';
 import { LudificacionService } from './services/ludificacion.service';
 import { AdminService } from './services/admin.service';
-
 
 import { AuthGuard } from './security/auth.guard';
 import { AuthReverseGuard } from './security/auth-reverse.guard';
@@ -94,7 +91,8 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         DataTableModule,
         SharedModule,
         InputSwitchModule,
-        ChartModule
+        ChartModule,
+        BusyModule
     ],
     declarations: [
         UserComponent,
