@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
 
+import { SelectItem } from 'primeng/primeng';
+
 import { ExpirationModalComponent } from '../modals/expiration.component';
 
 import { Recomendacion } from '../entities/recomendacion';
@@ -27,10 +29,12 @@ export class SearchComponent implements OnInit {
     optionSelected: number = 1;
     activeTab: string = 'users';
     error: boolean = false;
-    tags: Array<Tag> = new Array;
     filteredTagsMultiple: any[];
     serverUri = URL_IMAGE_USER;
+    
+    tags: SelectItem[] = [];
     selectedTags: any[] = new Array;
+
     ideas: Array<Idea>;
     listUsers: Recomendacion[] = [];
 
@@ -41,7 +45,9 @@ export class SearchComponent implements OnInit {
         private dialogService: DialogService,
         private tagService: TagService,
         private ideaService: IdeaService,
-    ) { }
+    ) {
+        this.showTags();
+    }
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
@@ -184,29 +190,15 @@ export class SearchComponent implements OnInit {
     showTags() {
         this.tagService.getAllTags()
             .subscribe((res: Array<Tag>) => {
-                this.tags = res;
+                res.forEach(tag=>{
+                    this.tags.push({
+                        label: tag.nombre,
+                        value: tag
+                    });
+                });
             }, error => {
                 console.log("Error" + error);
             });
-    }
-
-    filterTagMultiple(event) {
-        let query = event.query;
-        this.tagService.getAllTags().subscribe((tags: Array<Tag>) => {
-            this.filteredTagsMultiple = this.filterTag(query, tags);
-        });
-    }
-
-    filterTag(query, tags: any[]): any[] {
-        //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-        let filtered: any[] = [];
-        for (let i = 0; i < tags.length; i++) {
-            let tag = tags[i];
-            if (tag.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-                filtered.push(tag);
-            }
-        }
-        return filtered;
     }
 
     /**
@@ -234,6 +226,5 @@ export class SearchComponent implements OnInit {
         } else {
             //pop up con error
         }
-
     }
 }

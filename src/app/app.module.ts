@@ -20,7 +20,7 @@ import {ScrollPointDirective} from './directives/scroll-point.component';
 
 //primeng
 import {GrowlModule} from 'primeng/primeng';
-import {AutoCompleteModule} from 'primeng/primeng';
+import {MultiSelectModule} from 'primeng/primeng';
 import {DataListModule} from 'primeng/primeng';
 import {DataTableModule,SharedModule} from 'primeng/primeng';
 import {InputSwitchModule} from 'primeng/primeng';
@@ -87,7 +87,7 @@ import { AuthAdminGuard } from './security/auth-admin.guard';
         BootstrapModalModule,
         GrowlModule,
         DataListModule,
-        AutoCompleteModule,
+        MultiSelectModule,
         DataTableModule,
         SharedModule,
         InputSwitchModule,

@@ -7,12 +7,15 @@
         <div class="modal-body">
             <div class="panel panel-default">
                 <div class="panel-heading">
+                    <div class="alert alert-danger" *ngIf="!valid">
+                        <label> {{errorVacio}}</label>
+                    </div>
                     <div class="form-group">
                         <label for="comment">Commentario:</label>
                         <textarea class="form-control" rows="5" id="comment" [(ngModel)]="comentario"></textarea>
                         <br>
                         <button type="button" (click)="comentar()" class="btn btn-default btn-block">
-                        <i class="glyphicon glyphicon-comment" ></i> Comentar</button>
+                            <i class="glyphicon glyphicon-comment"></i> Comentar</button>
                     </div>
                 </div>
             </div>
