@@ -53,6 +53,9 @@ export interface RequestModalDisplay {
     </div>`,
     styleUrls: ['../access/signup.component.css', './edit-carrera.component.css']
 })
+/**
+ * Modal que permite editar las habilidades de un usuario
+ */
 export class EditHabilidadModalComponent extends DialogComponent<RequestModalDisplay, boolean>
     implements RequestModalDisplay, OnInit {
 
@@ -117,6 +120,9 @@ export class EditHabilidadModalComponent extends DialogComponent<RequestModalDis
         }
     }
 
+    /**
+     * Agrega a una lista las habilidades profesionales de un usuario
+     */
     loadInitInfo() {
         for (let h of this.usuario.habilidades) {
             if (h.tipo == 'PROFESIONALES')
@@ -124,10 +130,19 @@ export class EditHabilidadModalComponent extends DialogComponent<RequestModalDis
         }
     }
 
+    /**
+     * Verifica si un item esta en una lista
+     * @param item item a buscar
+     * @param list lista donde se buscara el item
+     */
     isCheckWithId(item, list) {
         return list.find(obj => obj.nombre == item.nombre) == null ? false : true;
     }
 
+    /**
+     * Verifica si una habilidad ya esta checkeada
+     * @param h habilidad a consultar
+     */
     checkHabilidades(h) {
         if (this.habilidadesSelected.find(obj => obj.nombre == h.nombre) == null)
             this.habilidadesSelected.push(h);
@@ -135,6 +150,10 @@ export class EditHabilidadModalComponent extends DialogComponent<RequestModalDis
             this.habilidadesSelected = this.habilidadesSelected.filter(obj => obj.nombre != h.nombre);
     }
 
+    /**
+     * Verifica si una cualidad ya esta checkeada
+     * @param c cualidad a consultar
+     */
     checkCualidades(c) {
         if (this.cualidadesSelected.find(obj => obj.nombre == c.nombre) == null)
             this.cualidadesSelected.push(c);
@@ -142,6 +161,9 @@ export class EditHabilidadModalComponent extends DialogComponent<RequestModalDis
             this.cualidadesSelected = this.cualidadesSelected.filter(obj => obj.nombre != c.nombre);
     }
 
+    /**
+     * Confirma los cambios que se hizo el usuario
+     */
     confirm() {
         let usu: Usuario = new Usuario();
         usu.id = this.usuario.id;
@@ -171,6 +193,9 @@ export class EditHabilidadModalComponent extends DialogComponent<RequestModalDis
             });
     }
 
+    /**
+     * Cierra el modal sin confirmar los cambios
+     */
     close() {
         this.result = false;
         super.close();

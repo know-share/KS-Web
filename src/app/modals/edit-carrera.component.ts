@@ -26,6 +26,9 @@ export interface RequestModalDisplay {
     templateUrl: './edit-carrera.component.html',
     styleUrls: ['../access/signup.component.css', './edit-carrera.component.css']
 })
+/**
+ * Modal que se encarga de editar las carreras dle usuario.
+ */
 export class EditCarreraModalComponent extends DialogComponent<RequestModalDisplay, boolean>
     implements RequestModalDisplay, OnInit {
 
@@ -89,6 +92,9 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
             );
     }
 
+    /**
+     * Carga la informacion actual del usuario.
+     */
     loadPersistentInfo() {
         this.habilidadesOriginales = [];
         this.areasConocimientoOtraCarrera = [];
@@ -109,14 +115,28 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
         }
     }
 
+    /**
+     * Verifica si un elemento esta en una lista
+     * @param item item a buscar
+     * @param list lista a donde se busca el item.
+     */
     isCheckWithId(item, list) {
         return this.isCheck(item,list);
     }
 
+    /**
+     * Busca un elemento en una lista
+     * @param item elemento a buscar
+     * @param list lista donde se busca el elemento
+     */
     isCheck(item, list) {
         return list.find(obj => obj.nombre == item.nombre) == null ? false : true;
     }
 
+    /**
+     * Verifica si una habilidad esta en la lista y si no la agrega
+     * @param h habilidad a verificar
+     */
     checkHabilidades(h) {
         if (this.habilidadesSelected.find(obj => obj.nombre == h.nombre) == null)
             this.habilidadesSelected.push(h);
@@ -124,6 +144,10 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
             this.habilidadesSelected = this.habilidadesSelected.filter(obj => obj.nombre != h.nombre);
     }
 
+    /**
+     * Verifica si una are de conocimiento esta en la lista y si no la agrega
+     * @param ac area de conocimiento a verificar
+     */
     checkAC(ac) {
         if (this.acSelected.find(obj => obj.nombre == ac.nombre) == null)
             this.acSelected.push(ac);
@@ -131,11 +155,18 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
             this.acSelected = this.acSelected.filter(obj => obj.nombre != ac.nombre);
     }
 
+    /**
+     * Carga los enfasis y las habilidades al momento de 
+     * cambiar una carrera
+     */
     onChangeCarrera() {
         this.getEnfasis();
         this.getHabilidades();
     }
 
+    /**
+     * Trae los enfasis de una carrera determinada.
+     */
     getEnfasis() {
         this.enfasisCarrera = [];
         this.acSelected = [];
@@ -200,6 +231,9 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
             )
     }
 
+    /**
+     * Trae las habilidades de una carrera determinada.
+     */
     getHabilidades() {
         this.loading = true;
         this.habilidadesSelected = [];
@@ -266,11 +300,18 @@ export class EditCarreraModalComponent extends DialogComponent<RequestModalDispl
             });
     }
 
+    /**
+     * Cierra el modal sin confirmar los cambios
+     */
     close() {
         this.result = false;
         super.close();
     }
 
+    /**
+     * Hace una copia de los enfasis.
+     * @param event 
+     */
     updateCopyEnfasis(event){
         if(this.enfasisSecundario && this.enfasisPrincipal.nombre == this.enfasisSecundario.nombre)
             this.enfasisSecundario = null;

@@ -24,6 +24,10 @@ export interface RequestModalDisplay {
         </div>`,
     styleUrls: ['compartir-idea.component.css']
 })
+/**
+ * Mensaje que se muestra al compartir
+ * una idea.
+ */
 export class CompartirIdeaModalComponent extends DialogComponent<RequestModalDisplay, null>
     implements RequestModalDisplay, OnInit {
 
@@ -39,7 +43,10 @@ export class CompartirIdeaModalComponent extends DialogComponent<RequestModalDis
         setTimeout(() => super.close(), 2000);
       
     }
-    
+
+    /**
+     * Cierra el modal.
+     */
     close() {
         super.close();
     }

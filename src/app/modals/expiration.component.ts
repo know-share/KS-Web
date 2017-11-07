@@ -23,6 +23,9 @@ import { AuthService } from '../services/auth.service';
               </div>`,
     styleUrls: ['expiration.component.css']
 })
+/**
+ * Modal que informa que la sesion ha expirado
+ */
 export class ExpirationModalComponent extends DialogComponent<void, boolean>{
 
     constructor(
@@ -33,11 +36,19 @@ export class ExpirationModalComponent extends DialogComponent<void, boolean>{
         super(dialogService);
     }
 
+    /**
+     * Cierra el modal y cierra la sesion
+     * del usuario
+     */
     confirm(){
         this.logout();
         super.close();
     }
 
+    /**
+     * Cierra completamente la sesion del usuario
+     * y lo redirige al login
+     */
     logout(){
         this.authService.logout()
             .subscribe(res => {

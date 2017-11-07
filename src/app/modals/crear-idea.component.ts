@@ -22,6 +22,9 @@ export interface RequestModalDisplay {
     selector: 'confirm',
     templateUrl: './crear-idea.component.html',
 })
+/**
+ * Modal el cual permite crear una idea.
+ */
 export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     implements OnInit {
 
@@ -61,6 +64,10 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
 
     }
 
+    /**
+     * Verifica que cada campo de informacion este
+     * correcto para cada tipo de idea.
+     */
     crearIdea() {
         this.errorCrearIdea = '';
         if(!this.selectedTags.length){
@@ -108,6 +115,10 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
             }
     }
 
+    /**
+     * Crea la idea con la informacion suministrada
+     * por el usuario.
+     */
     crearIdeaNorm() {
         this.publishButton.nativeElement.disabled = true;
         let temp: Array<Idea> = new Array;
@@ -130,6 +141,9 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
             });
     }
 
+    /**
+     * Trae todos los tags de la base de datos
+     */
     showTags() {
         this.tagService.getAllTags()
             .subscribe((res: Array<Tag>) => {
@@ -144,6 +158,9 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
             });
     }
 
+    /**
+     * Agrega las ideas a una idea de tipo proyecto
+     */
     agregarIdeas() {
         let disposable = this.dialogService.addDialog(IdeasProyectoModalComponent, {})
             .subscribe(confirmed => {
@@ -154,6 +171,10 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
             });
     }
 
+    /**
+     * Asocia un trabajo de grado a una idea
+     * para continuar.
+     */	
     asociarTG() {
         let disposable = this.dialogService.addDialog(AsociarTGModalComponent, {})
             .subscribe(confirmed => {
@@ -164,10 +185,16 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
             });
     }
 
+    /**
+     * Cierra el modal
+     */
     close() {
         super.close();
     }
 
+    /**
+     * Porporciona informacion sobre cada tipo de idea
+     */
     onChange(){
         if(this.selectedValueTipo === 'NU')
             this.help_idea = 'Ideas nuevas son ideas que no tienen un soporte académico aún. Se suelen crear de manera espontánea.';

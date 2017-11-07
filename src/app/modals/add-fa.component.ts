@@ -55,6 +55,10 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
               </div>`,
     styleUrls: ['../user/user.component.css']
 })
+/**
+ * Modal para agregar la formacion academica
+ * a un usuario
+ */
 export class AddFAModalComponent extends DialogComponent<void, boolean>
     implements OnInit{
 
@@ -83,6 +87,9 @@ export class AddFAModalComponent extends DialogComponent<void, boolean>
         });
     }
 
+    /**
+     * Guarda la informacion academica de un usuario
+     */
     confirm(){
         let fa:FormacionAcademica = new FormacionAcademica();
         fa.titulo = this.titulo;
@@ -108,6 +115,10 @@ export class AddFAModalComponent extends DialogComponent<void, boolean>
             );
     }
 
+    /**
+     * Cierra del modal sin guardar 
+     * la formacion academica
+     */
     close() {
         this.result = false;
         super.close();

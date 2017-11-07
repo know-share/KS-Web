@@ -26,6 +26,9 @@ import { ExpirationModalComponent } from './expiration.component';
               </div>`,
     styleUrls: ['./upload-image.component.css']
 })
+/**
+ * Maneja la funcionalidad de subir la imagen de perfil.
+ */
 export class UploadImageModalComponent extends DialogComponent<void, boolean>
     implements OnInit {
 
@@ -45,11 +48,18 @@ export class UploadImageModalComponent extends DialogComponent<void, boolean>
 
     }
 
+    /**
+     * Cierra el pop up con resultado falso.
+     */
     close() {
         this.result = false;
         super.close();
     }
 
+    /**
+     * Permite elegir una imagen de usuario.
+     * @param event 
+     */
     changeListener(event) {
         var reader = new FileReader();
         var image = this.element.nativeElement.querySelector('.img-thumbnail');
@@ -73,6 +83,9 @@ export class UploadImageModalComponent extends DialogComponent<void, boolean>
         }
     }
 
+    /**
+     * Permite al usuario subir una imagena la base de datos.
+     */
     upload() {
         let formData = new FormData();
         formData.append('file',this.uploadedImage);

@@ -36,6 +36,9 @@ export interface RequestModalDisplay {
               </div>`,
     styleUrls: ['../user/user.component.css', '../access/signup.component.css']
 })
+/**
+ * Permite aceptar o rechazar solicitudes de amistad.
+ */
 export class RequestModalComponent extends DialogComponent<RequestModalDisplay, boolean>
     implements RequestModalDisplay, OnInit {
 
@@ -64,6 +67,10 @@ export class RequestModalComponent extends DialogComponent<RequestModalDisplay, 
         }
     }
 
+    /**
+     * Carga las solicitudes de amistad por paginas.
+     * @param p pagina
+     */
     loadPage(p) {
         this.page = p + 1;
         this.listToShow = [];
@@ -78,11 +85,19 @@ export class RequestModalComponent extends DialogComponent<RequestModalDisplay, 
             this.loadPage(p - 1);
     }
 
+    /**
+     * Permite visitar el perfil de otro usuario.
+     * @param username usuario a visitar
+     */
     profile(username) {
         this.close();
         this.router.navigate(['/user', username]);
     }
 
+    /**
+     * Acepta la solicitud de amistad de un usuario.
+     * @param username usuario a aceptar
+     */
     accept(username) {
         this.usuarioService.accionSobreSolicitud(username, 'accept')
             .subscribe(
@@ -98,6 +113,10 @@ export class RequestModalComponent extends DialogComponent<RequestModalDisplay, 
             });
     }
 
+    /**
+     * Rechaza la solicitud de amistad de un usuario.
+     * @param username usuario a rechazar
+     */
     reject(username) {
         this.usuarioService.accionSobreSolicitud(username, 'reject')
             .subscribe(
@@ -113,6 +132,9 @@ export class RequestModalComponent extends DialogComponent<RequestModalDisplay, 
             });
     }
 
+    /**
+     * Cierra del modal
+     */
     close() {
         this.result = true;
         super.close();

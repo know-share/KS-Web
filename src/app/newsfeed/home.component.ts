@@ -29,6 +29,10 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
     templateUrl: './home.component.html',
     styleUrls: ['home.component.css']
 })
+/**
+ * Permite manejar la funcionalidad de la pantalla principal
+ * de la aplicación.
+ */
 export class HomeComponent implements OnInit {
     ideaForm: FormGroup;
     newIdeas: Array<Idea> = new Array;
@@ -93,6 +97,9 @@ export class HomeComponent implements OnInit {
         this.findRed(0);
     }
 
+    /**
+     * Refresca las solicitudes del usuario.
+     */
     refreshSolicitudes() {
         this.usuarioService.getUsuario(localStorage.getItem('user'))
             .subscribe(
@@ -111,6 +118,9 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    /**
+     * Trae las conexiones de un usuario.
+     */
     getRecomendaciones() {
         this.recomendaciones = [];
         this.ruleService.recomendacionConexiones()
@@ -122,14 +132,28 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    /**
+     * Permite ir al perfil de un usuario
+     * especifico.
+     * @param username perfil del otro usuario
+     */
     goProfile(username) {
         this.router.navigate(['/user', username]);
     }
 
+    /**
+     * Quita una recomendacion de usuario.
+     * @param username del usuario a retirar.
+     */
     removeRecomendacion(username) {
         this.recomendaciones = this.recomendaciones.filter(rec => rec.username != username);
     }
 
+    /**
+     * Envia la petición de amistad a un usuario.
+     * @param username usuario a agregar
+     * @param i indice del elemento para remover de las recomendaciones
+     */
     agregarAmigo(username, i) {
         this.usuarioService.agregar(username)
             .subscribe(
@@ -145,6 +169,11 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    /**
+     * Sigue a un usuario
+     * @param username usuario a seguir
+     * @param i indice del elemento para remover de las recomendaciones
+     */
     seguirUsuario(username, i) {
         this.usuarioService.seguir(username)
             .subscribe(
@@ -160,6 +189,11 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    /**
+     * Acepta la solicitud de amistad por parte de usuario
+     * @param username usuario a aceptar
+     * @param i indice del elemento para remover de las recomendaciones
+     */
     accept(username, i) {
         this.usuarioService.accionSobreSolicitud(username, 'accept')
             .subscribe(
@@ -178,6 +212,11 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    /**
+     * Rechaza la solicitud de amistad por parte de usuario
+     * @param username usuario a rechazar
+     * @param i indice del elemento para remover de las recomendaciones
+     */
     reject(username, i) {
         this.usuarioService.accionSobreSolicitud(username, 'reject')
             .subscribe(
@@ -196,10 +235,18 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    /**
+     * Verifica si hay solicitudes
+     * @param username usuario el cual busca las solicitudes.
+     */
     existRequest(username) {
         return this.listSolicitudes.find(r => r.toLowerCase() === username.toLowerCase());
     }
 
+    /**
+     * Abre el modal que muestra las solicitudes de amistad
+     * de un usuario
+     */
     showRequests() {
         let disposable = this.dialogService.addDialog(RequestModalComponent, {
             listSolicitudes: this.listSolicitudes
@@ -211,6 +258,9 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    /**
+     * Trae todos los tags de la base de datos
+     */
     showTags() {
         this.tagService.getAllTags()
             .subscribe((res: Array<Tag>) => {
@@ -227,6 +277,11 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    /**
+     * filtra los tags por los caracteres
+     * ingresados por el usuario
+     * @param event 
+     */
     filterTagMultiple(event) {
         let query = event.query;
         this.tagService.getAllTags().subscribe((tags: Array<Tag>) => {
@@ -234,6 +289,12 @@ export class HomeComponent implements OnInit {
         });
     }
 
+    /**
+     * Clasifica los tags y agrega a una lista los
+     * que cumplen con el criterio.
+     * @param query criterio
+     * @param tags lista de tags que cumplen el criterio
+     */
     filterTag(query, tags: any[]): any[] {
         let filtered: any[] = [];
         for (let i = 0; i < tags.length; i++) {
@@ -245,6 +306,10 @@ export class HomeComponent implements OnInit {
         return filtered;
     }
 
+    /**
+     * Busca las ideas de la red del usuario
+     * @param page número de pagina
+     */
     findRed(page) {
         this.ruleService.findRed(page).
             subscribe((res: Page<Idea>) => {
@@ -260,6 +325,10 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    /**
+     * Actualiza el estado de una idea
+     * @param confirm nuevo estado de la idea
+     */
     cambio(confirm: IdeaHome) {
         let temp: Array<Idea> = new Array;
         if (confirm != null) {
@@ -284,6 +353,9 @@ export class HomeComponent implements OnInit {
         }
     }
 
+    /**
+     * Publica una idea.
+     */
     crearIdea() {
         let temp: Array<Idea> = new Array;
         let disposable = this.dialogService.addDialog(CrearIdeaModalComponent, {})
@@ -300,6 +372,10 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    /**
+     * Cambia la preferencia de despliegue de las ideas
+     * @param event 
+     */
     updatePreferencia(event) {
         this.usuarioService.updatePreferencia(this.preferenciaDespliegue)
             .subscribe(

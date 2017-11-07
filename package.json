@@ -7,6 +7,8 @@
     "url": "https://github.com/know-share/KS-Web.git"
   },
   "scripts": {
+    "docs": "node_modules/.bin/compodoc -p tsconfig.json -d docs",
+    "serve-docs": "node_modules/.bin/compodoc -s -d docs",
     "build": "webpack --progress",
     "build:prod": "cross-env APP_ENVIRONMENT=production webpack -p --progress",
     "postinstall": "typings install",

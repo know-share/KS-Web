@@ -17,6 +17,10 @@ export interface RequestModalDisplay {
     selector: 'confirm',
     templateUrl: './comentar.component.html',
 })
+/**
+ * Modal que permite realizar comentarios
+ * a una idea
+ */
 export class ComentarModalComponent extends DialogComponent<RequestModalDisplay, boolean>
     implements RequestModalDisplay {    
 
@@ -33,7 +37,10 @@ export class ComentarModalComponent extends DialogComponent<RequestModalDisplay,
     ) {
         super(dialogService);
     }
-
+    /**
+     * Guarda nuevo comentario y lo asocia a 
+     * una idea.
+     */
     comentar(){
         if(!this.comentario){
             this.valid = false;

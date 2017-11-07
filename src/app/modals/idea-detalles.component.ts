@@ -16,6 +16,9 @@ export interface RequestModalDisplay {
     selector: 'confirm',
     templateUrl: './idea-detalles.component.html',
 })
+/**
+ * Se encarga de mostrar los detalles de una idea.
+ */
 export class DetalleIdeaModalComponent extends DialogComponent<RequestModalDisplay, Idea>
     implements OnInit {
 
@@ -33,6 +36,12 @@ export class DetalleIdeaModalComponent extends DialogComponent<RequestModalDispl
     ngOnInit() {
     }
 
+    
+    /**
+     * Convierte las siglas de trabajo de 
+     * grado a palabras
+     * @param idea idea a convertir sus siglas
+     */
     getEstado(idea){
         if (idea.estado === 'TG')
             return 'Trabajo de grado';
@@ -40,6 +49,11 @@ export class DetalleIdeaModalComponent extends DialogComponent<RequestModalDispl
             return 'No trabajo de grado';
     }
 
+    /**
+     * Convierte las siglas del tipo de 
+     * idea a palabras
+     * @param idea a convertir sus siglas
+     */
     getTipo(idea){
         if (idea.tipo === 'NU')
             return 'Nueva';
@@ -51,11 +65,19 @@ export class DetalleIdeaModalComponent extends DialogComponent<RequestModalDispl
             return 'Proyecto';
     }
 
+    /**
+     * Retorna la idea con su nuevo
+     * estado
+     */
     aceptar() {
         this.result = this.idea;
         super.close();
     }
 
+    /**
+     * Cambia el estado de la idea si este
+     * es NOTG.
+     */
     cambiarEstado() {
         let estado;
         if (this.idea.estado === "TG") {

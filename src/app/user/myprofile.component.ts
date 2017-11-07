@@ -43,6 +43,9 @@ import { UploadImageModalComponent } from '../modals/upload-image.component';
     templateUrl: './myprofile.component.html',
     styleUrls: ['./user.component.css']
 })
+/**
+ * Permite manejar la funcionalidad de la pantalla de perfil de usuario
+ */
 export class ProfileComponent implements OnInit {
 
     @ViewChild('profileImage') profileImage: ElementRef;
@@ -166,7 +169,10 @@ export class ProfileComponent implements OnInit {
         this.reloadImage();
         this.totalInsigniasNoVistas();
     }
-
+    /**
+     * Busca las ideas del usuario.
+     * @param page numero de pagina
+     */
     findIdeas(page) {
         this.ideaService.findByUsuario(localStorage.getItem('user'),page,this.timestamp)
             .subscribe((res: Page<Idea>) => {
@@ -177,6 +183,10 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Calcula el total de las insignias ganadas por el usuario
+     * pero que aun no ha visto
+     */
     totalInsigniasNoVistas() {
         let total = 0;
         for (let ins of this.usuario.insignias)
@@ -185,6 +195,10 @@ export class ProfileComponent implements OnInit {
         this.insgniasNoVistas = total;
     }
 
+    /**
+     * Muestra las areas de conocimiento del usuario.
+     * @param areasConocimiento areas de conocimiento
+     */
     mapAreasConocimiento(areasConocimiento: AreaConocimiento[]) {
         this.areasConocimiento = []; this.areasConocimientoSeg = [];
         for (let ac of areasConocimiento) {
@@ -197,6 +211,10 @@ export class ProfileComponent implements OnInit {
         }
     }
 
+    /**
+     * Carga la imagen que el usuario selecciono en el registro,
+     * si no selecciono ninguna carga la imagen por defecto.
+     */
     reloadImage() {
         if (this.usuario.imagen) {
             this.profileImage.nativeElement.src = URL_IMAGE_USER + this.usuario.username + "?" + new Date().getTime();
@@ -208,6 +226,9 @@ export class ProfileComponent implements OnInit {
         }
     }
 
+    /**
+     * Trae todos los tags de la base de datos
+     */
     showTags() {
         this.tagService.getAllTags()
             .subscribe((res: Array<Tag>) => {
@@ -222,6 +243,10 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Permite moverse entre pestañas
+     * @param tab pestaña destino
+     */
     moveTab(tab) {
         this.editLikes = false;
         this.activeTab = tab;
@@ -257,6 +282,10 @@ export class ProfileComponent implements OnInit {
         }
     }
 
+    /**
+     * Abre el modal para agregar un trabajo de grado
+     * a una idea para continuar
+     */
     addTG() {
         let disposable = this.dialogService.addDialog(AddTGModalComponent).subscribe(
             confirmed => {
@@ -268,6 +297,10 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Abre el modal para agregar la informacion academica
+     * del usuario
+     */
     addFormacion() {
         let disposable = this.dialogService.addDialog(AddFAModalComponent).subscribe(
             confirmed => {
@@ -279,6 +312,10 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Abre el modal para editar la carrera
+     * del usuario
+     */
     editCarrera(principal, isNew) {
         let disposable = this.dialogService.addDialog(EditCarreraModalComponent, {
             usuario: this.usuario,
@@ -294,6 +331,10 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Abre el modal para editar la informacion basica
+     * del usuario
+     */
     editBasis() {
         let disposable = this.dialogService.addDialog(EditBasisModalComponent, {
             usuario: this.usuario
@@ -307,6 +348,10 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Abre el modal para editar la las habilidades y cualidades
+     * del usuario
+     */    
     editHabilidadCualidad() {
         let disposable = this.dialogService.addDialog(EditHabilidadModalComponent, {
             usuario: this.usuario
@@ -320,6 +365,9 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Actualiza la informacion del usuario
+     */
     refreshUsuario() {
         this.usuarioService.getUsuario(localStorage.getItem('user'))
             .subscribe(
@@ -351,10 +399,19 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Permite ir al perfil de un usuario
+     * especifico.
+     * @param username perfil del otro usuario
+     */
     goProfile(username) {
         this.router.navigate(['/user', username]);
     }
 
+    /**
+     * Permite a un usuario eliminar de su lista de amigos a otro usuario
+     * @param username usuario que se va a eliminar de la lista de amigos
+     */
     eliminarAmigo(username) {
         this.usuarioService.eliminarAmigo(username)
             .subscribe(
@@ -369,6 +426,10 @@ export class ProfileComponent implements OnInit {
             )
     }
 
+    /**
+     * Verifica que cada campo de informacion este
+     * correcto para cada tipo de idea.
+     */
     crearIdea() {
         this.errorCrearIdea = '';
         if(!this.selectedTags.length){
@@ -416,6 +477,9 @@ export class ProfileComponent implements OnInit {
             }
     }
 
+    /**
+     * Limpia el formulario despues de crear una idea.
+     */
     cleanFormIdea() {
         this.publishButton.nativeElement.disabled = false;
         this.contenido = '';
@@ -426,6 +490,10 @@ export class ProfileComponent implements OnInit {
         this.ideasPro = [];
     }
 
+    /**
+     * Crea la idea con la informacion suministrada
+     * por el usuario.
+     */
     crearIdeaNorm() {
         this.publishButton.nativeElement.disabled = true;
         let temp: Array<Idea> = new Array;
@@ -451,6 +519,10 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Abre el modal para agregar ideas a una idea 
+     * de tipo proyecto
+     */
     agregarIdeas() {
         let disposable = this.dialogService.addDialog(IdeasProyectoModalComponent, {})
             .subscribe(confirmed => {
@@ -461,6 +533,10 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Abre el modal para agregar un trabajo de grado 
+     * a una idea para continuar
+     */
     asociarTG() {
         let disposable = this.dialogService.addDialog(AsociarTGModalComponent, {})
             .subscribe(confirmed => {
@@ -471,10 +547,17 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Permite ir a la pagina de busqueda
+     */
     search() {
         this.router.navigate(['/search']);
     }
 
+    /**
+     * Abre el modal para seleccionar una imagen para el
+     * perfil de usuario.
+     */
     uploadImage() {
         let disposable = this.dialogService.addDialog(UploadImageModalComponent)
             .subscribe(
@@ -487,10 +570,21 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Si el usuario no tiene imagen de perfil, carga una por defecto
+     * @param event evento de cambio
+     * @param username usuario
+     * @param genero genero del usuario
+     */ 
     errorImageHandler(event, username, genero) {
         event.target.src = this.imageCard(username, genero);
     }
 
+     /**
+     * Retorna el path de la imagen dependiendo del genero
+     * @param username usuario
+     * @param genero genero del usuario
+     */
     imageCard(username, genero): string {
         if (genero == 'Femenino')
             return "images/icons/woman.png";
@@ -498,6 +592,9 @@ export class ProfileComponent implements OnInit {
             return "images/icons/dude4_x128.png";
     }
 
+    /**
+     * Permite a un usuario eliminar su carrera.
+     */
     eliminarCarrera() {
         let dto: Usuario = new Usuario();
         dto.id = this.usuario.id;
@@ -531,6 +628,10 @@ export class ProfileComponent implements OnInit {
             );
     }
 
+    /**
+     * Actualiza el estado de una idea
+     * @param confirm nuevo estado de la idea
+     */
     cambio(confirm: IdeaHome) {
         let temp: Array<Idea> = new Array;
         if (confirm != null) {
@@ -555,7 +656,10 @@ export class ProfileComponent implements OnInit {
     }
 
     // gustos
-
+    /**
+     * Agrega o elimina determinado gusto
+     * @param object gusto a agregar o eliminar
+     */
     checkGusto(object) {
         if (this.gustos.find(obj => obj.id == object.id) == null)
             this.gustos.push(object);
@@ -563,19 +667,35 @@ export class ProfileComponent implements OnInit {
             this.gustos = this.gustos.filter(obj => obj.id != object.id);
     }
 
+    /**
+     * Verifica un item en una lista.
+     * @param item item a verificar
+     * @param list lista para verificar
+     */
     isCheckWithId(item, list) {
         return list.find(obj => obj.id == item.id) == null ? false : true;
     }
 
+    /**
+     * Permite navegar entre las pestañas
+     * @param location 
+     * @param where 
+     */
     goTo(location, where) {
         if (where == 'gustos')
             this.activeTabGustos = location;
     }
 
+    /**
+     * Pone el atributo de likes editados en verdadero
+     */
     setEditLikes() {
         this.editLikes = true;
     }
 
+    /**
+     * Guarda los gustos del usuario.
+     */
     saveLikes() {
         if (this.gustos.length == 0) {
             this.msgs = [];
@@ -597,6 +717,9 @@ export class ProfileComponent implements OnInit {
         }
     }
 
+    /**
+     * Permite promover un usuario de estudiante a egresado.
+     */
     promote() {
         this.usuarioService.promote(this.usuario.username)
             .subscribe(
@@ -608,6 +731,9 @@ export class ProfileComponent implements OnInit {
             });
     }
 
+    /**
+     * Brinda informacion de los tipos de idea.
+     */
     onChangeTipoIdea(){
         if(this.selectedValueTipo === 'NU')
             this.help_idea = 'Ideas nuevas son ideas que no tienen un soporte académico aún. Se suelen crear de manera espontánea.';

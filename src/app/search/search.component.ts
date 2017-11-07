@@ -21,6 +21,9 @@ import { IdeaService } from '../services/idea.service';
     templateUrl: 'search.component.html',
     styleUrls: ['./search.component.css']
 })
+/**
+ * Maneja la funcionalidad de busqueda.
+ */
 export class SearchComponent implements OnInit {
 
     search: string = '';
@@ -68,10 +71,17 @@ export class SearchComponent implements OnInit {
         });
     }
 
+    /**
+     * Permite moverse entre pestañas.
+     * @param tab pestaña destino
+     */
     moveTab(tab) {
         this.activeTab = tab;
     }
 
+    /**
+     * Transforma las opciones segun la seleccionada.
+     */
     transformOption() {
         if (this.activeTab == 'users') {
             if (this.option == 1)
@@ -172,14 +182,29 @@ export class SearchComponent implements OnInit {
 
     }
 
+    /**
+     * Permite ir al perfil de otro usuario
+     * @param username usuario al cual se quiere ir
+     */
     goToProfile(username) {
         this.router.navigate(["/user", username]);
     }
 
+    /**
+     * Si el usuario no tiene imagen de perfil, carga una por defecto
+     * @param event evento de cambio
+     * @param username usuario
+     * @param genero genero del usuario
+     */
     errorImageHandler(event, username, genero) {
         event.target.src = this.imageCard(username, genero);
     }
 
+    /**
+     * Retorna el path de la imagen dependiendo del genero
+     * @param username usuario
+     * @param genero genero del usuario
+     */
     imageCard(username, genero): string {
         if (genero == 'Femenino')
             return "images/icons/woman.png";
@@ -187,6 +212,9 @@ export class SearchComponent implements OnInit {
             return "images/icons/dude4_x128.png";
     }
 
+    /**
+     * Trae todos los tags de la base de datos
+     */
     showTags() {
         this.tagService.getAllTags()
             .subscribe((res: Array<Tag>) => {

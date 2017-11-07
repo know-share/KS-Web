@@ -21,6 +21,10 @@ import { ComentarModalComponent } from '../modals/comentar.component';
     templateUrl: './idea.component.html',
     //styleUrls: ['']
 })
+/**
+ * Permite el manejo de idea con 
+ * todas sus operaciones     
+ */
 export class IdeaComponent implements OnInit {
     @Input("idea") idea: Idea;
     @Output() change = new EventEmitter();
@@ -45,6 +49,10 @@ export class IdeaComponent implements OnInit {
         this.username = localStorage.getItem('user');
     }
 
+    /**
+     * Permite hacer light a una idea o quitarlo
+     * si esta ya tiene light de este usuario.
+     */
     light() {
         let retorno: IdeaHome = new IdeaHome();
         this.ideaService.light(this.idea)
@@ -60,6 +68,9 @@ export class IdeaComponent implements OnInit {
             });
     }
 
+    /**
+     * Permite comentar una idea.
+     */
     comentar() {
         let retorno: IdeaHome = new IdeaHome();
         let disposable = this.dialogService.addDialog(ComentarModalComponent, {
@@ -75,6 +86,10 @@ export class IdeaComponent implements OnInit {
         });
     }
 
+    /**
+     * Permite compartir una idea de otro usuario
+     * que no sea de tipo proyecto.
+     */
     compartir() {
         let retorno: IdeaHome = new IdeaHome();
         if (this.idea.usuario != localStorage.getItem('user')) {
@@ -104,10 +119,19 @@ export class IdeaComponent implements OnInit {
         }
     }
 
+    /**
+     * Permite ir al perfil de un usuario
+     * especifico.
+     * @param username perfil del otro usuario
+     */
     goProfile(username) {
         this.router.navigate(['/user', username]);
     }
 
+    /**
+     * Permite ver los detalles generales de 
+     * la idea.
+     */
     detalles() {
         let disposable = this.dialogService.addDialog(DetalleIdeaModalComponent, {
             idea: this.idea
@@ -116,6 +140,10 @@ export class IdeaComponent implements OnInit {
         });
     }
 
+    /**
+     * Permite ver los usuarios que han
+     * dado light a la idea.
+     */
     detallesLight() {
         let disposable = this.dialogService.addDialog(OperacionIdeaModalComponent, {
             ideaId: this.idea.id,
@@ -125,6 +153,10 @@ export class IdeaComponent implements OnInit {
         });
     }
 
+    /**
+     * Permite ver los comentarios que le han
+     * hecho a la idea
+     */
     detallesComentarios() {
         let disposable = this.dialogService.addDialog(OperacionIdeaModalComponent, {
             ideaId: this.idea.id,

@@ -71,6 +71,10 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
               </div>`,
     styleUrls: ['../user/user.component.css']
 })
+/**
+ * Modal para agregar el trabajo de grado
+ * a un usuario
+ */
 export class AddTGModalComponent extends DialogComponent<void, boolean>
     implements OnInit{
 
@@ -111,6 +115,10 @@ export class AddTGModalComponent extends DialogComponent<void, boolean>
         });
     }
 
+    /**
+     * Guarda el trabajo de grado asociado a
+     * un usuario.
+     */
     confirm(){
         if(this.tipoUsuario == 'PROFESOR' && (this.numEstudiantes == -1
             || !Number.isInteger(this.numEstudiantes) || this.numEstudiantes <= 0)){
@@ -141,6 +149,10 @@ export class AddTGModalComponent extends DialogComponent<void, boolean>
             );
     }
 
+    /**
+     * Cierra el modal sin guardar el
+     * trabajo de grado
+     */
     close() {
         this.result = false;
         super.close();
