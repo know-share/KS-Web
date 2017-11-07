@@ -1,5 +1,6 @@
 *.js
 !webpack.config.js
+!docs/**/*.js
 *.map
 node_modules/
 dist/
