@@ -8,6 +8,29 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+	
+	<script src="https://app.therootcause.io/rootcause-full.js" crossorigin="anonymous"></script>
+	<script>
+		(function() {
+			var logger = window.RC && new RC.Logger({
+				applicationId : "9436a75973df2cce21aabcbb963ef78125d95d25",
+				recordSessionVideo : true,
+				captureScreenshot : true,
+				recordUserActions : true,
+				logConsoleOutput : true,
+				logAjaxRequests : false,
+				treatFailedAjaxAsError : false,
+				logResourceLoadFailures : true,
+				autoStart : true,
+				showNotificationOnError : false,
+				showFeedbackButton : false,
+				showErrorDialog : false,
+				maxNbrOfReportedErrors : 1,
+				version : "1.0.2",
+				frameworkVersion : "" // TODO
+			});
+		})();
+	</script>
 
     <link rel="stylesheet" href="fonts/css/font-awesome.min.css" />
     <link rel="stylesheet" href="css/resources/primeng.min.css" />
