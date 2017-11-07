@@ -1,3 +1,7 @@
+/**
+ * Clase que representa 
+ * una página.
+ */
 export class Page<T>{
     
     content: T[];

@@ -17,10 +17,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2 class="center">Parámetros de búsqueda</h2>
-                    <p-autoComplete *ngIf="activeTab != 'users' && option==6" [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple"
-                        (completeMethod)="filterTagMultiple($event)" [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true"
-                        [ngModelOptions]="{standalone: true}">
-                    </p-autoComplete>
+                    <p-multiSelect  *ngIf="activeTab != 'users' && option==6" [options]="tags" [(ngModel)]="selectedTags" [panelStyle]="{minWidth:'12em'}"
+                        [ngModelOptions]="{standalone: true}" maxSelectedLabels=6 defaultLabel="Elije tags">
+                    </p-multiSelect>
                     <input *ngIf="activeTab == 'users'" [(ngModel)]="searchAdv" type="text" class="form-control" placeholder="Buscar">
                     <div class="alert alert-danger" *ngIf="error">
                         Debe llenar el campo de búsqueda.

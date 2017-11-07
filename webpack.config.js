@@ -62,7 +62,10 @@ module.exports = {
         },{
 			from: './node_modules/chart.js/dist',
 			to:'./chart.js'
-		}])
+		},{
+            from: './node_modules/angular2-busy/build/style/busy.css',
+            to: './css'
+        }])
     ]
 
 };

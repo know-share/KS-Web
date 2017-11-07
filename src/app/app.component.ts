@@ -7,6 +7,10 @@ import { AuthService } from './services/auth.service';
     selector: 'my-app',
     templateUrl: 'app.component.html'
 })
+/**
+ * Clase que maneja el componente
+ * principal de la aplicación
+ */
 export class AppComponent implements OnInit {
 
     loggeado: boolean = false;
@@ -27,16 +31,35 @@ export class AppComponent implements OnInit {
             );
     }
 
+    /**
+	 * Verifica la sesión de un 
+     * usuario siga existente y
+     * verifica su rol.
+	 * @param 
+	 * @return 
+	 */
     ngOnInit(){
         this.loggeado = (localStorage.getItem('user') != null);
         if(this.loggeado)
             this.isAdmin = (localStorage.getItem('role') == 'ADMIN');
     }
 
+    /**
+	 * Envía un usuario a su perfil,
+     * siempre y cuando no sea admin.
+	 * @param 
+	 * @return 
+	 */
     myProfile() {
         this.router.navigate(['/user', localStorage.getItem('user')]);
     }
 
+    /**
+	 * Cierra la sesión de un usuario,
+     * y lo envía al login.
+	 * @param 
+	 * @return 
+	 */
     logout() {
         this.authService.logout()
             .subscribe(res => {
@@ -48,6 +71,13 @@ export class AppComponent implements OnInit {
         );
     }
 
+    /**
+	 * Lleva al usuario a buscar y
+     * revisa si tiene algún parametro 
+     * la busqueda.
+	 * @param 
+	 * @return 
+	 */
     goToSearch(){
         if(this.search != ""){
             this.router.navigate(['/search',this.search]);
@@ -57,6 +87,12 @@ export class AppComponent implements OnInit {
         this.search = "";
     }
 
+    /**
+	 * Si el usuario es admin, lo 
+     * envía al leaderboard.
+	 * @param 
+	 * @return 
+	 */
     leaderBoard(){
         this.router.navigate(['/leader']);
     }

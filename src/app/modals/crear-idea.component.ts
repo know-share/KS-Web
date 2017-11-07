@@ -4,9 +4,11 @@ import { IdeasProyectoModalComponent } from './ideasProyecto.component';
 import { TagService } from './../services/tag.service';
 import { Tag } from './../entities/tag';
 import { Idea } from './../entities/idea';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
 import { Router } from '@angular/router';
+
+import {SelectItem} from 'primeng/primeng';
 
 import { IdeaService } from '../services/idea.service';
 
@@ -20,8 +22,13 @@ export interface RequestModalDisplay {
     selector: 'confirm',
     templateUrl: './crear-idea.component.html',
 })
+/**
+ * Modal el cual permite crear una idea.
+ */
 export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     implements OnInit {
+
+    @ViewChild('publishButton') publishButton;
 
     idea: Idea = new Idea();
     selectedValueTipo: string;
@@ -30,12 +37,12 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
     alcance: string;
     problematica: string;
     valid: boolean = true;
-    tags: Array<Tag> = new Array;
     selectedTags: any[] = new Array;
-    filteredTagsMultiple: any[];
+
     role = localStorage.getItem('role');
     ideasPro: Array<Idea> = new Array();
-    tg: TrabajoGrado = new TrabajoGrado();
+    tg: TrabajoGrado;
+    tags: SelectItem[] = [];
 
     help_idea = '';
 
@@ -50,24 +57,33 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
         super(dialogService);
         this.selectedValueTipo = 'NU';
         this.help_idea = 'Ideas nuevas son ideas que no tienen un soporte académico aún. Se suelen crear de manera espontánea.';
+        this.showTags();
     }
 
     ngOnInit() {
 
     }
 
+    /**
+     * Verifica que cada campo de informacion este
+     * correcto para cada tipo de idea.
+     */
     crearIdea() {
         this.errorCrearIdea = '';
+        if(!this.selectedTags.length){
+            this.valid = false;
+            this.errorCrearIdea = 'Por favor, seleccionar al menos un tag.'
+            return;
+        }
         if (this.selectedValueTipo == "NU")
-            if (this.contenido != undefined && this.selectedTags.length > 0) {
+            if (this.contenido) {
                 this.crearIdeaNorm();
             } else {
                 this.valid = false;
                 this.errorCrearIdea = 'Por favor, completar todos los campos.';
             }
         if (this.selectedValueTipo == "PC")
-            if (this.contenido != undefined && this.selectedTags.length > 0 &&
-                this.tg != undefined) {
+            if (this.contenido && this.tg) {
                 if (this.numeroEstudiantes > 0 && this.numeroEstudiantes < 6)
                     this.crearIdeaNorm();
                 else {
@@ -79,8 +95,7 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
                 this.errorCrearIdea = 'Por favor, completar todos los campos.';
             }
         if (this.selectedValueTipo == "PE")
-            if (this.contenido != undefined && this.selectedTags.length > 0 &&
-                this.alcance != undefined && this.problematica != undefined) {
+            if (this.contenido && this.alcance && this.problematica) {
                 if (this.numeroEstudiantes > 0 && this.numeroEstudiantes < 6)
                     this.crearIdeaNorm();
                 else {
@@ -92,8 +107,7 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
                 this.errorCrearIdea = 'Por favor, completar todos los campos.';
             }
         if (this.selectedValueTipo == "PR")
-            if (this.contenido != undefined && this.selectedTags.length > 0 &&
-                this.ideasPro.length > 0) {
+            if (this.contenido && this.ideasPro.length > 0) {
                 this.crearIdeaNorm();
             } else {
                 this.valid = false;
@@ -101,7 +115,12 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
             }
     }
 
+    /**
+     * Crea la idea con la informacion suministrada
+     * por el usuario.
+     */
     crearIdeaNorm() {
+        this.publishButton.nativeElement.disabled = true;
         let temp: Array<Idea> = new Array;
         this.idea.alcance = this.alcance;
         this.idea.tipo = this.selectedValueTipo;
@@ -122,35 +141,26 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
             });
     }
 
-
+    /**
+     * Trae todos los tags de la base de datos
+     */
     showTags() {
         this.tagService.getAllTags()
             .subscribe((res: Array<Tag>) => {
-                this.tags = res;
+                res.forEach(tag=>{
+                    this.tags.push({
+                        label: tag.nombre,
+                        value: tag
+                    });
+                });
             }, error => {
                 console.log("Error" + error);
             });
     }
 
-    filterTagMultiple(event) {
-        let query = event.query;
-        this.tagService.getAllTags().subscribe((tags: Array<Tag>) => {
-            this.filteredTagsMultiple = this.filterTag(query, tags);
-        });
-    }
-
-    filterTag(query, tags: any[]): any[] {
-        //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-        let filtered: any[] = [];
-        for (let i = 0; i < tags.length; i++) {
-            let tag = tags[i];
-            if (tag.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-                filtered.push(tag);
-            }
-        }
-        return filtered;
-    }
-
+    /**
+     * Agrega las ideas a una idea de tipo proyecto
+     */
     agregarIdeas() {
         let disposable = this.dialogService.addDialog(IdeasProyectoModalComponent, {})
             .subscribe(confirmed => {
@@ -161,6 +171,10 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
             });
     }
 
+    /**
+     * Asocia un trabajo de grado a una idea
+     * para continuar.
+     */	
     asociarTG() {
         let disposable = this.dialogService.addDialog(AsociarTGModalComponent, {})
             .subscribe(confirmed => {
@@ -171,10 +185,16 @@ export class CrearIdeaModalComponent extends DialogComponent<null, Idea>
             });
     }
 
+    /**
+     * Cierra el modal
+     */
     close() {
         super.close();
     }
 
+    /**
+     * Porporciona informacion sobre cada tipo de idea
+     */
     onChange(){
         if(this.selectedValueTipo === 'NU')
             this.help_idea = 'Ideas nuevas son ideas que no tienen un soporte académico aún. Se suelen crear de manera espontánea.';

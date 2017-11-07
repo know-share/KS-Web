@@ -14,6 +14,10 @@ import { ExpirationModalComponent } from '../modals/expiration.component';
     selector: 'confirm',
     templateUrl: './asociarTG.component.html',
 })
+/**
+ * Modal que permite elegir un trabajo de grado
+ * para asociarse en una idea para continuar
+ */
 export class AsociarTGModalComponent extends DialogComponent<null, TrabajoGrado>
     implements  OnInit {
     
@@ -32,6 +36,10 @@ export class AsociarTGModalComponent extends DialogComponent<null, TrabajoGrado>
 
     }
 
+     /**
+     * Trae todos los trabajos de grado
+     * registrados en el sistema.
+     */
     ideasProyecto(){
         this.tgService.findAll().
             subscribe((res: Array<TrabajoGrado>) => {
@@ -43,6 +51,11 @@ export class AsociarTGModalComponent extends DialogComponent<null, TrabajoGrado>
             });
     }
 
+    /**
+     * Retorna el trabajo de grado
+     * seleccionado
+     * @param tg trabajo de grado seleccionado
+     */
     agregar(tg:TrabajoGrado){
         this.result = tg;
         super.close();

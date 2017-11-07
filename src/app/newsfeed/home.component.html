@@ -52,12 +52,12 @@
                                         <button type="button" class="close" (click)="removeRecomendacion(r.username)">&times;</button>
                                     </div>
                                     <div class="panel-body center">
-                                        <button #acceptButton *ngIf="existRequest(r.username)" (click)="accept(r.username,i)" type="button" class="btn btn-primary">Aceptar</button>
-                                        <button #rejectButton *ngIf="existRequest(r.username)" (click)="reject(r.username,i)" type="button" class="btn btn-danger">Rechazar</button>
-                                        <button #friendButton *ngIf="r.conexion == 'CONFIANZA' && !existRequest(r.username)" (click)="agregarAmigo(r.username,i)"
+                                        <button id="add_button_{{i}}" *ngIf="existRequest(r.username)" (click)="accept(r.username,i)" type="button" class="btn btn-primary">Aceptar</button>
+                                        <button id="del_button_{{i}}" *ngIf="existRequest(r.username)" (click)="reject(r.username,i)" type="button" class="btn btn-danger">Rechazar</button>
+                                        <button id="friend_button_{{i}}" *ngIf="r.conexion == 'CONFIANZA' && !existRequest(r.username)" (click)="agregarAmigo(r.username,i)"
                                             type="button" class="btn btn-danger">
                                             <span class="glyphicon glyphicon-user"></span> Agregar como amigo</button>
-                                        <button #friendButton *ngIf="r.conexion != 'CONFIANZA' && !existRequest(r.username)" (click)="seguirUsuario(r.username,i)"
+                                        <button id="friend_button_{{i}}" *ngIf="r.conexion != 'CONFIANZA' && !existRequest(r.username)" (click)="seguirUsuario(r.username,i)"
                                             type="button" class="btn btn-danger">
                                             <span class="glyphicon glyphicon-eye-open"></span> Seguir</button>
                                         <img *ngIf="r.conexion == 'NO_RECOMENDAR'" src="images/icons/lightbulb_on.png" />

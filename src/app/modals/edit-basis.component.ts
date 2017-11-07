@@ -96,6 +96,9 @@ export interface RequestModalDisplay {
         </div>`,
     styleUrls: ['../access/signup.component.css', './edit-carrera.component.css']
 })
+/**
+ * Modal que permite editar la informacion basica del usuario.
+ */
 export class EditBasisModalComponent extends DialogComponent<RequestModalDisplay, boolean>
     implements RequestModalDisplay, OnInit {
 
@@ -132,6 +135,9 @@ export class EditBasisModalComponent extends DialogComponent<RequestModalDisplay
         });
     }
 
+    /**
+     * Verifica la nueva informacion del usuario y la actualiza.
+     */
     confirm() {
         if (this.correo.toLowerCase() != this.usuario.email.toLowerCase()) {
             this.usuarioService.isCorreoTaken(this.correo)
@@ -148,6 +154,9 @@ export class EditBasisModalComponent extends DialogComponent<RequestModalDisplay
         }
     }
 
+    /**
+     * Actualiza la informacion basica del usuario.
+     */
     updateUser() {
         let usu: Usuario = new Usuario();
         usu.id = this.usuario.id;
@@ -179,6 +188,9 @@ export class EditBasisModalComponent extends DialogComponent<RequestModalDisplay
             );
     }
 
+    /**
+     * Cierra el modal sin confirmar los cambios
+     */
     close() {
         this.result = false;
         super.close();

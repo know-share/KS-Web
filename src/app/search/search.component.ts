@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
 
+import { SelectItem } from 'primeng/primeng';
+
 import { ExpirationModalComponent } from '../modals/expiration.component';
 
 import { Recomendacion } from '../entities/recomendacion';
@@ -19,6 +21,9 @@ import { IdeaService } from '../services/idea.service';
     templateUrl: 'search.component.html',
     styleUrls: ['./search.component.css']
 })
+/**
+ * Maneja la funcionalidad de busqueda.
+ */
 export class SearchComponent implements OnInit {
 
     search: string = '';
@@ -27,10 +32,12 @@ export class SearchComponent implements OnInit {
     optionSelected: number = 1;
     activeTab: string = 'users';
     error: boolean = false;
-    tags: Array<Tag> = new Array;
     filteredTagsMultiple: any[];
     serverUri = URL_IMAGE_USER;
+    
+    tags: SelectItem[] = [];
     selectedTags: any[] = new Array;
+
     ideas: Array<Idea>;
     listUsers: Recomendacion[] = [];
 
@@ -41,7 +48,9 @@ export class SearchComponent implements OnInit {
         private dialogService: DialogService,
         private tagService: TagService,
         private ideaService: IdeaService,
-    ) { }
+    ) {
+        this.showTags();
+    }
 
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
@@ -62,10 +71,17 @@ export class SearchComponent implements OnInit {
         });
     }
 
+    /**
+     * Permite moverse entre pestañas.
+     * @param tab pestaña destino
+     */
     moveTab(tab) {
         this.activeTab = tab;
     }
 
+    /**
+     * Transforma las opciones segun la seleccionada.
+     */
     transformOption() {
         if (this.activeTab == 'users') {
             if (this.option == 1)
@@ -166,14 +182,29 @@ export class SearchComponent implements OnInit {
 
     }
 
+    /**
+     * Permite ir al perfil de otro usuario
+     * @param username usuario al cual se quiere ir
+     */
     goToProfile(username) {
         this.router.navigate(["/user", username]);
     }
 
+    /**
+     * Si el usuario no tiene imagen de perfil, carga una por defecto
+     * @param event evento de cambio
+     * @param username usuario
+     * @param genero genero del usuario
+     */
     errorImageHandler(event, username, genero) {
         event.target.src = this.imageCard(username, genero);
     }
 
+    /**
+     * Retorna el path de la imagen dependiendo del genero
+     * @param username usuario
+     * @param genero genero del usuario
+     */
     imageCard(username, genero): string {
         if (genero == 'Femenino')
             return "images/icons/woman.png";
@@ -181,32 +212,21 @@ export class SearchComponent implements OnInit {
             return "images/icons/dude4_x128.png";
     }
 
+    /**
+     * Trae todos los tags de la base de datos
+     */
     showTags() {
         this.tagService.getAllTags()
             .subscribe((res: Array<Tag>) => {
-                this.tags = res;
+                res.forEach(tag=>{
+                    this.tags.push({
+                        label: tag.nombre,
+                        value: tag
+                    });
+                });
             }, error => {
                 console.log("Error" + error);
             });
-    }
-
-    filterTagMultiple(event) {
-        let query = event.query;
-        this.tagService.getAllTags().subscribe((tags: Array<Tag>) => {
-            this.filteredTagsMultiple = this.filterTag(query, tags);
-        });
-    }
-
-    filterTag(query, tags: any[]): any[] {
-        //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-        let filtered: any[] = [];
-        for (let i = 0; i < tags.length; i++) {
-            let tag = tags[i];
-            if (tag.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-                filtered.push(tag);
-            }
-        }
-        return filtered;
     }
 
     /**
@@ -234,6 +254,5 @@ export class SearchComponent implements OnInit {
         } else {
             //pop up con error
         }
-
     }
 }

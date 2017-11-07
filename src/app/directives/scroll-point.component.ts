@@ -4,6 +4,12 @@ import { DOCUMENT } from '@angular/platform-browser';
 @Directive({
     selector: '[scrollPoint]'
 })
+
+/**
+ * Maneja el tamaño de la ventana
+ * donde se encuentra la información
+ * básica de perfil.
+ */
 export class ScrollPointDirective {
     
     @Input() scrollPoint: number;
@@ -17,6 +23,12 @@ export class ScrollPointDirective {
         private el: ElementRef
     ) {  }
 
+    /**
+	 * Mantiene la información dentro
+     * de la ventana de perfil.
+	 * @param 
+	 * @return 
+	 */
     @HostListener('window:scroll', [])
     onWindowScroll() {
         // const windowScroll = this.document.body.scrollTop;
@@ -38,6 +50,12 @@ export class ScrollPointDirective {
         }
     }
 
+    /**
+	 * Define como mostrar
+     * la información según su tamaño.
+	 * @param boolean value
+	 * @return 
+	 */
     settingSticky(value){
         this.renderer.setElementClass(this.el.nativeElement, 'sticky-nav', value);
         if(value){

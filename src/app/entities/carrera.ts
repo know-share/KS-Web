@@ -1,3 +1,8 @@
+/**
+ * Clase que representa 
+ * una carrera en el
+ * front-end.
+ */
 export class Carrera{
     
     id:string;

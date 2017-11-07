@@ -2,6 +2,11 @@ import { TrabajoGrado } from './trabajoGrado';
 import {Usuario} from './usuario'
 import { Tag } from './tag'
 
+/**
+ * Clase que representa 
+ * una idea en el 
+ * front-end
+ */
 export class Idea{
 
     id: string;

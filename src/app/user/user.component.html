@@ -82,7 +82,7 @@
         <div class="row">
             <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="col-xs-12">
                 <div class="panel panel-default">
-                    <div class="panel-body">
+                    <div [ngBusy]="{busy: avalesBusy, message: 'Cargando...'}" class="panel-body">
                         <h3>Habilidades personales:</h3>
                         <p *ngIf="habilidadesPersonales?.length == 0">No tiene habilidades personales registradas</p>
                         <button (click)="avalar(h.id,'HABILIDAD')" *ngFor="let h of habilidadesPersonales" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>
@@ -92,7 +92,7 @@
             </div>
             <div *ngIf="usuario.tipoUsuario == 'PROFESOR'" class="col-xs-12">
                 <div class="panel panel-default">
-                    <div class="panel-body">
+                    <div [ngBusy]="{busy: avalesBusy, message: 'Cargando...'}" class="panel-body">
                         <h3>Cualidades como profesor:</h3>
                         <p *ngIf="usuario.cualidades?.length == 0">No tiene cualidades como profesor registradas</p>
                         <button (click)="avalar(c.id,'CUALIDAD')" *ngFor="let c of usuario.cualidades" type="button" class="btn btn-default btn-aval">{{c.nombre}} <span class="badge">{{c.avales}}</span></button>
@@ -102,8 +102,6 @@
         </div>
 
         <div class="row">
-            <!-- <div *ngIf="!usuario.segundaCarrera" class="col-xs-2">
-            </div> -->
             <div [ngClass]="usuario.segundaCarrera ? 'col-xs-6':'col-xs-12'">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -124,7 +122,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div [ngBusy]="{busy: avalesBusy, message: 'Cargando...'}" class="panel panel-default">
                             <div *ngIf="usuario.tipoUsuario != 'PROFESOR'" class="panel-body">
                                 <h3>Habilidades profesionales:</h3>
                                 <p *ngIf="habilidadesProfesionales?.length == 0">No tiene habilidades profesionales registradas</p>
@@ -158,7 +156,7 @@
                             </div>
                         </div>
                         <div class="panel panel-default">
-                            <div class="panel-body">
+                            <div [ngBusy]="{busy: avalesBusy, message: 'Cargando...'}" class="panel-body">
                                 <h3>Habilidades profesionales:</h3>
                                 <p *ngIf="habilidadesProfesionalesSeg?.length == 0">No tiene habilidades profesionales registradas</p>
                                 <button (click)="avalar(h.id,'HABILIDAD')" *ngFor="let h of habilidadesProfesionalesSeg" type="button" class="btn btn-default btn-aval">{{h.nombre}} <span class="badge">{{h.avales}}</span></button>

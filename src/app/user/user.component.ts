@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@ang
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DialogService } from "ng2-bootstrap-modal";
 import { NgZone } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { ExpirationModalComponent } from '../modals/expiration.component';
 
@@ -28,7 +29,13 @@ import { Message } from 'primeng/primeng';
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.css']
 })
+/**
+ * Permite manejar la funcionalidad de la pantalla de perfil de un 
+ * usuario diferente
+ */
 export class UserComponent implements OnInit {
+
+    avalesBusy: Subscription;
 
     imagePath: string;
 
@@ -155,6 +162,11 @@ export class UserComponent implements OnInit {
         });
     }
 
+    /**
+     * Actualiza las ideas del usuario al cual
+     * estan visitando 
+     * @param page numero de pagina
+     */
     refreshIdeas(page) {
         this.ideaService.findByUsuario(this.username, page, this.timestamp)
             .subscribe((res: Page<Idea>) => {
@@ -165,6 +177,10 @@ export class UserComponent implements OnInit {
             });
     }
 
+    /**
+     * Carga la imagen que el usuario selecciono en el registro,
+     * si no selecciono ninguna carga la imagen por defecto.
+     */
     reloadImage() {
         if (this.usuario.imagen) {
             this.imagePath = URL_IMAGE_USER + this.usuario.username;
@@ -176,6 +192,11 @@ export class UserComponent implements OnInit {
         }
     }
 
+    /**
+     * Retorna el path de la imagen dependiendo del genero
+     * @param username usuario
+     * @param genero genero del usuario
+     */
     imageCard(username, genero): string {
         if (genero == 'Femenino')
             return "images/icons/woman.png";
@@ -183,6 +204,10 @@ export class UserComponent implements OnInit {
             return "images/icons/dude4_x128.png";
     }
 
+    /**
+     * Muestra las areas de conocimiento del usuario.
+     * @param areasConocimiento areas de conocimiento
+     */
     mapAreasConocimiento(areasConocimiento: AreaConocimiento[]) {
         this.areasConocimiento = []; this.areasConocimientoSeg = [];
         for (let ac of areasConocimiento) {
@@ -195,10 +220,18 @@ export class UserComponent implements OnInit {
         }
     }
 
+    /**
+     * Permite al usuario moverse entre pestañas
+     * @param tab pestaña a la cual se quiere dirigir
+     */
     moveTab(tab) {
         this.activeTab = tab;
     }
 
+    /**
+     * Permite agregar como amigo al usuario al cual
+     * se esta visitando el perfil 
+     */
     agregar() {
         this.usuarioService.agregar(this.username)
             .subscribe(
@@ -215,6 +248,9 @@ export class UserComponent implements OnInit {
             );
     }
 
+    /**
+     * Actualiza la informacion del usuarios.
+     */
     refreshUsuario() {
         this.usuarioService.getUsuario(this.usuario.username)
             .subscribe(
@@ -245,6 +281,10 @@ export class UserComponent implements OnInit {
             );
     }
 
+    /**
+     * Permite seguir o dejar de seguir al usuario al cual se esta visitando
+     * el prefil
+     */
     seguir() {
         if (!this.isFollowing) {
             this.usuarioService.seguir(this.username)
@@ -281,6 +321,10 @@ export class UserComponent implements OnInit {
         }
     }
 
+    /**
+     * Según el estado de la solicitud muestra un texto en el boton
+     * de seguir.
+     */
     botonSeguir() {
         let seguidores = this.usuario.seguidores;
         if (seguidores.find(seg => seg.username.toLowerCase() == localStorage.getItem("user").toLowerCase())) {
@@ -290,6 +334,10 @@ export class UserComponent implements OnInit {
         }
     }
 
+    /**
+     * Según el estado de la solicitud muestra un texto en el boton
+     * de solicitud de amistad.
+     */
     botonSolicitud() {
         let solicitudes: string[] = this.usuario.solicitudesAmistad;
         if (solicitudes &&
@@ -309,18 +357,36 @@ export class UserComponent implements OnInit {
         }
     }
 
+    /**
+     * Permite ir al perfil de un usuario
+     * especifico.
+     * @param username perfil del otro usuario
+     */
     goProfile(username) {
         this.router.navigate(['/user', username]);
     }
 
+    /**
+     * Permite ir a la pagina de busqueda
+     */
     search() {
         this.router.navigate(['/search']);
     }
 
+    /**
+     * Si el usuario no tiene imagen de perfil, carga una por defecto
+     * @param event evento de cambio
+     * @param username usuario
+     * @param genero genero del usuario
+     */
     errorImageHandler(event, username, genero) {
         event.target.src = this.imageCard(username, genero);
     }
 
+    /**
+     * Actualiza el estado de una idea
+     * @param confirm nuevo estado de la idea
+     */
     cambio(confirm: IdeaHome) {
         let temp: Array<Idea> = new Array;
         if (confirm != null) {
@@ -340,8 +406,13 @@ export class UserComponent implements OnInit {
         }
     }
 
+    /**
+     * Permite avalar al usuario que se esta visitando el perfil.
+     * @param id id de la habilidad o cualidad 
+     * @param tipo tipo de la habilidad o cualidad
+     */
     avalar(id, tipo) {
-        this.ludificacionService.avalar(this.username, tipo, id)
+        this.avalesBusy = this.ludificacionService.avalar(this.username, tipo, id)
             .subscribe(
             ok => {
                 this.msgs = [];

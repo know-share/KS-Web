@@ -7,6 +7,8 @@
     "url": "https://github.com/know-share/KS-Web.git"
   },
   "scripts": {
+    "docs": "node_modules/.bin/compodoc -p tsconfig.json -d docs",
+    "serve-docs": "node_modules/.bin/compodoc -s -d docs",
     "build": "webpack --progress",
     "build:prod": "cross-env APP_ENVIRONMENT=production webpack -p --progress",
     "postinstall": "typings install",
@@ -29,6 +31,7 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "angular2-busy": "^2.0.4",
     "bootstrap": "3.3.7",
     "chart.js": "^2.6.0",
     "copy-webpack-plugin": "^4.0.1",

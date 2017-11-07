@@ -20,6 +20,9 @@ export interface RequestModalDisplay {
     selector: 'confirm',
     templateUrl: './ideasProyecto.component.html',
 })
+/**
+ * Controla la asociacion de ideas a una idea de tipo proyecto
+ */
 export class IdeasProyectoModalComponent extends DialogComponent<null, Array<Idea>>
     implements OnInit {
 
@@ -56,6 +59,11 @@ export class IdeasProyectoModalComponent extends DialogComponent<null, Array<Ide
         this.ideasProyecto(0);
     }
 
+    /**
+     * Trae todas las ideas de un usuario que no sean de 
+     * tipo proyecto.
+     * @param page pagina
+     */
     ideasProyecto(page) {
         this.ideaService.findByUsuarioPro(localStorage.getItem('user'), this.timestamp, page).
             subscribe((res: Page<Idea>) => {
@@ -68,12 +76,19 @@ export class IdeasProyectoModalComponent extends DialogComponent<null, Array<Ide
             });
     }
 
+    /**
+     * Agrega una idea a la lista de ideas seleccionadas.
+     * @param idea idea a agregar
+     */
     agregar(idea: Idea) {
         this.selectedIdeas.push(idea);
         let i = this.ideas.indexOf(idea, 0);
         this.ideas.splice(i, 1);
     }
 
+    /**
+     * Cierra el modal y devuelve la lista de ideas seleccionadas.
+     */
     finalizar() {
         this.result = this.selectedIdeas;
         super.close();

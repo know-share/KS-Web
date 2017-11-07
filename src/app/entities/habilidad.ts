@@ -1,3 +1,8 @@
+/**
+ * Clase que representa 
+ * las habilidades
+ * en el front-end
+ */
 export class Habilidad{
 
     id: Object;

@@ -1,3 +1,8 @@
+/**
+ * Clase que representa 
+ * un trabajo de grado
+ * en el front-end
+ */
 export class TrabajoGrado{
     
     id: Object;

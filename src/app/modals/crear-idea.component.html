@@ -4,7 +4,7 @@
             <button type="button" class="close" (click)="close()">&times;</button>
             <h4 class="modal-title">Crear Idea</h4>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="height: 90%">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="alert alert-danger" *ngIf="valid === false">
@@ -48,18 +48,19 @@
                             </div>
                             <div class="col-xs-8">
                                 <label *ngIf="selectedValueTipo == 'PR'">Número de ideas: {{ideasPro.length}}</label>
-                                <label *ngIf="selectedValueTipo == 'PC'">Trabajo de grado asociado: {{tg.nombre}}</label>
+                                <label *ngIf="selectedValueTipo == 'PC' && tg">Trabajo de grado asociado: {{tg.nombre}}</label>
+                                <label *ngIf="selectedValueTipo == 'PC' && !tg">Trabajo de grado asociado: No registrado</label>
                             </div>
                         </div>
-                        <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="filteredTagsMultiple" (completeMethod)="filterTagMultiple($event)"
-                            [minLength]="1" placeholder="Tags" field="nombre" [multiple]="true" [ngModelOptions]="{standalone: true}">
-                        </p-autoComplete>
+                        <p-multiSelect [options]="tags" [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedTags" 
+                            [panelStyle]="{minWidth:'12em'}" maxSelectedLabels=6 defaultLabel="Elije tags">
+                        </p-multiSelect>
                     </form>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
+            <button #publishButton type="button" (click)="crearIdea()" class="btn btn-primary">Publicar</button>
         </div>
     </div>
 </div>

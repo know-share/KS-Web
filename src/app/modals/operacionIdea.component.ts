@@ -18,6 +18,9 @@ export interface RequestModalDisplay {
     selector: 'confirm',
     templateUrl: './operacionIdea.component.html',
 })
+/**
+ * Permite manejar las operaciones que se hacen sobre una idea
+ */
 export class OperacionIdeaModalComponent extends DialogComponent<RequestModalDisplay, null>
     implements  OnInit {
     
@@ -38,10 +41,17 @@ export class OperacionIdeaModalComponent extends DialogComponent<RequestModalDis
         this.operacionesIdea();
     }
 
+    /**
+     * Cierra el modal
+     */
     aceptar(){
         super.close();
     }
 
+    /**
+     * Permite realizar una operación(light o comprartir) sobre
+     * una idea.
+     */
     operacionesIdea(){
         this.ideaService.findOperacion(this.ideaId,this.tipo)
             .subscribe(res =>{
@@ -53,6 +63,11 @@ export class OperacionIdeaModalComponent extends DialogComponent<RequestModalDis
             });
     }
 
+    /**
+     * Permite ir al perfil de un usuario
+     * especifico.
+     * @param username perfil del otro usuario
+     */
     goProfile(username) {
         this.router.navigate(['/user', username]);
         super.close();

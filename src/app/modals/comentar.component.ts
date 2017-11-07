@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
 import { Router } from '@angular/router';
 
@@ -17,11 +17,18 @@ export interface RequestModalDisplay {
     selector: 'confirm',
     templateUrl: './comentar.component.html',
 })
+/**
+ * Modal que permite realizar comentarios
+ * a una idea
+ */
 export class ComentarModalComponent extends DialogComponent<RequestModalDisplay, boolean>
-    implements RequestModalDisplay, OnInit {    
+    implements RequestModalDisplay {    
 
     idea: Idea;
     comentario: string;
+
+    errorVacio: string = '';
+    valid: boolean = true;
 
     constructor(
         dialogService: DialogService,
@@ -30,12 +37,16 @@ export class ComentarModalComponent extends DialogComponent<RequestModalDisplay,
     ) {
         super(dialogService);
     }
-
-    ngOnInit() {
-      
-    }
-
+    /**
+     * Guarda nuevo comentario y lo asocia a 
+     * una idea.
+     */
     comentar(){
+        if(!this.comentario){
+            this.valid = false;
+            this.errorVacio = 'Agregue un comentario.';
+            return;
+        }
         let params : Comentario = new Comentario;
         params.comentario = this.comentario;
         params.idea = this.idea;
