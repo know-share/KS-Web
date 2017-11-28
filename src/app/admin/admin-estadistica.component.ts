@@ -144,11 +144,28 @@ export class AdminEstadisticaComponent implements OnInit {
     refreshEstadisticaTags(){
         let l: string[] = [];
         let d: number[] = [];
-        for (const key in this.tags) {
-            l.push(key);
-            d.push(this.tags[key]);
-            //console.log('The value for ' + key + ' is = ' + this.tags[key]);
-          }
+        let x:number=0;
+        let y:number=0;
+        let v:string = "";
+         while(x<5){
+            for (const key in this.tags) {
+                if(y<this.tags[key]){
+                    v = key;
+                    y = this.tags[key];
+                }
+              }
+              l.push(v);
+              d.push(this.tags[v]); 
+              //console.log(x+' se agregó ' + v + ' is = ' + this.tags[v]);
+              delete this.tags[v];
+              x = x +1;
+              v = "";
+              y = 0;
+
+         }
+       /* for (const key in this.tags) {
+            console.log('The value for ' + key + ' is = ' + this.tags[key]);
+          }*/
 
         this.dataTags = {
             labels: l,
